@@ -2,9 +2,8 @@ import React from "react";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
-const Login = () => {
+const Login: React.FC = () => {
   const { data: session } = useSession();
-  console.log(session!.user?.name);
   const router = useRouter();
 
   if (session) {
