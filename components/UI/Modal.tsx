@@ -2,13 +2,18 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 const Backdrop = (props: { onClose: () => void }) => {
-  return <div className="" onClick={props.onClose} />;
+  return (
+    <div
+      className="bg-black opacity-50 z-10 fixed top-0 left-0 w-screen h-screen"
+      onClick={props.onClose}
+    />
+  );
 };
 
 const ModalOverlay = (props: { children: JSX.Element[] }) => {
   return (
-    <div className="">
-      <div className="">{props.children}</div>
+    <div className="z-50 fixed top-[50%] left-[50%] max-w-[720px]">
+      <div className="flex flex-col w-full">{props.children}</div>
     </div>
   );
 };

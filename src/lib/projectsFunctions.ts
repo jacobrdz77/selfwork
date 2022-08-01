@@ -2,13 +2,14 @@ import { Priority, Project } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
 // Get all projects
-export const getProjects = async (userId: number) => {
+export const getProjects = async (userId: string) => {
   fetch("/api/projects", {
     method: "GET",
     headers: {
       "Content-type": "applicatoin/json",
     },
     body: {
+      //@ts-ignore
       userId: userId,
     },
   })
@@ -17,13 +18,14 @@ export const getProjects = async (userId: number) => {
 };
 
 // Get one project
-export const getOneProject = async (id: number) => {
+export const getOneProject = async (id: string) => {
   fetch("/api/projects", {
     method: "GET",
     headers: {
       "Content-type": "applicatoin/json",
     },
     body: {
+      //@ts-ignore
       id: id,
     },
   })
@@ -39,6 +41,7 @@ export const createProject = async (projectData: Project) => {
       "Content-type": "applicatoin/json",
     },
     body: {
+      //@ts-ignore
       projectData: projectData,
     },
   })
@@ -58,7 +61,6 @@ interface UpdateProjectData {
 }
 
 // Update a project
-
 export const updateProject = async (projectData: UpdateProjectData) => {
   fetch("/api/projects", {
     method: "PUT",
@@ -66,6 +68,7 @@ export const updateProject = async (projectData: UpdateProjectData) => {
       "Content-type": "applicatoin/json",
     },
     body: {
+      //@ts-ignore
       projectData: projectData,
     },
   })

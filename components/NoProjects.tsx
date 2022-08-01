@@ -1,6 +1,8 @@
 import React from "react";
 
-const NoProjects = () => {
+const NoProjects: React.FC<{ buttonHandler: () => void }> = ({
+  buttonHandler,
+}) => {
   return (
     <div className="flex align-middle justify-center text-center">
       <div className="flex flex-col p-3">
@@ -58,6 +60,7 @@ const NoProjects = () => {
           <button
             className="mt-5 bg-button
            text-white p-4 rounded-lg hover:bg-buttonHover"
+            onClick={buttonHandler}
           >
             Add a Project
           </button>

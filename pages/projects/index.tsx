@@ -7,13 +7,18 @@ import NoProjects from "../../components/NoProjects";
 
 const ProjectsPage: NextPage = () => {
   const [projects, setProjects] = useState<any[]>([]);
-  const addProjectHandler = (): void => {};
+  const addProjectHandler = () => {};
 
   return (
     <>
       {/* Wrapper */}
       <div className="h-full py-5 px-7">
-        <Header title="Projects" buttonHandler={addProjectHandler}>
+        <Header
+          button={true}
+          buttonText="Add Project"
+          title="Projects"
+          buttonHandler={addProjectHandler}
+        >
           <div className="text-[14px]">
             <button className="h-full ml-2 border-2 border-button rounded-[5px] p-1">
               Sort By
@@ -40,7 +45,9 @@ const ProjectsPage: NextPage = () => {
             </div>
           )}
 
-          {projects.length === 0 && <NoProjects />}
+          {projects.length === 0 && (
+            <NoProjects buttonHandler={addProjectHandler} />
+          )}
         </div>
       </div>
     </>

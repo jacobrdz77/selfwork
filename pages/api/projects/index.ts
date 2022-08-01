@@ -13,6 +13,7 @@ export default async function handler(
       const { userId } = req.body;
       const project = prisma.project.findMany({
         where: {
+          //@ts-ignore
           userId: userId,
         },
       });
