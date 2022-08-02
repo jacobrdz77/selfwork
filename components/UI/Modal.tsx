@@ -1,36 +1,58 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 
-const Backdrop = (props: { onClose: () => void }) => {
+const Backdrop: React.FC<{ onClose: () => void; isOpen: boolean }> = ({
+  onClose,
+  isOpen,
+}) => {
   return (
     <div
-      className="bg-black opacity-50 z-10 fixed top-0 left-0 w-screen h-screen"
-      onClick={props.onClose}
+      className={`${
+        isOpen ? "" : "hidden"
+      } bg-black opacity-50 z-0 fixed top-0 left-0 w-screen h-screen`}
+      onClick={onClose}
     />
   );
 };
 
-const ModalOverlay = (props: { children: JSX.Element[] }) => {
+const ModalOverlay = (props: {
+  children: JSX.Element[];
+  onClose: () => void;
+  isOpen: boolean;
+}) => {
   return (
-    <div className="z-50 fixed top-[50%] left-[50%] max-w-[720px]">
-      <div className="flex flex-col w-full">{props.children}</div>
+    <div
+      className={`${
+        props.isOpen ? "" : "hidden"
+      } z-50 fixed top-[50%] left-[50%] translate-x-[-50%]  translate-y-[-50%] max-w-[720px] max-h-[580px] maxsm:w-[90%] rounded-xl border-black p-5 bg-white`}
+    >
+      <div className="flex flex-col w-full ">
+        <div>
+          <button onClick={props.onClose} className="w-full flex justify-end">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+            >
+              <path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z" />
+            </svg>
+          </button>
+        </div>
+        {props.children}
+      </div>
     </div>
   );
 };
 
-const portalElement = document.getElementById("overlay");
-
-const Modal = (props: { onClose: () => void; children: JSX.Element[] }) => {
+const Modal = (props: { children: JSX.Element[] }) => {
+  const [isOpen, setIsOpen] = useState<boolean>(true);
   return (
     <>
-      {ReactDOM.createPortal(
-        <Backdrop onClose={props.onClose} />,
-        portalElement as Element
-      )}
-      {ReactDOM.createPortal(
-        <ModalOverlay>{props.children}</ModalOverlay>,
-        portalElement as Element
-      )}
+      <Backdrop onClose={() => setIsOpen(false)} isOpen={isOpen} />
+      <ModalOverlay onClose={() => setIsOpen(false)} isOpen={isOpen}>
+        {props.children}
+      </ModalOverlay>
     </>
   );
 };

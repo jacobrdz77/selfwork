@@ -4,6 +4,7 @@ import Header from "../../components/UI/Header";
 import Layout from "../../components/Layout/Layout";
 import ProjectCard from "../../components/ProjectCard";
 import NoProjects from "../../components/NoProjects";
+import AddProjectModal from "../../components/AddProjectModal";
 
 const ProjectsPage: NextPage = () => {
   const [projects, setProjects] = useState<any[]>([]);
@@ -46,7 +47,10 @@ const ProjectsPage: NextPage = () => {
           )}
 
           {projects.length === 0 && (
-            <NoProjects buttonHandler={addProjectHandler} />
+            <>
+              <NoProjects buttonHandler={addProjectHandler} />
+              <AddProjectModal />
+            </>
           )}
         </div>
       </div>

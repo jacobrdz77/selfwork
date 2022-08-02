@@ -12,9 +12,10 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
         <Head>
           <title>selfwork. | Project Management for Freelancers</title>
         </Head>
+
         <div id="overlay"></div>
         <Layout>
-        <Component {...pageProps} />
+          <Component {...pageProps} />
         </Layout>
       </SessionProvider>
     </QueryClientProvider>
