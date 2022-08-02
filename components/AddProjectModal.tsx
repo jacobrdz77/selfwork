@@ -1,9 +1,23 @@
 import React, { useState } from "react";
+import { useProjectForm } from "../src/useProjectForm";
 import Modal from "./UI/Modal";
 
-const AddProjectModal = () => {
+const AddProjectModal: React.FC<{
+  isOpen: boolean;
+  closeHandler: () => void;
+}> = ({ isOpen, closeHandler }) => {
+  //clientInfo has to be a new array with id and name
+  const {
+    name,
+    setName,
+    clients,
+    selectedClient,
+    setSelectedClient,
+    description,
+    setDescription,
+  } = useProjectForm("");
   return (
-    <Modal>
+    <Modal isOpen={isOpen} closeHandler={closeHandler}>
       <div className="flex flex-col items-center">
         <svg
           className="w-[178px] h-auto"
@@ -158,14 +172,18 @@ const AddProjectModal = () => {
         </svg>
         <h1 className="mt-4 text-xl">Create a Project</h1>
       </div>
-      <form className="flex flex-col w-full h-[300px] sm:px-[40px] my-5 overflow-y-scroll text-[14px]">
+      <form className="flex flex-col w-full h-[300px]  mt-5 overflow-y-scroll text-[14px] sm:px-[40px]">
         <div className="flex w-full maxsm:flex-col ">
           <div className="flex flex-col w-[50%] maxsm:w-full mr-[16px]">
             <label htmlFor="name">Choose a name</label>
             <input
               type="text"
+              value={name!}
+              onChange={(e) => setName(e.target.value)}
               placeholder="Give your project a name"
-              className="h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:outline-blue-500 focus:outline-[1px]"
+              className="h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:outline-blue-500 focus:outline-[1px] maxsm:focus:outline-[0px] "
+              // On small screen, the ouline is not visible
+              // so we need to add a border to the input
               id="name"
             />
           </div>
@@ -173,33 +191,37 @@ const AddProjectModal = () => {
           <div className="flex flex-col w-[50%] maxsm:w-full maxsm:mt-3 sm:ml-[16px]">
             <label htmlFor="client">Choose a Client</label>
             <select
-              className="h-[38px] w-full py-[5px] px-[12px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:outline-blue-500 focus:outline-[1px]"
+              className="h-[38px] w-full py-[5px] px-[12px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:outline-blue-500 focus:outline-[1px] maxsm:focus:outline-[0px]"
               id="client"
               defaultValue="default"
+              value={selectedClient!}
+              onChange={(e) => setSelectedClient(e.target.value)}
             >
               <option value="default">Select a client</option>
               {/* Iterate over all of the clients id */}
-              {/* {clients.map((client) => (
+              {clients.map((client) => (
                 <option key={client.id} value={client.id}>
                   {client.name}
                 </option>
-              ))} */}
+              ))}
             </select>
           </div>
         </div>
 
         <div className="w-full mt-5 ">
           <textarea
-            className="w-full h-[130px] bg-gray-100 px-3 p-2 focus:outline-none focus:outline-blue-500 focus:outline-[1px] rounded-sm "
+            className="w-full h-[130px] bg-gray-100 px-3 p-2 focus:outline-none focus:outline-blue-500 focus:outline-[1px] rounded-md maxsm:focus:outline-[0px] "
             placeholder="Add a description"
+            value={description!}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </div>
       </form>
-      <footer className="flex justify-between px-[40px]">
-        <button className="px-3 py-2 bg-red-500 text-white rounded-md">
+      <footer className="flex justify-between sm:px-[40px] ">
+        <button className="px-3 py-2  bg-red-500 text-white rounded-md">
           Cancel
         </button>
-        <button className="px-3 py-2 bg-blue-500 text-white rounded-md">
+        <button className="px-3 py-2  bg-blue-500 text-white rounded-md">
           Create Project
         </button>
       </footer>

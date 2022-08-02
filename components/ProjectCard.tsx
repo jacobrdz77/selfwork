@@ -4,7 +4,7 @@ import ProjectEditModal from "./ProjectEditModal";
 
 interface ProjectCardProps {
   title: string;
-  description: string;
+  description: string | null;
   projectId: string;
   clientName: string;
   clientId: string;

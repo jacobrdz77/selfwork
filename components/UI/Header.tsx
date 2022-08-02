@@ -25,7 +25,7 @@ const Header: React.FC<HeaderProps> = ({
             type="button"
             onClick={buttonHandler}
           >
-            + {buttonText}
+            {buttonText}
           </button>
         )}
 

@@ -5,14 +5,22 @@ import Layout from "../../components/Layout/Layout";
 import ProjectCard from "../../components/ProjectCard";
 import NoProjects from "../../components/NoProjects";
 import AddProjectModal from "../../components/AddProjectModal";
+import { Project } from "@prisma/client";
 
 const ProjectsPage: NextPage = () => {
-  const [projects, setProjects] = useState<any[]>([]);
-  const addProjectHandler = () => {};
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const addProjectHandler = () => {
+    setIsModalOpen(true);
+  };
 
   return (
     <>
       {/* Wrapper */}
+      <AddProjectModal
+        closeHandler={() => setIsModalOpen(false)}
+        isOpen={isModalOpen}
+      />
       <div className="h-full py-5 px-7">
         <Header
           button={true}
@@ -40,7 +48,7 @@ const ProjectsPage: NextPage = () => {
                   projectId={project.id}
                   clientId={project.clientId}
                   description={project.description}
-                  clientName={project.clientName}
+                  clientName={project.clientId}
                 />
               ))}
             </div>
@@ -49,7 +57,6 @@ const ProjectsPage: NextPage = () => {
           {projects.length === 0 && (
             <>
               <NoProjects buttonHandler={addProjectHandler} />
-              <AddProjectModal />
             </>
           )}
         </div>

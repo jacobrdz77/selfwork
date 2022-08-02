@@ -62,7 +62,7 @@ const NoProjects: React.FC<{ buttonHandler: () => void }> = ({
            text-white p-4 rounded-lg hover:bg-buttonHover"
             onClick={buttonHandler}
           >
-            Add a Project
+            Add Project
           </button>
         </div>
       </div>

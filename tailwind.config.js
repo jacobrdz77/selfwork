@@ -17,6 +17,7 @@ module.exports = {
       },
     },
     screens: {
+      maxxs: { raw: "(max-width: 420px)" },
       sm: "576px",
       maxsm: { raw: "(max-width: 576px)" },
       // => @media (min-width: 576px) { ... }
