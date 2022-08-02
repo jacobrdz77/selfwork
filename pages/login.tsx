@@ -4,11 +4,6 @@ import { useRouter } from "next/router";
 
 const Login: React.FC = () => {
   const { data: session } = useSession();
-  const router = useRouter();
-
-  if (session) {
-    router.push("/projects");
-  }
 
   return (
     <>
