@@ -9,6 +9,22 @@ import { store } from "../src/store/store";
 import Login from "./login";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+  if (!session) {
+    return (
+      <QueryClientProvider client={new QueryClient()}>
+        <SessionProvider session={session}>
+          <Provider store={store}>
+            <Head>
+              <title>Login | selfwork.</title>
+            </Head>
+
+            <Component {...pageProps} />
+          </Provider>
+        </SessionProvider>
+      </QueryClientProvider>
+    );
+  }
+
   return (
     <QueryClientProvider client={new QueryClient()}>
       <SessionProvider session={session}>
@@ -18,12 +34,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
           </Head>
 
           <div id="overlay"></div>
-          {!session && <Login />}
-          {session && (
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          )}
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </Provider>
       </SessionProvider>
     </QueryClientProvider>

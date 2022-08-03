@@ -6,9 +6,11 @@ import ProjectCard from "../../components/ProjectCard";
 import NoProjects from "../../components/NoProjects";
 import AddProjectModal from "../../components/AddProjectModal";
 import { Project } from "@prisma/client";
+import { useAppSelector } from "../../src/store/hooks";
 
 const ProjectsPage: NextPage = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
+  const projects = useAppSelector((state) => state.userSession.user.projects);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const addProjectHandler = () => {
     setIsModalOpen(true);
@@ -18,8 +20,11 @@ const ProjectsPage: NextPage = () => {
     <>
       {/* Wrapper */}
       <AddProjectModal
-        closeHandler={() => setIsModalOpen(false)}
+        closeHandler={() => {
+          setIsModalOpen(false);
+        }}
         isOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
       />
       <div className="h-full py-5 px-7">
         <Header

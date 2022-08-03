@@ -35,7 +35,7 @@ export const getOneProject = async (id: string) => {
 
 // Create a new project
 export const createProject = async (projectData: Project) => {
-  fetch("/api/projects", {
+  return await fetch("/api/projects", {
     method: "POST",
     headers: {
       "Content-type": "applicatoin/json",

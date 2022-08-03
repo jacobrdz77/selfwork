@@ -21,9 +21,3 @@ a {
 svg {
   display: inline;
 }
-
-@media screen (max-width: 576px) {
-  .outline {
-    outline: none;
-  }
-}

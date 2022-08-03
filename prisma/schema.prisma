@@ -38,6 +38,7 @@ model User {
   id            String    @id @default(cuid())
   name          String?
   email         String?   @unique
+  password      String?
   emailVerified DateTime?
   image         String?
   accounts      Account[]
@@ -66,7 +67,7 @@ model Project {
   name String
   priority Priority @default(NONE)
   startDate DateTime @default(now())
-  dueDate DateTime
+  dueDate DateTime 
   tasks Task[] 
   client Client @relation(fields: [clientId], references: [id])
   clientId String

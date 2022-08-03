@@ -1,21 +1,77 @@
-import React, { useState } from "react";
-import { useProjectForm } from "../src/useProjectForm";
+import { Client, Priority, Prisma, Project } from "@prisma/client";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import { useAppSelector, useAppDispatch } from "../src/store/hooks";
 import Modal from "./UI/Modal";
+import { addProjectModalFormSlice } from "../src/store/store";
+import { setPriority } from "os";
+import { useSession } from "next-auth/react";
 
 const AddProjectModal: React.FC<{
   isOpen: boolean;
   closeHandler: () => void;
-}> = ({ isOpen, closeHandler }) => {
-  //clientInfo has to be a new array with id and name
+  setIsModalOpen: (isOpen: boolean) => void;
+}> = ({ isOpen, closeHandler, setIsModalOpen }) => {
+  const { data: session } = useSession();
+
+  const { user } = useAppSelector((state) => state.userSession);
+
+  // Values
   const {
-    name,
-    setName,
-    clients,
-    selectedClient,
-    setSelectedClient,
     description,
+    endDate,
+    isClientError,
+    isClientTouched,
+    isFirstFormValid,
+    isFormValid,
+    isNameError,
+    isNameTouched,
+    name,
+    page,
+    priority,
+    selectedclient,
+    startDate,
+    hourlyRate,
+  } = useAppSelector((state) => state.addProjectModalForm);
+  // Actions
+  const {
+    setName,
+    setIsClientError,
+    setClient,
+    reset,
+    setPriority,
+    setIsClientTouched,
+    setIsNameError,
+    setIsNameTouched,
+    setPage,
+    submitProject,
+    setFormValid,
+    setIsFirstFormValid,
+    setSelectedClient,
+    setEndDate,
+    setStartDate,
     setDescription,
-  } = useProjectForm("");
+    setHourlyRate,
+  } = addProjectModalFormSlice.actions;
+  const dispatch = useAppDispatch();
+  const userId = useAppSelector((state) => state.userSession.user.id);
+
+  // @ts-ignore
+  const changeNameHandler = (e) => {
+    dispatch(setName(e.target.value));
+    if (e.target.value !== 0) {
+      dispatch(setIsNameError(false));
+    }
+  };
+
+  const submitProjectHandler = (e: SubmitEvent) => {
+    e.preventDefault();
+    if (isNameError && isClientError) {
+      return;
+    }
+
+    dispatch(reset());
+  };
   return (
     <Modal isOpen={isOpen} closeHandler={closeHandler}>
       <div className="flex flex-col items-center">
@@ -172,59 +228,242 @@ const AddProjectModal: React.FC<{
         </svg>
         <h1 className="mt-4 text-xl">Create a Project</h1>
       </div>
-      <form className="flex flex-col w-full h-[300px]  mt-5 overflow-y-scroll text-[14px] sm:px-[40px]">
-        <div className="flex w-full maxsm:flex-col ">
-          <div className="flex flex-col w-[50%] maxsm:w-full mr-[16px]">
-            <label htmlFor="name">Choose a name</label>
-            <input
-              type="text"
-              value={name!}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Give your project a name"
-              className="h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:outline-blue-500 focus:outline-[1px] maxsm:focus:outline-[0px] "
-              // On small screen, the ouline is not visible
-              // so we need to add a border to the input
-              id="name"
-            />
-          </div>
 
-          <div className="flex flex-col w-[50%] maxsm:w-full maxsm:mt-3 sm:ml-[16px]">
-            <label htmlFor="client">Choose a Client</label>
-            <select
-              className="h-[38px] w-full py-[5px] px-[12px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:outline-blue-500 focus:outline-[1px] maxsm:focus:outline-[0px]"
-              id="client"
-              defaultValue="default"
-              value={selectedClient!}
-              onChange={(e) => setSelectedClient(e.target.value)}
+      {/****  Navbar ****/}
+      <nav className="flex justify-center gap-16 py-5 select-none">
+        <div className="flex flex-col items-center w-[15px]">
+          <button
+            className={`${
+              page === "1" ? "bg-blue-500 text-white" : ""
+            } flex items-center justify-center border-[1px] rounded-full w-6 h-6 text-[13px] font-bold hover:bg-blue-500 hover:text-white`}
+            onClick={() => dispatch(setPage("1"))}
+          >
+            1
+          </button>
+          <p className="text-[14px]">Details</p>
+        </div>
+        <div className="flex flex-col items-center w-[15px] ">
+          <button
+            className={`${
+              page === "2" ? "bg-blue-500 text-white" : ""
+            } flex items-center justify-center border-[1px] rounded-full w-6 h-6 text-[13px] font-bold hover:bg-blue-500 hover:text-white`}
+            onClick={() => {
+              if (
+                !isNameError &&
+                !isClientError &&
+                isClientTouched &&
+                isNameTouched
+              ) {
+                dispatch(setIsFirstFormValid(true));
+                dispatch(setPage("2"));
+              }
+
+              if (!isNameTouched && !isClientTouched) {
+                setIsClientError(true);
+                setIsNameError(true);
+              }
+            }}
+          >
+            2
+          </button>
+          <p className="text-[14px]">Extra</p>
+        </div>
+      </nav>
+
+      {page === "1" ? (
+        <div>
+          <form className="flex flex-col w-full h-full mt-2 text-[14px] sm:px-[40px]">
+            <div className="flex w-full maxsm:flex-col ">
+              <div className="flex flex-col w-[50%] maxsm:w-full mr-[16px]">
+                <label htmlFor="name">Choose a name</label>
+                <input
+                  type="text"
+                  value={name!}
+                  onChange={changeNameHandler}
+                  onBlur={() => {
+                    if (name.trim().length === 0) {
+                      setIsNameError(true);
+                    }
+                    setIsNameTouched(true);
+                  }}
+                  placeholder="Give your project a name"
+                  className={`${
+                    isNameError
+                      ? "border-[1px] border-red-600 focus:border-red-600"
+                      : ""
+                  } h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500  maxsm:focus:outline-[0px] `}
+                  id="name"
+                />
+                {isNameError && (
+                  <p className="text-red-600 mt-1">Please enter a name</p>
+                )}
+              </div>
+
+              <div className="flex flex-col w-[50%] maxsm:w-full maxsm:mt-3 sm:ml-[16px]">
+                <label htmlFor="client">Choose a Client</label>
+                <select
+                  className={`${
+                    isClientError
+                      ? "border-[1px] border-red-600 focus:border-red-600"
+                      : ""
+                  } h-[38px] w-full py-[5px] px-[12px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500 maxsm:focus:outline-[0px]`}
+                  id="client"
+                  defaultValue="default"
+                  value={selectedclient!}
+                  onChange={(e) => {
+                    setSelectedClient(e.target.value);
+                    if (e.target.value === "default") {
+                      return setIsClientError(true);
+                    }
+                    setIsClientError(false);
+                  }}
+                  onBlur={() => {
+                    setIsNameTouched(true);
+                    if (selectedclient === "default") {
+                      setIsClientError(true);
+                    }
+                  }}
+                >
+                  <option value="default">Select a client</option>
+                  <option value="create">Add a Client</option>
+                  {/* Iterate over all of the clients id */}
+                  {user.clients.map((client: Client) => (
+                    <option key={client.id} value={client.id}>
+                      {client.name}
+                    </option>
+                  ))}
+                </select>
+                {isClientError && (
+                  <p className="text-red-600 mt-1">Please choose a client</p>
+                )}
+              </div>
+            </div>
+
+            <div className="w-full mt-5 rounded-md">
+              <textarea
+                className="w-full min-h-[130px] 
+                max-h-[200px]
+                bg-gray-100 px-3 p-2 focus:outline-none focus:border-[1px] focus:border-blue-500  rounded-md maxsm:focus:outline-[0px]"
+                placeholder="Add a description"
+                value={description!}
+                onChange={(e) => dispatch(setDescription(e.target.value))}
+              />
+            </div>
+          </form>
+          <footer className="flex justify-between pt-5 sm:px-[40px] ">
+            <button
+              className="px-3 py-2  bg-red-500 text-white rounded-md"
+              onClick={() => setIsModalOpen(false)}
             >
-              <option value="default">Select a client</option>
-              {/* Iterate over all of the clients id */}
-              {clients.map((client) => (
-                <option key={client.id} value={client.id}>
-                  {client.name}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
+              Cancel
+            </button>
+            <button
+              className="px-3 py-2  bg-gray-300 hover:bg-blue-500 hover:text-white rounded-md"
+              onClick={() => {
+                if (
+                  !isNameError &&
+                  !isClientError &&
+                  isNameTouched &&
+                  isClientTouched
+                ) {
+                  setIsFirstFormValid(true);
+                  setPage("2");
+                }
 
-        <div className="w-full mt-5 ">
-          <textarea
-            className="w-full h-[130px] bg-gray-100 px-3 p-2 focus:outline-none focus:outline-blue-500 focus:outline-[1px] rounded-md maxsm:focus:outline-[0px] "
-            placeholder="Add a description"
-            value={description!}
-            onChange={(e) => setDescription(e.target.value)}
-          />
+                if (!isNameTouched && !isClientTouched) {
+                  setIsClientError(true);
+                  setIsNameError(true);
+                }
+              }}
+            >
+              Next Page
+            </button>
+          </footer>
         </div>
-      </form>
-      <footer className="flex justify-between sm:px-[40px] ">
-        <button className="px-3 py-2  bg-red-500 text-white rounded-md">
-          Cancel
-        </button>
-        <button className="px-3 py-2  bg-blue-500 text-white rounded-md">
-          Create Project
-        </button>
-      </footer>
+      ) : (
+        //*** Second Form ***/
+        <div>
+          <form
+            className="flex flex-col w-full h-full mt-2 mb-2 text-[14px] sm:px-[40px]"
+            onSubmit={() => submitProjectHandler}
+          >
+            <div className="flex maxsm:w-full gap-4 mr-[16px]">
+              <div className="flex flex-col w-full">
+                <label htmlFor="name">Priority</label>
+                <select
+                  value={priority}
+                  defaultValue="NONE"
+                  onChange={(e) => setPriority(e.target.value)}
+                  className={` h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500  maxsm:focus:outline-[0px] `}
+                  id="name"
+                >
+                  <option value="NONE">None</option>
+                  <option value="LOW">Low</option>
+                  <option value="MID">Medium</option>
+                  <option value="HIGH">High</option>
+                </select>
+                {isNameError && (
+                  <p className="text-red-600 mt-1">Please enter a name</p>
+                )}
+              </div>
+
+              <div className="flex flex-col w-full">
+                <label htmlFor="name">Hourly Rate</label>
+                <input
+                  type="number"
+                  value={hourlyRate}
+                  min={0}
+                  max={9999999}
+                  onChange={(e) => setHourlyRate(Number(e.target.value))}
+                  defaultValue="NONE"
+                  className={` h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500  maxsm:focus:outline-[0px] `}
+                  id="name"
+                ></input>
+              </div>
+            </div>
+
+            <div className="flex gap-4 my-5">
+              <div className="flex flex-col w-[50%]">
+                <label>Start Date</label>
+                <input
+                  type="date"
+                  onChange={(e) => setStartDate(new Date(e.target.value))}
+                  min={new Date().toISOString().split("T")[0]}
+                  className="h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500  maxsm:focus:outline-[0px]"
+                />
+              </div>
+              <div className="flex flex-col  w-[50%]">
+                <label>Due Date</label>
+                <input
+                  type="date"
+                  onChange={(e) => setEndDate(new Date(e.target.value))}
+                  min={startDate.toISOString().split("T")[0]}
+                  className="h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500  maxsm:focus:outline-[0px]"
+                />
+              </div>
+            </div>
+          </form>
+          <footer className="flex justify-between pt-5 sm:px-[40px] ">
+            <button
+              className="px-3 py-2  bg-red-500 text-white rounded-md"
+              onClick={() => setIsModalOpen(false)}
+            >
+              Cancel
+            </button>
+            <div className="flex gap-3">
+              <button
+                className="px-3 py-2  bg-gray-300  hover:bg-blue-500 hover:text-white rounded-md"
+                onClick={() => setPage("1")}
+              >
+                Back
+              </button>
+              <button className="px-3 py-2  bg-blue-500 text-white rounded-md">
+                Create Project
+              </button>
+            </div>
+          </footer>
+        </div>
+      )}
     </Modal>
   );
 };

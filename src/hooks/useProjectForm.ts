@@ -1,44 +1,50 @@
-import { Client } from "@prisma/client";
-import { useQuery } from "@tanstack/react-query";
+import { Priority } from "@prisma/client";
 import React, { useState, useEffect } from "react";
-
-interface clientInfo {
-  clientId: string;
-  name: string;
-}
+import { useAppSelector } from "../store/hooks";
 
 export const useProjectForm = (userId: string) => {
-  const [name, setName] = useState<string | null>(null);
-  const [selectedClient, setSelectedClient] = useState<string | null>(null);
-  const [clients, setClients] = useState<clientInfo[] | null>(null);
-  const [description, setDescription] = useState<string | null>("");
-
-  useEffect(() => {
-    const getClients = async () => {
-      const clients = await fetch("/api/clients", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: {
-          //@ts-ignore
-          userId,
-        },
-      })
-        .then((res) => res.json())
-        .then((res) => res.data);
-      setClients(clients);
-    };
-    getClients();
-  }, [userId]);
+  const [name, setName] = useState("");
+  const [isNameError, setIsNameError] = useState(false);
+  const [isNameTouched, setIsNameTouched] = useState(false);
+  const [selectedClient, setSelectedClient] = useState<string>("");
+  const [isClientTouched, setIsClientTouched] = useState(false);
+  const [isClientError, setIsClientError] = useState(false);
+  const [description, setDescription] = useState("");
+  const [priority, setPriority] = useState<string>("NONE");
+  const [startDate, setStartDate] = useState<Date>(new Date());
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [hourlyRate, setHourlyRate] = useState(0);
+  const clients = useAppSelector((state) => state.userSession.user.clients);
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [isFirstFormValid, setFirstFormValid] = useState(false);
 
   return {
     name,
+    isNameTouched,
+    setIsNameTouched,
+    clients,
+    isClientTouched,
+    setIsClientTouched,
     setName,
+    hourlyRate,
+    setHourlyRate,
     selectedClient,
     setSelectedClient,
-    clients,
+    isNameError,
+    setIsNameError,
+    isClientError,
+    setIsClientError,
+    priority,
+    setPriority,
+    startDate,
+    endDate,
+    setStartDate,
+    setEndDate,
     description,
     setDescription,
+    isFirstFormValid,
+    isFormValid,
+    setIsFormValid,
+    setFirstFormValid,
   };
 };

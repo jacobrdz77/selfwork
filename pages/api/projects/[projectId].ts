@@ -5,6 +5,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  // GET one project
+  // RETURN: a project
   if (req.method === "GET") {
     try {
       const prisma = new PrismaClient();
@@ -23,7 +25,8 @@ export default async function handler(
     }
   }
 
-  // Update a project
+  // UPDATE a project
+  // RETURN: the updated project
   if (req.method === "PUT") {
     try {
       const prisma = new PrismaClient();

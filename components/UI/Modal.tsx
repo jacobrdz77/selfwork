@@ -24,7 +24,8 @@ const ModalOverlay = (props: {
     <div
       className={`${
         props.isOpen ? "" : "hidden"
-      } z-50 fixed top-[50%] left-[50%] translate-x-[-50%]  translate-y-[-50%] max-w-[720px] max-h-[580px] maxsm:w-[90%] sm:w-[80%] rounded-xl border-black p-5 bg-white`}
+      } z-50 fixed top-[50%] left-[50%] translate-x-[-50%]  translate-y-[-50%] max-w-[720px]
+      md:min-w-[580px] max-h-[650px] maxsm:w-[95%] sm:w-[90%] rounded-xl border-black p-5 bg-white`}
     >
       <div className="flex flex-col w-full ">
         <div>
