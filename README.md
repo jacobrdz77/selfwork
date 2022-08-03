@@ -1,4 +1,4 @@
-# selfwork. (in development)
+# selfwork. 
 ### A project management system targeted for freelancers.
 # Tech Stack
 ![Tech Stack](https://user-images.githubusercontent.com/70309225/182041078-2d02c59a-87a6-48af-8b67-7493a7a3d74d.png)
