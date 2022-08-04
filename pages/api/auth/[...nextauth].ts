@@ -23,6 +23,7 @@ export default NextAuth({
         },
         password: { label: "Password", type: "password" },
       },
+
       authorize: async (credentials) => {
         const email = credentials?.email;
         const password = credentials?.password;
@@ -42,6 +43,7 @@ export default NextAuth({
       },
     }),
   ],
+  secret: process.env.JWT_SECRET!,
   callbacks: {
     async jwt({ token, user }) {
       // Persist the OAuth access_token to the token right after signin
@@ -52,9 +54,13 @@ export default NextAuth({
     },
     async session({ session, token, user }) {
       // Send properties to the client, like an access_token from a provider.
-      session.id = token.id;
-      session.userId = user.id;
-      return session;
+      // session.id = token.id;
+      const newSession = {
+        ...session,
+        id: token.id,
+        userId: user.id,
+      };
+      return newSession;
     },
   },
 });

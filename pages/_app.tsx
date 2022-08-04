@@ -9,22 +9,6 @@ import { store } from "../src/store/store";
 import Login from "./login";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
-  if (!session) {
-    return (
-      <QueryClientProvider client={new QueryClient()}>
-        <SessionProvider session={session}>
-          <Provider store={store}>
-            <Head>
-              <title>Login | selfwork.</title>
-            </Head>
-
-            <Component {...pageProps} />
-          </Provider>
-        </SessionProvider>
-      </QueryClientProvider>
-    );
-  }
-
   return (
     <QueryClientProvider client={new QueryClient()}>
       <SessionProvider session={session}>

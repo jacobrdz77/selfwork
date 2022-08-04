@@ -9,7 +9,7 @@ const Backdrop: React.FC<{ onClose: () => void; isOpen: boolean }> = ({
     <div
       className={`${
         isOpen ? "" : "hidden"
-      } bg-black opacity-50 z-0 fixed top-0 left-0 w-screen h-screen`}
+      } bg-black opacity-50 z-40 fixed top-0 left-0 w-screen h-screen`}
       onClick={onClose}
     />
   );

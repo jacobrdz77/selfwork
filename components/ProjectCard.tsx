@@ -51,10 +51,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   return (
     <div
       ref={projectCardRef}
-      className="relative flex flex-col w-[260px] h-[320px] border"
+      className="relative flex flex-col w-[260px] h-[320px] px-[20px]
+      py-[25px] rounded-lg shadow-md border-[1px]"
     >
       {/* Header */}
-      <div className="flex justify-between p-[15px] bg-header border-b-[1px]">
+      <div className="flex justify-between text-lg">
         <a
           href={`/projects/${projectId}`}
           className="font-semibold hover:underline"
@@ -80,7 +81,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       </div>
 
       {/* Info */}
-      <div className="grow p-[15px] flex flex-col">
+      <div className="grow flex flex-col mt-4">
         {/* Tags */}
         <div></div>
         {/* Description */}

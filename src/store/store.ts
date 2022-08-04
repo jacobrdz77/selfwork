@@ -47,7 +47,7 @@ export const addProjectModalFormSlice = createSlice({
       state.selectedclient = action.payload;
     },
     setIsNameError(state, action) {
-      state.isClientError = action.payload;
+      state.isNameError = action.payload;
     },
     setIsClientError(state, action) {
       state.isClientError = action.payload;
@@ -85,6 +85,7 @@ export const addProjectModalFormSlice = createSlice({
       state.isClientTouched = false;
       state.isClientError = false;
       state.description = "";
+      state.hourlyRate = 0;
       state.priority = "NONE";
       state.startDate = new Date();
       state.endDate = null;

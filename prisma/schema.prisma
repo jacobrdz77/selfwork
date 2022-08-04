@@ -67,7 +67,7 @@ model Project {
   name String
   priority Priority @default(NONE)
   startDate DateTime @default(now())
-  dueDate DateTime 
+  dueDate DateTime?
   tasks Task[] 
   client Client @relation(fields: [clientId], references: [id])
   clientId String
@@ -94,7 +94,7 @@ model Task {
   id String @id @default(cuid())
   name String
   startDate DateTime @default(now())
-  dueDate DateTime
+  dueDate DateTime?
   description String?
   project Project @relation(fields: [projectId], references: [id])
   projectId String 

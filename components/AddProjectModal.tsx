@@ -248,19 +248,17 @@ const AddProjectModal: React.FC<{
               page === "2" ? "bg-blue-500 text-white" : ""
             } flex items-center justify-center border-[1px] rounded-full w-6 h-6 text-[13px] font-bold hover:bg-blue-500 hover:text-white`}
             onClick={() => {
-              if (
-                !isNameError &&
-                !isClientError &&
-                isClientTouched &&
-                isNameTouched
-              ) {
-                dispatch(setIsFirstFormValid(true));
-                dispatch(setPage("2"));
-              }
-
               if (!isNameTouched && !isClientTouched) {
-                setIsClientError(true);
-                setIsNameError(true);
+                dispatch(setIsClientError(true));
+                dispatch(setIsNameError(true));
+              }
+              if (
+                isNameTouched &&
+                isClientTouched &&
+                !isNameError &&
+                !isClientError
+              ) {
+                dispatch(setPage("2"));
               }
             }}
           >
@@ -269,6 +267,8 @@ const AddProjectModal: React.FC<{
           <p className="text-[14px]">Extra</p>
         </div>
       </nav>
+
+      {/* FORMS */}
 
       {page === "1" ? (
         <div>
@@ -281,10 +281,10 @@ const AddProjectModal: React.FC<{
                   value={name!}
                   onChange={changeNameHandler}
                   onBlur={() => {
+                    dispatch(setIsNameTouched(true));
                     if (name.trim().length === 0) {
-                      setIsNameError(true);
+                      dispatch(setIsNameError(true));
                     }
-                    setIsNameTouched(true);
                   }}
                   placeholder="Give your project a name"
                   className={`${
@@ -311,21 +311,23 @@ const AddProjectModal: React.FC<{
                   defaultValue="default"
                   value={selectedclient!}
                   onChange={(e) => {
-                    setSelectedClient(e.target.value);
+                    dispatch(setSelectedClient(e.target.value));
                     if (e.target.value === "default") {
-                      return setIsClientError(true);
+                      return dispatch(setIsClientError(true));
                     }
-                    setIsClientError(false);
+                    dispatch(setIsClientError(false));
                   }}
-                  onBlur={() => {
-                    setIsNameTouched(true);
-                    if (selectedclient === "default") {
-                      setIsClientError(true);
+                  onBlur={(e) => {
+                    if (e.target.value === "default") {
+                      dispatch(setIsClientError(true));
                     }
+                    dispatch(setIsClientTouched(true));
                   }}
                 >
                   <option value="default">Select a client</option>
-                  <option value="create">Add a Client</option>
+                  <option value="create">
+                    <button>Add a client</button>
+                  </option>
                   {/* Iterate over all of the clients id */}
                   {user.clients.map((client: Client) => (
                     <option key={client.id} value={client.id}>
@@ -353,31 +355,32 @@ const AddProjectModal: React.FC<{
           <footer className="flex justify-between pt-5 sm:px-[40px] ">
             <button
               className="px-3 py-2  bg-red-500 text-white rounded-md"
-              onClick={() => setIsModalOpen(false)}
+              onClick={() => {
+                dispatch(reset());
+                setIsModalOpen(false);
+              }}
             >
               Cancel
             </button>
-            <button
-              className="px-3 py-2  bg-gray-300 hover:bg-blue-500 hover:text-white rounded-md"
-              onClick={() => {
-                if (
-                  !isNameError &&
-                  !isClientError &&
-                  isNameTouched &&
-                  isClientTouched
-                ) {
-                  setIsFirstFormValid(true);
-                  setPage("2");
-                }
-
-                if (!isNameTouched && !isClientTouched) {
-                  setIsClientError(true);
-                  setIsNameError(true);
-                }
-              }}
-            >
-              Next Page
-            </button>
+            <div className="flex gap-3">
+              <button className="px-3 py-2  bg-blue-500 text-white rounded-md">
+                Create Project
+              </button>
+              <button
+                className="px-3 py-2  bg-gray-300 hover:bg-blue-500 hover:text-white rounded-md"
+                onClick={() => {
+                  if (!isNameTouched && !isClientTouched) {
+                    dispatch(setIsClientError(true));
+                    dispatch(setIsNameError(true));
+                  }
+                  if (!isNameError && !isClientError) {
+                    dispatch(setPage("2"));
+                  }
+                }}
+              >
+                Next Page
+              </button>
+            </div>
           </footer>
         </div>
       ) : (
@@ -387,13 +390,13 @@ const AddProjectModal: React.FC<{
             className="flex flex-col w-full h-full mt-2 mb-2 text-[14px] sm:px-[40px]"
             onSubmit={() => submitProjectHandler}
           >
-            <div className="flex maxsm:w-full gap-4 mr-[16px]">
+            <div className="flex w-full gap-4 mr-[16px] maxxs:flex-col">
               <div className="flex flex-col w-full">
                 <label htmlFor="name">Priority</label>
                 <select
                   value={priority}
                   defaultValue="NONE"
-                  onChange={(e) => setPriority(e.target.value)}
+                  onChange={(e) => dispatch(setPriority(e.target.value))}
                   className={` h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500  maxsm:focus:outline-[0px] `}
                   id="name"
                 >
@@ -407,14 +410,15 @@ const AddProjectModal: React.FC<{
                 )}
               </div>
 
-              <div className="flex flex-col w-full">
+              <div className="flex flex-col w-full ">
                 <label htmlFor="name">Hourly Rate</label>
                 <input
                   type="number"
                   value={hourlyRate}
-                  min={0}
                   max={9999999}
-                  onChange={(e) => setHourlyRate(Number(e.target.value))}
+                  onChange={(e) =>
+                    dispatch(setHourlyRate(Number(e.target.value)))
+                  }
                   defaultValue="NONE"
                   className={` h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500  maxsm:focus:outline-[0px] `}
                   id="name"
@@ -422,21 +426,25 @@ const AddProjectModal: React.FC<{
               </div>
             </div>
 
-            <div className="flex gap-4 my-5">
-              <div className="flex flex-col w-[50%]">
+            <div className="flex gap-4 my-5 maxxs:flex-col">
+              <div className="flex flex-col w-[50%] maxxs:w-full">
                 <label>Start Date</label>
                 <input
                   type="date"
-                  onChange={(e) => setStartDate(new Date(e.target.value))}
+                  onChange={(e) =>
+                    dispatch(setStartDate(new Date(e.target.value)))
+                  }
                   min={new Date().toISOString().split("T")[0]}
                   className="h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500  maxsm:focus:outline-[0px]"
                 />
               </div>
-              <div className="flex flex-col  w-[50%]">
+              <div className="flex flex-col  w-[50%] maxxs:w-full">
                 <label>Due Date</label>
                 <input
                   type="date"
-                  onChange={(e) => setEndDate(new Date(e.target.value))}
+                  onChange={(e) =>
+                    dispatch(setEndDate(new Date(e.target.value)))
+                  }
                   min={startDate.toISOString().split("T")[0]}
                   className="h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500  maxsm:focus:outline-[0px]"
                 />
@@ -446,14 +454,17 @@ const AddProjectModal: React.FC<{
           <footer className="flex justify-between pt-5 sm:px-[40px] ">
             <button
               className="px-3 py-2  bg-red-500 text-white rounded-md"
-              onClick={() => setIsModalOpen(false)}
+              onClick={() => {
+                setIsModalOpen(false);
+                dispatch(reset());
+              }}
             >
               Cancel
             </button>
             <div className="flex gap-3">
               <button
                 className="px-3 py-2  bg-gray-300  hover:bg-blue-500 hover:text-white rounded-md"
-                onClick={() => setPage("1")}
+                onClick={() => dispatch(setPage("1"))}
               >
                 Back
               </button>
