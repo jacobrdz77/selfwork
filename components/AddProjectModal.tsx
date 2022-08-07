@@ -325,9 +325,7 @@ const AddProjectModal: React.FC<{
                   }}
                 >
                   <option value="default">Select a client</option>
-                  <option value="create">
-                    <button>Add a client</button>
-                  </option>
+
                   {/* Iterate over all of the clients id */}
                   {user.clients.map((client: Client) => (
                     <option key={client.id} value={client.id}>

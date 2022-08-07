@@ -1,20 +1,18 @@
 import { Priority, Project } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
+import axios from "axios";
 
 // Get all projects
 export const getProjects = async (userId: string) => {
-  fetch("/api/projects", {
+  const json = await axios("/api/projects", {
     method: "GET",
-    headers: {
-      "Content-type": "applicatoin/json",
-    },
-    body: {
-      //@ts-ignore
+    headers: { "Content-Type": "application/json" },
+    data: {
       userId: userId,
     },
-  })
-    .then((res) => res.json())
-    .then((data) => data.data);
+  }).then((res) => res.data);
+
+  return json;
 };
 
 // Get one project

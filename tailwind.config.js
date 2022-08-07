@@ -12,8 +12,8 @@ module.exports = {
         header: "#fafafa",
         github: "#333333",
         githubHover: "#111111",
-        button: "#312244",
-        buttonHover: "#4d356b",
+        button: "#4d356b",
+        buttonHover: "#312244",
       },
     },
     screens: {

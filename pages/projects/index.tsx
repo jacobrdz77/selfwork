@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import { GetServerSideProps, GetServerSidePropsContext, NextPage } from "next";
 import React, { useEffect, useState } from "react";
 import Header from "../../components/UI/Header";
 import Layout from "../../components/Layout/Layout";
@@ -9,54 +9,10 @@ import { Project } from "@prisma/client";
 import { useAppDispatch, useAppSelector } from "../../src/store/hooks";
 import { addProjectModalFormSlice } from "../../src/store/store";
 import { getProjects } from "../../src/lib/projectsFunctions";
-import { useSession } from "next-auth/react";
-import { useQuery } from "@tanstack/react-query";
+import { getSession, useSession } from "next-auth/react";
+import LoadingProjectPage from "../../components/Loading/LoadingProjectPage";
 
-const ProjectsPage: NextPage = () => {
-  const { data: session } = useSession();
-  //usequery to get all projects using the userid
-  // const { data: projects, isLoading } = useQuery(
-  //   ["projects", { userId: "cl6e7qn2t0132h9gphqc29xl2" }],
-  //   async () => {
-  //     return await fetch("/api/projects", {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-type": "applicatoin/json",
-  //       },
-  //       body: {
-  //         //@ts-ignore
-  //         userId,
-  //       },
-  //     })
-  //       .then((res) => res.json())
-  //       .then((data) => data.data);
-  //   }
-  // );
-
-  const projects = [
-    {
-      id: "1",
-      name: "Project 1",
-      description: "This is project 1",
-      clienId: "Client 1",
-      clienName: "John Doe",
-    },
-    {
-      id: "2",
-      name: "Project 2",
-      description: "This is project 2",
-      clienId: "Client 1",
-      clienName: "Jimmy John",
-    },
-    {
-      id: "3",
-      name: "Project 3",
-      description: "This is project 3",
-      clienId: "Client 1",
-      clienName: "Steven Smith",
-    },
-  ];
-
+const ProjectsPage: NextPage<{ projects: Project[] }> = () => {
   const projectForm = useAppSelector((state) => state.addProjectModalForm);
   const { reset } = addProjectModalFormSlice.actions;
   const dispatch = useAppDispatch();
@@ -65,6 +21,16 @@ const ProjectsPage: NextPage = () => {
   const addProjectHandler = () => {
     setIsModalOpen(true);
   };
+
+  const [projects, setProjects] = useState<any[] | null>(null);
+
+  useEffect(() => {
+    const fetchData = async (userId: string) => {
+      const projects = await getProjects(userId);
+      setProjects(projects);
+    };
+    fetchData("cl6e7qn2t0132h9gphqc29xl2");
+  }, []);
 
   return (
     <>
@@ -94,28 +60,33 @@ const ProjectsPage: NextPage = () => {
         <hr className="mt-4" />
         {/* Filter buttons */}
 
+        {/* Loading Spinner */}
+        {!projects && (
+          <div className="w-full h-full flex justify-center items-center mt-auto">
+            <LoadingProjectPage />
+          </div>
+        )}
+
+        {/* Grid of projects */}
         <div className="mt-10">
-          {/* Grid of projects */}
-          {projects.length !== 0 && (
+          {projects && projects.length > 0 && (
             <div className="flex gap-4 flex-wrap">
-              {projects.map((project) => (
-                <ProjectCard
-                  title={project.name}
-                  key={project.id}
-                  projectId={project.id}
-                  clientId={project.clienId}
-                  description={project.description}
-                  clientName={project.clienName}
-                />
-              ))}
+              {projects &&
+                projects.map((project) => (
+                  <ProjectCard
+                    title={project.name}
+                    key={project.id}
+                    projectId={project.id}
+                    clientId={project.clientId}
+                    description={project.description}
+                  />
+                ))}
             </div>
           )}
 
-          {projects?.length === 0 && (
-            <>
-              <NoProjects buttonHandler={addProjectHandler} />
-            </>
-          )}
+          <>
+            <NoProjects buttonHandler={addProjectHandler} />
+          </>
         </div>
       </div>
     </>

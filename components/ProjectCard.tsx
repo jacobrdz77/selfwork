@@ -1,12 +1,13 @@
 import React, { Ref, useRef, useState, useEffect } from "react";
 import { useOnClickOutside } from "../src/hooks/useOnClickOutside";
 import ProjectEditModal from "./ProjectEditModal";
+import axios from "axios";
 
 interface ProjectCardProps {
   title: string;
   description: string | null;
   projectId: string;
-  clientName: string;
+
   clientId: string;
 }
 
@@ -14,7 +15,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   title,
   description,
   projectId,
-  clientName,
   clientId,
 }) => {
   const [isModelOpen, setIsModelOpen] = useState<boolean>(false);
@@ -22,6 +22,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   const [left, setLeft] = useState<number | null>(null);
   const projectCardRef = useRef(null);
   const modalRef = useRef(null);
+  const [clientName, setClientName] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await axios.get(`/api/clients/${clientId}`);
+      setClientName(data);
+    };
+    fetchData();
+  }, []);
 
   useEffect(() => {
     function getCardPosition(ref: React.RefObject<HTMLDivElement>) {

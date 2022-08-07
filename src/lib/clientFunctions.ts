@@ -11,3 +11,14 @@ export const createClient = async (client: Client) => {
     .then((res) => res.json())
     .then((data) => data.data);
 };
+
+export const getClient = async (client: Client) => {
+  return await fetch("/api/clients/" + client.id, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => data.data);
+};

@@ -8,7 +8,7 @@ const getUserData = () => {
   fetch("/api/user");
 };
 
-//slice of addprojectmodal form
+//*** Add Project Modal ***//
 export const addProjectModalFormSlice = createSlice({
   name: "ProjectForm",
   initialState: {
@@ -95,6 +95,7 @@ export const addProjectModalFormSlice = createSlice({
   },
 });
 
+//*** Session ***//
 const initialState = {
   user: {
     id: "",
@@ -106,13 +107,19 @@ const initialState = {
   },
 };
 
-//slice of the session
 export const sessionSlice = createSlice({
   name: "session",
   initialState,
-
   reducers: {
-    getAllData: (state) => {},
+    setSession: (state, action) => {
+      state.user.id = action.payload.id;
+      state.user.name = action.payload.name;
+      state.user.email = action.payload.email;
+      state.user.image = action.payload.image;
+      state.user.projects = action.payload.projects;
+      state.user.clients = action.payload.clients;
+    },
+
     addProject: (state, action) => {
       state.user.projects = [...state.user.projects, action.payload];
     },
@@ -124,6 +131,8 @@ export const sessionSlice = createSlice({
     },
   },
 });
+
+//*** Client ***/
 
 // slice of the client form state
 export const clientFormSlice = createSlice({
@@ -179,7 +188,7 @@ export const clientFormSlice = createSlice({
   },
 });
 
-//slice of task from
+//** Task Form ***/
 export const taskFormSlice = createSlice({
   name: "taskForm",
   initialState: {
@@ -229,6 +238,15 @@ export const taskFormSlice = createSlice({
   },
 });
 
+//** User Form ***/
+// export const userFormSlice = createSlice({
+//   name: "userForm",
+//   initialState: {
+//     //data of user
+//     //name, email, image,
+//   },
+// });
+
 export const store = configureStore({
   reducer: {
     userSession: sessionSlice.reducer,
@@ -236,6 +254,8 @@ export const store = configureStore({
     clientForm: clientFormSlice.reducer,
   },
 });
+
+export const sessionActions = sessionSlice.actions;
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;

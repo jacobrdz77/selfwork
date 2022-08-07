@@ -2,8 +2,11 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Avatar from "./Avatar";
+import { useSession } from "next-auth/react";
 
 const NavBar: React.FC = () => {
+  const { data: session, status } = useSession();
+  console.log(session, status);
   return (
     <nav className=" maxsm:hidden grow-0 sticky top-0 left-0 w-[208px] h-screen m-0 text-center bg-primary  text-white">
       <div>
@@ -13,9 +16,9 @@ const NavBar: React.FC = () => {
         </div>
         {/* Buttons */}
         <div className="mt-0 w-full text-[16px]">
-          <div className="w-[164px] h-full flex flex-col mx-auto ">
+          <div className="w-[164px] h-full flex flex-col mx-auto gap-3 ">
             <Link href="/tasks">
-              <a className="mb-3 py-2.5 px-5 hover:bg-button rounded-[15px]">
+              <a className="mb-3 py-2.5 px-5 hover:bg-buttonHover rounded-[15px] bg-button">
                 <div className="flex justify-start items-center w-full ">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -37,7 +40,7 @@ const NavBar: React.FC = () => {
               </a>
             </Link>
             <Link href="/projects">
-              <a className="mb-3 py-2.5 px-5 hover:bg-button rounded-[15px]">
+              <a className="bg-button mb-3 py-2.5 px-5 hover:bg-buttonHover rounded-[15px]">
                 <div className="flex justify-start items-center w-full ">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +55,7 @@ const NavBar: React.FC = () => {
               </a>
             </Link>
             <Link href="/clients">
-              <a className="mb-3 py-2.5 px-5 hover:bg-button rounded-[15px]">
+              <a className="bg-button mb-3 py-2.5 px-5 hover:bg-buttonHover rounded-[15px]">
                 <div className="flex justify-items-center items-center w-full ">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -76,7 +79,7 @@ const NavBar: React.FC = () => {
           </div>
         </div>
         {/* User Profile */}
-        <div className="w-full mt-3">
+        <div className="w-full mt-9">
           <div className="w-[164px] flex items-center justify-start mx-auto">
             <Avatar userName={"Jacob Rodriguez"} />
             <Link href="/profile">

@@ -5,7 +5,7 @@ import Router from "next/router";
 import { getOneProject } from "../../src/lib/projectsFunctions";
 import Header from "../../components/UI/Header";
 import { Project } from "@prisma/client";
-import LoadingProjectPage from "../../components/UI/Loading/LoadingProjectPage";
+import LoadingProjectPage from "../../components/Loading/LoadingProjectPage";
 
 const ProjectDetailPage = () => {
   const router = useRouter();

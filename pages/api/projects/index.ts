@@ -24,24 +24,6 @@ export default async function handler(
     }
   }
 
-  // Get one project
-  if (req.method === "GET") {
-    try {
-      const prisma = new PrismaClient();
-      prisma.$connect();
-      const { id } = req.body;
-      const project = prisma.project.findUnique({
-        where: {
-          id: id,
-        },
-      });
-      res.status(200).json(project);
-      prisma.$disconnect();
-    } catch (error: any) {
-      res.status(400).json({ error: error.message });
-    }
-  }
-
   // Create a new project
   if (req.method === "POST") {
     try {
