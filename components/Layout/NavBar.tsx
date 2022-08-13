@@ -2,11 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Avatar from "./Avatar";
-import { useSession } from "next-auth/react";
-
 const NavBar: React.FC = () => {
-  const { data: session, status } = useSession();
-  console.log(session, status);
   return (
     <nav className=" maxsm:hidden grow-0 sticky top-0 left-0 w-[208px] h-screen m-0 text-center bg-primary  text-white">
       <div>

@@ -3,18 +3,14 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useAppSelector, useAppDispatch } from "../src/store/hooks";
 import Modal from "./UI/Modal";
-import { addProjectModalFormSlice } from "../src/store/store";
-import { setPriority } from "os";
-import { useSession } from "next-auth/react";
+import addProjectModalFormSlice from "../src/store/slices/addProjectFormSlice";
 
 const AddProjectModal: React.FC<{
   isOpen: boolean;
   closeHandler: () => void;
   setIsModalOpen: (isOpen: boolean) => void;
 }> = ({ isOpen, closeHandler, setIsModalOpen }) => {
-  const { data: session } = useSession();
-
-  const { user } = useAppSelector((state) => state.userSession);
+  const { user } = useAppSelector((state) => state.userSlice);
 
   // Values
   const {
@@ -22,8 +18,6 @@ const AddProjectModal: React.FC<{
     endDate,
     isClientError,
     isClientTouched,
-    isFirstFormValid,
-    isFormValid,
     isNameError,
     isNameTouched,
     name,
@@ -45,8 +39,6 @@ const AddProjectModal: React.FC<{
     setIsNameTouched,
     setPage,
     submitProject,
-    setFormValid,
-    setIsFirstFormValid,
     setSelectedClient,
     setEndDate,
     setStartDate,
@@ -54,7 +46,7 @@ const AddProjectModal: React.FC<{
     setHourlyRate,
   } = addProjectModalFormSlice.actions;
   const dispatch = useAppDispatch();
-  const userId = useAppSelector((state) => state.userSession.user.id);
+  const userId = useAppSelector((state) => state.userSlice.user.id);
 
   // @ts-ignore
   const changeNameHandler = (e) => {
@@ -308,23 +300,26 @@ const AddProjectModal: React.FC<{
                       : ""
                   } h-[38px] w-full py-[5px] px-[12px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500 maxsm:focus:outline-[0px]`}
                   id="client"
-                  defaultValue="default"
-                  value={selectedclient!}
+                  value={selectedclient}
                   onChange={(e) => {
-                    dispatch(setSelectedClient(e.target.value));
                     if (e.target.value === "default") {
-                      return dispatch(setIsClientError(true));
+                      dispatch(setIsClientError(true));
                     }
                     dispatch(setIsClientError(false));
+                    dispatch(setSelectedClient(e.target.value));
                   }}
                   onBlur={(e) => {
                     if (e.target.value === "default") {
                       dispatch(setIsClientError(true));
+                    } else {
+                      dispatch(setIsClientError(false));
                     }
+
                     dispatch(setIsClientTouched(true));
                   }}
                 >
                   <option value="default">Select a client</option>
+                  <option value="cl6sboytg010762gpaev4owqm">James Bond</option>
 
                   {/* Iterate over all of the clients id */}
                   {user.clients.map((client: Client) => (
@@ -360,25 +355,20 @@ const AddProjectModal: React.FC<{
             >
               Cancel
             </button>
-            <div className="flex gap-3">
-              <button className="px-3 py-2  bg-blue-500 text-white rounded-md">
-                Create Project
-              </button>
-              <button
-                className="px-3 py-2  bg-gray-300 hover:bg-blue-500 hover:text-white rounded-md"
-                onClick={() => {
-                  if (!isNameTouched && !isClientTouched) {
-                    dispatch(setIsClientError(true));
-                    dispatch(setIsNameError(true));
-                  }
-                  if (!isNameError && !isClientError) {
-                    dispatch(setPage("2"));
-                  }
-                }}
-              >
-                Next Page
-              </button>
-            </div>
+            <button
+              className="px-3 py-2  bg-gray-300 hover:bg-blue-500 hover:text-white rounded-md"
+              onClick={() => {
+                if (!isNameTouched && !isClientTouched) {
+                  dispatch(setIsClientError(true));
+                  dispatch(setIsNameError(true));
+                }
+                if (!isNameError && !isClientError) {
+                  dispatch(setPage("2"));
+                }
+              }}
+            >
+              Next Page
+            </button>
           </footer>
         </div>
       ) : (
@@ -393,7 +383,6 @@ const AddProjectModal: React.FC<{
                 <label htmlFor="name">Priority</label>
                 <select
                   value={priority}
-                  defaultValue="NONE"
                   onChange={(e) => dispatch(setPriority(e.target.value))}
                   className={` h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500  maxsm:focus:outline-[0px] `}
                   id="name"
@@ -443,7 +432,7 @@ const AddProjectModal: React.FC<{
                   onChange={(e) =>
                     dispatch(setEndDate(new Date(e.target.value)))
                   }
-                  min={startDate.toISOString().split("T")[0]}
+                  min={startDate}
                   className="h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500  maxsm:focus:outline-[0px]"
                 />
               </div>

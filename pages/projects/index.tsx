@@ -7,18 +7,17 @@ import NoProjects from "../../components/NoProjects";
 import AddProjectModal from "../../components/AddProjectModal";
 import { Project } from "@prisma/client";
 import { useAppDispatch, useAppSelector } from "../../src/store/hooks";
-import { addProjectModalFormSlice } from "../../src/store/store";
+import addProjectModalFormSlice from "../../src/store/slices/addProjectFormSlice";
 import { getProjects } from "../../src/lib/projectsFunctions";
-import { getSession, useSession } from "next-auth/react";
 import LoadingProjectPage from "../../components/Loading/LoadingProjectPage";
 
 const ProjectsPage: NextPage<{ projects: Project[] }> = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const projectForm = useAppSelector((state) => state.addProjectModalForm);
   const { reset } = addProjectModalFormSlice.actions;
   const dispatch = useAppDispatch();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const addProjectHandler = () => {
+  const openProjectModal = () => {
     setIsModalOpen(true);
   };
 
@@ -49,7 +48,7 @@ const ProjectsPage: NextPage<{ projects: Project[] }> = () => {
           button={true}
           buttonText="Add Project"
           title="Projects"
-          buttonHandler={addProjectHandler}
+          buttonHandler={openProjectModal}
         >
           <div className="text-[14px]">
             <button className="h-full ml-2 border-2 border-button rounded-[5px] p-1">
@@ -85,7 +84,7 @@ const ProjectsPage: NextPage<{ projects: Project[] }> = () => {
           )}
 
           <>
-            <NoProjects buttonHandler={addProjectHandler} />
+            <NoProjects buttonHandler={openProjectModal} />
           </>
         </div>
       </div>

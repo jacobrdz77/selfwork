@@ -14,7 +14,6 @@ export default async function handler(
       const { id } = req.body;
       const project = await prisma.project.findUnique({
         where: {
-          //@ts-ignore
           id: id,
         },
       });

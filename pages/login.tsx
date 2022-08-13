@@ -1,10 +1,7 @@
-import { signIn } from "next-auth/react";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React from "react";
 
 const Login: React.FC = () => {
-  const { data: session } = useSession();
   const router = useRouter();
   return (
     <>
@@ -16,7 +13,7 @@ const Login: React.FC = () => {
           <div className="mb-5 text-[30px]">
             selfwork<span className="text-green-400">.</span>
           </div>
-          {!session && (
+          {/* {!session && (
             <div className="flex flex-col gap-3">
               <button
                 onClick={() =>
@@ -40,9 +37,9 @@ const Login: React.FC = () => {
                 <span className="ml-2">Log in with Github</span>
               </button>
             </div>
-          )}
+          )} */}
 
-          {session && (
+          {/* {session && (
             <div className="flex flex-col gap-3">
               <span className="font-sembold">You're not signed in.</span>
               <button
@@ -54,7 +51,7 @@ const Login: React.FC = () => {
                 <span className="ml-2">Go to dashboard</span>
               </button>
             </div>
-          )}
+          )} */}
         </div>
       </section>
     </>

@@ -1,5 +1,5 @@
 import { Priority } from "@prisma/client";
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAppSelector } from "../store/hooks";
 
 export const useProjectForm = (userId: string) => {
@@ -10,13 +10,13 @@ export const useProjectForm = (userId: string) => {
   const [isClientTouched, setIsClientTouched] = useState(false);
   const [isClientError, setIsClientError] = useState(false);
   const [description, setDescription] = useState("");
-  const [priority, setPriority] = useState<string>("NONE");
+  const [priority, setPriority] = useState<Priority>("NONE");
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [hourlyRate, setHourlyRate] = useState(0);
-  const clients = useAppSelector((state) => state.userSession.user.clients);
   const [isFormValid, setIsFormValid] = useState(false);
   const [isFirstFormValid, setFirstFormValid] = useState(false);
+  const clients = useAppSelector((state) => state.userSlice.user.clients);
 
   return {
     name,

@@ -1,5 +1,4 @@
 import { Priority, Project } from "@prisma/client";
-import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 
 // Get all projects
