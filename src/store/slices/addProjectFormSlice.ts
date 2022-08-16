@@ -1,4 +1,9 @@
-import { configureStore, createSlice } from "@reduxjs/toolkit";
+import {
+  AnyAction,
+  configureStore,
+  createSlice,
+  ThunkAction,
+} from "@reduxjs/toolkit";
 
 const addProjectModalFormSlice = createSlice({
   name: "ProjectForm",

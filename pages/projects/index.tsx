@@ -1,7 +1,6 @@
-import { GetServerSideProps, GetServerSidePropsContext, NextPage } from "next";
 import React, { useEffect, useState } from "react";
+import { GetServerSideProps, GetServerSidePropsContext, NextPage } from "next";
 import Header from "../../components/UI/Header";
-import Layout from "../../components/Layout/Layout";
 import ProjectCard from "../../components/ProjectCard";
 import NoProjects from "../../components/NoProjects";
 import AddProjectModal from "../../components/AddProjectModal";
@@ -10,26 +9,44 @@ import { useAppDispatch, useAppSelector } from "../../src/store/hooks";
 import addProjectModalFormSlice from "../../src/store/slices/addProjectFormSlice";
 import { getProjects } from "../../src/lib/projectsFunctions";
 import LoadingProjectPage from "../../components/Loading/LoadingProjectPage";
+import { useQuery } from "@tanstack/react-query";
 
 const ProjectsPage: NextPage<{ projects: Project[] }> = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const projectForm = useAppSelector((state) => state.addProjectModalForm);
   const { reset } = addProjectModalFormSlice.actions;
   const dispatch = useAppDispatch();
+  // const [projects, setProjects] = useState<any[] | null>(null);
+  // const [isLoading, setIsLoading] = useState(false);
+  const [userId] = useState('cl6saletw002362gpbq4yq7o7"');
 
   const openProjectModal = () => {
     setIsModalOpen(true);
   };
 
-  const [projects, setProjects] = useState<any[] | null>(null);
+  const {
+    data: projects,
+    isLoading,
+    isError,
+  } = useQuery(["projects", userId], () => getProjects(userId));
 
-  useEffect(() => {
-    const fetchData = async (userId: string) => {
-      const projects = await getProjects(userId);
-      setProjects(projects);
-    };
-    fetchData("cl6e7qn2t0132h9gphqc29xl2");
-  }, []);
+  // useEffect(() => {
+  //   // const fetchProjects = async (userId: string) => {
+  //   //   setIsLoading(true);
+  //   //   const response = await fetch(`/api/projects/${userId}`);
+  //   //   const projects = await response.json();
+  //   //   setProjects(projects);
+  //   //   setIsLoading(false);
+  //   // };
+  //   // fetchProjects("cl6saletw002362gpbq4yq7o7");
+  //   const fetchProjects = async () => {
+  //     setIsLoading(true);
+  //     const projects = await getProjects("cl6saletw002362gpbq4yq7o7");
+  //     setProjects(projects);
+  //     setIsLoading(false);
+  //   };
+  //   fetchProjects();
+  // }, []);
 
   return (
     <>
@@ -50,42 +67,38 @@ const ProjectsPage: NextPage<{ projects: Project[] }> = () => {
           title="Projects"
           buttonHandler={openProjectModal}
         >
+          {/* Filter buttons */}
           <div className="text-[14px]">
-            <button className="h-full ml-2 border-2 border-button rounded-[5px] p-1">
+            <button className="h-full ml-2 border-2 border-button rounded-[5px] px-3 py-1 tracking-wide ">
               Sort By
             </button>
           </div>
         </Header>
         <hr className="mt-4" />
-        {/* Filter buttons */}
-
         {/* Loading Spinner */}
-        {!projects && (
-          <div className="w-full h-full flex justify-center items-center mt-auto">
+        {isLoading && (
+          <div className="w-full h-full flex justify-center mt-11">
             <LoadingProjectPage />
           </div>
         )}
-
+        {!projects && !isLoading && (
+          <NoProjects buttonHandler={openProjectModal} />
+        )}
         {/* Grid of projects */}
         <div className="mt-10">
-          {projects && projects.length > 0 && (
-            <div className="flex gap-4 flex-wrap">
-              {projects &&
-                projects.map((project) => (
-                  <ProjectCard
-                    title={project.name}
-                    key={project.id}
-                    projectId={project.id}
-                    clientId={project.clientId}
-                    description={project.description}
-                  />
-                ))}
-            </div>
-          )}
-
-          <>
-            <NoProjects buttonHandler={openProjectModal} />
-          </>
+          <div className="flex gap-4 flex-wrap">
+            {projects &&
+              !isLoading &&
+              projects.map((project: Project) => (
+                <ProjectCard
+                  title={project.name}
+                  key={project.id}
+                  projectId={project.id}
+                  clientId={project.clientId}
+                  description={project.description}
+                />
+              ))}
+          </div>
         </div>
       </div>
     </>

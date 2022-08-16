@@ -1,7 +1,6 @@
 import React, { Ref, useRef, useState, useEffect } from "react";
 import { useOnClickOutside } from "../src/hooks/useOnClickOutside";
 import ProjectEditModal from "./ProjectEditModal";
-import axios from "axios";
 
 interface ProjectCardProps {
   title: string;
@@ -22,18 +21,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   const [left, setLeft] = useState<number | null>(null);
   const projectCardRef = useRef(null);
   const modalRef = useRef(null);
-  const [clientName, setClientName] = useState<string | null>(null);
+
+  useEffect(() => {}, [clientId]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const { data } = await axios.get(`/api/clients/${clientId}`);
-      setClientName(data);
-    };
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    function getCardPosition(ref: React.RefObject<HTMLDivElement>) {
+    const getCardPosition = (ref: React.RefObject<HTMLDivElement>) => {
       let leftOfDiv = ref.current?.getBoundingClientRect().x;
       console.log(leftOfDiv);
 
@@ -45,13 +37,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         top,
         left,
       };
-    }
+    };
 
     const { top, left } = getCardPosition(projectCardRef);
     setLeft(left);
     setTop(top);
     console.log(top, left);
-  }, []);
+  }, [clientId]);
 
   useOnClickOutside(modalRef, () => {
     setIsModelOpen(false);
@@ -98,6 +90,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           {description}
         </div>
         {/* Footer */}
+        {/* //! Fix footer layout styling */}
         <div className="">
           <div className="flex align-middle">
             <svg
@@ -115,8 +108,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
               <circle cx="12" cy="7" r="4"></circle>
             </svg>
-            <a href={`/clients/${clientId}`} className="ml-2 hover:underline">
-              {clientName}
+            {/* //! Fix formatting on the client's name */}
+            <a
+              href={`/clients/${clientId}`}
+              className="ml-2 hover:underline text-ellipsis"
+            >
+              {clientId}
             </a>
           </div>
         </div>

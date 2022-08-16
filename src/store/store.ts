@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { Action, configureStore, ThunkDispatch } from "@reduxjs/toolkit";
 import addProjectModalFormSlice from "./slices/addProjectFormSlice";
 import { clientFormSlice } from "./slices/clientFormSlice";
 import { userSlice } from "./slices/userSlice";

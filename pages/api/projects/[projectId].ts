@@ -5,6 +5,25 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  // Get all projects from current user
+  // RETURN: array of projects
+  if (req.method === "GET") {
+    try {
+      const prisma = new PrismaClient();
+      const { userId } = req.query;
+      const projects = await prisma.project.findMany({
+        where: {
+          //@ts-ignore
+          userId,
+        },
+      });
+      res.status(200).json(projects);
+      prisma.$disconnect();
+    } catch (error: Error | any) {
+      res.status(400).json({ error: error.message });
+    }
+  }
+
   // GET one project
   // RETURN: a project
   if (req.method === "GET") {

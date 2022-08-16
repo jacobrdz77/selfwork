@@ -1,38 +1,28 @@
 import { Priority, Project } from "@prisma/client";
-import axios from "axios";
 
 // Get all projects
 export const getProjects = async (userId: string) => {
-  const json = await axios("/api/projects", {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-    data: {
-      userId: userId,
-    },
-  }).then((res) => res.data);
-
-  return json;
+  const response = await fetch(`/api/projects/${userId}`);
+  const projects = await response.json();
+  return projects;
 };
 
 // Get one project
+//! FIX THIS SHIT
 export const getOneProject = async (id: string) => {
-  fetch("/api/projects", {
+  const response = await fetch(`/api/projects/${id}`, {
     method: "GET",
     headers: {
-      "Content-type": "applicatoin/json",
+      "Content-type": "application/json",
     },
-    body: {
-      //@ts-ignore
-      id: id,
-    },
-  })
-    .then((res) => res.json())
-    .then((data) => data.data);
+  });
+  const project = await response.json();
+  return project;
 };
 
 // Create a new project
 export const createProject = async (projectData: Project) => {
-  return await fetch("/api/projects", {
+  const response = await fetch("/api/projects", {
     method: "POST",
     headers: {
       "Content-type": "applicatoin/json",
@@ -41,9 +31,9 @@ export const createProject = async (projectData: Project) => {
       //@ts-ignore
       projectData: projectData,
     },
-  })
-    .then((res) => res.json())
-    .then((data) => data.data);
+  });
+  const newProject = await response.json();
+  return newProject;
 };
 
 interface UpdateProjectData {
@@ -68,7 +58,5 @@ export const updateProject = async (projectData: UpdateProjectData) => {
       //@ts-ignore
       projectData: projectData,
     },
-  })
-    .then((res) => res.json())
-    .then((data) => data.data);
+  }).then((res) => res.json());
 };

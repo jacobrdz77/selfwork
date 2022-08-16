@@ -21,7 +21,7 @@ const Header: React.FC<HeaderProps> = ({
       <div className="flex">
         {button && (
           <button
-            className="bg-button text-white text-[14px] py-2 px-2 rounded-[5px] hover:bg-buttonHover"
+            className="bg-button text-white text-[14px] px-3 tracking-wide py-1 rounded-[5px] hover:bg-buttonHover"
             type="button"
             onClick={buttonHandler}
           >

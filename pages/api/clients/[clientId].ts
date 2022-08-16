@@ -13,7 +13,6 @@ export default async function handler(
 
   // Finds unique client
   const prisma = new PrismaClient();
-  await prisma.$connect();
   const client = await prisma.client.findUnique({
     where: {
       id: req.query.clientId as string,

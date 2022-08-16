@@ -4,7 +4,7 @@ import Link from "next/link";
 import Avatar from "./Avatar";
 const NavBar: React.FC = () => {
   return (
-    <nav className=" maxsm:hidden grow-0 sticky top-0 left-0 w-[208px] h-screen m-0 text-center bg-primary  text-white">
+    <nav className="maxsm:hidden grow-0 sticky top-0 left-0 w-[208px] h-screen m-0 text-center bg-primary text-white">
       <div>
         {/* LOGO */}
         <div className="mt-4 mb-5 mx-auto text-[30px]">
