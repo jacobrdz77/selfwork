@@ -1,12 +1,12 @@
 import React, { Ref, useRef, useState, useEffect } from "react";
 import { useOnClickOutside } from "../src/hooks/useOnClickOutside";
-import ProjectEditModal from "./ProjectEditModal";
+import ProjectEditPopup from "./ProjectEditPopup";
 
 interface ProjectCardProps {
   title: string;
   description: string | null;
   projectId: string;
-
+  clientName: string;
   clientId: string;
 }
 
@@ -15,35 +15,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   description,
   projectId,
   clientId,
+  clientName,
 }) => {
   const [isModelOpen, setIsModelOpen] = useState<boolean>(false);
   const [top, setTop] = useState<number | null>(null);
   const [left, setLeft] = useState<number | null>(null);
   const projectCardRef = useRef(null);
   const modalRef = useRef(null);
-
-  useEffect(() => {}, [clientId]);
-
-  useEffect(() => {
-    const getCardPosition = (ref: React.RefObject<HTMLDivElement>) => {
-      let leftOfDiv = ref.current?.getBoundingClientRect().x;
-      console.log(leftOfDiv);
-
-      let topOfDiv = ref.current?.getBoundingClientRect().y;
-      const top = topOfDiv!;
-      const left = leftOfDiv!;
-
-      return {
-        top,
-        left,
-      };
-    };
-
-    const { top, left } = getCardPosition(projectCardRef);
-    setLeft(left);
-    setTop(top);
-    console.log(top, left);
-  }, [clientId]);
 
   useOnClickOutside(modalRef, () => {
     setIsModelOpen(false);
@@ -72,7 +50,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           ...
         </button>
         {isModelOpen && (
-          <ProjectEditModal
+          <ProjectEditPopup
             top={top!}
             left={left!}
             ref={modalRef}
@@ -113,7 +91,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               href={`/clients/${clientId}`}
               className="ml-2 hover:underline text-ellipsis"
             >
-              {clientId}
+              {clientName}
             </a>
           </div>
         </div>
@@ -123,3 +101,24 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 };
 
 export default ProjectCard;
+
+// useEffect(() => {
+//   const getCardPosition = (ref: React.RefObject<HTMLDivElement>) => {
+//     let leftOfDiv = ref.current?.getBoundingClientRect().x;
+//     console.log(leftOfDiv);
+
+//     let topOfDiv = ref.current?.getBoundingClientRect().y;
+//     const top = topOfDiv!;
+//     const left = leftOfDiv!;
+
+//     return {
+//       top,
+//       left,
+//     };
+//   };
+
+//   const { top, left } = getCardPosition(projectCardRef);
+//   setLeft(left);
+//   setTop(top);
+//   console.log(top, left);
+// }, [clientId]);

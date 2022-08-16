@@ -11,6 +11,12 @@ import { getProjects } from "../../src/lib/projectsFunctions";
 import LoadingProjectPage from "../../components/Loading/LoadingProjectPage";
 import { useQuery } from "@tanstack/react-query";
 
+type ProjectForProjectCard = Project & {
+  client: {
+    name: string;
+  };
+};
+
 const ProjectsPage: NextPage<{ projects: Project[] }> = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const projectForm = useAppSelector((state) => state.addProjectModalForm);
@@ -28,25 +34,7 @@ const ProjectsPage: NextPage<{ projects: Project[] }> = () => {
     data: projects,
     isLoading,
     isError,
-  } = useQuery(["projects", userId], () => getProjects(userId));
-
-  // useEffect(() => {
-  //   // const fetchProjects = async (userId: string) => {
-  //   //   setIsLoading(true);
-  //   //   const response = await fetch(`/api/projects/${userId}`);
-  //   //   const projects = await response.json();
-  //   //   setProjects(projects);
-  //   //   setIsLoading(false);
-  //   // };
-  //   // fetchProjects("cl6saletw002362gpbq4yq7o7");
-  //   const fetchProjects = async () => {
-  //     setIsLoading(true);
-  //     const projects = await getProjects("cl6saletw002362gpbq4yq7o7");
-  //     setProjects(projects);
-  //     setIsLoading(false);
-  //   };
-  //   fetchProjects();
-  // }, []);
+  } = useQuery(["projects", userId], () => getProjects(userId), {});
 
   return (
     <>
@@ -89,12 +77,13 @@ const ProjectsPage: NextPage<{ projects: Project[] }> = () => {
           <div className="flex gap-4 flex-wrap">
             {projects &&
               !isLoading &&
-              projects.map((project: Project) => (
+              projects.map((project: ProjectForProjectCard) => (
                 <ProjectCard
                   title={project.name}
                   key={project.id}
                   projectId={project.id}
                   clientId={project.clientId}
+                  clientName={project.client.name}
                   description={project.description}
                 />
               ))}

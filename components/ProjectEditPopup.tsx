@@ -7,7 +7,7 @@ interface ProjectEditModalProps {
   left: number;
 }
 // eslint-disable-next-line react/display-name
-const ProjectEditModal = React.forwardRef<
+const ProjectEditPopup = React.forwardRef<
   HTMLDivElement,
   ProjectEditModalProps
 >((props, ref) => {
@@ -55,4 +55,4 @@ const ProjectEditModal = React.forwardRef<
   );
 });
 
-export default ProjectEditModal;
+export default ProjectEditPopup;

@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../../../src/lib/prisma";
 
 export default async function handler(
   req: NextApiRequest,
@@ -8,7 +8,6 @@ export default async function handler(
   // Create a new project
   if (req.method === "POST") {
     try {
-      const prisma = new PrismaClient();
       const { projectData } = req.body;
       const newProject = await prisma.project.create({
         data: {

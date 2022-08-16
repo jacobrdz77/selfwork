@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../../../src/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -9,12 +9,18 @@ export default async function handler(
   // RETURN: array of projects
   if (req.method === "GET") {
     try {
-      const prisma = new PrismaClient();
       const { userId } = req.query;
       const projects = await prisma.project.findMany({
         where: {
           //@ts-ignore
           userId,
+        },
+        include: {
+          client: {
+            select: {
+              name: true,
+            },
+          },
         },
       });
       res.status(200).json(projects);
@@ -27,7 +33,6 @@ export default async function handler(
   // RETURN: the updated project
   else if (req.method === "PUT") {
     try {
-      const prisma = new PrismaClient();
       await prisma.$connect();
       const { projectData } = req.body;
       const project = await prisma.project.update({
@@ -49,7 +54,6 @@ export default async function handler(
   // RETURN: the deleted project
   else if (req.method === "DELETE") {
     try {
-      const prisma = new PrismaClient();
       await prisma.$connect();
       const { id } = req.body;
       const project = await prisma.project.delete({
@@ -70,7 +74,7 @@ export default async function handler(
 // RETURN: a project
 // if (req.method === "GET") {
 //   try {
-//     const prisma = new PrismaClient();
+//
 //     await prisma.$connect();
 //     const { id } = req.body;
 //     const project = await prisma.project.findUnique({
