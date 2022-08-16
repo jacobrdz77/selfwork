@@ -8,7 +8,6 @@ export const getProjects = async (userId: string) => {
 };
 
 // Get one project
-//! FIX THIS SHIT
 export const getOneProject = async (id: string) => {
   const response = await fetch(`/api/projects/${id}`, {
     method: "GET",

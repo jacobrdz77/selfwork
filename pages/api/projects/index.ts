@@ -20,5 +20,7 @@ export default async function handler(
     } catch (error: any) {
       res.status(400).json({ error: error.message });
     }
+  } else {
+    res.status(400).json({ error: "Request Not Allowed" });
   }
 }
