@@ -1,4 +1,4 @@
-# selfwork.
+# selfwork. (in development)
 
 ### A project management system targeted for freelancers.
 
@@ -10,14 +10,9 @@
 
 - Full CRUD functionality for projects, clients, and tasks.
 - Allows you to log in and register using Github.
-- Every project is associated with a client.
 - Add Tasks for projects which you can define the start date and due date, priority, and description.
 
 # Screenshots
-
-## Login
-
-![Login](https://user-images.githubusercontent.com/70309225/182730168-a7594bc9-a9d1-4c69-93bc-5cffbb425ad9.PNG)
 
 ## Projects Page
 
