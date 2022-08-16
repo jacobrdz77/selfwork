@@ -3,8 +3,6 @@ import React, { useEffect, useState, useRef } from "react";
 interface ProjectEditModalProps {
   isModelOpen: boolean;
   ref: React.MutableRefObject<null>;
-  top: number;
-  left: number;
 }
 // eslint-disable-next-line react/display-name
 const ProjectEditPopup = React.forwardRef<
@@ -15,8 +13,8 @@ const ProjectEditPopup = React.forwardRef<
     <div
       ref={ref}
       className={`${
-        props.isModelOpen ? `opacity-100] ` : "hidden opacity-0"
-      } w-[250px] h-[100px] top-[40px] left-[5px] absolute  z-20 bg-white rounded-md border-[0.5px] border-gray-300 shadow-sm`}
+        props.isModelOpen ? `opacity-100 ` : "hidden opacity-0"
+      } w-[250px] h-[100px] top-[35px] left-[4px] absolute  z-20 bg-white rounded-md border-[0.5px] border-gray-300 shadow-sm`}
     >
       {/* Body */}
       <div className="w-full h-full text-[15px]">

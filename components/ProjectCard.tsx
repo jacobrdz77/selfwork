@@ -2,13 +2,13 @@ import React, { Ref, useRef, useState, useEffect } from "react";
 import { useOnClickOutside } from "../src/hooks/useOnClickOutside";
 import ProjectEditPopup from "./ProjectEditPopup";
 
-interface ProjectCardProps {
+type ProjectCardProps = {
   title: string;
   description: string | null;
   projectId: string;
   clientName: string;
   clientId: string;
-}
+};
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
   title,
@@ -18,8 +18,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   clientName,
 }) => {
   const [isModelOpen, setIsModelOpen] = useState<boolean>(false);
-  const [top, setTop] = useState<number | null>(null);
-  const [left, setLeft] = useState<number | null>(null);
   const projectCardRef = useRef(null);
   const modalRef = useRef(null);
 
@@ -50,19 +48,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           ...
         </button>
         {isModelOpen && (
-          <ProjectEditPopup
-            top={top!}
-            left={left!}
-            ref={modalRef}
-            isModelOpen={isModelOpen}
-          />
+          <ProjectEditPopup ref={modalRef} isModelOpen={isModelOpen} />
         )}
       </div>
 
       {/* Info */}
       <div className="grow flex flex-col mt-4">
-        {/* Tags */}
-        <div></div>
         {/* Description */}
         <div className="text-ellipsis overflow-hidden grow text-gray-700 text-[14px]">
           {description}
@@ -101,24 +92,3 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 };
 
 export default ProjectCard;
-
-// useEffect(() => {
-//   const getCardPosition = (ref: React.RefObject<HTMLDivElement>) => {
-//     let leftOfDiv = ref.current?.getBoundingClientRect().x;
-//     console.log(leftOfDiv);
-
-//     let topOfDiv = ref.current?.getBoundingClientRect().y;
-//     const top = topOfDiv!;
-//     const left = leftOfDiv!;
-
-//     return {
-//       top,
-//       left,
-//     };
-//   };
-
-//   const { top, left } = getCardPosition(projectCardRef);
-//   setLeft(left);
-//   setTop(top);
-//   console.log(top, left);
-// }, [clientId]);
