@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { GetServerSideProps, GetServerSidePropsContext, NextPage } from "next";
+import React, { useState } from "react";
+import { NextPage } from "next";
 import Header from "../../components/UI/Header";
 import ProjectCard from "../../components/ProjectCard";
 import NoProjects from "../../components/NoProjects";
@@ -11,14 +11,14 @@ import { getProjects } from "../../src/lib/projectsFunctions";
 import LoadingProjectPage from "../../components/Loading/LoadingProjectPage";
 import { useQuery } from "@tanstack/react-query";
 
-type ProjectForProjectCard = Project & {
+export type ProjectForProjectCard = Project & {
   client: {
     name: string;
   };
 };
 
 const ProjectsPage: NextPage<{ projects: Project[] }> = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
   const projectForm = useAppSelector((state) => state.addProjectModalForm);
   const { reset } = addProjectModalFormSlice.actions;
   const dispatch = useAppDispatch();
@@ -26,34 +26,29 @@ const ProjectsPage: NextPage<{ projects: Project[] }> = () => {
   // const [isLoading, setIsLoading] = useState(false);
   const [userId] = useState('cl6saletw002362gpbq4yq7o7"');
 
-  const openProjectModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const {
-    data: projects,
-    isLoading,
-    isError,
-  } = useQuery(["projects", userId], () => getProjects(userId), {});
+  const { data: projects, isLoading } = useQuery(["projects", userId], () =>
+    getProjects(userId)
+  );
 
   return (
     <>
-      {/* Wrapper */}
       <AddProjectModal
         closeHandler={() => {
           dispatch(reset());
-          setIsModalOpen(false);
+          setIsAddProjectModalOpen(false);
         }}
-        isOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
+        isOpen={isAddProjectModalOpen}
+        setIsModalOpen={setIsAddProjectModalOpen}
       />
-
+      {/* Wrapper */}
       <div className="h-full py-5 px-7">
         <Header
           button={true}
           buttonText="Add Project"
           title="Projects"
-          buttonHandler={openProjectModal}
+          buttonHandler={() => {
+            setIsAddProjectModalOpen(true);
+          }}
         >
           {/* Filter buttons */}
           <div className="text-[14px]">
@@ -70,7 +65,11 @@ const ProjectsPage: NextPage<{ projects: Project[] }> = () => {
           </div>
         )}
         {!projects && !isLoading && (
-          <NoProjects buttonHandler={openProjectModal} />
+          <NoProjects
+            buttonHandler={() => {
+              setIsAddProjectModalOpen(true);
+            }}
+          />
         )}
         {/* Grid of projects */}
         <div className="mt-10">
@@ -78,14 +77,7 @@ const ProjectsPage: NextPage<{ projects: Project[] }> = () => {
             {projects &&
               !isLoading &&
               projects.map((project: ProjectForProjectCard) => (
-                <ProjectCard
-                  title={project.name}
-                  key={project.id}
-                  projectId={project.id}
-                  clientId={project.clientId}
-                  clientName={project.client.name}
-                  description={project.description}
-                />
+                <ProjectCard key={project.id} projectData={project} />
               ))}
           </div>
         </div>

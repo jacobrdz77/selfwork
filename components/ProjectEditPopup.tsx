@@ -1,26 +1,30 @@
 import React, { useEffect, useState, useRef } from "react";
 
 interface ProjectEditModalProps {
-  isModelOpen: boolean;
+  isPopupOpen: boolean;
   ref: React.MutableRefObject<null>;
+  setIsEditModalOpen: (isOpen: boolean) => void;
 }
 // eslint-disable-next-line react/display-name
 const ProjectEditPopup = React.forwardRef<
   HTMLDivElement,
   ProjectEditModalProps
->((props, ref) => {
+>(({ isPopupOpen, setIsEditModalOpen }, ref) => {
   return (
     <div
       ref={ref}
       className={`${
-        props.isModelOpen ? `opacity-100 ` : "hidden opacity-0"
+        isPopupOpen ? `opacity-100 ` : "hidden opacity-0"
       } w-[250px] h-[100px] top-[35px] left-[4px] absolute  z-20 bg-white rounded-md border-[0.5px] border-gray-300 shadow-sm`}
     >
       {/* Body */}
       <div className="w-full h-full text-[15px]">
         <ul className="w-full h-full flex flex-col items-start">
           <li className="pl-3 flex align-middle items-center h-[50px] w-full hover:bg-gray-100 hover:pointer-events-auto">
-            <button className="flex w-full h-full items-center">
+            <button
+              className="flex w-full h-full items-center"
+              onClick={() => setIsEditModalOpen(true)}
+            >
               <svg
                 fill="#000000"
                 xmlns="http://www.w3.org/2000/svg"
