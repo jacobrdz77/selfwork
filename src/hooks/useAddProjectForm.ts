@@ -1,5 +1,6 @@
 import { Priority } from "@prisma/client";
 import { ChangeEvent, useState } from "react";
+import { format } from "date-fns";
 
 const useAddProjectForm = () => {
   const [page, setPage] = useState<1 | 2>(1);
@@ -14,7 +15,7 @@ const useAddProjectForm = () => {
 
   const [priority, setPriority] = useState<Priority | string>("NONE");
   const [hourlyRate, setHourlyRate] = useState(0);
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(format(new Date(), "yyyy-MM-dd"));
   const [endDate, setEndDate] = useState<string>("");
   const [isEndDateValid, setIsEndDateValid] = useState(false);
   const [isEndDateTouched, setIsEndDateTouched] = useState(false);
@@ -71,7 +72,7 @@ const useAddProjectForm = () => {
     setIsClientError(false);
     setDescription("");
     setPriority("NONE");
-    setStartDate(new Date());
+    setStartDate(format(new Date(), "yyyy-MM-dd"));
     setEndDate("");
     setHourlyRate(0);
     setPage(1);
@@ -88,10 +89,12 @@ const useAddProjectForm = () => {
   };
 
   const handleStartDateChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setStartDate(new Date(e.target.value));
+    const unformatedDate = new Date(e.target.value);
+    setStartDate(format(unformatedDate, "yyyy-MM-dd"));
   };
   const handleEndDateChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setEndDate(new Date(e.target.value).toDateString());
+    const unformatedDate = new Date(e.target.value);
+    setEndDate(format(unformatedDate, "yyyy-MM-dd"));
   };
   const endDateBlurHandler = () => {
     setIsEndDateTouched(true);

@@ -41,6 +41,8 @@ const AddProjectModal: React.FC<{
     setIsModalOpen(false);
   };
 
+  const dateOptions = {};
+
   return (
     <Modal isOpen={isOpen} closeHandler={closeHandler}>
       <div className="flex flex-col items-center">
@@ -355,7 +357,7 @@ const AddProjectModal: React.FC<{
                   type="date"
                   onChange={handleStartDateChange}
                   min={new Date().toISOString().split("T")[0]}
-                  value={startDate.toDateString()}
+                  value={startDate}
                   className="h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500  maxsm:focus:outline-[0px]"
                 />
               </div>
@@ -365,7 +367,7 @@ const AddProjectModal: React.FC<{
                   type="date"
                   onChange={handleEndDateChange}
                   onBlur={endDateBlurHandler}
-                  min={startDate.toDateString()}
+                  min={startDate}
                   value={endDate!}
                   className="h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500  maxsm:focus:outline-[0px]"
                 />
