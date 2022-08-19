@@ -33,10 +33,6 @@ const ProjectsPage: NextPage<{ projects: Project[] }> = () => {
   return (
     <>
       <AddProjectModal
-        closeHandler={() => {
-          dispatch(reset());
-          setIsAddProjectModalOpen(false);
-        }}
         isOpen={isAddProjectModalOpen}
         setIsModalOpen={setIsAddProjectModalOpen}
       />

@@ -15,7 +15,7 @@ type ProjectForProjectCard = Project & {
 };
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ projectData }) => {
-  const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const projectCardRef = useRef(null);
   const modalRef = useRef(null);

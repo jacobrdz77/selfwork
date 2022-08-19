@@ -1,69 +1,46 @@
-import { Client, Priority, Prisma, Project } from "@prisma/client";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
-import { useAppSelector, useAppDispatch } from "../src/store/hooks";
 import Modal from "./UI/Modal";
+import { Client } from "@prisma/client";
+import { useAppSelector, useAppDispatch } from "../src/store/hooks";
 import addProjectModalFormSlice from "../src/store/slices/addProjectFormSlice";
+import useAddProjectForm from "../src/hooks/useAddProjectForm";
 
 const AddProjectModal: React.FC<{
   isOpen: boolean;
-  closeHandler: () => void;
   setIsModalOpen: (isOpen: boolean) => void;
-}> = ({ isOpen, closeHandler, setIsModalOpen }) => {
+}> = ({ isOpen, setIsModalOpen }) => {
   const { user } = useAppSelector((state) => state.userSlice);
-
-  // Values
   const {
-    description,
-    endDate,
-    isClientError,
-    isClientTouched,
-    isNameError,
-    isNameTouched,
-    name,
     page,
-    priority,
-    selectedclient,
-    startDate,
-    hourlyRate,
-  } = useAppSelector((state) => state.addProjectModalForm);
-  // Actions
-  const {
-    setName,
-    setIsClientError,
-    setClient,
-    reset,
-    setPriority,
-    setIsClientTouched,
-    setIsNameError,
-    setIsNameTouched,
     setPage,
-    submitProject,
-    setSelectedClient,
-    setEndDate,
-    setStartDate,
-    setDescription,
-    setHourlyRate,
-  } = addProjectModalFormSlice.actions;
-  const dispatch = useAppDispatch();
-  const userId = useAppSelector((state) => state.userSlice.user.id);
+    name,
+    description,
+    priority,
+    handleNameChange,
+    nameBlurHandler,
+    isNameError,
+    selectedClient,
+    handleClientChange,
+    clientBlurHandler,
+    isClientError,
+    handleDescriptionChange,
+    resetForm,
+    hourlyRate,
+    startDate,
+    endDate,
+    submitProjectHandler,
+    handlePriorityChange,
+    handleEndDateChange,
+    endDateBlurHandler,
+    handleHourlyRateChange,
+    handleStartDateChange,
+    validateFirstPageHandler,
+  } = useAddProjectForm();
 
-  // @ts-ignore
-  const changeNameHandler = (e) => {
-    dispatch(setName(e.target.value));
-    if (e.target.value !== 0) {
-      dispatch(setIsNameError(false));
-    }
+  const closeHandler = () => {
+    resetForm();
+    setIsModalOpen(false);
   };
 
-  const submitProjectHandler = (e: SubmitEvent) => {
-    e.preventDefault();
-    if (isNameError && isClientError) {
-      return;
-    }
-
-    dispatch(reset());
-  };
   return (
     <Modal isOpen={isOpen} closeHandler={closeHandler}>
       <div className="flex flex-col items-center">
@@ -226,9 +203,11 @@ const AddProjectModal: React.FC<{
         <div className="flex flex-col items-center w-[15px]">
           <button
             className={`${
-              page === "1" ? "bg-blue-500 text-white" : ""
+              page === 1 ? "bg-blue-500 text-white" : ""
             } flex items-center justify-center border-[1px] rounded-full w-6 h-6 text-[13px] font-bold hover:bg-blue-500 hover:text-white`}
-            onClick={() => dispatch(setPage("1"))}
+            onClick={() => {
+              setPage(1);
+            }}
           >
             1
           </button>
@@ -237,22 +216,9 @@ const AddProjectModal: React.FC<{
         <div className="flex flex-col items-center w-[15px] ">
           <button
             className={`${
-              page === "2" ? "bg-blue-500 text-white" : ""
+              page === 2 ? "bg-blue-500 text-white" : ""
             } flex items-center justify-center border-[1px] rounded-full w-6 h-6 text-[13px] font-bold hover:bg-blue-500 hover:text-white`}
-            onClick={() => {
-              if (!isNameTouched && !isClientTouched) {
-                dispatch(setIsClientError(true));
-                dispatch(setIsNameError(true));
-              }
-              if (
-                isNameTouched &&
-                isClientTouched &&
-                !isNameError &&
-                !isClientError
-              ) {
-                dispatch(setPage("2"));
-              }
-            }}
+            onClick={validateFirstPageHandler}
           >
             2
           </button>
@@ -262,7 +228,7 @@ const AddProjectModal: React.FC<{
 
       {/* FORMS */}
 
-      {page === "1" ? (
+      {page === 1 ? (
         <div>
           <form className="flex flex-col w-full h-full mt-2 text-[14px] sm:px-[40px]">
             <div className="flex w-full maxsm:flex-col ">
@@ -271,13 +237,8 @@ const AddProjectModal: React.FC<{
                 <input
                   type="text"
                   value={name!}
-                  onChange={changeNameHandler}
-                  onBlur={() => {
-                    dispatch(setIsNameTouched(true));
-                    if (name.trim().length === 0) {
-                      dispatch(setIsNameError(true));
-                    }
-                  }}
+                  onChange={handleNameChange}
+                  onBlur={nameBlurHandler}
                   placeholder="Give your project a name"
                   className={`${
                     isNameError
@@ -300,28 +261,13 @@ const AddProjectModal: React.FC<{
                       : ""
                   } h-[38px] w-full py-[5px] px-[12px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500 maxsm:focus:outline-[0px]`}
                   id="client"
-                  value={selectedclient}
-                  onChange={(e) => {
-                    if (e.target.value === "default") {
-                      dispatch(setIsClientError(true));
-                    }
-                    dispatch(setIsClientError(false));
-                    dispatch(setSelectedClient(e.target.value));
-                  }}
-                  onBlur={(e) => {
-                    if (e.target.value === "default") {
-                      dispatch(setIsClientError(true));
-                    } else {
-                      dispatch(setIsClientError(false));
-                    }
-
-                    dispatch(setIsClientTouched(true));
-                  }}
+                  value={selectedClient}
+                  onChange={handleClientChange}
+                  onBlur={clientBlurHandler}
                 >
                   <option value="default">Select a client</option>
                   <option value="cl6sboytg010762gpaev4owqm">James Bond</option>
-
-                  {/* Iterate over all of the clients id */}
+                  {/*! NEED TO FETCH user's clients */}
                   {user.clients.map((client: Client) => (
                     <option key={client.id} value={client.id}>
                       {client.name}
@@ -341,7 +287,7 @@ const AddProjectModal: React.FC<{
                 bg-gray-100 px-3 p-2 focus:outline-none focus:border-[1px] focus:border-blue-500  rounded-md maxsm:focus:outline-[0px]"
                 placeholder="Add a description"
                 value={description!}
-                onChange={(e) => dispatch(setDescription(e.target.value))}
+                onChange={handleDescriptionChange}
               />
             </div>
           </form>
@@ -349,7 +295,7 @@ const AddProjectModal: React.FC<{
             <button
               className="px-3 py-2  bg-red-500 text-white rounded-md"
               onClick={() => {
-                dispatch(reset());
+                resetForm();
                 setIsModalOpen(false);
               }}
             >
@@ -357,15 +303,7 @@ const AddProjectModal: React.FC<{
             </button>
             <button
               className="px-3 py-2  bg-gray-300 hover:bg-blue-500 hover:text-white rounded-md"
-              onClick={() => {
-                if (!isNameTouched && !isClientTouched) {
-                  dispatch(setIsClientError(true));
-                  dispatch(setIsNameError(true));
-                }
-                if (!isNameError && !isClientError) {
-                  dispatch(setPage("2"));
-                }
-              }}
+              onClick={validateFirstPageHandler}
             >
               Next Page
             </button>
@@ -383,7 +321,7 @@ const AddProjectModal: React.FC<{
                 <label htmlFor="name">Priority</label>
                 <select
                   value={priority}
-                  onChange={(e) => dispatch(setPriority(e.target.value))}
+                  onChange={handlePriorityChange}
                   className={` h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500  maxsm:focus:outline-[0px] `}
                   id="name"
                 >
@@ -400,16 +338,13 @@ const AddProjectModal: React.FC<{
               <div className="flex flex-col w-full ">
                 <label htmlFor="name">Hourly Rate</label>
                 <input
+                  id="name"
                   type="number"
                   value={hourlyRate}
                   max={9999999}
-                  onChange={(e) =>
-                    dispatch(setHourlyRate(Number(e.target.value)))
-                  }
-                  defaultValue="NONE"
+                  onChange={handleHourlyRateChange}
                   className={` h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500  maxsm:focus:outline-[0px] `}
-                  id="name"
-                ></input>
+                />
               </div>
             </div>
 
@@ -418,21 +353,20 @@ const AddProjectModal: React.FC<{
                 <label>Start Date</label>
                 <input
                   type="date"
-                  onChange={(e) =>
-                    dispatch(setStartDate(new Date(e.target.value)))
-                  }
+                  onChange={handleStartDateChange}
                   min={new Date().toISOString().split("T")[0]}
+                  value={startDate.toDateString()}
                   className="h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500  maxsm:focus:outline-[0px]"
                 />
               </div>
-              <div className="flex flex-col  w-[50%] maxxs:w-full">
+              <div className="flex flex-col w-[50%] maxxs:w-full">
                 <label>Due Date</label>
                 <input
                   type="date"
-                  onChange={(e) =>
-                    dispatch(setEndDate(new Date(e.target.value)))
-                  }
-                  min={startDate}
+                  onChange={handleEndDateChange}
+                  onBlur={endDateBlurHandler}
+                  min={startDate.toDateString()}
+                  value={endDate!}
                   className="h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500  maxsm:focus:outline-[0px]"
                 />
               </div>
@@ -443,7 +377,7 @@ const AddProjectModal: React.FC<{
               className="px-3 py-2  bg-red-500 text-white rounded-md"
               onClick={() => {
                 setIsModalOpen(false);
-                dispatch(reset());
+                resetForm();
               }}
             >
               Cancel
@@ -451,11 +385,14 @@ const AddProjectModal: React.FC<{
             <div className="flex gap-3">
               <button
                 className="px-3 py-2  bg-gray-300  hover:bg-blue-500 hover:text-white rounded-md"
-                onClick={() => dispatch(setPage("1"))}
+                onClick={() => setPage(1)}
               >
                 Back
               </button>
-              <button className="px-3 py-2  bg-blue-500 text-white rounded-md">
+              <button
+                type="submit"
+                className="px-3 py-2  bg-blue-500 text-white rounded-md"
+              >
                 Create Project
               </button>
             </div>
