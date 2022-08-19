@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../../../src/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -6,17 +6,16 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method !== "GET") {
-    res.status(405).json({
+    return res.status(405).json({
       message: "Method not allowed",
     });
   }
 
   // Finds unique client
-  const prisma = new PrismaClient();
   const client = await prisma.client.findUnique({
     where: {
       id: req.query.clientId as string,
     },
   });
-  res.status(200).json(client);
+  return res.status(200).json(client);
 }

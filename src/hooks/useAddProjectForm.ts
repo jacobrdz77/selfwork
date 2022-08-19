@@ -2,6 +2,12 @@ import { Priority } from "@prisma/client";
 import { ChangeEvent, useState } from "react";
 import { format } from "date-fns";
 
+/*
+    Needs in hook
+    - Initialize the addprojectform state for all of the inputs
+    - And for each REQUIRED input will have a isTouched & isValid state 
+    - Handle of the validation here
+    */
 const useAddProjectForm = () => {
   const [page, setPage] = useState<1 | 2>(1);
 
@@ -148,12 +154,5 @@ const useAddProjectForm = () => {
     endDateBlurHandler,
     validateFirstPageHandler,
   };
-
-  /*
-    PSEUDO CODE
-    - Initialize the addprojectform state for all of the inputs
-    - And for each REQUIRED input will have a isTouched & isValid state 
-    - Handle of the validation here
-    */
 };
 export default useAddProjectForm;

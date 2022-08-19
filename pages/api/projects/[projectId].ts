@@ -23,9 +23,9 @@ export default async function handler(
           },
         },
       });
-      res.status(200).json(projects);
+      return res.status(200).json(projects);
     } catch (error: Error | any) {
-      res.status(400).json({ error: error.message });
+      return res.status(400).json({ error: error.message });
     }
   }
 
@@ -33,7 +33,6 @@ export default async function handler(
   // RETURN: the updated project
   else if (req.method === "PUT") {
     try {
-      await prisma.$connect();
       const { projectData } = req.body;
       const project = await prisma.project.update({
         where: {
@@ -43,10 +42,9 @@ export default async function handler(
           ...projectData,
         },
       });
-      res.status(200).json(project);
-      await prisma.$disconnect();
+      return res.status(200).json(project);
     } catch (error: Error | any) {
-      res.status(400).json({ error: error.message });
+      return res.status(400).json({ error: error.message });
     }
   }
 
@@ -54,19 +52,18 @@ export default async function handler(
   // RETURN: the deleted project
   else if (req.method === "DELETE") {
     try {
-      await prisma.$connect();
       const { id } = req.body;
       const project = await prisma.project.delete({
         where: {
           id: id,
         },
       });
-      res.status(200).json(project);
+      return res.status(200).json(project);
     } catch (error: Error | any) {
       res.status(400).json({ error: error.message });
     }
   } else {
-    res.status(400).json({ error: "Request Not Allowed" });
+    return res.status(400).json({ error: "Request Not Allowed" });
   }
 }
 

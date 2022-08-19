@@ -1,7 +1,6 @@
 import Modal from "./UI/Modal";
 import { Client } from "@prisma/client";
 import { useAppSelector, useAppDispatch } from "../src/store/hooks";
-import addProjectModalFormSlice from "../src/store/slices/addProjectFormSlice";
 import useAddProjectForm from "../src/hooks/useAddProjectForm";
 
 const AddProjectModal: React.FC<{

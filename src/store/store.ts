@@ -1,13 +1,9 @@
 import { Action, configureStore, ThunkDispatch } from "@reduxjs/toolkit";
-import addProjectModalFormSlice from "./slices/addProjectFormSlice";
-import { clientFormSlice } from "./slices/clientFormSlice";
 import { userSlice } from "./slices/userSlice";
 
 export const store = configureStore({
   reducer: {
     userSlice: userSlice.reducer,
-    addProjectModalForm: addProjectModalFormSlice.reducer,
-    clientForm: clientFormSlice.reducer,
   },
 });
 

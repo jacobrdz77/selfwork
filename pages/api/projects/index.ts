@@ -14,12 +14,11 @@ export default async function handler(
           ...projectData,
         },
       });
-      res.status(200).json(newProject);
-      prisma.$disconnect();
+      return res.status(200).json(newProject);
     } catch (error: any) {
       res.status(400).json({ error: error.message });
     }
   } else {
-    res.status(400).json({ error: "Request Not Allowed" });
+    return res.status(400).json({ error: "Request Not Allowed" });
   }
 }

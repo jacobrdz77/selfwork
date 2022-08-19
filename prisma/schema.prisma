@@ -93,10 +93,7 @@ model Client {
 model Task {
   id String @id @default(cuid())
   name String
-  startDate DateTime @default(now())
-  dueDate DateTime?
   description String?
   project Project @relation(fields: [projectId], references: [id])
   projectId String 
-
 }

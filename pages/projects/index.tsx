@@ -6,7 +6,6 @@ import NoProjects from "../../components/NoProjects";
 import AddProjectModal from "../../components/AddProjectModal";
 import { Project } from "@prisma/client";
 import { useAppDispatch, useAppSelector } from "../../src/store/hooks";
-import addProjectModalFormSlice from "../../src/store/slices/addProjectFormSlice";
 import { getProjects } from "../../src/lib/projectsFunctions";
 import LoadingProjectPage from "../../components/Loading/LoadingProjectPage";
 import { useQuery } from "@tanstack/react-query";
@@ -18,14 +17,11 @@ export type ProjectForProjectCard = Project & {
 };
 
 const ProjectsPage: NextPage<{ projects: Project[] }> = () => {
-  const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
-  const projectForm = useAppSelector((state) => state.addProjectModalForm);
-  const { reset } = addProjectModalFormSlice.actions;
-  const dispatch = useAppDispatch();
-  // const [projects, setProjects] = useState<any[] | null>(null);
-  // const [isLoading, setIsLoading] = useState(false);
   const [userId] = useState('cl6saletw002362gpbq4yq7o7"');
+  const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
+  const dispatch = useAppDispatch();
 
+  //
   const { data: projects, isLoading } = useQuery(["projects", userId], () =>
     getProjects(userId)
   );
