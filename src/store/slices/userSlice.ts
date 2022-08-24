@@ -5,7 +5,7 @@ export const userSlice = createSlice({
   name: "user",
   initialState: {
     user: {
-      id: "",
+      id: "cl6saletw002362gpbq4yq7o7",
       name: "",
       email: "",
       image: "",

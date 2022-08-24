@@ -2,11 +2,16 @@ import Modal from "./UI/Modal";
 import { Client } from "@prisma/client";
 import { useAppSelector, useAppDispatch } from "../src/store/hooks";
 import useAddProjectForm from "../src/hooks/useAddProjectForm";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createProject } from "../src/lib/projectsFunctions";
 
 const AddProjectModal: React.FC<{
   isOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
 }> = ({ isOpen, setIsModalOpen }) => {
+  const closeHandler = () => {
+    setIsModalOpen(false);
+  };
   const { user } = useAppSelector((state) => state.userSlice);
   const {
     page,
@@ -25,23 +30,14 @@ const AddProjectModal: React.FC<{
     resetForm,
     hourlyRate,
     startDate,
-    endDate,
-    submitProjectHandler,
+    dueDate,
     handlePriorityChange,
     handleEndDateChange,
-    endDateBlurHandler,
     handleHourlyRateChange,
     handleStartDateChange,
     validateFirstPageHandler,
-  } = useAddProjectForm();
-
-  const closeHandler = () => {
-    resetForm();
-    setIsModalOpen(false);
-  };
-
-  const dateOptions = {};
-
+    submitHandler,
+  } = useAddProjectForm(closeHandler);
   return (
     <Modal isOpen={isOpen} closeHandler={closeHandler}>
       <div className="flex flex-col items-center">
@@ -292,9 +288,9 @@ const AddProjectModal: React.FC<{
               />
             </div>
           </form>
-          <footer className="flex justify-between pt-5 sm:px-[40px] ">
+          <footer className="flex justify-between pt-5 sm:px-[40px] maxxs:pt-[3.5rem] ">
             <button
-              className="px-3 py-2  bg-red-500 text-white rounded-md"
+              className="px-3 py-2 w-[90px]   bg-red-500 text-white rounded-md"
               onClick={() => {
                 resetForm();
                 setIsModalOpen(false);
@@ -315,7 +311,7 @@ const AddProjectModal: React.FC<{
         <div>
           <form
             className="flex flex-col w-full h-full mt-2 mb-2 text-[14px] sm:px-[40px]"
-            onSubmit={() => submitProjectHandler}
+            onSubmit={submitHandler}
           >
             <div className="flex w-full gap-4 mr-[16px] maxxs:flex-col">
               <div className="flex flex-col w-full">
@@ -355,7 +351,7 @@ const AddProjectModal: React.FC<{
                 <input
                   type="date"
                   onChange={handleStartDateChange}
-                  min={new Date().toISOString().split("T")[0]}
+                  min={new Date().toISOString()}
                   value={startDate}
                   className="h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500  maxsm:focus:outline-[0px]"
                 />
@@ -365,39 +361,38 @@ const AddProjectModal: React.FC<{
                 <input
                   type="date"
                   onChange={handleEndDateChange}
-                  onBlur={endDateBlurHandler}
                   min={startDate}
-                  value={endDate!}
+                  value={dueDate!}
                   className="h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500  maxsm:focus:outline-[0px]"
                 />
               </div>
             </div>
+            <footer className="flex justify-between sm:pt-5 text-[16px] maxxs:pt-[3.5rem]  ">
+              <button
+                className="px-3 py-2 w-[90px]  bg-red-500 text-white rounded-md"
+                onClick={() => {
+                  setIsModalOpen(false);
+                  resetForm();
+                }}
+              >
+                Cancel
+              </button>
+              <div className="flex gap-3">
+                <button
+                  className="px-3 py-2  bg-gray-300  hover:bg-blue-500 hover:text-white rounded-md"
+                  onClick={() => setPage(1)}
+                >
+                  Back
+                </button>
+                <button
+                  className="px-3 py-2 bg-blue-500 text-white rounded-md"
+                  type="submit"
+                >
+                  Create Project
+                </button>
+              </div>
+            </footer>
           </form>
-          <footer className="flex justify-between pt-5 sm:px-[40px] ">
-            <button
-              className="px-3 py-2  bg-red-500 text-white rounded-md"
-              onClick={() => {
-                setIsModalOpen(false);
-                resetForm();
-              }}
-            >
-              Cancel
-            </button>
-            <div className="flex gap-3">
-              <button
-                className="px-3 py-2  bg-gray-300  hover:bg-blue-500 hover:text-white rounded-md"
-                onClick={() => setPage(1)}
-              >
-                Back
-              </button>
-              <button
-                type="submit"
-                className="px-3 py-2  bg-blue-500 text-white rounded-md"
-              >
-                Create Project
-              </button>
-            </div>
-          </footer>
         </div>
       )}
     </Modal>

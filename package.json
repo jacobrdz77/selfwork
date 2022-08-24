@@ -14,6 +14,7 @@
     "@prisma/client": "^4.1.1",
     "@reduxjs/toolkit": "^1.8.3",
     "@tanstack/react-query": "^4.0.10",
+    "@tanstack/react-query-devtools": "^4.2.1",
     "@types/react-redux": "^7.1.24",
     "axios": "^0.27.2",
     "date-fns": "^2.29.2",

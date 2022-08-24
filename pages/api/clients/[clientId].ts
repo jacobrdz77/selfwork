@@ -5,10 +5,23 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+
   if (req.method !== "GET") {
     return res.status(405).json({
       message: "Method not allowed",
     });
+  }
+
+    //Get all clients
+  //RETURNS: array of clients
+  else if (req.method === "GET") {
+    const { userId } = req.query;
+    const clients = await prisma.client.findMany({
+      where: {
+        userId: req.body.userId,
+      },
+    });
+    return res.status(200).json(clients);
   }
 
   // Finds unique client

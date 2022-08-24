@@ -69,9 +69,9 @@ model Project {
   startDate DateTime @default(now())
   dueDate DateTime?
   tasks Task[] 
-  client Client @relation(fields: [clientId], references: [id])
+  client Client? @relation(fields: [clientId], references: [id])
   clientId String
-  user User @relation(fields: [userId], references: [id])
+  user User? @relation(fields: [userId], references: [id])
   userId String
   description String?
   hourlyRate Int?
@@ -79,15 +79,15 @@ model Project {
 
 model Client {
   id String @id @default(cuid())
-  projects Project[]
-  user User @relation(fields: [userId], references: [id])
-  userId String
   name String 
   description String?
   phone String?
   email String? @unique
   website String? 
-  businessAdress String?
+  businessAddress String?
+  projects Project[]
+  user User @relation(fields: [userId], references: [id])
+  userId String
 }
 
 model Task {

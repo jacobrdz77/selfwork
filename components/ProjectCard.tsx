@@ -1,7 +1,9 @@
 import { Project } from "@prisma/client";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { Ref, useRef, useState, useEffect } from "react";
 import { useOnClickOutside } from "../src/hooks/useOnClickOutside";
-import EditProjectModal from "./EditProjectModal";
+import { deleteProject } from "../src/lib/projectsFunctions";
+// import EditProjectModal from "./EditProjectModal";
 import ProjectEditPopup from "./ProjectEditPopup";
 
 type ProjectCardProps = {
@@ -23,10 +25,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ projectData }) => {
   useOnClickOutside(modalRef, () => {
     setIsPopupOpen(false);
   });
+  const queryClient = useQueryClient()
+
+  const {mutate} = useMutation(deleteProject, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["projects"])
+    }
+  })
 
   return (
     <>
-      <EditProjectModal
+      {/* <EditProjectModal
         isOpen={isEditModalOpen}
         setIsModalOpen={setIsEditModalOpen}
         projectData={projectData}
@@ -34,11 +43,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ projectData }) => {
           // dispatch(reset());
           setIsEditModalOpen(false);
         }}
-      />
+      /> */}
       <div
         ref={projectCardRef}
         className="relative flex flex-col w-[260px] h-[320px] px-[20px]
-      py-[25px] rounded-lg shadow-md border-[1px]"
+      py-[25px] rounded-lg shadow-sm border-[1px]"
       >
         {/* Header */}
         <div className="flex justify-between text-lg">
@@ -58,6 +67,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ projectData }) => {
           </button>
           {isPopupOpen && (
             <ProjectEditPopup
+            deleteProjectHandler={() => {
+            window.confirm("Are you sure you want to delete this project?")
+            mutate(projectData.id)
+            }}
               ref={modalRef}
               isPopupOpen={isPopupOpen}
               setIsEditModalOpen={setIsEditModalOpen}

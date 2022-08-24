@@ -9,19 +9,11 @@ import LoadingProjectPage from "../../components/Loading/LoadingProjectPage";
 
 const ProjectDetailPage = () => {
   const router = useRouter();
-  const queries = router.query;
-  const id: string = queries.id as string;
-  const { data, isLoading } = useQuery(
-    ["getProject"],
-    () => getOneProject(id),
-    {
-      onSuccess: (data: Project) => {
-        setProject(data);
-      },
-    }
+  const id = router.query.projectId as string;
+  const { data: project, isLoading } = useQuery<Project>(
+    ["oneProject", id],
+    () => getOneProject(id)
   );
-  const [project, setProject] = useState<Project | null>(null);
-
   if (isLoading) {
     return (
       <>
@@ -32,13 +24,10 @@ const ProjectDetailPage = () => {
 
   return (
     <div className="h-full py-5 px-7">
-      <header>
-        <h1 className="text-3xl">{project?.name}</h1>
-      </header>
+      <Header title={project!.name} buttonText="Edit Project" isButton={true} />
       <hr className="mt-4" />
       {/* Filter buttons */}
-
-      <div className="mt-10"></div>
+      <div className="mt-10">{isLoading && <LoadingProjectPage />}</div>
     </div>
   );
 };

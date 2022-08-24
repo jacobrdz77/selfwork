@@ -7,13 +7,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#241932",
+        primary: "#438F5F",
         second: "#519643",
         header: "#fafafa",
         github: "#333333",
         githubHover: "#111111",
-        button: "#4d356b",
-        buttonHover: "#312244",
+        button: "#438F5F",
+        buttonHover: "#50ab72",
+        buttonActive: "#4d8f43",
       },
     },
     screens: {

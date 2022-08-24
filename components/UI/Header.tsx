@@ -5,7 +5,7 @@ type HeaderProps = {
   buttonHandler?: () => void;
   buttonText?: string;
   children?: JSX.Element | JSX.Element[];
-  button: true | false;
+  isButton?: boolean;
 };
 
 const Header: React.FC<HeaderProps> = ({
@@ -13,15 +13,15 @@ const Header: React.FC<HeaderProps> = ({
   buttonHandler,
   buttonText,
   children,
-  button,
+  isButton,
 }) => {
   return (
     <header className="flex justify-between">
       <h1 className="text-3xl">{title}</h1>
-      <div className="flex">
-        {button && (
+      <div className="flex gap-2">
+        {isButton && (
           <button
-            className="bg-button text-white text-[14px] px-3 tracking-wide py-1 rounded-[5px] hover:bg-buttonHover"
+            className="bg-button text-white text-[14px] px-3 tracking-wide py-1 rounded-[7px] hover:bg-buttonHover"
             type="button"
             onClick={buttonHandler}
           >

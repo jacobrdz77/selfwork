@@ -5,26 +5,28 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  //Get all clients
-  //RETURNS: array of clietns
-  if (req.method === "GET") {
-    const clients = await prisma.client.findMany({
-      where: {
-        userId: req.body.userId,
-      },
-    });
-    return res.status(200).json(clients);
-  }
 
   //Create a new client
   //RETURNS: the new client
-  else if (req.method === "POST") {
-    const client = await prisma.client.create({
-      data: {
-        ...req.body.client,
+  if (req.method === "POST") {
+    const { client } = req.body
+    const clientData = {
+      name: client.name,
+      email: client.email,
+      phone: client.phone,
+      businessAddress: client.address,
+      website: client.website,
+      user: {
+        connect: {
+          id: client.userId
+        }
       },
+      projects: [],
+    };
+    const newClient = await prisma.client.create({
+      data: clientData
     });
-    return res.status(200).json(client);
+    return res.status(200).json(newClient);
   }
 
   // Delete a client

@@ -4,7 +4,7 @@ const NoProjects: React.FC<{ buttonHandler: () => void }> = ({
   buttonHandler,
 }) => {
   return (
-    <div className="h-full flex items-center justify-center text-center">
+    <div className="h-full flex mt-[10rem] justify-center text-center">
       <div className="flex flex-col p-3">
         <div className="object-cover ">
           <svg

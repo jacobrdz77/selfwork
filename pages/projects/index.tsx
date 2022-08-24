@@ -9,6 +9,8 @@ import { useAppDispatch, useAppSelector } from "../../src/store/hooks";
 import { getProjects } from "../../src/lib/projectsFunctions";
 import LoadingProjectPage from "../../components/Loading/LoadingProjectPage";
 import { useQuery } from "@tanstack/react-query";
+import Button from "../../components/UI/Button";
+import Projects from "../../components/Projects";
 
 export type ProjectForProjectCard = Project & {
   client: {
@@ -17,13 +19,10 @@ export type ProjectForProjectCard = Project & {
 };
 
 const ProjectsPage: NextPage<{ projects: Project[] }> = () => {
-  const [userId] = useState('cl6saletw002362gpbq4yq7o7"');
+  const { user } = useAppSelector((state) => state.userSlice);
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
-  const dispatch = useAppDispatch();
-
-  //
-  const { data: projects, isLoading } = useQuery(["projects", userId], () =>
-    getProjects(userId)
+  const { data: projects, isLoading, status } = useQuery(["projects", user.id], () =>
+    getProjects(user.id)
   );
 
   return (
@@ -35,7 +34,7 @@ const ProjectsPage: NextPage<{ projects: Project[] }> = () => {
       {/* Wrapper */}
       <div className="h-full py-5 px-7">
         <Header
-          button={true}
+          isButton={true}
           buttonText="Add Project"
           title="Projects"
           buttonHandler={() => {
@@ -43,11 +42,7 @@ const ProjectsPage: NextPage<{ projects: Project[] }> = () => {
           }}
         >
           {/* Filter buttons */}
-          <div className="text-[14px]">
-            <button className="h-full ml-2 border-2 border-button rounded-[5px] px-3 py-1 tracking-wide ">
-              Sort By
-            </button>
-          </div>
+          <Button>Sort By</Button>
         </Header>
         <hr className="mt-4" />
         {/* Loading Spinner */}
@@ -56,7 +51,7 @@ const ProjectsPage: NextPage<{ projects: Project[] }> = () => {
             <LoadingProjectPage />
           </div>
         )}
-        {!projects && !isLoading && (
+        {status === "success" && projects.length === 0 && (
           <NoProjects
             buttonHandler={() => {
               setIsAddProjectModalOpen(true);
@@ -64,15 +59,7 @@ const ProjectsPage: NextPage<{ projects: Project[] }> = () => {
           />
         )}
         {/* Grid of projects */}
-        <div className="mt-10">
-          <div className="flex gap-4 flex-wrap">
-            {projects &&
-              !isLoading &&
-              projects.map((project: ProjectForProjectCard) => (
-                <ProjectCard key={project.id} projectData={project} />
-              ))}
-          </div>
-        </div>
+        <Projects projects={projects} status={status} />
       </div>
     </>
   );

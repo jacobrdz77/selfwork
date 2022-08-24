@@ -1,38 +1,37 @@
 import { Priority, Project } from "@prisma/client";
+import axios from 'axios'
+interface NewProjectData {
+  name: string;
+  description: string;
+  clientId: string;
+  hourlyRate: number;
+  priority: Priority;
+  startDate: string;
+  dueDate: string | null;
+  userId: string;
+}
 
 // Get all projects
 export const getProjects = async (userId: string) => {
-  const response = await fetch(`/api/projects/${userId}`);
-  const projects = await response.json();
-  return projects;
+  const projects = await axios.get("/api/projects", {
+    data: {
+      userId
+    }
+  })
+  return projects.data;
 };
 
 // Get one project
-export const getOneProject = async (id: string) => {
-  const response = await fetch(`/api/projects/${id}`, {
-    method: "GET",
-    headers: {
-      "Content-type": "application/json",
-    },
-  });
-  const project = await response.json();
-  return project;
+export const getOneProject = async (projectId: string) => {
+ const project = await axios.get('/api/projects', { data: {projectId}})
+  return project.data;
 };
 
+
 // Create a new project
-export const createProject = async (projectData: Project) => {
-  const response = await fetch("/api/projects", {
-    method: "POST",
-    headers: {
-      "Content-type": "applicatoin/json",
-    },
-    body: {
-      //@ts-ignore
-      projectData: projectData,
-    },
-  });
-  const newProject = await response.json();
-  return newProject;
+export const createProject = async (project: NewProjectData) => {
+  const newProject = await axios.post("/api/projects", {project})
+  return newProject.data
 };
 
 interface UpdateProjectData {
@@ -47,15 +46,22 @@ interface UpdateProjectData {
 }
 
 // Update a project
-export const updateProject = async (projectData: UpdateProjectData) => {
-  fetch("/api/projects", {
-    method: "PUT",
-    headers: {
-      "Content-type": "applicatoin/json",
-    },
-    body: {
-      //@ts-ignore
-      projectData: projectData,
-    },
-  }).then((res) => res.json());
+export const updateProject = async(projectData: UpdateProjectData) => {
+  const updatedProject = await axios.put('/api/projects', {
+    data: {
+      projectData
+    }
+  })
+  return updatedProject;
 };
+
+export const deleteProject = async (projectId: string ) => {
+  const deletedProject = await axios.delete('/api/projects', {
+    data: {
+      projectId
+    }
+  })
+  
+  return deletedProject
+}
+
