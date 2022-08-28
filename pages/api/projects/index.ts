@@ -5,7 +5,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-    // Get all projects from current user
+  // Get all projects from current user
   // RETURN: array of projects
   if (req.method === "GET") {
     try {
@@ -33,37 +33,42 @@ export default async function handler(
     try {
       // Get the project data from the request body
       const { project } = req.body;
+      console.log("due date: ", project.dueDate);
       // Transform Data
       const projectData = {
         name: project.name,
-          description: project.description,
-          hourlyRate: project.hourlyRate,
-          dueDate: new Date(project.dueDate).toISOString(),
-          startDate: new Date(project.startDate).toISOString(),
-          priority: project.priority,
-          client: {
-            connect: {
-              id: project.clientId
-            }
+        description: project.description,
+        hourlyRate: project.hourlyRate,
+        startDate: new Date(project.startDate).toISOString(),
+        dueDate:
+          project.dueDate === null
+            ? null
+            : new Date(project.dueDate).toISOString(),
+        priority: project.priority,
+        client: {
+          connect: {
+            id: project.clientId,
           },
-          user: {
-            connect: {
-              id: project.userId,
-            }
-          }
+        },
+        user: {
+          connect: {
+            id: project.userId,
+          },
+        },
       };
-      console.log("New Project:\n", projectData)
+
+      console.log("New Project:\n", projectData);
       // Create a new project
       const newProject = await prisma.project.create({
         data: projectData,
       });
       return res.status(200).json(newProject);
     } catch (error: any) {
-      return res.status(400).json(error);
+      return res.status(400).json(error.message);
     }
   }
 
-    // DELETE a project
+  // DELETE a project
   // RETURN: the deleted project
   if (req.method === "DELETE") {
     try {
@@ -100,5 +105,3 @@ export default async function handler(
 
   return res.status(400).json({ error: "Request Not Allowed" });
 }
-
-

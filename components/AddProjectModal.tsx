@@ -1,9 +1,9 @@
 import Modal from "./UI/Modal";
 import { Client } from "@prisma/client";
 import { useAppSelector, useAppDispatch } from "../src/store/hooks";
-import useAddProjectForm from "../src/hooks/useAddProjectForm";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createProject } from "../src/lib/projectsFunctions";
+import useProjectForm from "../src/hooks/useProjectForm";
 
 const AddProjectModal: React.FC<{
   isOpen: boolean;
@@ -37,7 +37,7 @@ const AddProjectModal: React.FC<{
     handleStartDateChange,
     validateFirstPageHandler,
     submitHandler,
-  } = useAddProjectForm(closeHandler);
+  } = useProjectForm(createProject, closeHandler);
   return (
     <Modal isOpen={isOpen} closeHandler={closeHandler}>
       <div className="flex flex-col items-center">
@@ -324,7 +324,7 @@ const AddProjectModal: React.FC<{
                 >
                   <option value="NONE">None</option>
                   <option value="LOW">Low</option>
-                  <option value="MID">Medium</option>
+                  <option value="MEDIUM">Medium</option>
                   <option value="HIGH">High</option>
                 </select>
                 {isNameError && (
@@ -337,8 +337,9 @@ const AddProjectModal: React.FC<{
                 <input
                   id="name"
                   type="number"
-                  value={hourlyRate}
-                  max={9999999}
+                  value={Number(hourlyRate).toString()}
+                  min="0"
+                  max="1000"
                   onChange={handleHourlyRateChange}
                   className={` h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500  maxsm:focus:outline-[0px] `}
                 />

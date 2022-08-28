@@ -2,18 +2,14 @@ import { Project } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { Ref, useRef, useState, useEffect } from "react";
 import { useOnClickOutside } from "../src/hooks/useOnClickOutside";
+import { NewProjectData } from "../src/hooks/useProjectForm";
 import { deleteProject } from "../src/lib/projectsFunctions";
+import EditProjectModal from "./EditProjectModal";
 // import EditProjectModal from "./EditProjectModal";
 import ProjectEditPopup from "./ProjectEditPopup";
 
 type ProjectCardProps = {
-  projectData: ProjectForProjectCard;
-};
-
-type ProjectForProjectCard = Project & {
-  client: {
-    name: string;
-  };
+  projectData: NewProjectData;
 };
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ projectData }) => {
@@ -25,25 +21,21 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ projectData }) => {
   useOnClickOutside(modalRef, () => {
     setIsPopupOpen(false);
   });
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
-  const {mutate} = useMutation(deleteProject, {
+  const { mutate } = useMutation(deleteProject, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["projects"])
-    }
-  })
+      queryClient.invalidateQueries(["projects"]);
+    },
+  });
 
   return (
     <>
-      {/* <EditProjectModal
+      <EditProjectModal
         isOpen={isEditModalOpen}
         setIsModalOpen={setIsEditModalOpen}
         projectData={projectData}
-        closeHandler={() => {
-          // dispatch(reset());
-          setIsEditModalOpen(false);
-        }}
-      /> */}
+      />
       <div
         ref={projectCardRef}
         className="relative flex flex-col w-[260px] h-[320px] px-[20px]
@@ -67,10 +59,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ projectData }) => {
           </button>
           {isPopupOpen && (
             <ProjectEditPopup
-            deleteProjectHandler={() => {
-            window.confirm("Are you sure you want to delete this project?")
-            mutate(projectData.id)
-            }}
+              deleteProjectHandler={() => {
+                window.confirm("Are you sure you want to delete this project?");
+                mutate(projectData.id as string);
+              }}
               ref={modalRef}
               isPopupOpen={isPopupOpen}
               setIsEditModalOpen={setIsEditModalOpen}
@@ -82,6 +74,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ projectData }) => {
         <div className="grow flex flex-col mt-4">
           {/* Description */}
           <div className="text-ellipsis overflow-hidden grow text-gray-700 text-[14px]">
+            {projectData.description?.trim().length === 0 && (
+              <span className="text-gray-400">no description</span>
+            )}
             {projectData.description}
           </div>
           {/* Footer */}
@@ -107,7 +102,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ projectData }) => {
                 href={`/clients/${projectData.clientId}`}
                 className="ml-2 hover:underline text-ellipsis"
               >
-                {projectData.client.name}
+                {projectData.client?.name}
               </a>
             </div>
           </div>

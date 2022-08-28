@@ -10,17 +10,6 @@ import LoadingProjectPage from "../../components/Loading/LoadingProjectPage";
 const ProjectDetailPage = () => {
   const router = useRouter();
   const id = router.query.projectId as string;
-  const { data: project, isLoading } = useQuery<Project>(
-    ["oneProject", id],
-    () => getOneProject(id)
-  );
-  if (isLoading) {
-    return (
-      <>
-        <LoadingProjectPage />
-      </>
-    );
-  }
 
   return (
     <div className="h-full py-5 px-7">

@@ -1,5 +1,5 @@
 import { Priority, Project } from "@prisma/client";
-import axios from 'axios'
+import axios from "axios";
 interface NewProjectData {
   name: string;
   description: string;
@@ -11,27 +11,26 @@ interface NewProjectData {
   userId: string;
 }
 
-// Get all projects
+// GET ALL
 export const getProjects = async (userId: string) => {
   const projects = await axios.get("/api/projects", {
     data: {
-      userId
-    }
-  })
+      userId,
+    },
+  });
   return projects.data;
 };
 
-// Get one project
+// GET ONE
 export const getOneProject = async (projectId: string) => {
- const project = await axios.get('/api/projects', { data: {projectId}})
+  const project = await axios.get("/api/projects", { data: { projectId } });
   return project.data;
 };
 
-
-// Create a new project
+// NEW
 export const createProject = async (project: NewProjectData) => {
-  const newProject = await axios.post("/api/projects", {project})
-  return newProject.data
+  const newProject = await axios.post("/api/projects", { project });
+  return newProject.data;
 };
 
 interface UpdateProjectData {
@@ -45,23 +44,22 @@ interface UpdateProjectData {
   priority?: Priority;
 }
 
-// Update a project
-export const updateProject = async(projectData: UpdateProjectData) => {
-  const updatedProject = await axios.put('/api/projects', {
+// UPDATE
+export const updateProject = async (projectData: UpdateProjectData) => {
+  const updatedProject = await axios.put("/api/projects", {
     data: {
-      projectData
-    }
-  })
+      projectData,
+    },
+  });
   return updatedProject;
 };
 
-export const deleteProject = async (projectId: string ) => {
-  const deletedProject = await axios.delete('/api/projects', {
+export const deleteProject = async (projectId: string) => {
+  const deletedProject = await axios.delete("/api/projects", {
     data: {
-      projectId
-    }
-  })
-  
-  return deletedProject
-}
+      projectId,
+    },
+  });
 
+  return deletedProject;
+};

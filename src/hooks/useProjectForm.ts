@@ -1,30 +1,60 @@
 import { Priority } from "@prisma/client";
 import { ChangeEvent, useState } from "react";
-import { format } from "date-fns";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createProject } from "../lib/projectsFunctions";
+import { updateProject } from "../lib/projectsFunctions";
 import { useAppSelector } from "../store/hooks";
+import format from "date-fns/format";
 
 /*
     Needs in hook
-    - Initialize the addprojectform state for all of the inputs
-    - And for each REQUIRED input will have a isTouched & isValid state 
-    - Handle of the validation here
-    */
-const useAddProjectForm = (afterSubmit: () => void) => {
-  const { user } = useAppSelector((state) => state.userSlice)
+    - Initialize the EditProjectForm state from getOneProject request.
+    - Handle form validation here
+    - Handle update project request
+*/
+export interface NewProjectData {
+  id?: string;
+  name: string;
+  description: string;
+  clientId: string;
+  hourlyRate: number;
+  priority: Priority;
+  startDate: string;
+  dueDate: string | null;
+  userId: string;
+  client?: {
+    name: string;
+  };
+}
+const useProjectForm = (
+  mutationFn: (param: any) => any,
+  afterSubmit: () => void,
+  projectData?: NewProjectData
+) => {
+  const initialProject = {
+    id: projectData?.id || "",
+    name: projectData?.name || "",
+    description: projectData?.description || "",
+    clientId: projectData?.clientId || "",
+    hourlyRate: projectData?.hourlyRate || 0,
+    startDate: projectData?.startDate || format(new Date(), "yyyy-MM-dd"),
+    dueDate: projectData?.dueDate || "",
+    priority: projectData?.priority || "NONE",
+  };
+  const { user } = useAppSelector((state) => state.userSlice);
   const [page, setPage] = useState<1 | 2>(1);
-  const [name, setName] = useState("");
+  const [name, setName] = useState(initialProject.name);
   const [isNameTouched, setIsNameTouched] = useState(false);
   const [isNameError, setIsNameError] = useState(false);
-  const [selectedClient, setSelectedClient] = useState<string>("");
+  const [selectedClient, setSelectedClient] = useState<string>(
+    initialProject.clientId
+  );
   const [isClientTouched, setIsClientTouched] = useState(false);
   const [isClientError, setIsClientError] = useState(false);
-  const [description, setDescription] = useState("");
-  const [priority, setPriority] = useState<Priority>("NONE");
+  const [description, setDescription] = useState(initialProject.description);
+  const [priority, setPriority] = useState<Priority>(initialProject.priority);
   const [hourlyRate, setHourlyRate] = useState(0);
-  const [startDate, setStartDate] = useState(format(new Date(), "yyyy-MM-dd"));
-  const [dueDate, setDueDate] = useState<string | null>("");
+  const [startDate, setStartDate] = useState(initialProject.startDate);
+  const [dueDate, setDueDate] = useState<string | null>(initialProject.dueDate);
 
   // First Page
   const validateFirstPageHandler = () => {
@@ -68,55 +98,48 @@ const useAddProjectForm = (afterSubmit: () => void) => {
   };
 
   const resetForm = () => {
-    setName("");
     setIsNameError(false);
     setIsNameTouched(false);
-    setSelectedClient("");
     setIsClientTouched(false);
     setIsClientError(false);
-    setDescription("");
-    setPriority("NONE");
-    setStartDate(format(new Date(), "yyyy-MM-dd"));
-    setDueDate("");
-    setHourlyRate(0);
+    setName(initialProject.name);
+    setSelectedClient(initialProject.clientId);
+    setDescription(initialProject.description);
+    setPriority(initialProject.priority);
+    setStartDate(initialProject.startDate);
+    setDueDate(initialProject.dueDate);
+    setHourlyRate(initialProject.hourlyRate);
     setPage(1);
   };
 
   // Second Page
-
   const handlePriorityChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setPriority(e.target.value as Priority);
   };
-
   const handleHourlyRateChange = (e: ChangeEvent<HTMLInputElement>) => {
     setHourlyRate(Number(e.target.value));
   };
-
   const handleStartDateChange = (e: ChangeEvent<HTMLInputElement>) => {
-    // const date = format(new Date(e.target.value), "yyyy-MM-dd");
     setStartDate(e.target.value);
-    console.log(e.target.value);
   };
   const handleEndDateChange = (e: ChangeEvent<HTMLInputElement>) => {
-    // const unformatedDate = new Date(e.target.value);
     setDueDate(e.target.value);
   };
-
   const queryClient = useQueryClient();
-  const { mutate } = useMutation(
-    ["createProject"],
-    createProject, {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["projects"])
-        resetForm();
-        afterSubmit()
-      }
-    }
-  );
-  
+
+  const { mutate } = useMutation(["submitProject"], mutationFn, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["projects"]);
+      resetForm();
+      afterSubmit();
+    },
+  });
+
+  // Submit
   const submitHandler = (e: any) => {
     e.preventDefault();
     mutate({
+      id: user.id,
       name,
       description,
       priority,
@@ -124,9 +147,9 @@ const useAddProjectForm = (afterSubmit: () => void) => {
       startDate,
       dueDate: dueDate === "" ? null : dueDate,
       clientId: selectedClient,
-      userId: user.id
-    },);
-  }
+      userId: user.id,
+    });
+  };
 
   return {
     submitHandler,
@@ -154,4 +177,4 @@ const useAddProjectForm = (afterSubmit: () => void) => {
     validateFirstPageHandler,
   };
 };
-export default useAddProjectForm;
+export default useProjectForm;
