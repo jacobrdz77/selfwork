@@ -11,6 +11,7 @@ import LoadingProjectPage from "../../components/Loading/LoadingProjectPage";
 import { useQuery } from "@tanstack/react-query";
 import Button from "../../components/UI/Button";
 import Projects from "../../components/Projects";
+import { useSession } from "next-auth/react";
 
 export type ProjectForProjectCard = Project & {
   client: {
@@ -21,9 +22,14 @@ export type ProjectForProjectCard = Project & {
 const ProjectsPage: NextPage<{ projects: Project[] }> = () => {
   const { user } = useAppSelector((state) => state.userSlice);
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
-  const { data: projects, isLoading, status } = useQuery(["projects", user.id], () =>
-    getProjects(user.id)
-  );
+  const {
+    data: projects,
+    isLoading,
+    status,
+  } = useQuery(["projects", user.id], () => getProjects(user.id));
+
+  const { data: session } = useSession();
+  console.log(session);
 
   return (
     <>
