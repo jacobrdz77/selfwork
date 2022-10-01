@@ -139,7 +139,6 @@ const useProjectForm = (
   const submitHandler = (e: any) => {
     e.preventDefault();
     mutate({
-      id: user.id,
       name,
       description,
       priority,

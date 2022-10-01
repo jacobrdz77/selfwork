@@ -29,7 +29,7 @@ const ProjectsPage: NextPage<{ projects: Project[] }> = () => {
   } = useQuery(["projects", user.id], () => getProjects(user.id));
 
   const { data: session } = useSession();
-  console.log(session);
+  console.log("Session data: ", session);
 
   return (
     <>

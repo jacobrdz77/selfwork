@@ -33,8 +33,7 @@ export default async function handler(
     try {
       // Get the project data from the request body
       const { project } = req.body;
-      console.log("due date: ", project.dueDate);
-      // Transform Data
+      console.log("Project from request: ", project);
       const projectData = {
         name: project.name,
         description: project.description,
@@ -57,51 +56,15 @@ export default async function handler(
         },
       };
 
-      console.log("New Project:\n", projectData);
-      // Create a new project
       const newProject = await prisma.project.create({
         data: projectData,
       });
+
       return res.status(200).json(newProject);
     } catch (error: any) {
+      console.log("Request body: \n", req.body);
       return res.status(400).json(error.message);
     }
   }
-
-  // DELETE a project
-  // RETURN: the deleted project
-  if (req.method === "DELETE") {
-    try {
-      const { projectId } = req.body;
-      const project = await prisma.project.delete({
-        where: {
-          id: projectId,
-        },
-      });
-      return res.status(200).json(project);
-    } catch (error: Error | any) {
-      return res.status(400).json(error);
-    }
-  }
-
-  // UPDATE a project
-  // RETURN: the updated project
-  else if (req.method === "PUT") {
-    try {
-      const { projectData } = req.body;
-      const project = await prisma.project.update({
-        where: {
-          id: projectData.id,
-        },
-        data: {
-          ...projectData,
-        },
-      });
-      return res.status(200).json(project);
-    } catch (error: Error | any) {
-      return res.status(400).json({ error: error.message });
-    }
-  }
-
   return res.status(400).json({ error: "Request Not Allowed" });
 }

@@ -224,7 +224,7 @@ const AddProjectModal: React.FC<{
       </nav>
 
       {/* FORMS */}
-
+      {/* Page 1 */}
       {page === 1 ? (
         <div>
           <form className="flex flex-col w-full h-full mt-2 text-[14px] sm:px-[40px]">
@@ -263,7 +263,7 @@ const AddProjectModal: React.FC<{
                   onBlur={clientBlurHandler}
                 >
                   <option value="default">Select a client</option>
-                  <option value="cl6sboytg010762gpaev4owqm">James Bond</option>
+                  <option value="cl8o28n1c0000gpd60joawgl7">Sam Arce</option>
                   {/*! NEED TO FETCH user's clients */}
                   {user.clients.map((client: Client) => (
                     <option key={client.id} value={client.id}>
