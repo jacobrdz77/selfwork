@@ -43,6 +43,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   projects      Project[]
+  tasks         Task[]
   clients       Client[]
 }
 
@@ -92,7 +93,11 @@ model Client {
 model Task {
   id String @id @default(cuid())
   name String
+  isComplete  Boolean
   description String?
+  catagory  String?
   project Project @relation(fields: [projectId], references: [id])
   projectId String 
+  user User @relation(fields: [ userId], references: [id])
+  userId String
 }

@@ -1,20 +1,20 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { getToken } from "next-auth/jwt";
+import { getSession } from "next-auth/react";
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
+  //! Add a redirect if the user is already logged in.
   console.log("USING MIDDLEWARE");
-  const token = await getToken({ req: request });
-  console.log("TOKEN: ", token);
+  const session = await getSession();
 
   const { pathname } = request.nextUrl;
-  if (token && pathname === "/login") {
+  if (session && pathname === "/login") {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
   // Redirects to login if NOT authenticated
-  if (!token && pathname !== "/login") {
+  if (!session && pathname !== "/login") {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 

@@ -2,8 +2,10 @@ import { Priority } from "@prisma/client";
 import { ChangeEvent, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateProject } from "../lib/projectsFunctions";
-import { useAppSelector } from "../store/hooks";
 import format from "date-fns/format";
+import { useSession } from "next-auth/react";
+import { useAtomValue } from "jotai";
+import { userIdAtom } from "../store/user";
 
 /*
     Needs in hook
@@ -40,7 +42,7 @@ const useProjectForm = (
     dueDate: projectData?.dueDate || "",
     priority: projectData?.priority || "NONE",
   };
-  const { user } = useAppSelector((state) => state.userSlice);
+  const userId = useAtomValue(userIdAtom);
   const [page, setPage] = useState<1 | 2>(1);
   const [name, setName] = useState(initialProject.name);
   const [isNameTouched, setIsNameTouched] = useState(false);
@@ -146,7 +148,7 @@ const useProjectForm = (
       startDate,
       dueDate: dueDate === "" ? null : dueDate,
       clientId: selectedClient,
-      userId: user.id,
+      userId: userId,
     });
   };
 
