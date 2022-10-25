@@ -2,12 +2,12 @@ import axios from "axios";
 
 // Get all tasks
 export const getTasks = async (userId: string) => {
-  const alltasks = await axios.get("/api/tasks", {
+  const allTasks = await axios.get("/api/tasks", {
     data: {
       userId,
     },
   });
-  return alltasks.data;
+  return allTasks.data;
 };
 
 type newTask = {
@@ -28,16 +28,12 @@ export const createtask = async (task: newTask) => {
 
 // Get one task
 export const getOnetask = async (taskId: string) => {
-  const task = await axios.get(`/api/tasks/${taskId}`, {
-    data: {
-      taskId,
-    },
-  });
+  const task = await axios.get(`/api/tasks/${taskId}`);
   return task.data;
 };
 
 // Update a task
-export const updatetask = async (task: newTask) => {
-  const updatedtask = await axios.put("/api/tasks", { task });
+export const updatetask = async (taskId: string, task: newTask) => {
+  const updatedtask = await axios.put(`/api/tasks/${taskId}`, { task });
   return updatedtask.data;
 };

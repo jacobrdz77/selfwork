@@ -4,13 +4,13 @@ import Header from "../components/UI/Header";
 
 const ProfilePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
 
   return (
     <div className=" py-5 px-7">
       <Header
         isButton={true}
-        title={session ? (session?.user?.name as string) : "User name"}
+        title={"User name"}
         buttonText="Edit"
         buttonHandler={() => setIsModalOpen(true)}
       ></Header>

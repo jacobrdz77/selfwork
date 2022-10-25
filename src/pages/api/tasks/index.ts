@@ -11,7 +11,7 @@ export default async function handler(
       const { userId } = req.body;
       const tasks = await prisma.task.findMany({
         where: {
-          
+          userId: userId as string,
         },
       });
       return res.status(200).json(tasks);
@@ -29,6 +29,13 @@ export default async function handler(
       const taskData = {
         name: task.name,
         description: task.description,
+        isComplete: task.isComplete,
+        category: task.category,
+        user: {
+          connect: {
+            id: task.userId,
+          },
+        },
         project: {
           connect: {
             id: task.projectId,

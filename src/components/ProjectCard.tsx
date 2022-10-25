@@ -1,9 +1,12 @@
 import { Project } from "@prisma/client";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useAtomValue } from "jotai";
 import React, { Ref, useRef, useState, useEffect } from "react";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
 import { NewProjectData } from "../hooks/useProjectForm";
+import { getClients } from "../lib/clientFunctions";
 import { deleteProject } from "../lib/projectsFunctions";
+import { userIdAtom } from "../store/user";
 import EditProjectModal from "./EditProjectModal";
 // import EditProjectModal from "./EditProjectModal";
 import ProjectEditPopup from "./ProjectEditPopup";
@@ -29,9 +32,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ projectData }) => {
     },
   });
 
+  const userId = useAtomValue(userIdAtom);
+  const {
+    data: clients,
+    isLoading,
+    status,
+  } = useQuery(["clients"], () => getClients(userId));
+
   return (
     <>
       <EditProjectModal
+        clients={clients}
         isOpen={isEditModalOpen}
         setIsModalOpen={setIsEditModalOpen}
         projectData={projectData}

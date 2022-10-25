@@ -21,6 +21,7 @@ export type ProjectForProjectCard = Project & {
   };
 };
 
+
 const ProjectsPage: NextPage = () => {
   const userId = useAtomValue(userIdAtom);
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);

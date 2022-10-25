@@ -10,34 +10,15 @@ import LoadingProjectPage from "../../components/Loading/LoadingProjectPage";
 const ProjectDetailPage = () => {
   const router = useRouter();
   const id = router.query.projectId as string;
-  const [project, setProject] = useState(null);
-  useEffect(() => {
-    const fetchForPage = async () => {
-      const project = await getOneProject(id);
-      console.log(project);
-      console.log("id: ", id);
-    };
-  }, [id]);
-
-  // const {
-  //   data: project,
-  //   isLoading,
-  //   isError,
-  // } = useQuery(
-  //   ["oneProject", id],
-  //   () => {
-  //     return getOneProject(id);
-  //   },
-  //   {
-  //     onSuccess: () => {
-  //       console.log(project);
-  //     },
-  //   }
-  // );
+  const {
+    data: project,
+    isLoading,
+    isError,
+  } = useQuery(["oneProject", id], getOneProject(id), {});
 
   return (
     <div className="h-full py-5 px-7">
-      {/* <Header title={project!.name} buttonText="Edit Project" isButton={true} /> */}
+      <Header title={project?.name} buttonText="Edit Project" isButton={true} />
       <hr className="mt-4" />
       {/* Filter buttons */}
       <div className="mt-10"></div>

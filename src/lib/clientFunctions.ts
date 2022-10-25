@@ -13,7 +13,6 @@ type newClient = {
   };
 };
 
-// Transform all fetches to axio calls
 // create a new client
 export const createClient = async (client: newClient) => {
   const newClient = await axios.post("/api/clients", { client });
@@ -32,16 +31,25 @@ export const getClients = async (userId: string) => {
 
 // Get one client
 export const getOneClient = async (clientId: string) => {
-  const client = await axios.get(`/api/clients/${clientId}`, {
-    data: {
-      clientId,
-    },
-  });
+  const client = await axios.get(`/api/clients/${clientId}`);
   return client.data;
 };
 
 // Update a client
-export const updateClient = async (client: newClient) => {
-  const updatedClient = await axios.put("/api/clients", { client });
+export const updateClient = async (
+  clientId: string,
+  newClientData: newClient
+) => {
+  const updatedClient = await axios.put(`/api/clients/${clientId}`, {
+    data: {
+      newClientData,
+    },
+  });
   return updatedClient.data;
+};
+
+// Delete Client
+export const deleteClient = async (clientId: string) => {
+  const deletedClient = await axios.delete(`/api/clients/${clientId}`);
+  return deletedClient.data;
 };

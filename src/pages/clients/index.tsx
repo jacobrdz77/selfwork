@@ -7,18 +7,29 @@ import Header from "../../components/UI/Header";
 import Clients from "../../components/Clients";
 import NoClients from "../../components/NoClients";
 import LoadingPage from "../../components/Loading/LoadingProjectPage";
+import { useAtomValue } from "jotai";
+import { userIdAtom } from "../../store/user";
+import { useState } from "react";
+import AddClientModal from "../../components/AddClientModal";
 
 const ClientsPage: NextPage = () => {
-  const userId = useSession().data?.user?.id as string;
+  const userId = useAtomValue(userIdAtom);
   const {
     data: clients,
     isLoading,
     status,
   } = useQuery(["clients"], () => getClients(userId));
-  console.log("Clients: ", clients);
+  const [isModalOpen, setModalIsOpen] = useState(true);
   return (
     <div className="h-full py-5 px-7">
-      <Header isButton={true} buttonText="Add Client" title="Clients">
+      <Header
+        isButton={true}
+        buttonText="Add Client"
+        title="Clients"
+        buttonHandler={() => {
+          setModalIsOpen(!false);
+        }}
+      >
         {/* Filter buttons */}
         <Button>Sort By</Button>
       </Header>
@@ -30,10 +41,16 @@ const ClientsPage: NextPage = () => {
         </div>
       )}
       {status === "success" && clients.length === 0 ? (
-        <NoClients />
-      ) : (
         <Clients clients={clients} />
+      ) : (
+        <NoClients />
       )}
+
+      <AddClientModal
+        isOpen={isModalOpen}
+        clients={clients}
+        setIsModalOpen={setModalIsOpen}
+      />
     </div>
   );
 };

@@ -7,15 +7,17 @@ export default async function handler(
 ) {
   //Get all clients
   if (req.method === "GET") {
-    //* Get all clients that pertain to the userId
-    const { userId } = req.body;
-    const clients = await prisma.client.findMany({
-      where: {
-        userId: userId as string,
-      },
-    });
-    // const clients = await prisma.client.findMany();
-    return res.status(200).json(clients);
+    try {
+      const { userId } = req.body;
+      const clients = await prisma.client.findMany({
+        where: {
+          userId: userId as string,
+        },
+      });
+      return res.status(200).json(clients);
+    } catch (error: Error | any) {
+      return res.status(400).json({ error: error.message });
+    }
   }
 
   //Create a new client

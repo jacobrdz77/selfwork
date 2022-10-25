@@ -68,10 +68,10 @@ model Project {
   priority Priority @default(NONE)
   startDate DateTime @default(now())
   dueDate DateTime? 
-  tasks Task[] 
+  tasks TaskList[]
   client Client? @relation(fields: [clientId], references: [id])
   clientId String
-  user User? @relation(fields: [userId], references: [id])
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
   description String?
   hourlyRate Int?
@@ -86,18 +86,65 @@ model Client {
   website String? 
   businessAddress String?
   projects Project[]
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
+  contacts  Contact[]
+}
+
+model Contact {
+  id  String @id @default(cuid())
+  firstName String
+  lastName String
+  email String
+  phoneNumber String?
+  jobTitle  String?
+  client  Client @relation(fields: [clientId], references: [id])
+  clientId String
+}
+
+model LogTime {
+  id  String @id @default(cuid())
+  startDate  DateTime  @default(now())
+  endDate  DateTime  @default(now())
+  startTime DateTime
+  endTime   DateTime  
+  timeSpent   DateTime
+  description String?
+  task  Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId String
 }
 
 model Task {
   id String @id @default(cuid())
+  createdAt   DateTime  @default(now())
   name String
-  isComplete  Boolean
   description String?
-  catagory  String?
-  project Project @relation(fields: [projectId], references: [id])
-  projectId String 
-  user User @relation(fields: [ userId], references: [id])
+  isComplete  Boolean 
+  priority  Priority @default(NONE)
+  tags  Tag[]
+  loggedTime  LogTime[]
+  startDate  DateTime?  @default(now())
+  endDate  DateTime?  @default(now())
+  user User @relation(fields: [ userId], references: [id], onDelete: Cascade)
   userId String
+  taskList  TaskList @relation(fields: [taskListId, projectId], references: [id, projectId])
+  taskListId  String
+  projectId String
+}
+
+model Tag {
+  id String @id @default(cuid())
+  name  String
+  task Task? @relation(fields: [taskId], references: [id])
+  taskId String
+}
+
+model TaskList {
+  id String @id @default(cuid())
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String 
+  name  String  @unique
+  notes  String?
+  tasks Task[]
+  @@unique([id, projectId])
 }
