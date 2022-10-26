@@ -20,7 +20,7 @@ const columns = [
   },
 ];
 
-const Clients: React.FC<{ clients: Client }> = ({ clients }) => {
+const Clients: React.FC<{ clients: Client[] }> = ({ clients }) => {
   return (
     <div className="w-full h-full flex-grow">
       <DataTable columns={columns} data={clients} />

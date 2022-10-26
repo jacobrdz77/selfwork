@@ -68,13 +68,14 @@ model Project {
   priority Priority @default(NONE)
   startDate DateTime @default(now())
   dueDate DateTime? 
-  tasks TaskList[]
+  taskLists TaskList[]
   client Client? @relation(fields: [clientId], references: [id])
   clientId String
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
   description String?
   hourlyRate Int?
+  @@unique([id, name])
 }
 
 model Client {
@@ -127,9 +128,10 @@ model Task {
   endDate  DateTime?  @default(now())
   user User @relation(fields: [ userId], references: [id], onDelete: Cascade)
   userId String
-  taskList  TaskList @relation(fields: [taskListId, projectId], references: [id, projectId])
+  taskList  TaskList @relation(fields: [taskListId, projectId, projectName], references: [id, projectId, projectName])
   taskListId  String
   projectId String
+  projectName String
 }
 
 model Tag {
@@ -141,10 +143,11 @@ model Tag {
 
 model TaskList {
   id String @id @default(cuid())
-  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  project Project @relation(fields: [projectId, projectName], references: [id, name], onDelete: Cascade)
   projectId String 
+  projectName String
   name  String  @unique
   notes  String?
   tasks Task[]
-  @@unique([id, projectId])
+  @@unique([id, projectId, projectName])
 }

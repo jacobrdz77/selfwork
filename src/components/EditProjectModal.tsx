@@ -1,16 +1,14 @@
 import Modal from "./UI/Modal";
-import { Client } from "@prisma/client";
-
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createProject, updateProject } from "../lib/projectsFunctions";
+import { Client, Project } from "@prisma/client";
+import { updateProject, UpdateProjectData } from "../lib/projectsFunctions";
 import useProjectForm, { NewProjectData } from "../hooks/useProjectForm";
 import { getClients } from "../lib/clientFunctions";
 
 const EditProjectModal: React.FC<{
   isOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
-  projectData: NewProjectData;
-  clients: [];
+  projectData: Project;
+  clients: Client[];
 }> = ({ isOpen, setIsModalOpen, projectData, clients }) => {
   const closeHandler = () => {
     setIsModalOpen(false);
@@ -39,7 +37,11 @@ const EditProjectModal: React.FC<{
     handleStartDateChange,
     validateFirstPageHandler,
     submitHandler,
-  } = useProjectForm(updateProject, closeHandler, projectData);
+  } = useProjectForm(
+    () => updateProject(projectData.id + "", projectData!),
+    closeHandler,
+    projectData
+  );
   return (
     <Modal isOpen={isOpen} closeHandler={closeHandler}>
       <div className="flex flex-col items-center">

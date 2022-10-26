@@ -1,8 +1,8 @@
 import React from "react";
 import ReactLoading from "react-loading";
 
-const LoadingPage = () => {
+const LoadingSpinner = () => {
   return <ReactLoading type="spinningBubbles" color="#000" />;
 };
 
-export default LoadingPage;
+export default LoadingSpinner;

@@ -1,25 +1,21 @@
 import { NextPage } from "next";
-import { useQuery } from "@tanstack/react-query";
-import { getClients } from "../../lib/clientFunctions";
-import { useSession } from "next-auth/react";
 import Button from "../../components/UI/Button";
 import Header from "../../components/UI/Header";
 import Clients from "../../components/Clients";
 import NoClients from "../../components/NoClients";
-import LoadingPage from "../../components/Loading/LoadingProjectPage";
-import { useAtomValue } from "jotai";
-import { userIdAtom } from "../../store/user";
-import { useState } from "react";
+import LoadingPage from "../../components/Loading/LoadingSpinner";
+import { useMemo, useState } from "react";
 import AddClientModal from "../../components/AddClientModal";
+import useClients from "../../hooks/useClients";
+import { Client } from "@prisma/client";
 
 const ClientsPage: NextPage = () => {
-  const userId = useAtomValue(userIdAtom);
-  const {
-    data: clients,
-    isLoading,
-    status,
-  } = useQuery(["clients"], () => getClients(userId));
-  const [isModalOpen, setModalIsOpen] = useState(true);
+  const { clients, isLoading, status } = useClients();
+  console.log("Clients: ", clients);
+  // const sortedClients = useMemo(() => {
+  //   clients?.sort()
+  // }, [clients]);
+  const [isModalOpen, setModalIsOpen] = useState(false);
   return (
     <div className="h-full py-5 px-7">
       <Header
@@ -27,7 +23,7 @@ const ClientsPage: NextPage = () => {
         buttonText="Add Client"
         title="Clients"
         buttonHandler={() => {
-          setModalIsOpen(!false);
+          setModalIsOpen(true);
         }}
       >
         {/* Filter buttons */}
@@ -40,17 +36,22 @@ const ClientsPage: NextPage = () => {
           <LoadingPage />
         </div>
       )}
-      {status === "success" && clients.length === 0 ? (
-        <Clients clients={clients} />
+      {status === "success" && clients!.length === 0 ? (
+        <Clients clients={clients!} />
       ) : (
-        <NoClients />
+        <NoClients setIsModalOpen={setModalIsOpen} />
       )}
 
-      <AddClientModal
-        isOpen={isModalOpen}
-        clients={clients}
-        setIsModalOpen={setModalIsOpen}
-      />
+      {status === "error" && (
+        <div className="w-full h-full flex justify-center align-middle">
+          <h1 className="text-2xl">Error</h1>
+          <p className="text-gray-500">
+            Sorry about that. Try to refresh the page.
+          </p>
+        </div>
+      )}
+
+      <AddClientModal isOpen={isModalOpen} setIsModalOpen={setModalIsOpen} />
     </div>
   );
 };

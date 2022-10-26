@@ -2,6 +2,9 @@ import { ChangeEvent, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import { userIdAtom } from "../store/user";
+import { createClient, updateClient } from "../lib/clientFunctions";
+import validateEmail from "../lib/validateEmail";
+import { Client } from "@prisma/client";
 
 /*
     Needs in hook
@@ -10,26 +13,31 @@ import { userIdAtom } from "../store/user";
     - Handle update project request
 */
 export interface NewClientData {
-  id: string;
+  id?: string;
   name: string;
   description: string;
-  businsessAddress?: string;
+  businessAddress?: string;
   email?: string;
   phone?: string;
   website?: string;
   userId: string;
+  user: {
+    connect: {
+      id: string;
+    };
+  };
 }
 
 const useClientForm = (
-  mutationFn: (param: any) => any,
-  clientData: NewClientData,
-  afterSubmit: () => void
+  asyncFn: () => any,
+  afterSubmit: () => void,
+  clientData?: NewClientData
 ) => {
   const initialClient = {
     id: clientData?.id || "",
     name: clientData?.name || "",
     description: clientData?.description || "",
-    businessAddress: clientData?.businsessAddress || "",
+    businessAddress: clientData?.businessAddress || "",
     email: clientData?.email || "",
     phone: clientData?.phone || "",
     website: clientData?.website || "",
@@ -45,41 +53,17 @@ const useClientForm = (
   const [email, setEmail] = useState(initialClient.email);
   const [phone, setPhone] = useState(initialClient.phone);
   const [website, setWebsite] = useState(initialClient.website);
-
   const [isNameTouched, setIsNameTouched] = useState(false);
   const [isNameError, setIsNameError] = useState(false);
-
-  const [isDescriptionTouched, setIsDescriptionTouched] = useState(false);
   const [isDescriptionError, setIsDescriptionError] = useState(false);
-
-  const [isbusinessAddressTouched, setIsbusinessAddressTouched] =
-    useState(false);
   const [isbusinessAddressError, setIsbusinessAddressError] = useState(false);
-
   const [isEmailTouched, setIsEmailTouched] = useState(false);
   const [isEmailError, setIsEmailError] = useState(false);
-
-  const [isPhoneTouched, setIsPhoneTouched] = useState(false);
   const [isPhoneError, setIsPhoneError] = useState(false);
-
-  const [isWebsiteTouched, setIsWebsiteTouched] = useState(false);
   const [isWebsiteError, setIsWebsiteError] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
 
   // First Page
-  const validateFirstPageHandler = () => {
-    if (!isNameTouched && !isDescriptionTouched) {
-      setIsDescriptionError(true);
-      setIsNameError(true);
-    }
-    if (
-      isNameTouched &&
-      isDescriptionTouched &&
-      !isNameError &&
-      !isDescriptionError
-    ) {
-      setPage(2);
-    }
-  };
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setIsNameError(false);
     setName(e.target.value);
@@ -94,24 +78,38 @@ const useClientForm = (
   const handleDescriptionChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setDescription(e.target.value);
   };
-  const handleBusinessAddressChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleBusinessAddressChange = (e: ChangeEvent<HTMLInputElement>) => {
     setBusinessAddress(e.target.value);
   };
-  const handleChangeEmail = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setEmail(e.target.value);
+  const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmail((state) => {
+      state = e.target.value;
+      if (state.includes("@")) setIsEmailError(false);
+      return state;
+    });
   };
-  const handleChangePhone = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChangePhone = (e: ChangeEvent<HTMLInputElement>) => {
     setPhone(e.target.value);
   };
-  const handleChangeWebsite = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChangeWebsite = (e: ChangeEvent<HTMLInputElement>) => {
     setWebsite(e.target.value);
   };
 
-  const DescriptionBlurHandler = () => {
-    setIsDescriptionTouched(true);
-    if (description.trim().length === 0) {
-      setIsDescriptionError(true);
+  const emailBlurHandler = () => {
+    setIsEmailTouched(true);
+    if (email.trim().length === 0) {
+      setIsEmailError(true);
     }
+  };
+
+  const validatePhone = (phoneNumber: string) => {
+    if (!phoneNumber.includes("-")) return false;
+    else if (phoneNumber.length < 12) return false;
+    else return true;
+  };
+
+  const phoneBlurHandler = () => {
+    validatePhone(phone);
   };
 
   const resetForm = () => {
@@ -122,11 +120,7 @@ const useClientForm = (
     setIsPhoneError(false);
     setIsWebsiteError(false);
     setIsNameTouched(false);
-    setIsDescriptionTouched(false);
-    setIsbusinessAddressTouched(false);
     setIsEmailTouched(false);
-    setIsPhoneTouched(false);
-    setIsWebsiteTouched(false);
     setName(initialClient.name);
     setDescription(initialClient.description);
     setBusinessAddress(initialClient.businessAddress);
@@ -138,26 +132,65 @@ const useClientForm = (
 
   const queryClient = useQueryClient();
 
-  const { mutate } = useMutation(["submitClient"], mutationFn, {
-    onSuccess: () => {
-      // Updates the cache using the id of the clients data
-      queryClient.invalidateQueries(["clients"]);
-      resetForm();
-      afterSubmit();
-    },
-  });
+  // CREATE Client
+  const { mutate } = useMutation<unknown, unknown, NewClientData, unknown>(
+    ["submitClient"],
+    asyncFn,
+    {
+      onSuccess: () => {
+        // Updates the cache using the id of the clients data
+        queryClient.invalidateQueries(["clients"]);
+        resetForm();
+        afterSubmit();
+      },
+    }
+  );
+
+  const validateSubmit = () => {
+    if (isNameError && isEmailError && isPhoneError)
+      return setIsFormValid(false);
+    if (!isNameTouched && !isEmailTouched) {
+      setIsNameError(true);
+      setIsEmailError(true);
+      setIsFormValid(false);
+    } else if (
+      isNameTouched &&
+      isEmailTouched &&
+      !isNameError &&
+      !isPhoneError &&
+      !isEmailError
+    ) {
+      setIsFormValid(true);
+    }
+  };
 
   // Submit
   const submitHandler = (e: any) => {
     e.preventDefault();
-    mutate({
-      name,
-      description,
-      userId: userId,
-    });
+    validateSubmit();
+    if (isFormValid) {
+      mutate({
+        name,
+        description,
+        userId,
+        businessAddress,
+        email,
+        phone,
+        website,
+        user: {
+          connect: {
+            id: userId,
+          },
+        },
+      });
+    }
   };
 
   return {
+    isFormValid,
+    phoneBlurHandler,
+    validateSubmit,
+    emailBlurHandler,
     submitHandler,
     name,
     description,
@@ -175,19 +208,12 @@ const useClientForm = (
     isEmailError,
     isPhoneError,
     isWebsiteError,
-    isDescriptionTouched,
-    isEmailTouched,
-    isNameTouched,
-    isPhoneTouched,
-    isWebsiteTouched,
-    isbusinessAddressTouched,
     handleDescriptionChange,
     handleBusinessAddressChange,
     handleChangeEmail,
     handleChangePhone,
     handleChangeWebsite,
     resetForm,
-    validateFirstPageHandler,
   };
 };
 export default useClientForm;

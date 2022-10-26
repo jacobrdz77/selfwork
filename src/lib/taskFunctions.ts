@@ -1,15 +1,5 @@
+import { Task } from "@prisma/client";
 import axios from "axios";
-
-// Get all tasks
-export const getTasks = async (userId: string) => {
-  const allTasks = await axios.get("/api/tasks", {
-    data: {
-      userId,
-    },
-  });
-  return allTasks.data;
-};
-
 type newTask = {
   name: string;
   description: string;
@@ -19,21 +9,31 @@ type newTask = {
   projectId: string;
 };
 
+// Get all tasks
+export const getTasks = async (userId: string) => {
+  const allTasks = await axios.get("/api/tasks", {
+    data: {
+      userId,
+    },
+  });
+  return allTasks.data as Task[];
+};
+
 // Transform all fetches to axio calls
-// create a new client
-export const createtask = async (task: newTask) => {
+// Create a new task
+export const createTask = async (task: newTask) => {
   const newtask = await axios.post("/api/tasks", { task });
-  return newtask.data;
+  return newtask.data as Task;
 };
 
 // Get one task
-export const getOnetask = async (taskId: string) => {
+export const getOneTask = async (taskId: string) => {
   const task = await axios.get(`/api/tasks/${taskId}`);
-  return task.data;
+  return task.data as Task;
 };
 
 // Update a task
-export const updatetask = async (taskId: string, task: newTask) => {
-  const updatedtask = await axios.put(`/api/tasks/${taskId}`, { task });
-  return updatedtask.data;
+export const updateTask = async (taskId: string, task: newTask) => {
+  const updatedTask = await axios.put(`/api/tasks/${taskId}`, { task });
+  return updatedTask.data as Task;
 };

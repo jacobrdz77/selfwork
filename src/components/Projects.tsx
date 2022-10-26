@@ -1,9 +1,7 @@
-import React, { FC } from "react";
-import { Project } from "@prisma/client";
-import { ProjectForProjectCard } from "../pages/projects";
 import ProjectCard from "./ProjectCard";
+import { NewProjectData } from "../hooks/useProjectForm";
 
-const Projects: FC<{ projects: any[]; status: string }> = ({
+const Projects: React.FC<{ projects: any[]; status: string }> = ({
   projects,
   status,
 }) => {
@@ -11,7 +9,7 @@ const Projects: FC<{ projects: any[]; status: string }> = ({
     <div className="mt-10">
       <div className="flex gap-4 flex-wrap overflow-y-auto">
         {status === "success" &&
-          projects.map((project: ProjectForProjectCard) => (
+          projects.map((project: NewProjectData) => (
             <ProjectCard key={project.id} projectData={project} />
           ))}
       </div>

@@ -1,19 +1,14 @@
-import React, { useId, useState } from "react";
-import { NextPage, NextPageContext } from "next";
+import { useState } from "react";
+import { NextPage } from "next";
 import Header from "../../components/UI/Header";
 import NoProjects from "../../components/NoProjects";
 import AddProjectModal from "../../components/AddProjectModal";
 import { Project } from "@prisma/client";
-import { getProjects } from "../../lib/projectsFunctions";
-import LoadingProjectPage from "../../components/Loading/LoadingProjectPage";
-import { useQuery } from "@tanstack/react-query";
+import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 import Button from "../../components/UI/Button";
 import Projects from "../../components/Projects";
-import { getSession, useSession } from "next-auth/react";
-import { getUserId } from "../../lib/user";
-import { getClients } from "../../lib/clientFunctions";
-import { useAtomValue } from "jotai";
-import { userIdAtom } from "../../store/user";
+import useClients from "../../hooks/useClients";
+import useProjects from "../../hooks/useProjects";
 
 export type ProjectForProjectCard = Project & {
   client: {
@@ -21,21 +16,15 @@ export type ProjectForProjectCard = Project & {
   };
 };
 
-
 const ProjectsPage: NextPage = () => {
-  const userId = useAtomValue(userIdAtom);
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
-  const {
-    data: projects,
-    isLoading,
-    status,
-  } = useQuery(["projects", userId], () => getProjects(userId));
-  const { data: clients } = useQuery(["clients"], () => getClients(userId));
+  const { projects, status } = useProjects();
+  const { clients } = useClients();
 
   return (
     <>
       <AddProjectModal
-        clients={clients}
+        clients={clients!}
         isOpen={isAddProjectModalOpen}
         setIsModalOpen={setIsAddProjectModalOpen}
       />
@@ -54,20 +43,30 @@ const ProjectsPage: NextPage = () => {
         </Header>
         <hr className="mt-4" />
         {/* Loading Spinner */}
-        {isLoading && (
+        {status === "loading" && (
           <div className="w-full h-full flex justify-center mt-11">
-            <LoadingProjectPage />
+            <LoadingSpinner />
           </div>
         )}
-        {status === "success" && projects.length === 0 && (
+        {status === "success" && projects?.length === 0 && (
           <NoProjects
             buttonHandler={() => {
               setIsAddProjectModalOpen(true);
             }}
           />
         )}
+        {status === "error" && (
+          <div className="w-full h-full flex justify-center align-middle">
+            <h1 className="text-2xl">Error</h1>
+            <p className="text-gray-500">
+              Sorry about that. Try to refresh the page.
+            </p>
+          </div>
+        )}
         {/* Grid of projects */}
-        <Projects projects={projects} status={status} />
+        {status === "success" && (
+          <Projects projects={projects!} status={status} />
+        )}
       </div>
     </>
   );

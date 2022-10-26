@@ -1,6 +1,8 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
-const NoClients = () => {
+const NoClients: React.FC<{
+  setIsModalOpen: (isOpen: boolean) => any;
+}> = ({ setIsModalOpen }) => {
   return (
     <div className="h-full flex mt-[10rem] justify-center text-center ">
       <div className="flex flex-col">
@@ -52,6 +54,7 @@ const NoClients = () => {
           <button
             className="mt-5 bg-blue-500
            text-white p-3 rounded-lg hover:bg-blue-600"
+            onClick={() => setIsModalOpen(true)}
           >
             Add Client
           </button>

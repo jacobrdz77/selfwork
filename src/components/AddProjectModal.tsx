@@ -8,7 +8,7 @@ import { getClients } from "../lib/clientFunctions";
 const AddProjectModal: React.FC<{
   isOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
-  clients: [];
+  clients: Client[];
 }> = ({ isOpen, setIsModalOpen, clients }) => {
   const closeHandler = () => {
     setIsModalOpen(false);

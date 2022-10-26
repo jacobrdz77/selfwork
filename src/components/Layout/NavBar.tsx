@@ -2,9 +2,10 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Avatar from "./Avatar";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
+import { useUser } from "../../hooks/useUser";
 const NavBar: React.FC = () => {
-  const session = useSession();
+  const name = useUser()?.name;
   return (
     <nav className="maxsm:hidden sticky top-0 left-0 w-[208px] h-screen m-0 text-center bg-primary text-white">
       <div>
@@ -79,11 +80,8 @@ const NavBar: React.FC = () => {
         {/* User Profile */}
         <div className="w-full mt-9">
           <div className="w-[164px] flex items-center justify-start mx-auto">
-            <Avatar
-              userImageURL={session?.data?.user?.image as string}
-              name={session?.data?.user?.name as string}
-            />
-            
+            <Avatar />
+            {name as string}
           </div>
         </div>
 

@@ -1,4 +1,4 @@
-import { Priority } from "@prisma/client";
+import { Priority, Project } from "@prisma/client";
 import axios from "axios";
 interface NewProjectData {
   name: string;
@@ -18,28 +18,28 @@ export const getProjects = async (userId: string) => {
       userId,
     },
   });
-  return projects.data;
+  return projects.data as Project[];
 };
 
 // GET ONE
 export const getOneProject = async (projectId: string) => {
   const project = await axios.get(`/api/projects/${projectId}`);
-  return project.data;
+  return project.data as Project;
 };
 
 // NEW
 export const createProject = async (project: NewProjectData) => {
   const newProject = await axios.post("/api/projects", { project });
-  return newProject.data;
+  return newProject.data as Project;
 };
 
-type UpdateProjectData = {
+export type UpdateProjectData = {
   id: number;
   name?: string;
   description?: string;
   startDate?: Date;
   dueDate?: Date;
-  clientsId?: string;
+  clientId?: string;
   hourlyRate?: number;
   priority?: Priority;
 };
@@ -54,11 +54,11 @@ export const updateProject = async (
       projectData,
     },
   });
-  return updatedProject.data;
+  return updatedProject.data as Project;
 };
 
 // DELETE
 export const deleteProject = async (projectId: string) => {
   const deletedProject = await axios.delete(`/api/projects/${projectId}`);
-  return deletedProject.data;
+  return deletedProject.data as Project;
 };

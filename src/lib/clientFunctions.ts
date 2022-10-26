@@ -1,3 +1,4 @@
+import { Client } from "@prisma/client";
 import axios from "axios";
 
 type newClient = {
@@ -16,7 +17,7 @@ type newClient = {
 // create a new client
 export const createClient = async (client: newClient) => {
   const newClient = await axios.post("/api/clients", { client });
-  return newClient.data;
+  return newClient.data as Client;
 };
 
 // Get all clients
@@ -26,13 +27,13 @@ export const getClients = async (userId: string) => {
       userId,
     },
   });
-  return allClients.data;
+  return allClients.data as Client[];
 };
 
 // Get one client
 export const getOneClient = async (clientId: string) => {
   const client = await axios.get(`/api/clients/${clientId}`);
-  return client.data;
+  return client.data as Client;
 };
 
 // Update a client
@@ -45,11 +46,11 @@ export const updateClient = async (
       newClientData,
     },
   });
-  return updatedClient.data;
+  return updatedClient.data as Client;
 };
 
 // Delete Client
 export const deleteClient = async (clientId: string) => {
   const deletedClient = await axios.delete(`/api/clients/${clientId}`);
-  return deletedClient.data;
+  return deletedClient.data as Client;
 };

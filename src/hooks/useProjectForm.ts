@@ -1,9 +1,12 @@
 import { Priority } from "@prisma/client";
 import { ChangeEvent, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateProject } from "../lib/projectsFunctions";
+import {
+  createProject,
+  updateProject,
+  UpdateProjectData,
+} from "../lib/projectsFunctions";
 import format from "date-fns/format";
-import { useSession } from "next-auth/react";
 import { useAtomValue } from "jotai";
 import { userIdAtom } from "../store/user";
 
@@ -28,9 +31,9 @@ export interface NewProjectData {
   };
 }
 const useProjectForm = (
-  mutationFn: (param: any) => any,
+  asyncFn: (param: any) => any,
   afterSubmit: () => void,
-  projectData?: NewProjectData
+  projectData?: UpdateProjectData
 ) => {
   const initialProject = {
     id: projectData?.id || "",
@@ -38,8 +41,12 @@ const useProjectForm = (
     description: projectData?.description || "",
     clientId: projectData?.clientId || "",
     hourlyRate: projectData?.hourlyRate || 0,
-    startDate: projectData?.startDate || format(new Date(), "yyyy-MM-dd"),
-    dueDate: projectData?.dueDate || "",
+    startDate:
+      format(projectData?.startDate!, "yyyy-MM-dd") ||
+      format(new Date(), "yyyy-MM-dd"),
+    dueDate:
+      format(projectData?.dueDate!, "yyyy-MM-dd") ||
+      format(new Date(), "yyyy-MM-dd"),
     priority: projectData?.priority || "NONE",
   };
   const userId = useAtomValue(userIdAtom);
@@ -56,7 +63,7 @@ const useProjectForm = (
   const [priority, setPriority] = useState<Priority>(initialProject.priority);
   const [hourlyRate, setHourlyRate] = useState(0);
   const [startDate, setStartDate] = useState(initialProject.startDate);
-  const [dueDate, setDueDate] = useState<string | null>(initialProject.dueDate);
+  const [dueDate, setDueDate] = useState(initialProject.dueDate);
 
   // First Page
   const validateFirstPageHandler = () => {
@@ -69,7 +76,7 @@ const useProjectForm = (
     }
   };
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setIsNameError(false);
+    if (e.target.value.trim().length > 0) setIsNameError(false);
     setName(e.target.value);
   };
   const nameBlurHandler = () => {
@@ -109,7 +116,7 @@ const useProjectForm = (
     setDescription(initialProject.description);
     setPriority(initialProject.priority);
     setStartDate(initialProject.startDate);
-    setDueDate(initialProject.dueDate);
+    setDueDate(initialProject.dueDate + "");
     setHourlyRate(initialProject.hourlyRate);
     setPage(1);
   };
@@ -129,7 +136,7 @@ const useProjectForm = (
   };
   const queryClient = useQueryClient();
 
-  const { mutate } = useMutation(["submitProject"], mutationFn, {
+  const { mutate } = useMutation(["submitProject"], createProject, {
     onSuccess: () => {
       queryClient.invalidateQueries(["projects"]);
       resetForm();
@@ -138,15 +145,15 @@ const useProjectForm = (
   });
 
   // Submit
-  const submitHandler = (e: any) => {
+  const submitHandler = (e: Event) => {
     e.preventDefault();
     mutate({
       name,
       description,
       priority,
       hourlyRate,
-      startDate,
-      dueDate: dueDate === "" ? null : dueDate,
+      startDate: startDate + "",
+      dueDate: dueDate + "",
       clientId: selectedClient,
       userId: userId,
     });
