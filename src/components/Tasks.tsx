@@ -1,26 +1,21 @@
-import { Task } from "@prisma/client";
-import { useState } from "react";
-import Button from "./UI/Button";
+import { Task, TaskList } from "@prisma/client";
+import React, { useState } from "react";
+import useTasks from "../hooks/useTasks";
+import OneTask from "./OneTask";
 
-const Tasks: React.FC<{ tasks: Task[] }> = ({ tasks }) => {
-  console.log(tasks);
-  const [searchValue, setSearchValue] = useState("");
+const TaskList: React.FC<{
+  name: string;
+  taskList: TaskList;
+}> = ({ name, taskList }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const { tasks } = useTasks();
   return (
-    <div>
-      <header>
-        <h1>Tasks</h1>
-        <Button>Add Task List</Button>
-        <input
-          type="text"
-          value={searchValue}
-          onChange={(e: any) => setSearchValue(e.target.value)}
-        />
-      </header>
-      <main>
-        {}
-      </main>
+    <div className="flex flex-col">
+      {tasks?.map((task) => (
+        <OneTask key={task.id} task={task} />
+      ))}
     </div>
   );
 };
 
-export default Tasks;
+export default TaskList;

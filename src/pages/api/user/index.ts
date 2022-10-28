@@ -14,7 +14,7 @@ export default async function handler(
           id: userId as string,
         },
       });
-      return res.status(200).json(user);  
+      return res.status(200).json(user);
     } catch (error: any) {
       return res.status(400).json({ error: error.message });
     }

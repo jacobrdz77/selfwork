@@ -5,7 +5,6 @@ import Avatar from "./Avatar";
 import { signOut } from "next-auth/react";
 import { useUser } from "../../hooks/useUser";
 const NavBar: React.FC = () => {
-  const name = useUser()?.name;
   return (
     <nav className="maxsm:hidden sticky top-0 left-0 w-[208px] h-screen m-0 text-center bg-primary text-white">
       <div>
@@ -81,7 +80,7 @@ const NavBar: React.FC = () => {
         <div className="w-full mt-9">
           <div className="w-[164px] flex items-center justify-start mx-auto">
             <Avatar />
-            {name as string}
+            {""}
           </div>
         </div>
 

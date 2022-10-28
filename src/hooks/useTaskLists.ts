@@ -7,13 +7,13 @@ const useTaskLists = (onSuccess?: () => void) => {
   const userId = useAtomValue(userIdAtom);
   console.log("UserId: ", userId);
   const {
-    data: tasks,
+    data: taskLists,
     isLoading,
     status,
   } = useQuery(["task-list", userId], () => getTaskLists(userId), {
     onSuccess: onSuccess,
   });
-  return { tasks, isLoading, status };
+  return { taskLists, isLoading, status };
 };
 
 export default useTaskLists;

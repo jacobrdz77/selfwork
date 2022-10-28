@@ -5,7 +5,6 @@ import { userIdAtom } from "../store/user";
 
 const useTasks = (onSuccess?: () => void) => {
   const userId = useAtomValue(userIdAtom);
-  console.log("UserId: ", userId);
   const {
     data: tasks,
     isLoading,
