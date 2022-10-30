@@ -25,6 +25,7 @@ export const taskListRouter = router({
           notes: z.string(),
           userId: z.string(),
           projectId: z.string(),
+          projectName: z.string(),
         }),
       })
     )
@@ -36,11 +37,12 @@ export const taskListRouter = router({
         project: {
           connect: {
             id: input.taskList.projectId,
+            name: input.taskList.projectName,
           },
         },
       };
       return ctx.prisma.taskList.create({
-        data: taskListData,
+        data: { ...input.taskList },
       });
     }),
   // Delete one

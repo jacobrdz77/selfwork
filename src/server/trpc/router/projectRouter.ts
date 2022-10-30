@@ -26,6 +26,7 @@ export const projectRouter = router({
           startDate: z.date(),
           dueDate: z.date(),
           clientId: z.string(),
+          clientName: z.string(),
           hourlyRate: z.number().min(0),
           priority: z.enum(["NONE", "LOW", "MEDIUM", "HIGH"]),
           userId: z.string(),
@@ -48,6 +49,7 @@ export const projectRouter = router({
         client: {
           connect: {
             id: input.project.clientId,
+            name: input.project.clientName,
           },
         },
       };
