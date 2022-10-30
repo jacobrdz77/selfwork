@@ -33,11 +33,6 @@ export default async function handler(
             id: task.userId,
           },
         },
-        project: {
-          connect: {
-            id: task.projectId,
-          },
-        },
       };
 
       const newTask = await prisma.task.create({

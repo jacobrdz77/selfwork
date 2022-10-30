@@ -3,9 +3,18 @@ import { z } from "zod";
 
 export const clientRouter = router({
   // Get all
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.client.findMany();
-  }),
+  getAll: publicProcedure
+    .input(z.object({ userId: z.string() }).optional())
+    .query(({ input, ctx }) => {
+      if (input) {
+        return ctx.prisma.client.findMany({
+          where: {
+            id: input.userId,
+          },
+        });
+      }
+      return ctx.prisma.client.findMany();
+    }),
   //   Get one
   getOne: publicProcedure
     .input(z.object({ clientId: z.string() }))

@@ -22,26 +22,20 @@ export const taskListRouter = router({
       z.object({
         taskList: z.object({
           name: z.string(),
-          description: z.string(),
-          phone: z.string().max(10),
-          email: z.string().email({ message: "Invalid email address." }),
-          website: z.string(),
-          businessAddress: z.string(),
+          notes: z.string(),
           userId: z.string(),
+          projectId: z.string(),
         }),
       })
     )
     .query(({ input, ctx }) => {
       const taskListData = {
         name: input.taskList.name,
-        description: input.taskList.description,
-        email: input.taskList.email,
-        phone: input.taskList.phone,
-        businessAddress: input.taskList.businessAddress,
-        website: input.taskList.website,
-        user: {
+        notes: input.taskList.notes,
+        userId: input.taskList.userId,
+        project: {
           connect: {
-            id: input.taskList.userId,
+            id: input.taskList.projectId,
           },
         },
       };
@@ -64,18 +58,11 @@ export const taskListRouter = router({
     .input(
       z.object({
         taskListId: z.string(),
-        newtaskListData: z.object({
+        newTaskListData: z.object({
           name: z.string(),
-          description: z.string(),
-          phone: z.string().max(10),
-          email: z.string().email({ message: "Invalid email address." }),
-          website: z.string(),
-          businessAddress: z.string(),
-          user: z.object({
-            connect: z.object({
-              id: z.string(),
-            }),
-          }),
+          notes: z.string(),
+          userId: z.string(),
+          projectId: z.string(),
         }),
       })
     )
@@ -85,7 +72,7 @@ export const taskListRouter = router({
           id: input.taskListId,
         },
         data: {
-          ...input.newtaskListData,
+          ...input.newTaskListData,
         },
       });
     }),

@@ -5,16 +5,16 @@ import { signOut } from "next-auth/react";
 import { useUser } from "../../hooks/useUser";
 import { trpc } from "../../utils/trpc";
 const NavBar: React.FC = () => {
-  const { data: user } = trpc.user.getUser.useQuery(
-    {
-      userId: "cl9uuyhd60002gpwnl6mz7k61",
-    },
-    {
-      onSuccess: (user) => {
-        setName(upperCaseName(user?.name!));
-      },
-    }
-  );
+  // const { data: user } = trpc.user.getUser.useQuery(
+  //   {
+  //     userId: "cl9uuyhd60002gpwnl6mz7k61",
+  //   },
+  //   {
+  //     onSuccess: (user) => {
+  //       setName(upperCaseName(user?.name!));
+  //     },
+  //   }
+  // );
   const [name, setName] = useState("");
 
   const upperCaseName = (name: string) => {

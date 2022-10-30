@@ -9,6 +9,7 @@ import Button from "../../components/UI/Button";
 import Projects from "../../components/Projects";
 import useClients from "../../hooks/useClients";
 import useProjects from "../../hooks/useProjects";
+import { trpc } from "../../utils/trpc";
 
 export type ProjectForProjectCard = Project & {
   client: {
@@ -19,7 +20,8 @@ export type ProjectForProjectCard = Project & {
 const ProjectsPage: NextPage = () => {
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
   // useQuery trpc
-  const { clients } = useClients();
+  const { data: clients } = trpc.client.getAll.useQuery();
+  const { data: projects, isLoading, status } = trpc.project.getAll.useQuery();
 
   return (
     <>
