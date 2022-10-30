@@ -34,7 +34,7 @@ export const taskRouter = router({
         }),
       })
     )
-    .query(({ input, ctx }) => {
+    .mutation(({ input, ctx }) => {
       // const taskListData = {
       //   name: input.task.name,
       //   description: input.task.description,
@@ -68,7 +68,7 @@ export const taskRouter = router({
   // Delete one
   deleteOne: publicProcedure
     .input(z.object({ taskListId: z.string() }))
-    .query(({ input, ctx }) => {
+    .mutation(({ input, ctx }) => {
       return ctx.prisma.task.delete({
         where: {
           id: input.taskListId,
@@ -94,7 +94,7 @@ export const taskRouter = router({
         }),
       })
     )
-    .query(({ input, ctx }) => {
+    .mutation(({ input, ctx }) => {
       return ctx.prisma.task.update({
         where: {
           id: input.taskId,

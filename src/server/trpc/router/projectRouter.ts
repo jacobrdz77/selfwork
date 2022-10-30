@@ -33,7 +33,7 @@ export const projectRouter = router({
         }),
       })
     )
-    .query(({ input, ctx }) => {
+    .mutation(({ input, ctx }) => {
       const projectData = {
         name: input.project.name,
         description: input.project.description,
@@ -62,7 +62,7 @@ export const projectRouter = router({
   // Delete one
   deleteOne: publicProcedure
     .input(z.object({ projectId: z.string() }))
-    .query(({ input, ctx }) => {
+    .mutation(({ input, ctx }) => {
       return ctx.prisma.project.delete({
         where: {
           id: input.projectId,
@@ -86,7 +86,7 @@ export const projectRouter = router({
         }),
       })
     )
-    .query(({ input, ctx }) => {
+    .mutation(({ input, ctx }) => {
       return ctx.prisma.project.update({
         where: {
           id: input.projectId,

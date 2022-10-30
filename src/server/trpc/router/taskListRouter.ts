@@ -29,7 +29,7 @@ export const taskListRouter = router({
         }),
       })
     )
-    .query(({ input, ctx }) => {
+    .mutation(({ input, ctx }) => {
       const taskListData = {
         name: input.taskList.name,
         notes: input.taskList.notes,
@@ -48,7 +48,7 @@ export const taskListRouter = router({
   // Delete one
   deleteOne: publicProcedure
     .input(z.object({ taskListId: z.string() }))
-    .query(({ input, ctx }) => {
+    .mutation(({ input, ctx }) => {
       return ctx.prisma.taskList.delete({
         where: {
           id: input.taskListId,
@@ -68,7 +68,7 @@ export const taskListRouter = router({
         }),
       })
     )
-    .query(({ input, ctx }) => {
+    .mutation(({ input, ctx }) => {
       return ctx.prisma.taskList.update({
         where: {
           id: input.taskListId,
