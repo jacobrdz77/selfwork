@@ -41,12 +41,12 @@ const useProjectForm = (
     description: projectData?.description || "",
     clientId: projectData?.clientId || "",
     hourlyRate: projectData?.hourlyRate || 0,
-    startDate:
-      format(projectData?.startDate!, "yyyy-MM-dd") ||
-      format(new Date(), "yyyy-MM-dd"),
-    dueDate:
-      format(projectData?.dueDate!, "yyyy-MM-dd") ||
-      format(new Date(), "yyyy-MM-dd"),
+    startDate: projectData?.startDate as string | Date,
+    // format(projectData?.startDate!, "yyyy-MM-dd") ||
+    // format(new Date(), "yyyy-MM-dd"),
+    dueDate: projectData?.dueDate as string | Date,
+    // format(projectData?.dueDate!, "yyyy-MM-dd") ||
+    // format(new Date(), "yyyy-MM-dd"),
     priority: projectData?.priority || "NONE",
   };
   const userId = useAtomValue(userIdAtom);
@@ -116,7 +116,7 @@ const useProjectForm = (
     setDescription(initialProject.description);
     setPriority(initialProject.priority);
     setStartDate(initialProject.startDate);
-    setDueDate(initialProject.dueDate + "");
+    setDueDate(initialProject.dueDate);
     setHourlyRate(initialProject.hourlyRate);
     setPage(1);
   };

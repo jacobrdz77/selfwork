@@ -8,10 +8,10 @@ import { useMemo, useState } from "react";
 import AddClientModal from "../../components/AddClientModal";
 import useClients from "../../hooks/useClients";
 import { Client } from "@prisma/client";
+import { trpc } from "../../utils/trpc";
 
 const ClientsPage: NextPage = () => {
-  const { clients, isLoading, status } = useClients();
-  console.log("Clients: ", clients);
+  const { data: clients, isLoading, status } = trpc.client.getAll.useQuery();
   // const sortedClients = useMemo(() => {
   //   clients?.sort()
   // }, [clients]);
@@ -36,8 +36,8 @@ const ClientsPage: NextPage = () => {
           <LoadingPage />
         </div>
       )}
-      {status === "success" && clients!.length === 0 ? (
-        <Clients clients={clients!} />
+      {status === "success" && clients!.length > 0 ? (
+        clients.map((client) => <p key={client.id}>{client.name}</p>)
       ) : (
         <NoClients setIsModalOpen={setModalIsOpen} />
       )}

@@ -18,7 +18,7 @@ export type ProjectForProjectCard = Project & {
 
 const ProjectsPage: NextPage = () => {
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
-  const { projects, status } = useProjects();
+  // useQuery trpc
   const { clients } = useClients();
 
   return (

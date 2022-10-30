@@ -1,45 +1,50 @@
-import { Task, TaskList } from "@prisma/client";
+import { Task } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from "../../../lib/prisma";
+import { prisma } from "../../../../server/db/client";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // Get all TaskList
+  // Get all tasks
   if (req.method === "GET") {
     try {
-      const { projectId } = req.body;
-      const taskList = await prisma.taskList.findMany({
+      const { userId } = req.body;
+      const tasks = await prisma.task.findMany({
         where: {
-          projectId: projectId as string,
+          userId: userId as string,
         },
       });
-      return res.status(200).json(taskList);
+      return res.status(200).json(tasks);
     } catch (error: Error | any) {
       return res.status(400).json({ error: error.message });
     }
   }
 
-  // Create a new taskList
+  // Create a new task
   if (req.method === "POST") {
     try {
-      // Get the taskList data from the request body
-      const { taskList } = req.body;
+      // Get the task data from the request body
+      const task = req.body.task;
       const taskData = {
-        ...taskList,
+        ...task,
+        user: {
+          connect: {
+            id: task.userId,
+          },
+        },
         project: {
           connect: {
-            id: taskList.projectId,
+            id: task.projectId,
           },
         },
       };
 
-      const newTaskList = await prisma.taskList.create({
+      const newTask = await prisma.task.create({
         data: taskData,
       });
 
-      return res.status(200).json(newTaskList);
+      return res.status(200).json(newTask);
     } catch (error: any) {
       console.log("Request body: \n", req.body);
       return res.status(400).json(error.message);

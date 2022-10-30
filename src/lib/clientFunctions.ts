@@ -1,8 +1,9 @@
 import { Client } from "@prisma/client";
 import axios from "axios";
 
-type newClient = {
+export type newClient = {
   name: string;
+  description: string;
   email: string;
   phone: string;
   businessAddress: string;

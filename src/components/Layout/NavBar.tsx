@@ -1,10 +1,34 @@
-import React from "react";
-import Image from "next/image";
+import React, { useState } from "react";
 import Link from "next/link";
 import Avatar from "./Avatar";
 import { signOut } from "next-auth/react";
 import { useUser } from "../../hooks/useUser";
+import { trpc } from "../../utils/trpc";
 const NavBar: React.FC = () => {
+  const { data: user } = trpc.user.getUser.useQuery(
+    {
+      userId: "cl9uuyhd60002gpwnl6mz7k61",
+    },
+    {
+      onSuccess: (user) => {
+        setName(upperCaseName(user?.name!));
+      },
+    }
+  );
+  const [name, setName] = useState("");
+
+  const upperCaseName = (name: string) => {
+    const fullName = name.split(" ");
+    let firstName = fullName[0];
+    let lastName = fullName[1];
+    const firstLetterFirstName = fullName[0][0].toUpperCase();
+    const restFirstName = firstName.slice(1);
+    const secondLetter = fullName[1][0].toUpperCase();
+    const restSecondName = lastName.slice(1);
+    return `${firstLetterFirstName + restFirstName} ${
+      secondLetter + restSecondName
+    }`;
+  };
   return (
     <nav className="maxsm:hidden sticky top-0 left-0 w-[208px] h-screen m-0 text-center bg-primary text-white">
       <div>
@@ -77,15 +101,14 @@ const NavBar: React.FC = () => {
           </div>
         </div>
         {/* User Profile */}
-        <div className="w-full mt-9">
-          <div className="w-[164px] flex items-center justify-start mx-auto">
-            <Avatar />
-            {""}
+        <div className="w-full flex justify-center">
+          <div className="w-[190px] mt-9">
+            <Avatar name={name} />
           </div>
         </div>
 
         <button
-          className="bg-button mb-3 py-2.5 px-5 hover:bg-buttonHover rounded-[15px] mt-5"
+          className="bg-button mb-3 py-2.5 px-5 hover:bg-buttonHover rounded-[15px] mt-2"
           onClick={() => signOut()}
         >
           Sign out
@@ -96,6 +119,3 @@ const NavBar: React.FC = () => {
 };
 
 export default NavBar;
-{
-  /* <Image src="/public/logo.png" alt="selfwork" width={500} height={500} /> */
-}
