@@ -1,11 +1,21 @@
 import { router, publicProcedure } from "../trpc";
 import { z } from "zod";
+import { Priority } from "@prisma/client";
 
 export const projectRouter = router({
   // Get all
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.project.findMany();
-  }),
+  getAll: publicProcedure
+    .input(z.object({ userId: z.string() }).optional())
+    .query(({ input, ctx }) => {
+      if (input) {
+        return ctx.prisma.project.findMany({
+          where: {
+            id: input.userId,
+          },
+        });
+      }
+      return ctx.prisma.project.findMany();
+    }),
   //   Get one
   getOne: publicProcedure
     .input(z.object({ projectId: z.string() }))
@@ -22,13 +32,13 @@ export const projectRouter = router({
       z.object({
         project: z.object({
           name: z.string(),
-          description: z.string(),
-          startDate: z.date(),
-          dueDate: z.date(),
+          description: z.string().optional(),
+          startDate: z.date().default(new Date()),
+          dueDate: z.date().optional(),
           clientId: z.string(),
           clientName: z.string(),
-          hourlyRate: z.number().min(0),
-          priority: z.enum(["NONE", "LOW", "MEDIUM", "HIGH"]),
+          hourlyRate: z.number().min(0).optional(),
+          priority: z.enum(["NONE", "LOW", "MEDIUM", "HIGH"]).default("NONE"),
           userId: z.string(),
         }),
       })
@@ -49,14 +59,11 @@ export const projectRouter = router({
         client: {
           connect: {
             id: input.project.clientId,
-            name: input.project.clientName,
           },
         },
       };
       return ctx.prisma.project.create({
-        data: {
-          ...input.project,
-        },
+        data: projectData,
       });
     }),
   // Delete one
@@ -80,6 +87,7 @@ export const projectRouter = router({
           startDate: z.date(),
           dueDate: z.date(),
           clientId: z.string(),
+          clientName: z.string(),
           hourlyRate: z.number().min(0),
           priority: z.enum(["NONE", "LOW", "MEDIUM", "HIGH"]),
           userId: z.string(),

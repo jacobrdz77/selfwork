@@ -80,11 +80,7 @@ export const clientRouter = router({
           email: z.string().email({ message: "Invalid email address." }),
           website: z.string(),
           businessAddress: z.string(),
-          user: z.object({
-            connect: z.object({
-              id: z.string(),
-            }),
-          }),
+          userId: z.string(),
         }),
       })
     )

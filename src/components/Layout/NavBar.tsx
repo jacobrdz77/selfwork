@@ -2,8 +2,20 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Avatar from "./Avatar";
 import { signOut } from "next-auth/react";
-import { useUser } from "../../hooks/useUser";
 import { trpc } from "../../utils/trpc";
+
+export const upperCaseName = (name: string) => {
+  const fullName = name.split(" ");
+  let firstName = fullName[0];
+  let lastName = fullName[1];
+  const firstLetterFirstName = fullName[0][0].toUpperCase();
+  const restFirstName = firstName.slice(1);
+  const secondLetter = fullName[1][0].toUpperCase();
+  const restSecondName = lastName.slice(1);
+  return `${firstLetterFirstName + restFirstName} ${
+    secondLetter + restSecondName
+  }`;
+};
 const NavBar: React.FC = () => {
   // const { data: user } = trpc.user.getUser.useQuery(
   //   {
@@ -17,18 +29,6 @@ const NavBar: React.FC = () => {
   // );
   const [name, setName] = useState("");
 
-  const upperCaseName = (name: string) => {
-    const fullName = name.split(" ");
-    let firstName = fullName[0];
-    let lastName = fullName[1];
-    const firstLetterFirstName = fullName[0][0].toUpperCase();
-    const restFirstName = firstName.slice(1);
-    const secondLetter = fullName[1][0].toUpperCase();
-    const restSecondName = lastName.slice(1);
-    return `${firstLetterFirstName + restFirstName} ${
-      secondLetter + restSecondName
-    }`;
-  };
   return (
     <nav className="maxsm:hidden sticky top-0 left-0 w-[208px] h-screen m-0 text-center bg-primary text-white">
       <div>
@@ -100,12 +100,12 @@ const NavBar: React.FC = () => {
             </Link>
           </div>
         </div>
-        {/* User Profile */}
+        {/* User Profile
         <div className="w-full flex justify-center">
           <div className="w-[190px] mt-9">
             <Avatar name={name} />
           </div>
-        </div>
+        </div> */}
 
         <button
           className="bg-button mb-3 py-2.5 px-5 hover:bg-buttonHover rounded-[15px] mt-2"

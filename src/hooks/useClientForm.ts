@@ -5,12 +5,13 @@ import { userIdAtom } from "../store/user";
 import { createClient, updateClient } from "../lib/clientFunctions";
 import validateEmail from "../lib/validateEmail";
 import { Client } from "@prisma/client";
+import { trpc } from "../utils/trpc";
 
 /*
     Needs in hook
     - Initialize the EditClientForm state from getOneProject request.
     - Handle form validation here
-    - Handle update project request
+    - Handle update client request
 */
 export interface NewClientData {
   id?: string;
@@ -29,9 +30,9 @@ export interface NewClientData {
 }
 
 const useClientForm = (
-  asyncFn: () => any,
+  action: "create" | "update",
   afterSubmit: () => void,
-  clientData?: NewClientData
+  clientData: Client
 ) => {
   const initialClient = {
     id: clientData?.id || "",
@@ -130,22 +131,25 @@ const useClientForm = (
     setPage(1);
   };
 
-  const queryClient = useQueryClient();
-
   // CREATE Client
-  const { mutate } = useMutation<unknown, unknown, NewClientData, unknown>(
-    ["submitClient"],
-    asyncFn,
-    {
-      onSuccess: () => {
-        // Updates the cache using the id of the clients data
-        queryClient.invalidateQueries(["clients"]);
-        resetForm();
-        afterSubmit();
-      },
-    }
-  );
+  const queryClient = trpc.useContext();
 
+  const { refetch } = trpc.client.getAll.useQuery();
+
+  const { mutate: createClient } = trpc.client.createOne.useMutation({
+    onSuccess: () => {
+      refetch();
+      resetForm();
+      afterSubmit();
+    },
+  });
+  const { mutate: updateClient } = trpc.client.updateOne.useMutation({
+    onSuccess: () => {
+      refetch();
+      resetForm();
+      afterSubmit();
+    },
+  });
   const validateSubmit = () => {
     if (isNameError && isEmailError && isPhoneError)
       return setIsFormValid(false);
@@ -165,24 +169,48 @@ const useClientForm = (
   };
 
   // Submit
-  const submitHandler = (e: any) => {
+  const submitHandler = (e: SubmitEvent) => {
     e.preventDefault();
     validateSubmit();
-    if (isFormValid) {
-      mutate({
-        name,
-        description,
-        userId,
-        businessAddress,
-        email,
-        phone,
-        website,
-        user: {
-          connect: {
-            id: userId,
+    if (action === "create") {
+      return createClient(
+        {
+          client: {
+            name,
+            description,
+            userId,
+            businessAddress,
+            email,
+            phone,
+            website,
           },
         },
-      });
+        {
+          onSuccess: () => {
+            afterSubmit();
+          },
+        }
+      );
+    } else {
+      return updateClient(
+        {
+          clientId: clientData.id,
+          newClientData: {
+            name,
+            description,
+            userId,
+            businessAddress,
+            email,
+            phone,
+            website,
+          },
+        },
+        {
+          onSuccess: () => {
+            afterSubmit();
+          },
+        }
+      );
     }
   };
 

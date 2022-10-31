@@ -36,9 +36,7 @@ const AddClientModal: React.FC<{
     validateSubmit,
 
     website,
-  } = useClientForm(() => {
-    setIsModalOpen(false);
-  });
+  } = useClientForm("create", () => {});
 
   return (
     <Modal isOpen={isOpen} closeHandler={closeHandler}>

@@ -3,12 +3,12 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import React, { Ref, useRef, useState, useEffect } from "react";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
-import { NewProjectData } from "../hooks/useProjectForm";
 import { getClients } from "../lib/clientFunctions";
 import { deleteProject } from "../lib/projectsFunctions";
 import { userIdAtom } from "../store/user";
 import { trpc } from "../utils/trpc";
 import EditProjectModal from "./EditProjectModal";
+import { upperCaseName } from "./Layout/NavBar";
 // import EditProjectModal from "./EditProjectModal";
 import ProjectEditPopup from "./ProjectEditPopup";
 
@@ -27,9 +27,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ projectData }) => {
   });
   const queryClient = useQueryClient();
 
-  const { mutate } = useMutation(deleteProject, {
+  const { mutate: deleteProject } = trpc.project.deleteOne.useMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries(["projects"]);
+      queryClient.invalidateQueries();
     },
   });
 
@@ -69,7 +69,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ projectData }) => {
             <ProjectEditPopup
               deleteProjectHandler={() => {
                 window.confirm("Are you sure you want to delete this project?");
-                mutate(projectData.id as string);
+                deleteProject({ projectId: projectData.id });
               }}
               ref={modalRef}
               isPopupOpen={isPopupOpen}
@@ -110,7 +110,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ projectData }) => {
                 href={`/clients/${projectData.clientId}`}
                 className="ml-2 hover:underline text-ellipsis"
               >
-                {projectData.clientName}
+                {upperCaseName(projectData.clientName)}
               </a>
             </div>
           </div>

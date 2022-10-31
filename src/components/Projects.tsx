@@ -1,5 +1,4 @@
 import ProjectCard from "./ProjectCard";
-import { NewProjectData } from "../hooks/useProjectForm";
 import { Project } from "@prisma/client";
 
 const Projects: React.FC<{ projects: Project[]; status: string }> = ({

@@ -7,8 +7,6 @@ import { Project } from "@prisma/client";
 import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 import Button from "../../components/UI/Button";
 import Projects from "../../components/Projects";
-import useClients from "../../hooks/useClients";
-import useProjects from "../../hooks/useProjects";
 import { trpc } from "../../utils/trpc";
 
 export type ProjectForProjectCard = Project & {

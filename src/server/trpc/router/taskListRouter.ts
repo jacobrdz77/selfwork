@@ -3,9 +3,18 @@ import { z } from "zod";
 
 export const taskListRouter = router({
   // Get all
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.taskList.findMany();
-  }),
+  getAll: publicProcedure
+    .input(z.object({ userId: z.string() }).optional())
+    .query(({ input, ctx }) => {
+      if (input) {
+        return ctx.prisma.taskList.findMany({
+          where: {
+            id: input.userId,
+          },
+        });
+      }
+      return ctx.prisma.taskList.findMany();
+    }),
   //   Get one
   getOne: publicProcedure
     .input(z.object({ taskListId: z.string() }))
