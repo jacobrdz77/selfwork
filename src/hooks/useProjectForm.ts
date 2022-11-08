@@ -31,7 +31,6 @@ export interface NewProjectData {
   };
 }
 const useProjectForm = (
-  asyncFn: (param: any) => any,
   afterSubmit: () => void,
   projectData?: UpdateProjectData
 ) => {

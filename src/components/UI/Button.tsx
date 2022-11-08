@@ -2,8 +2,8 @@ import React from "react";
 
 const Button: React.FC<{
   buttonHandler?: any;
-  children: string;
-  className: string;
+  children?: string | React.ReactNode | React.ReactNode[];
+  className?: string;
 }> = ({ buttonHandler, children, className }) => {
   return (
     <button
