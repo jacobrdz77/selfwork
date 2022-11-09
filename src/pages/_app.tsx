@@ -6,13 +6,14 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useRouter } from "next/router";
 import { SessionProvider } from "next-auth/react";
+import { trpc } from "../utils/trpc";
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+function MyApp({ Component, pageProps: { ...pageProps } }: AppProps) {
   const client = new QueryClient();
   const path = useRouter().pathname;
 
   return (
-    <SessionProvider session={session}>
+    <SessionProvider>
       <QueryClientProvider client={client}>
         <ReactQueryDevtools initialIsOpen={true} />
         <Head>
@@ -27,16 +28,15 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
           />
         </Head>
         <div id="overlay"></div>
-        {path === "/login" ? (
-          <Component {...pageProps} />
-        ) : (
+        {path !== "/login" ? (
           <Layout>
             <Component {...pageProps} />
           </Layout>
+        ) : (
+          <Component {...pageProps} />
         )}
       </QueryClientProvider>
     </SessionProvider>
   );
 }
-
-export default MyApp;
+export default trpc.withTRPC(MyApp);

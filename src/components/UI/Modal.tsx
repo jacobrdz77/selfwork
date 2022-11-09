@@ -16,7 +16,7 @@ const Backdrop: React.FC<{ onClose: () => void; isOpen: boolean }> = ({
 };
 
 const ModalOverlay = (props: {
-  children: JSX.Element[];
+  children?: JSX.Element[] | JSX.Element;
   onClose: () => void;
   isOpen: boolean;
 }) => {
@@ -47,7 +47,7 @@ const ModalOverlay = (props: {
 };
 
 const Modal = (props: {
-  children: JSX.Element[];
+  children: JSX.Element[] | JSX.Element;
   isOpen: boolean;
   closeHandler: () => void;
 }) => {

@@ -1,51 +1,30 @@
-import { Priority } from "@prisma/client";
-import { ChangeEvent, useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  createProject,
-  updateProject,
-  UpdateProjectData,
-} from "../lib/projectsFunctions";
+import { Client, Priority, Project } from "@prisma/client";
+import { ChangeEvent, FormEvent, useState } from "react";
 import format from "date-fns/format";
 import { useAtomValue } from "jotai";
 import { userIdAtom } from "../store/user";
-
+import { trpc } from "../utils/trpc";
 /*
     Needs in hook
     - Initialize the EditProjectForm state from getOneProject request.
     - Handle form validation here
     - Handle update project request
 */
-export interface NewProjectData {
-  id?: string;
-  name: string;
-  description: string;
-  clientId: string;
-  hourlyRate: number;
-  priority: Priority;
-  startDate: string;
-  dueDate: string | null;
-  userId: string;
-  client?: {
-    name: string;
-  };
-}
+
 const useProjectForm = (
+  asyncFn: (param: any) => any,
   afterSubmit: () => void,
-  projectData?: UpdateProjectData
+  projectData?: Project
 ) => {
   const initialProject = {
     id: projectData?.id || "",
     name: projectData?.name || "",
     description: projectData?.description || "",
     clientId: projectData?.clientId || "",
+    clientName: projectData?.clientName || "",
     hourlyRate: projectData?.hourlyRate || 0,
-    startDate:
-      format(projectData?.startDate!, "yyyy-MM-dd") ||
-      format(new Date(), "yyyy-MM-dd"),
-    dueDate:
-      format(projectData?.dueDate!, "yyyy-MM-dd") ||
-      format(new Date(), "yyyy-MM-dd"),
+    startDate: projectData?.startDate ? projectData.startDate : "",
+    dueDate: projectData?.startDate ? projectData.startDate : "",
     priority: projectData?.priority || "NONE",
   };
   const userId = useAtomValue(userIdAtom);
@@ -115,7 +94,7 @@ const useProjectForm = (
     setDescription(initialProject.description);
     setPriority(initialProject.priority);
     setStartDate(initialProject.startDate);
-    setDueDate(initialProject.dueDate + "");
+    setDueDate(initialProject.dueDate);
     setHourlyRate(initialProject.hourlyRate);
     setPage(1);
   };
@@ -133,29 +112,68 @@ const useProjectForm = (
   const handleEndDateChange = (e: ChangeEvent<HTMLInputElement>) => {
     setDueDate(e.target.value);
   };
-  const queryClient = useQueryClient();
+  const queryClient = trpc.useContext();
 
-  const { mutate } = useMutation(["submitProject"], createProject, {
+  const { refetch } = trpc.project.getAll.useQuery();
+
+  const { mutate: createProject } = trpc.project.createOne.useMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries(["projects"]);
-      resetForm();
-      afterSubmit();
+      refetch();
+    },
+  });
+  const { mutate: updateProject } = trpc.project.updateOne.useMutation({
+    onSuccess: () => {
+      refetch();
     },
   });
 
   // Submit
-  const submitHandler = (e: Event) => {
+  const submitHandler = (e: FormEvent) => {
     e.preventDefault();
-    mutate({
-      name,
-      description,
-      priority,
-      hourlyRate,
-      startDate: startDate + "",
-      dueDate: dueDate + "",
-      clientId: selectedClient,
-      userId: userId,
-    });
+    if (action === "create") {
+      return createProject(
+        {
+          project: {
+            name,
+            description,
+            priority,
+            hourlyRate,
+            startDate: new Date(dueDate),
+            dueDate: new Date(dueDate),
+            clientId: selectedClient,
+            clientName: initialProject.clientName,
+            userId: userId,
+          },
+        },
+        {
+          onSuccess: () => {
+            afterSubmit();
+          },
+        }
+      );
+    } else {
+      return updateProject(
+        {
+          projectId: projectData?.id ? projectData.id : "",
+          newProjectData: {
+            name,
+            description,
+            priority,
+            hourlyRate,
+            startDate: new Date(startDate),
+            dueDate: new Date(dueDate),
+            clientId: selectedClient,
+            clientName: projectData?.clientName!,
+            userId: userId,
+          },
+        },
+        {
+          onSuccess: () => {
+            afterSubmit();
+          },
+        }
+      );
+    }
   };
 
   return {

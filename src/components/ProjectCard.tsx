@@ -3,16 +3,17 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import React, { Ref, useRef, useState, useEffect } from "react";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
-import { NewProjectData } from "../hooks/useProjectForm";
 import { getClients } from "../lib/clientFunctions";
 import { deleteProject } from "../lib/projectsFunctions";
 import { userIdAtom } from "../store/user";
+import { trpc } from "../utils/trpc";
 import EditProjectModal from "./EditProjectModal";
+import { upperCaseName } from "./Layout/NavBar";
 // import EditProjectModal from "./EditProjectModal";
 import ProjectEditPopup from "./ProjectEditPopup";
 
 type ProjectCardProps = {
-  projectData: NewProjectData;
+  projectData: Project;
 };
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ projectData }) => {
@@ -26,27 +27,23 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ projectData }) => {
   });
   const queryClient = useQueryClient();
 
-  const { mutate } = useMutation(deleteProject, {
+  const { mutate: deleteProject } = trpc.project.deleteOne.useMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries(["projects"]);
+      queryClient.invalidateQueries();
     },
   });
 
   const userId = useAtomValue(userIdAtom);
-  const {
-    data: clients,
-    isLoading,
-    status,
-  } = useQuery(["clients"], () => getClients(userId));
+  const { data: clients } = trpc.client.getAll.useQuery();
 
   return (
     <>
-      <EditProjectModal
+      {/* <EditProjectModal
         clients={clients}
         isOpen={isEditModalOpen}
         setIsModalOpen={setIsEditModalOpen}
         projectData={projectData}
-      />
+      /> */}
       <div
         ref={projectCardRef}
         className="relative flex flex-col w-[260px] h-[320px] px-[20px]
@@ -72,7 +69,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ projectData }) => {
             <ProjectEditPopup
               deleteProjectHandler={() => {
                 window.confirm("Are you sure you want to delete this project?");
-                mutate(projectData.id as string);
+                deleteProject({ projectId: projectData.id });
               }}
               ref={modalRef}
               isPopupOpen={isPopupOpen}
@@ -113,7 +110,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ projectData }) => {
                 href={`/clients/${projectData.clientId}`}
                 className="ml-2 hover:underline text-ellipsis"
               >
-                {projectData.client?.name}
+                {upperCaseName(projectData.clientName)}
               </a>
             </div>
           </div>

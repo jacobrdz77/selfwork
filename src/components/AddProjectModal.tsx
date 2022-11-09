@@ -1,9 +1,8 @@
 import Modal from "./UI/Modal";
 import { Client } from "@prisma/client";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createProject } from "../lib/projectsFunctions";
 import useProjectForm from "../hooks/useProjectForm";
-import { getClients } from "../lib/clientFunctions";
+import { upperCaseName } from "./Layout/NavBar";
 
 const AddProjectModal: React.FC<{
   isOpen: boolean;
@@ -37,7 +36,7 @@ const AddProjectModal: React.FC<{
     handleStartDateChange,
     validateFirstPageHandler,
     submitHandler,
-  } = useProjectForm(createProject, closeHandler);
+  } = useProjectForm("create", () => {});
   return (
     <Modal isOpen={isOpen} closeHandler={closeHandler}>
       <div className="flex flex-col items-center">
@@ -352,11 +351,10 @@ const AddProjectModal: React.FC<{
                   onBlur={clientBlurHandler}
                 >
                   <option value="default">Select a client</option>
-                  <option value="cl8o28n1c0000gpd60joawgl7">Sam Arce</option>
                   {/*! NEED TO FETCH user's clients */}
                   {clients?.map((client: Client) => (
                     <option key={client.id} value={client.id}>
-                      {client.name}
+                      {upperCaseName(client.name)}
                     </option>
                   ))}
                 </select>
@@ -441,8 +439,8 @@ const AddProjectModal: React.FC<{
                 <input
                   type="date"
                   onChange={handleStartDateChange}
-                  min={new Date().toISOString()}
-                  value={startDate}
+                  min={new Date().toDateString()}
+                  value={startDate as string}
                   className="h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500  maxsm:focus:outline-[0px]"
                 />
               </div>
@@ -451,8 +449,8 @@ const AddProjectModal: React.FC<{
                 <input
                   type="date"
                   onChange={handleEndDateChange}
-                  min={startDate}
-                  value={dueDate!}
+                  min={new Date().toDateString()}
+                  value={dueDate! as string}
                   className="h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500  maxsm:focus:outline-[0px]"
                 />
               </div>

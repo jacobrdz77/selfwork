@@ -2,6 +2,7 @@ import React from "react";
 
 type HeaderProps = {
   title: string;
+  subTitle: string;
   buttonHandler?: () => void;
   buttonText?: string;
   children?: JSX.Element | JSX.Element[];
@@ -10,6 +11,7 @@ type HeaderProps = {
 
 const Header: React.FC<HeaderProps> = ({
   title,
+  subTitle,
   buttonHandler,
   buttonText,
   children,
@@ -17,7 +19,11 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   return (
     <header className="flex justify-between">
-      <h1 className="text-3xl">{title}</h1>
+      <h1 className="text-3xl">
+        {title}
+        {subTitle ? " : " : ""}
+        <p className="text-2xl text-gray-700">{subTitle}</p>
+      </h1>
       <div className="flex gap-2">
         {isButton && (
           <button

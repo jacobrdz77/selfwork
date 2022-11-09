@@ -1,15 +1,15 @@
 import Modal from "./UI/Modal";
 import { Client, Project } from "@prisma/client";
 import { updateProject, UpdateProjectData } from "../lib/projectsFunctions";
-import useProjectForm, { NewProjectData } from "../hooks/useProjectForm";
+import useProjectForm from "../hooks/useProjectForm";
 import { getClients } from "../lib/clientFunctions";
 
 const EditProjectModal: React.FC<{
   isOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
-  projectData: Project;
+  currentProjectData: Project;
   clients: Client[];
-}> = ({ isOpen, setIsModalOpen, projectData, clients }) => {
+}> = ({ isOpen, setIsModalOpen, currentProjectData, clients }) => {
   const closeHandler = () => {
     setIsModalOpen(false);
   };
@@ -37,11 +37,7 @@ const EditProjectModal: React.FC<{
     handleStartDateChange,
     validateFirstPageHandler,
     submitHandler,
-  } = useProjectForm(
-    () => updateProject(projectData.id + "", projectData!),
-    closeHandler,
-    projectData
-  );
+  } = useProjectForm(closeHandler, currentProjectData);
   return (
     <Modal isOpen={isOpen} closeHandler={closeHandler}>
       <div className="flex flex-col items-center">
@@ -303,6 +299,7 @@ const EditProjectModal: React.FC<{
           >
             1
           </button>
+          currentProjectData
           <p className="text-[14px]">Details</p>
         </div>
         <div className="flex flex-col items-center w-[15px] ">
@@ -446,7 +443,7 @@ const EditProjectModal: React.FC<{
                   type="date"
                   onChange={handleStartDateChange}
                   min={new Date().toISOString()}
-                  value={startDate}
+                  value={startDate + ""}
                   className="h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500  maxsm:focus:outline-[0px]"
                 />
               </div>
@@ -455,8 +452,8 @@ const EditProjectModal: React.FC<{
                 <input
                   type="date"
                   onChange={handleEndDateChange}
-                  min={startDate}
-                  value={dueDate!}
+                  min={startDate + ""}
+                  value={dueDate! + ""}
                   className="h-[38px] py-[5px] px-[8px] mt-1 bg-gray-100 rounded-md focus:outline-none focus:border-[1px] focus:border-blue-500  maxsm:focus:outline-[0px]"
                 />
               </div>

@@ -6,8 +6,8 @@ interface NewProjectData {
   clientId: string;
   hourlyRate: number;
   priority: Priority;
-  startDate: string;
-  dueDate: string | null;
+  startDate: string | Date;
+  dueDate: string | null | Date;
   userId: string;
 }
 
