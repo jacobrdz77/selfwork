@@ -3,10 +3,8 @@ import Head from "next/head";
 import Layout from "../components/Layout/Layout";
 import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useRouter } from "next/router";
 import { SessionProvider } from "next-auth/react";
-import { trpc } from "../utils/trpc";
 
 function MyApp({ Component, pageProps: { ...pageProps } }: AppProps) {
   const client = new QueryClient();
@@ -15,9 +13,7 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppProps) {
   return (
     <SessionProvider>
       <QueryClientProvider client={client}>
-        <ReactQueryDevtools initialIsOpen={true} />
         <Head>
-          <title>selfwork. | Project Management for Freelancers</title>
           <meta
             name="viewport"
             content="initial-scale=1.0, width=device-width"
@@ -26,8 +22,9 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppProps) {
             name="description"
             content="Project Management for Freelancers"
           />
+          <title>selfwork. | Project Management for Freelancers</title>
         </Head>
-        <div id="overlay"></div>
+        <div aria-hidden="true" id="overlay"></div>
         {path !== "/login" ? (
           <Layout>
             <Component {...pageProps} />

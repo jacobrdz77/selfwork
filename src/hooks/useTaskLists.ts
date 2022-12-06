@@ -1,16 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import { useAtomValue } from "jotai";
-import { getTaskLists } from "../lib/tasksListFunctions";
-import { userIdAtom } from "../store/user";
+import { getTaskLists } from "../lib/taskListsFunctions";
+import { useUserStore } from "../store/user";
 
 const useTaskLists = (onSuccess?: () => void) => {
-  const userId = useAtomValue(userIdAtom);
-  console.log("UserId: ", userId);
+  const userId = useUserStore((state) => state.userId);
   const {
     data: taskLists,
     isLoading,
     status,
-  } = useQuery(["task-list", userId], () => getTaskLists(userId), {
+  } = useQuery(["task-list", userId], () => getTaskLists(userId!), {
     onSuccess: onSuccess,
   });
   return { taskLists, isLoading, status };

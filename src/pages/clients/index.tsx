@@ -1,17 +1,15 @@
 import { NextPage } from "next";
 import Button from "../../components/UI/Button";
-import Header from "../../components/UI/Header";
-import Clients from "../../components/Clients";
-import NoClients from "../../components/NoClients";
-import LoadingPage from "../../components/Loading/LoadingSpinner";
+import Header from "../../components/header/PageHeader";
+import Clients from "../../components/client/Clients";
+import NoClients from "../../components/client/NoClients";
+import LoadingPage from "../../components/UI/LoadingSpinner";
 import { useMemo, useState } from "react";
-import AddClientModal from "../../components/AddClientModal";
+import AddClientModal from "../../components/client/AddClientModal";
 import useClients from "../../hooks/useClients";
-import { Client } from "@prisma/client";
-import { trpc } from "../../utils/trpc";
 
 const ClientsPage: NextPage = () => {
-  const { data: clients, isLoading, status } = trpc.client.getAll.useQuery();
+  const { clients, isLoading, status } = useClients();
   // const sortedClients = useMemo(() => {
   //   clients?.sort()
   // }, [clients]);
@@ -37,7 +35,7 @@ const ClientsPage: NextPage = () => {
         </div>
       )}
       {status === "success" && clients!.length > 0 ? (
-        clients.map((client) => <p key={client.id}>{client.name}</p>)
+        clients?.map((client) => <p key={client.id}>{client.name}</p>)
       ) : (
         <NoClients setIsModalOpen={setModalIsOpen} />
       )}

@@ -1,16 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import { useAtomValue } from "jotai";
-import { getClients } from "../lib/clientFunctions";
-import { userIdAtom } from "../store/user";
+import { getClients } from "../utils/clientFunctions";
+import { useUserStore } from "../store/user";
 
 const useClients = (onSuccess?: () => void) => {
-  const userId = useAtomValue(userIdAtom);
-  console.log("UserId: ", userId);
+  const userId = useUserStore((state) => state.userId);
   const {
     data: clients,
     isLoading,
     status,
-  } = useQuery(["clients"], () => getClients(userId), {
+  } = useQuery(["clients"], () => getClients(userId!), {
     onSuccess: onSuccess,
   });
   return { clients, isLoading, status };

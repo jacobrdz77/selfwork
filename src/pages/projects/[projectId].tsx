@@ -1,18 +1,15 @@
 import { useRouter } from "next/router";
-import Header from "../../components/UI/Header";
-import EditProjectModal from "../../components/EditProjectModal";
+import Header from "../../components/header/PageHeader";
+import EditProjectModal from "../../components/project/EditProjectModal";
 import { useState } from "react";
-import { trpc } from "../../utils/trpc";
-import { useAtomValue } from "jotai";
-import { userIdAtom } from "../../store/user";
+import useProjects from "../../hooks/useProjects";
+import { useUserStore } from "../../store/user";
 
 const ProjectDetailPage = () => {
   const router = useRouter();
   const id = router.query.projectId as string;
-  const userId = useAtomValue(userIdAtom);
+  const userId = useUserStore((state) => state.userId);
   const [isEditProjectModalOpen, setIsEditProjectModalOpen] = useState(false);
-  const { data: project } = trpc.project.getOne.useQuery({ projectId: id });
-  // const { data: clients } = trpc.client.getAll.useQuery({ userId: userId });
 
   return (
     <>

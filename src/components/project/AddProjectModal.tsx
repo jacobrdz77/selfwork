@@ -1,8 +1,8 @@
-import Modal from "./UI/Modal";
+import Modal from "../UI/Modal";
 import { Client } from "@prisma/client";
-import { createProject } from "../lib/projectsFunctions";
-import useProjectForm from "../hooks/useProjectForm";
-import { upperCaseName } from "./Layout/NavBar";
+import { createProject } from "../../utils/projectsFunctions";
+import useProjectForm from "../../hooks/useProjectForm";
+import { upperCaseName } from "../../utils/uppercaseName";
 
 const AddProjectModal: React.FC<{
   isOpen: boolean;

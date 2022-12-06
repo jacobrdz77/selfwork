@@ -1,11 +1,11 @@
 import { Task, TaskList } from "@prisma/client";
 import { useState } from "react";
-import useTaskLists from "../hooks/useTaskLists";
-import LoadingSpinner from "./Loading/LoadingSpinner";
-import NoProjects from "./NoProjects";
+import useTaskLists from "../../hooks/useTaskLists";
+import LoadingSpinner from "../UI/LoadingSpinner";
+import NoProjects from "../project/NoProjects";
 import NoTaskLists from "./NoTaskLists";
 import OneTaskList from "./OneTaskList";
-import Button from "./UI/Button";
+import Button from "../UI/Button";
 
 const TaskLists: React.FC<{
   taskLists: TaskList[];

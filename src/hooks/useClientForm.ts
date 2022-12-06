@@ -1,11 +1,9 @@
 import { ChangeEvent, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useAtomValue } from "jotai";
-import { userIdAtom } from "../store/user";
-import { createClient, updateClient } from "../lib/clientFunctions";
+import { createClient, updateClient } from "../utils/clientFunctions";
 import validateEmail from "../lib/validateEmail";
 import { Client } from "@prisma/client";
-import { trpc } from "../utils/trpc";
+import { useUserStore } from "../store/user";
 
 /*
     Needs in hook
@@ -13,21 +11,6 @@ import { trpc } from "../utils/trpc";
     - Handle form validation here
     - Handle update client request
 */
-export interface NewClientData {
-  id?: string;
-  name: string;
-  description: string;
-  businessAddress?: string;
-  email?: string;
-  phone?: string;
-  website?: string;
-  userId: string;
-  user: {
-    connect: {
-      id: string;
-    };
-  };
-}
 
 const useClientForm = (
   action: "create" | "update",
@@ -44,7 +27,7 @@ const useClientForm = (
     website: clientData?.website || "",
     userId: clientData?.userId || "",
   };
-  const userId = useAtomValue(userIdAtom);
+  const userId = useUserStore((state) => state.userId);
   const [page, setPage] = useState<1 | 2>(1);
   const [name, setName] = useState(initialClient.name);
   const [description, setDescription] = useState(initialClient.description);

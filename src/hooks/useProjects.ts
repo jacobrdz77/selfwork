@@ -1,15 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import { useAtomValue } from "jotai";
 import { getProjects } from "../lib/projectsFunctions";
-import { userIdAtom } from "../store/user";
+import { useUserStore } from "../store/user";
 
 const useProjects = (onSuccess?: () => void) => {
-  const userId = useAtomValue(userIdAtom);
+  const userId = useUserStore((state) => state.userId);
   const {
     data: projects,
     isLoading,
     status,
-  } = useQuery(["projects", userId], () => getProjects(userId), {
+  } = useQuery(["projects", userId], () => getProjects(userId!), {
     onSuccess: onSuccess,
   });
 

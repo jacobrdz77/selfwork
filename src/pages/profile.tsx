@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
-import Header from "../components/UI/Header";
+import Header from "../components/header/PageHeader";
 
 const ProfilePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

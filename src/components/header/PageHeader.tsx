@@ -2,14 +2,14 @@ import React from "react";
 
 type HeaderProps = {
   title: string;
-  subTitle: string;
+  subTitle?: string;
   buttonHandler?: () => void;
   buttonText?: string;
   children?: JSX.Element | JSX.Element[];
   isButton?: boolean;
 };
 
-const Header: React.FC<HeaderProps> = ({
+const PageHeader: React.FC<HeaderProps> = ({
   title,
   subTitle,
   buttonHandler,
@@ -41,4 +41,4 @@ const Header: React.FC<HeaderProps> = ({
   );
 };
 
-export default Header;
+export default PageHeader;

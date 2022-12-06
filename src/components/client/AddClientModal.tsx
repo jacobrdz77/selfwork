@@ -1,6 +1,6 @@
-import Modal from "./UI/Modal";
+import Modal from "../UI/Modal";
 import { Client } from "@prisma/client";
-import useClientForm from "../hooks/useClientForm";
+import useClientForm from "../../hooks/useClientForm";
 
 const AddClientModal: React.FC<{
   isOpen: boolean;

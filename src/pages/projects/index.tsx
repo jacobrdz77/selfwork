@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { NextPage } from "next";
-import Header from "../../components/UI/Header";
-import NoProjects from "../../components/NoProjects";
-import AddProjectModal from "../../components/AddProjectModal";
+import Header from "../../components/header/PageHeader";
+import NoProjects from "../../components/project/NoProjects";
+import AddProjectModal from "../../components/project/AddProjectModal";
 import { Project } from "@prisma/client";
-import LoadingSpinner from "../../components/Loading/LoadingSpinner";
+import LoadingSpinner from "../../components/UI/LoadingSpinner";
 import Button from "../../components/UI/Button";
-import Projects from "../../components/Projects";
-import { trpc } from "../../utils/trpc";
+import Projects from "../../components/project/Projects";
+import useClients from "../../hooks/useClients";
+import useProjects from "../../hooks/useProjects";
 
 export type ProjectForProjectCard = Project & {
   client: {
@@ -18,8 +19,8 @@ export type ProjectForProjectCard = Project & {
 const ProjectsPage: NextPage = () => {
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
   // useQuery trpc
-  const { data: clients } = trpc.client.getAll.useQuery();
-  const { data: projects, isLoading, status } = trpc.project.getAll.useQuery();
+  const { clients, status: clientsStatus } = useClients();
+  const { projects, status: projectStatus } = useProjects();
 
   return (
     <>

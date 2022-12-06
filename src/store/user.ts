@@ -1,3 +1,10 @@
-import { atom } from "jotai";
+import create from "zustand";
 
-export const userIdAtom = atom("cl9vu9shg0000gpdc8v9o3gzt");
+interface UserState {
+  userId: string | null;
+}
+
+export const useUserStore = create<UserState>((set) => ({
+  userId: null,
+  setUserId: (id: string) => set({ userId: id }),
+}));

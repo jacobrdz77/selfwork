@@ -1,12 +1,12 @@
 import { NextPage } from "next";
-import Header from "../../components/UI/Header";
-import Tasks from "../../components/TaskLists";
+import Header from "../../components/header/PageHeader";
+import Tasks from "../../components/task/TaskLists";
 import useTasks from "../../hooks/useTasks";
-import LoadingSpinner from "../../components/Loading/LoadingSpinner";
+import LoadingSpinner from "../../components/UI/LoadingSpinner";
 import { trpc } from "../../utils/trpc";
-import TaskLists from "../../components/TaskLists";
+import TaskLists from "../../components/task/TaskLists";
 import { useState } from "react";
-import AddTaskListModal from "../../components/AddTaskListModal";
+import AddTaskListModal from "../../components/task/AddTaskListModal";
 
 const TasksPage: NextPage = () => {
   const [isTaskListModal, setIsTaskListModal] = useState(false);

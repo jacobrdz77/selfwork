@@ -1,6 +1,5 @@
-import Modal from "./UI/Modal";
-import { Client } from "@prisma/client";
-import useClientForm from "../hooks/useClientForm";
+import Modal from "../UI/Modal";
+import useClientForm from "../../hooks/useClientForm";
 
 const AddTaskListModal: React.FC<{
   isOpen: boolean;
@@ -9,7 +8,7 @@ const AddTaskListModal: React.FC<{
   const closeHandler = () => {
     setIsModalOpen(false);
   };
-  const { submitTaskList } = {};
+
   return (
     <Modal isOpen={isOpen} closeHandler={closeHandler}>
       <div className="flex flex-col items-start">
@@ -18,10 +17,7 @@ const AddTaskListModal: React.FC<{
             Add a Task
           </h1>
         </header>
-        <form
-          className="mt-10 w-full px-[24px] text-[14px] h-full"
-          onSubmit={submitTaskList}
-        >
+        <form className="mt-10 w-full px-[24px] text-[14px] h-full" onSubmit={}>
           <div className="flex flex-col gap-1">
             <label>Give the list a name</label>
             <input

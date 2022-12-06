@@ -1,10 +1,9 @@
-import { Priority } from "@prisma/client";
-import { ChangeEvent, useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateProject } from "../lib/projectsFunctions";
+import { Client, Priority, Project } from "@prisma/client";
+import { ChangeEvent, FormEvent, useState } from "react";
 import format from "date-fns/format";
-import { useUserStore } from "../store/user";
-import type { NewProjectData } from "../types/types";
+import { useAtomValue } from "jotai";
+import { userIdAtom } from "../store/user";
+import { trpc } from "../utils/trpc";
 /*
     Needs in hook
     - Initialize the EditProjectForm state from getOneProject request.
@@ -13,21 +12,22 @@ import type { NewProjectData } from "../types/types";
 */
 
 const useProjectForm = (
-  mutationFn: (param: any) => any,
+  asyncFn: (param: any) => any,
   afterSubmit: () => void,
-  projectData?: NewProjectData
+  projectData?: Project
 ) => {
   const initialProject = {
     id: projectData?.id || "",
     name: projectData?.name || "",
     description: projectData?.description || "",
     clientId: projectData?.clientId || "",
+    clientName: projectData?.clientName || "",
     hourlyRate: projectData?.hourlyRate || 0,
-    startDate: projectData?.startDate || format(new Date(), "yyyy-MM-dd"),
-    dueDate: projectData?.dueDate || "",
+    startDate: projectData?.startDate ? projectData.startDate : "",
+    dueDate: projectData?.startDate ? projectData.startDate : "",
     priority: projectData?.priority || "NONE",
   };
-  const userId = useUserStore((state) => state.userId);
+  const userId = useAtomValue(userIdAtom);
   const [page, setPage] = useState<1 | 2>(1);
   const [name, setName] = useState(initialProject.name);
   const [isNameTouched, setIsNameTouched] = useState(false);
@@ -41,7 +41,7 @@ const useProjectForm = (
   const [priority, setPriority] = useState<Priority>(initialProject.priority);
   const [hourlyRate, setHourlyRate] = useState(0);
   const [startDate, setStartDate] = useState(initialProject.startDate);
-  const [dueDate, setDueDate] = useState<string | null>(initialProject.dueDate);
+  const [dueDate, setDueDate] = useState(initialProject.dueDate);
 
   // First Page
   const validateFirstPageHandler = () => {
@@ -54,7 +54,7 @@ const useProjectForm = (
     }
   };
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setIsNameError(false);
+    if (e.target.value.trim().length > 0) setIsNameError(false);
     setName(e.target.value);
   };
   const nameBlurHandler = () => {
@@ -112,29 +112,68 @@ const useProjectForm = (
   const handleEndDateChange = (e: ChangeEvent<HTMLInputElement>) => {
     setDueDate(e.target.value);
   };
-  const queryClient = useQueryClient();
+  const queryClient = trpc.useContext();
 
-  const { mutate } = useMutation(["submitProject"], mutationFn, {
+  const { refetch } = trpc.project.getAll.useQuery();
+
+  const { mutate: createProject } = trpc.project.createOne.useMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries(["projects"]);
-      resetForm();
-      afterSubmit();
+      refetch();
+    },
+  });
+  const { mutate: updateProject } = trpc.project.updateOne.useMutation({
+    onSuccess: () => {
+      refetch();
     },
   });
 
   // Submit
-  const submitHandler = (e: any) => {
+  const submitHandler = (e: FormEvent) => {
     e.preventDefault();
-    mutate({
-      name,
-      description,
-      priority,
-      hourlyRate,
-      startDate,
-      dueDate: dueDate === "" ? null : dueDate,
-      clientId: selectedClient,
-      userId: userId,
-    });
+    if (action === "create") {
+      return createProject(
+        {
+          project: {
+            name,
+            description,
+            priority,
+            hourlyRate,
+            startDate: new Date(dueDate),
+            dueDate: new Date(dueDate),
+            clientId: selectedClient,
+            clientName: initialProject.clientName,
+            userId: userId,
+          },
+        },
+        {
+          onSuccess: () => {
+            afterSubmit();
+          },
+        }
+      );
+    } else {
+      return updateProject(
+        {
+          projectId: projectData?.id ? projectData.id : "",
+          newProjectData: {
+            name,
+            description,
+            priority,
+            hourlyRate,
+            startDate: new Date(startDate),
+            dueDate: new Date(dueDate),
+            clientId: selectedClient,
+            clientName: projectData?.clientName!,
+            userId: userId,
+          },
+        },
+        {
+          onSuccess: () => {
+            afterSubmit();
+          },
+        }
+      );
+    }
   };
 
   return {
