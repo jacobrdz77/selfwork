@@ -1,4 +1,4 @@
-import "../styles/globals.css";
+import "../styles/globals.scss";
 import Head from "next/head";
 import Layout from "../components/Layout/Layout";
 import type { AppProps } from "next/app";
@@ -39,4 +39,4 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppProps) {
     </SessionProvider>
   );
 }
-export default trpc.withTRPC(MyApp);
+export default MyApp;
