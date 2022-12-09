@@ -12,19 +12,6 @@
 - Allows you to log in and register using Github.
 - Add Tasks for projects which you can define the start date and due date, priority, and description.
 
-# Notes
-
-## Errors
-
-- Had errors with API (ERR_HTTP_HEADERS_SENT) because in the api after successfully sending a response, it kept on checking on the other req.method.
-- Had error with using fetch for a get request. It was because the get request had a body which is not supposed to.(weird tbh)
-
-## Current State of Project
-
-### August 6, 2022
-
-- Projects page is mostly finished. It's able to fetch all projects from using userId. Still need to fetch all data for project detail page.
-
 ## Projects Page
 
 ![projects-page](https://user-images.githubusercontent.com/70309225/182730217-b7f123dd-d704-436c-a7a5-7a4bda8f947a.PNG)
