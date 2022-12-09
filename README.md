@@ -1,4 +1,4 @@
-# selfwork. (in development)
+# selfwork (in development)
 
 ### A project management system targeted for freelancers.
 
