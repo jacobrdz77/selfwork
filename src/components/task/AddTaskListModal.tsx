@@ -1,4 +1,4 @@
-import Modal from "../UI/Modal";
+import Modal from "../ui/Modal";
 import useClientForm from "../../hooks/useClientForm";
 
 const AddTaskListModal: React.FC<{
@@ -17,7 +17,7 @@ const AddTaskListModal: React.FC<{
             Add a Task
           </h1>
         </header>
-        <form className="mt-10 w-full px-[24px] text-[14px] h-full" onSubmit={}>
+        <form className="mt-10 w-full px-[24px] text-[14px] h-full">
           <div className="flex flex-col gap-1">
             <label>Give the list a name</label>
             <input
@@ -33,7 +33,7 @@ const AddTaskListModal: React.FC<{
             </label>
             <textarea className="outline-none py-2 rounded-md border-[1px] min-h-[120px] px-[10px]" />
           </div>
-          <footer className="flex justify-between pt-5 maxxs:pt-[3.5rem] ">
+          <footer className="flex justify-between pt-5 maxxs:pt-[3.5rem]">
             <button className="px-3 py-2 w-[90px]   bg-red-500 text-white rounded-md">
               Cancel
             </button>

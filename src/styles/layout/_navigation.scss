@@ -1,0 +1,55 @@
+.navigation {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 208px;
+  height: 100vh;
+  background-color: $dark-gray;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  &__current-project {
+    &-name {
+    }
+    &-sub-heading {
+    }
+  }
+
+  &__logo {
+    font-size: 3rem;
+    font-weight: bolder;
+    letter-spacing: 0.2rem;
+    margin: 1.6rem;
+    &--dot {
+      color: #4ade80;
+    }
+  }
+
+  &__list {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__link {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
+    padding: 0.5rem 0.8rem;
+    gap: 1.2rem;
+    background-color: $primary;
+    border-radius: 1.5rem;
+    cursor: pointer;
+
+    &:hover,
+    &:active {
+      background-color: $primary-light;
+    }
+  }
+
+  &__signout {
+  }
+}

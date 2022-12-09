@@ -1,53 +1,14 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&display=swap");
-@import "colors";
+@import "abstracts/variables";
+@import "abstracts/functions";
+@import "abstracts/mixins";
 
-/* Mobile */
-@media only screen and (min-width: 0px) {
-  body,
-  html {
-    margin: 0;
-    padding: 0;
-    font-size: 100%;
-    font-family: "Poppins", sans-serif;
-    color: var(--bodyTextColor);
-    overflow-x: hidden;
-  }
-  *,
-  *:before,
-  *:after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  body {
-    transition: background-color 0.3s;
-  }
-  a {
-    color: inherit;
-  }
-  p,
-  li,
-  a {
-    font-size: 1.125rem;
-    line-height: 1.5em;
-    margin: 0;
-  }
+@import "base/base";
+@import "base/typography";
+@import "base/utilities";
+@import "base/animations";
 
-  a:hover,
-  button:hover {
-    cursor: pointer;
-  }
-  html {
-    font-size: 62.5%;
-  }
-
-  svg {
-    display: inline;
-  }
-}
-/* Tablet */
-@media only screen and (min-width: 768px) {
-}
-/* Small Desktop */
-@media only screen and (min-width: 1024px) {
-}
+@import "components/button";
+@import "components/card";
+@import "layout/layout";
+@import "layout/header";
+@import "layout/navigation";

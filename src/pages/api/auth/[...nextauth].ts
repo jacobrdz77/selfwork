@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import prisma from "../../../lib/prisma";
+import prisma from "../../../utils/prisma";
 
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -13,15 +13,15 @@ export default NextAuth({
   ],
   debug: process.env.NODE_ENV === "development",
   callbacks: {
-    async session({ session, user }) {
-      // session.user!.id = user.id;
-      return session;
-    },
-    signIn({ account, user }) {
-      if (user && account) {
-        return "/projects";
-      }
-      return "/projects";
-    },
+    // async session({ session, user }) {
+    //   // session.user!.id = user.id;
+    //   return session;
+    // },
+    // signIn({ account, user }) {
+    //   if (user && account) {
+    //     return "/projects";
+    //   }
+    //   return "/projects";
+    // },
   },
 });

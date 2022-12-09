@@ -1,6 +1,6 @@
 import "../styles/globals.scss";
 import Head from "next/head";
-import Layout from "../components/Layout/Layout";
+import Layout from "../components/layout/Layout";
 import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useRouter } from "next/router";

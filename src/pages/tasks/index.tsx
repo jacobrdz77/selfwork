@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import Header from "../../components/header/PageHeader";
 import Tasks from "../../components/task/TaskLists";
 import useTasks from "../../hooks/useTasks";
-import LoadingSpinner from "../../components/UI/LoadingSpinner";
+import LoadingSpinner from "../../components/ui/LoadingSpinner";
 import { trpc } from "../../utils/trpc";
 import TaskLists from "../../components/task/TaskLists";
 import { useState } from "react";

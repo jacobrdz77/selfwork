@@ -1,9 +1,9 @@
 import { NextPage } from "next";
-import Button from "../../components/UI/Button";
+import Button from "../../components/ui/Button";
 import Header from "../../components/header/PageHeader";
 import Clients from "../../components/client/Clients";
 import NoClients from "../../components/client/NoClients";
-import LoadingPage from "../../components/UI/LoadingSpinner";
+import LoadingPage from "../../components/ui/LoadingSpinner";
 import { useMemo, useState } from "react";
 import AddClientModal from "../../components/client/AddClientModal";
 import useClients from "../../hooks/useClients";

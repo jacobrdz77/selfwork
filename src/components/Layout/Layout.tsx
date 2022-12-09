@@ -7,7 +7,7 @@ type LayoutProps = {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div className="w-full flex flex-row">
+    <div className="layout">
       <NavBar />
       <main className="grow">{children}</main>
     </div>
