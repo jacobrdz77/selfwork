@@ -1,28 +1,75 @@
-.navigation {
+.nav {
   position: sticky;
   top: 0;
   left: 0;
-  width: 208px;
+  width: 250px;
   height: 100vh;
-  background-color: $dark-gray;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
+  background-color: $color-gray--dark;
+  color: $color-gray;
+  font-size: 1.6rem;
+  // padding: 0 0.8rem;
 
-  &__current-project {
-    &-name {
-    }
-    &-sub-heading {
-    }
+  &__hr {
+    border: none;
+    height: 0.1px;
+    background-color: $color-gray;
   }
 
   &__logo {
-    font-size: 3rem;
+    color: #fff;
+    font-size: 2.5rem;
     font-weight: bolder;
     letter-spacing: 0.2rem;
-    margin: 1.6rem;
-    &--dot {
-      color: #4ade80;
+    padding-left: 2rem;
+    margin: &--dot {
+      color: $color-secondary;
+    }
+  }
+
+  &__project {
+    display: grid;
+    align-items: center;
+    grid-template-columns: auto 18px;
+    width: 100%;
+    border-radius: 0.4rem;
+    padding: 0.6rem 1rem;
+    background-color: $color-gray--background;
+    transition: all 0.1s;
+    &-container {
+      margin: 1rem 0.8rem;
+    }
+    &-info {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+    &-name {
+      font-size: 1.8rem;
+      font-weight: bolder;
+      color: #fff;
+    }
+    &-sub {
+      font-size: 1.4rem;
+    }
+
+    &:hover {
+      transform: translateY(-0.5px);
+      box-shadow: 0 1rem 2rem rgba(#000, 0.2);
+      cursor: pointer;
+      .nav__dropdown-icon {
+        fill: lighten($color: $color-gray, $amount: 20);
+      }
+      .nav__project-sub {
+        color: lighten($color: $color-gray, $amount: 20);
+      }
+    }
+  }
+
+  &__dropdown {
+    margin: 0 auto;
+    &-icon {
+      fill: $color-gray;
+      width: 1.4rem;
     }
   }
 
@@ -31,25 +78,50 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
+    gap: 0.4rem;
+
+    &-container {
+      padding: 0.8rem 0.8rem;
+    }
   }
 
   &__link {
-    display: flex;
-    justify-content: start;
+    display: grid;
+    grid-template-columns: $size-icon auto;
+    gap: 1rem;
+    text-align: left;
+    font-size: 1.6rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.6rem;
     align-items: center;
-    width: 100%;
-    padding: 0.5rem 0.8rem;
-    gap: 1.2rem;
-    background-color: $primary;
-    border-radius: 1.5rem;
-    cursor: pointer;
 
     &:hover,
     &:active {
-      background-color: $primary-light;
+      background-color: $color-gray--background;
+      outline: none;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    // &-container {
+    //   padding: 0 0.8rem;
+    // }
+
+    &-icon {
+      width: $size-icon;
+      height: $size-icon;
     }
   }
 
   &__signout {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    cursor: pointer;
+    padding: 0.4rem 0.8rem;
+    &-icon {
+      display: inline-block;
+    }
   }
 }

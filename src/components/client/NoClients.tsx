@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
 
 const NoClients: React.FC<{
   setIsModalOpen: (isOpen: boolean) => any;

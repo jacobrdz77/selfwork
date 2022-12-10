@@ -1,18 +1,18 @@
 import { Task, TaskList } from "@prisma/client";
+import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
-import useTasks from "../hooks/useTasks";
-import { trpc } from "../utils/trpc";
+import { getTasks } from "../../utils/taskFunctions";
 import NoTasks from "./NoTasks";
 import OneTask from "./OneTask";
 
 const Tasks: React.FC<{}> = ({}) => {
   const [isAddTaskOpen, setAddTaskOpen] = useState(false);
-  const {
-    data: tasks,
-    isLoading,
-    status,
-    refetch,
-  } = trpc.task.getAll.useQuery();
+  // const {
+  //   data: tasks,
+  //   isLoading,
+  //   status,
+  //   refetch,
+  // } = useQuery("tasks", () => getTasks());
   return (
     <div className="flex flex-col">
       {isLoading && <p>Loading...</p>}

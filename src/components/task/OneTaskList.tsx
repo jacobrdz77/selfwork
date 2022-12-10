@@ -1,15 +1,13 @@
 import { Task, TaskList } from "@prisma/client";
+import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
-import useTasks from "../hooks/useTasks";
-import { trpc } from "../utils/trpc";
 import Tasks from "./Tasks";
 
 const OneTaskList: React.FC<{
   taskList: TaskList;
 }> = ({ taskList }) => {
   const [isOpen, setIsOpen] = useState(false);
-  // trpc getAll
-  const { data: tasks, isLoading, status } = trpc.task.getAll.useQuery();
+  // const { data: tasks, isLoading, status } = useQuery();
   return (
     <div>
       <div className="flex gap-3 items-baseline py-4">

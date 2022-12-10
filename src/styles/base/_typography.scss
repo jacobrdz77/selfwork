@@ -1,13 +1,13 @@
-@font-face {
-  font-family: "Courier New", sans-serif;
-  src: url("../fonts/Courier\ New.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap");
 
 input,
 button,
 textarea,
-select {
+select,
+a {
   font: inherit;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
 }

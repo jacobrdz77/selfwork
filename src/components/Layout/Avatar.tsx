@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 const Avatar: React.FC<{ name: string }> = ({ name }) => {
   // const getInitials = () => {

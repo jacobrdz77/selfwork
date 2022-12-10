@@ -5,6 +5,7 @@ const OneTask = ({ task }: { task: Task }) => {
   const [isEditTaskOpen, setIsEditTaskOpen] = useState(false);
   const [isOver, setIsOver] = useState(false);
   const taskCompleteHandler = () => {};
+
   // Handle the state of all of the Task data
   // PUT request to task for isComplete
   //   DELETE request after making task for isComplete to true

@@ -1,128 +1,129 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import Avatar from "./Avatar";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 const NavBar: React.FC = () => {
-  // const { data: user } = trpc.user.getUser.useQuery(
-  //   {
-  //     userId: "cl9uuyhd60002gpwnl6mz7k61",
-  //   },
-  //   {
-  //     onSuccess: (user) => {
-  //       setName(upperCaseName(user?.name!));
-  //     },
-  //   }
-  // );
-  const [name, setName] = useState("");
+  const { data: session } = useSession();
 
   return (
-    <nav className="navigation">
+    <nav className="nav">
       {/* LOGO */}
-      <div className="navigation__logo">
+      <div className="nav__logo">
         selfwork<span className="navigation__logo--dot">.</span>
       </div>
-      {/* Buttons */}
-      <ul className="navigation__list">
-        <li>
-          <Link className="navigation__link" href="/tasks">
+      {/* <hr className="nav__hr" />
+      <div className="nav__project-container">
+        <div className="nav__project">
+          <div className="nav__project-info">
+            <span className="nav__project-name">Pet Business Website</span>
+            <span className="nav__project-sub">Clients Projects</span>
+          </div>
+          <div className="nav__dropdown">
             <svg
+              className="nav__dropdown-icon"
+              id="Capa_1"
               xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="feather feather-check-circle"
+              x="0px"
+              y="0px"
+              width="18"
+              height="18"
+              viewBox="0 0 451.847 451.847"
             >
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              <g>
+                <path
+                  d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751
+		c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0
+		c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"
+                />
+              </g>
             </svg>
-            <span>Tasks</span>
-          </Link>
-        </li>
-        <li>
-          <Link className="navigation__link" href="/projects">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="-2 -4 24 24"
-              width="24"
-              height="24"
-              fill="currentColor"
-            >
-              <path d="M17 4H9.415l-.471-1.334A1.001 1.001 0 0 0 8 2H3a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1zm-6.17-2H17a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H3a3 3 0 0 1-3-3V3a3 3 0 0 1 3-3h5c1.306 0 2.417.835 2.83 2z"></path>
-            </svg>
-            <span>Projects</span>
-          </Link>
-        </li>
-        <li>
-          <Link className="navigation__link" href="/clients">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="feather feather-user"
-            >
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-            <span>Clients</span>
-          </Link>
-        </li>
-      </ul>
-      {/* User Profile
+          </div>
+        </div>
+      </div> */}
+      {/* Links*/}
+      <div className="nav__list-container">
+        <ul className="nav__list">
+          <li className="nav__link-container">
+            <Link className="nav__link" href="/tasks">
+              <svg
+                className="nav__link-icon"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="m16.19 2h-8.38c-3.64 0-5.81 2.17-5.81 5.81v8.38c0 3.64 2.17 5.81 5.81 5.81h8.38c3.64 0 5.81-2.17 5.81-5.81v-8.38c0-3.64-2.17-5.81-5.81-5.81zm-6.22 12.9-2.25 2.25c-.15.15-.34.22-.53.22s-.39-.07-.53-.22l-.75-.75c-.3-.29-.3-.77 0-1.06.29-.29.76-.29 1.06 0l.22.22 1.72-1.72c.29-.29.76-.29 1.06 0 .29.29.29.77 0 1.06zm0-7-2.25 2.25c-.15.15-.34.22-.53.22s-.39-.07-.53-.22l-.75-.75c-.3-.29-.3-.77 0-1.06.29-.29.76-.29 1.06 0l.22.22 1.72-1.72c.29-.29.76-.29 1.06 0 .29.29.29.77 0 1.06zm7.59 8.72h-5.25c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h5.25c.42 0 .75.34.75.75s-.33.75-.75.75zm0-7h-5.25c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h5.25c.42 0 .75.34.75.75s-.33.75-.75.75z" />
+              </svg>
+              <span>Tasks</span>
+            </Link>
+          </li>
+          <li className="nav__link-container">
+            <Link className="nav__link" href="/projects">
+              <svg
+                className="nav__link-icon"
+                clip-rule="evenodd"
+                fill="currentColor"
+                stroke-linejoin="round"
+                stroke-miterlimit="2"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g id="Icon">
+                  <path d="m20 21.25c1.518 0 2.75-1.232 2.75-2.75v-8.5c0-1.518-1.232-2.75-2.75-2.75 0 0-3.9 0-5.412 0-.09 0-.174-.049-.218-.129-.481-.866-1.448-2.605-1.929-3.471-.308-.555-.894-.9-1.529-.9h-6.912c-1.518 0-2.75 1.232-2.75 2.75v13c0 1.518 1.232 2.75 2.75 2.75z" />
+                  <path d="m13.919 4.25 1.111 2h4.97c1.086 0 2.065.463 2.75 1.201v-.451c0-1.518-1.232-2.75-2.75-2.75z" />
+                </g>
+              </svg>
+
+              <span>Projects</span>
+            </Link>
+          </li>
+          <li className="nav__link-container">
+            <Link className="nav__link" href="/clients">
+              <svg
+                className="nav__link-icon"
+                id="Capa_1"
+                fill="currentColor"
+                enable-background="new 0 0 512 512"
+                viewBox="0 0 512 512"
+              >
+                <g>
+                  <circle cx="256" cy="119.631" r="87" />
+                  <circle cx="432" cy="151.63" r="55" />
+                  <circle cx="80" cy="151.63" r="55" />
+                  <path d="m134.19 256.021c-21.65-17.738-41.257-15.39-66.29-15.39-37.44 0-67.9 30.28-67.9 67.49v109.21c0 16.16 13.19 29.3 29.41 29.3 70.026 0 61.59 1.267 61.59-3.02 0-77.386-9.166-134.137 43.19-187.59z" />
+                  <path d="m279.81 241.03c-43.724-3.647-81.729.042-114.51 27.1-54.857 43.94-44.3 103.103-44.3 175.48 0 19.149 15.58 35.02 35.02 35.02 211.082 0 219.483 6.809 232-20.91 4.105-9.374 2.98-6.395 2.98-96.07 0-71.226-61.673-120.62-111.19-120.62z" />
+                  <path d="m444.1 240.63c-25.17 0-44.669-2.324-66.29 15.39 51.965 53.056 43.19 105.935 43.19 187.59 0 4.314-7.003 3.02 60.54 3.02 16.8 0 30.46-13.61 30.46-30.34v-108.17c0-37.21-30.46-67.49-67.9-67.49z" />
+                </g>
+              </svg>
+              <span>Clients</span>
+            </Link>
+          </li>
+        </ul>
+      </div>
+      <footer className="nav__footer">
+        {/* User Profile
         <div className="w-full flex justify-center">
           <div className="w-[190px] mt-9">
             <Avatar name={name} />
           </div>
         </div> */}
 
-      <button className="navigation__logout" onClick={() => signOut()}>
-        <div className="navigation__logout-icon">
+        {/* Sign out button */}
+        {/* <a className="nav__signout" onClick={() => signOut()}>
           <svg
+            className="icon"
+            enable-background="new 0 0 512 512"
+            viewBox="0 0 512 512"
             xmlns="http://www.w3.org/2000/svg"
-            width="30"
-            height="30"
-            viewBox="0 0 512.000000 512.000000"
-            preserveAspectRatio="xMidYMid meet"
           >
-            <g
-              transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-              fill="#fff"
-              stroke="none"
-            >
-              <path
-                d="M980 5105 c-324 -66 -577 -322 -636 -645 -20 -110 -20 -3689 0 -3800
-30 -166 112 -316 239 -437 123 -116 265 -187 427 -212 55 -9 396 -11 1266 -9
-l1191 3 49 30 c30 19 60 49 79 79 27 44 30 58 30 126 0 68 -3 82 -30 126 -19
-30 -49 60 -79 79 l-49 30 -1211 5 -1211 5 -52 27 c-70 37 -120 89 -152 157
-l-26 56 0 1835 0 1835 26 56 c32 68 82 120 152 157 l52 27 1211 5 1211 5 49
-30 c30 19 60 49 79 79 27 44 30 58 30 126 0 68 -3 82 -30 126 -19 30 -49 60
--79 79 l-49 30 -1211 2 c-967 1 -1224 -1 -1276 -12z"
-              />
-              <path
-                d="M3304 3916 c-88 -41 -134 -118 -134 -222 1 -94 15 -113 418 -516
-l376 -378 -958 0 c-724 0 -969 -3 -1000 -12 -86 -26 -166 -136 -166 -228 0
--92 80 -202 166 -228 31 -9 276 -12 1000 -12 l958 0 -376 -377 c-206 -208
--384 -394 -394 -413 -13 -25 -18 -57 -19 -111 0 -67 3 -81 30 -124 56 -91 166
--133 272 -105 45 12 90 54 656 619 356 354 617 623 630 646 30 55 29 155 0
-210 -13 23 -276 293 -630 647 -657 655 -625 628 -733 628 -26 0 -66 -10 -96
--24z"
-              />
-            </g>
+            <path
+              clip-rule="evenodd"
+              d="m252.326 430.455v25.516c0 20.462-10.198 38.127-27.919 48.357-8.526 4.922-18.042 7.668-27.908 7.673-9.875.005-19.388-2.746-27.92-7.673l-113.456-65.504c-17.723-10.232-27.919-27.892-27.919-48.357v-334.629c0-30.791 25.048-55.838 55.838-55.838h249.871c30.792 0 55.842 25.045 55.842 55.838v70.539c0 10.119-8.216 18.335-18.335 18.335-10.122 0-18.331-8.215-18.331-18.335v-70.539c0-10.573-8.603-19.176-19.176-19.176h-218.952l110.446 63.777c17.715 10.23 27.919 27.89 27.919 48.347v245.003h80.587c10.572 0 19.176-8.598 19.176-19.172v-61.836c0-10.126 8.204-18.335 18.331-18.335 10.123 0 18.335 8.211 18.335 18.335v61.836c0 30.793-25.05 55.838-55.842 55.838zm169.883-196.897-20.191 20.191c-7.159 7.159-7.157 18.765 0 25.925 3.446 3.448 8.09 5.364 12.963 5.364 4.878 0 9.517-1.911 12.968-5.364l51.479-51.488c7.157-7.158 7.158-18.758 0-25.916l-51.479-51.48c-7.16-7.16-18.767-7.157-25.93-.001-7.157 7.152-7.155 18.763 0 25.917l20.19 20.186h-135.26c-10.129 0-18.331 8.208-18.331 18.336s8.203 18.331 18.331 18.331h135.26z"
+              fill-rule="evenodd"
+            />
           </svg>
-        </div>
-        <span className="navigation__logout-text">Sign out</span>
-      </button>
+          Signout
+          <div className="icon-container"></div>
+        </a> */}
+      </footer>
     </nav>
   );
 };
