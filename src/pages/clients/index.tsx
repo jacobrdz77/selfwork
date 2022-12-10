@@ -9,13 +9,11 @@ import AddClientModal from "../../components/client/AddClientModal";
 import useClients from "../../hooks/useClients";
 
 const ClientsPage: NextPage = () => {
-  const { clients, isLoading, status } = useClients();
-  // const sortedClients = useMemo(() => {
-  //   clients?.sort()
-  // }, [clients]);
   const [isModalOpen, setModalIsOpen] = useState(false);
+  const { clients, isLoading, status } = useClients();
+
   return (
-    <div className="h-full py-5 px-7">
+    <>
       <Header
         isButton={true}
         buttonText="Add Client"
@@ -27,7 +25,6 @@ const ClientsPage: NextPage = () => {
         {/* Filter buttons */}
         <Button>Sort By</Button>
       </Header>
-      <hr className="mt-4" />
       {/* Loading Spinner */}
       {isLoading && (
         <div className="w-full h-full flex justify-center mt-11">
@@ -42,15 +39,15 @@ const ClientsPage: NextPage = () => {
 
       {status === "error" && (
         <div className="w-full h-full flex justify-center align-middle">
-          <h1 className="text-2xl">Error</h1>
+          <h2 className="text-2xl">Error</h2>
           <p className="text-gray-500">
             Sorry about that. Try to refresh the page.
           </p>
         </div>
       )}
 
-      <AddClientModal isOpen={isModalOpen} setIsModalOpen={setModalIsOpen} />
-    </div>
+      {/* <AddClientModal isOpen={isModalOpen} setIsModalOpen={setModalIsOpen} /> */}
+    </>
   );
 };
 

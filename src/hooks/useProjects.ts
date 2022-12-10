@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getProjects } from "../lib/projectsFunctions";
+import { getProjects } from "../utils/projectsFunctions";
 import { useUserStore } from "../store/user";
 
 const useProjects = (onSuccess?: () => void) => {

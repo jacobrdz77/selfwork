@@ -1,9 +1,9 @@
-.btn {
+.button {
   background-color: #d1d5db;
   color: #000;
   font-size: 1.4rem;
-  padding: 0.4rem 1.2rem;
-  border-radius: 7px;
+  padding: 0.8rem 1.4rem;
+  border-radius: 0.6rem;
 
   &,
   &:link,
@@ -17,29 +17,19 @@
     background-color: #9ca3af;
   }
 
-  &:active,
-  &:focus {
-    outline: none;
-    transform: translateY(-0.1px);
-    box-shadow: 0 0.5rem 1rem rgba(#000, 0.2);
-  }
+  // &:active,
+  // &:focus {
+  //   outline: none;
+  //   transform: translateY(-0.1px);
+  //   box-shadow: 0 0.5rem 1rem rgba(#000, 0.2);
+  // }
 
   &--blue {
     background-color: $color-skyblue;
     color: #fff;
-  }
-
-  &::after {
-    content: "";
-    display: inline-block;
-    height: 100%;
-    width: 100%;
-    border-radius: 10rem;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    transition: all 0.4s;
+    &:hover {
+      background-color: lighten($color-skyblue, 10);
+    }
   }
 
   &--animated {

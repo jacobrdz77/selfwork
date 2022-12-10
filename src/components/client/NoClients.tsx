@@ -6,7 +6,7 @@ const NoClients: React.FC<{
   return (
     <div className="h-full flex mt-[10rem] justify-center text-center ">
       <div className="flex flex-col">
-        <svg
+        {/* <svg
           xmlns="http://www.w3.org/2000/svg"
           data-name="Layer 1"
           className="w-[190px]"
@@ -46,8 +46,8 @@ const NoClients: React.FC<{
           />
           <circle cx="433.63626" cy="105.17383" r="20" fill="#3b82f6" />
           <circle cx="433.63626" cy="105.17383" r="12.18187" fill="#fff" />
-        </svg>
-        <h1 className="text-2xl mt-4">No Clients</h1>
+        </svg> */}
+        <h2 className="text-2xl mt-4">No Clients</h2>
         <p className="mt-1 text-gray-400">There are no clients.</p>
 
         <div>

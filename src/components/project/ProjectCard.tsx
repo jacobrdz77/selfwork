@@ -1,14 +1,11 @@
 import { Project } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useAtomValue } from "jotai";
-import React, { Ref, useRef, useState, useEffect } from "react";
-import { useOnClickOutside } from "../hooks/useOnClickOutside";
-import { getClients } from "../lib/clientFunctions";
-import { deleteProject } from "../lib/projectsFunctions";
-import { userIdAtom } from "../store/user";
-import { trpc } from "../utils/trpc";
+import React, { useRef, useState, useEffect } from "react";
+import { useOnClickOutside } from "../../hooks/useOnClickOutside";
+import { getClients } from "../../utils/clientFunctions";
+import { deleteProject } from "../../utils/projectsFunctions";
 import EditProjectModal from "./EditProjectModal";
-import { upperCaseName } from "./Layout/NavBar";
+import { upperCaseName } from "../../utils/uppercaseName";
 // import EditProjectModal from "./EditProjectModal";
 import ProjectEditPopup from "./ProjectEditPopup";
 
@@ -27,14 +24,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ projectData }) => {
   });
   const queryClient = useQueryClient();
 
-  const { mutate: deleteProject } = trpc.project.deleteOne.useMutation({
-    onSuccess: () => {
-      queryClient.invalidateQueries();
-    },
-  });
+  // const { mutate: deleteProject } = trpc.project.deleteOne.useMutation({
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries();
+  //   },
+  // });
 
-  const userId = useAtomValue(userIdAtom);
-  const { data: clients } = trpc.client.getAll.useQuery();
+  // const userId = useAtomValue(userIdAtom);
+  // const { data: clients } = trpc.client.getAll.useQuery();
 
   return (
     <>
@@ -69,7 +66,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ projectData }) => {
             <ProjectEditPopup
               deleteProjectHandler={() => {
                 window.confirm("Are you sure you want to delete this project?");
-                deleteProject({ projectId: projectData.id });
+                deleteProject("userId");
               }}
               ref={modalRef}
               isPopupOpen={isPopupOpen}

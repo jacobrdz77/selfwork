@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createClient, updateClient } from "../utils/clientFunctions";
-import validateEmail from "../lib/validateEmail";
+import validateEmail from "../utils/validateEmail";
 import { Client } from "@prisma/client";
 import { useUserStore } from "../store/user";
 
@@ -115,20 +115,20 @@ const useClientForm = (
   };
 
   // CREATE Client
-  const queryClient = trpc.useContext();
+  // const queryClient = useContext();
 
-  const { refetch } = trpc.client.getAll.useQuery();
+  // const { refetch } = useQuery();
 
-  const { mutate: createClient } = trpc.client.createOne.useMutation({
+  const { mutate: createClient } = useMutation({
     onSuccess: () => {
-      refetch();
+      // refetch();
       resetForm();
       afterSubmit();
     },
   });
-  const { mutate: updateClient } = trpc.client.updateOne.useMutation({
+  const { mutate: updateClient } = useMutation({
     onSuccess: () => {
-      refetch();
+      // refetch();
       resetForm();
       afterSubmit();
     },
@@ -155,46 +155,46 @@ const useClientForm = (
   const submitHandler = (e: SubmitEvent) => {
     e.preventDefault();
     validateSubmit();
-    if (action === "create") {
-      return createClient(
-        {
-          client: {
-            name,
-            description,
-            userId,
-            businessAddress,
-            email,
-            phone,
-            website,
-          },
-        },
-        {
-          onSuccess: () => {
-            afterSubmit();
-          },
-        }
-      );
-    } else {
-      return updateClient(
-        {
-          clientId: clientData.id,
-          newClientData: {
-            name,
-            description,
-            userId,
-            businessAddress,
-            email,
-            phone,
-            website,
-          },
-        },
-        {
-          onSuccess: () => {
-            afterSubmit();
-          },
-        }
-      );
-    }
+    // if (action === "create") {
+    //   return createClient(
+    //     {
+    //       client: {
+    //         name,
+    //         description,
+    //         userId,
+    //         businessAddress,
+    //         email,
+    //         phone,
+    //         website,
+    //       },
+    //     },
+    //     {
+    //       onSuccess: () => {
+    //         afterSubmit();
+    //       },
+    //     }
+    //   );
+    // } else {
+    //   return updateClient(
+    //     {
+    //       clientId: clientData.id,
+    //       newClientData: {
+    //         name,
+    //         description,
+    //         userId,
+    //         businessAddress,
+    //         email,
+    //         phone,
+    //         website,
+    //       },
+    //     },
+    //     {
+    //       onSuccess: () => {
+    //         afterSubmit();
+    //       },
+    //     }
+    //   );
+    // }
   };
 
   return {

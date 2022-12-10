@@ -20,19 +20,16 @@ const ProjectDetailPage = () => {
         setIsModalOpen={setIsEditProjectModalOpen}
       /> */}
       {/* Wrapper */}
-      <div className="h-full py-5 px-7">
-        <Header
-          isButton={true}
-          buttonText="Edit Project"
-          title={project?.name ? project.name : ""}
-          subTitle={project?.clientName ? project.clientName : ""}
-          buttonHandler={() => {
-            setIsEditProjectModalOpen(true);
-          }}
-        />
-        <hr className="mt-4" />
-        <ProjectDetailPage />
-      </div>
+      <Header
+        isButton={true}
+        buttonText="Edit Project"
+        title={project?.name ? project.name : ""}
+        subTitle={project?.clientName ? project.clientName : ""}
+        buttonHandler={() => {
+          setIsEditProjectModalOpen(true);
+        }}
+      />
+      <ProjectDetailPage />
     </>
   );
 };

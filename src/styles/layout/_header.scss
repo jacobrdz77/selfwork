@@ -1,10 +1,15 @@
 .header {
-  //   &__logo-box {
-  //   }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid $color-gray;
+  padding: 1.6rem 2rem;
 
-  //   &__logo {
-  //   }
-
-  //   &__text-box {
-  //   }
+  &__title {
+    font-size: 3.2rem;
+  }
+  &__buttons {
+    display: flex;
+    gap: 0.8rem;
+  }
 }

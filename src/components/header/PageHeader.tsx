@@ -18,24 +18,26 @@ const PageHeader: React.FC<HeaderProps> = ({
   isButton,
 }) => {
   return (
-    <header className="flex justify-between">
-      <h1 className="text-3xl">
+    <header className="header">
+      <h1 className="header__title">
         {title}
         {subTitle ? " : " : ""}
         <p className="text-2xl text-gray-700">{subTitle}</p>
       </h1>
-      <div className="flex gap-2">
-        {isButton && (
-          <button
-            className="bg-blue-500  text-white text-[14px] px-3 tracking-wide py-1 rounded-[7px] hover:bg-blue-600"
-            type="button"
-            onClick={buttonHandler}
-          >
-            {buttonText}
-          </button>
-        )}
+      <div className="header__buttons-container">
+        <div className="header__buttons">
+          {isButton && (
+            <button
+              className="button button--blue"
+              type="button"
+              onClick={buttonHandler}
+            >
+              {buttonText}
+            </button>
+          )}
 
-        {children}
+          {children}
+        </div>
       </div>
     </header>
   );

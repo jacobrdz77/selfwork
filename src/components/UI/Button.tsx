@@ -6,11 +6,7 @@ const Button: React.FC<{
   className?: string;
 }> = ({ buttonHandler, children, className }) => {
   return (
-    <button
-      className={"button " + className}
-      type="button"
-      onClick={buttonHandler}
-    >
+    <button className={"button " + className} onClick={buttonHandler}>
       {children}
     </button>
   );

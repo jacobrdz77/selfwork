@@ -1,10 +1,10 @@
+import { useState } from "react";
 import { NextPage } from "next";
-import Header from "../../components/header/PageHeader";
+import PageHeader from "../../components/header/PageHeader";
 import Tasks from "../../components/task/TaskLists";
 import useTasks from "../../hooks/useTasks";
 import LoadingSpinner from "../../components/ui/LoadingSpinner";
 import TaskLists from "../../components/task/TaskLists";
-import { useState } from "react";
 import AddTaskListModal from "../../components/task/AddTaskListModal";
 
 const TasksPage: NextPage = () => {
@@ -15,15 +15,14 @@ const TasksPage: NextPage = () => {
   //   status,
   // } = trpc.taskList.getAll.useQuery();
   return (
-    <div className="h-full py-5 px-7">
-      <Header title="Tasks" buttonText="Add a Task List" isButton={true} />
-      <hr className="mt-4" />
-      <AddTaskListModal
+    <>
+      <PageHeader title="Tasks" buttonText="Add Task" isButton={true} />
+      {/* <AddTaskListModal
         isOpen={isTaskListModal}
         setIsModalOpen={setIsTaskListModal}
-      />
-      <TaskLists isLoading={isLoading} status={status} taskLists={taskLists!} />
-    </div>
+      /> */}
+      {/* <TaskLists isLoading={isLoading} status={status} taskLists={taskLists!} /> */}
+    </>
   );
 };
 
