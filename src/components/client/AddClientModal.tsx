@@ -8,35 +8,35 @@ const AddClientModal: React.FC<{
 }> = ({ isOpen, setIsModalOpen }) => {
   const closeHandler = () => {
     setIsModalOpen(false);
-    resetForm();
+    // resetForm();
   };
-  const {
-    name,
-    businessAddress,
-    description,
-    email,
-    handleBusinessAddressChange,
-    handleChangeEmail,
-    handleChangePhone,
-    handleChangeWebsite,
-    handleDescriptionChange,
-    handleNameChange,
-    isEmailError,
-    isNameError,
-    isPhoneError,
-    isFormValid,
-    nameBlurHandler,
-    page,
-    emailBlurHandler,
-    phone,
-    resetForm,
-    phoneBlurHandler,
-    setPage,
-    submitHandler,
-    validateSubmit,
+  // const {
+  //   name,
+  //   businessAddress,
+  //   description,
+  //   email,
+  //   handleBusinessAddressChange,
+  //   handleChangeEmail,
+  //   handleChangePhone,
+  //   handleChangeWebsite,
+  //   handleDescriptionChange,
+  //   handleNameChange,
+  //   isEmailError,
+  //   isNameError,
+  //   isPhoneError,
+  //   isFormValid,
+  //   nameBlurHandler,
+  //   page,
+  //   emailBlurHandler,
+  //   phone,
+  //   resetForm,
+  //   phoneBlurHandler,
+  //   setPage,
+  //   submitHandler,
+  //   validateSubmit,
 
-    website,
-  } = useClientForm("create", () => {});
+  //   website,
+  // } = useClientForm("create", () => {});
 
   return (
     <Modal isOpen={isOpen} closeHandler={closeHandler}>
@@ -359,7 +359,7 @@ const AddClientModal: React.FC<{
         <div>
           <form
             className="w-full h-full mt-2 text-[14px] sm:px-[20px]"
-            onSubmit={submitHandler}
+            onSubmit={() => submitHandler}
           >
             <div className="w-full h-full grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="flex flex-col w-full">
@@ -451,7 +451,7 @@ const AddClientModal: React.FC<{
         <div>
           <form
             className="flex flex-col w-full h-full mt-2 mb-2 text-[14px] sm:px-[40px]"
-            onSubmit={submitHandler}
+            onSubmit={() => submitHandler}
           >
             <div className="w-full h-full grid-cols-1 sm:grid-cols-2">
               <div className="flex flex-col w-full ">
