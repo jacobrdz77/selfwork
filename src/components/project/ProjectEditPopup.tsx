@@ -39,7 +39,10 @@ const ProjectEditPopup = React.forwardRef<
             </button>
           </li>
           <li className="pl-3 flex align-middle items-center h-[50px] w-full hover:bg-gray-100 hover:pointer-events-auto">
-            <button className="flex w-full h-full items-center" onClick={deleteProjectHandler}>
+            <button
+              className="flex w-full h-full items-center"
+              onClick={deleteProjectHandler}
+            >
               <svg
                 fill="#000000"
                 xmlns="http://www.w3.org/2000/svg"

@@ -1,13 +1,40 @@
 .nav {
-  position: sticky;
-  top: 0;
-  left: 0;
-  width: 250px;
-  height: 100vh;
+  position: relative;
+  // position: sticky;
+  // top: 0;
+  // left: 0;
+  width: 220px;
+  height: 100%;
   background-color: $color-gray--dark;
   color: $color-gray;
   font-size: 1.6rem;
   // padding: 0 0.8rem;
+
+  &--minimized {
+    width: 60px;
+  }
+
+  &__toggle {
+    position: absolute;
+    top: 400px;
+    left: 208px;
+    width: 25px;
+    background-color: darken($color-gray--dark, 15);
+    border-radius: 50%;
+    border: none;
+    fill: $color-gray;
+    transition: transform 0.2s;
+
+    &:hover {
+      cursor: pointer;
+      fill: $color-stroke;
+    }
+
+    &--active {
+      transform: rotate(-180deg);
+      left: 47px;
+    }
+  }
 
   &__hr {
     border: none;
@@ -21,8 +48,9 @@
     font-weight: bolder;
     letter-spacing: 0.2rem;
     padding-left: 2rem;
-    margin: &--dot {
-      color: $color-secondary;
+    margin-top: 1rem;
+    &--dot {
+      color: $color-green--light;
     }
   }
 
@@ -87,13 +115,14 @@
 
   &__link {
     display: grid;
-    grid-template-columns: $size-icon auto;
+    grid-template-columns: $icon-size auto;
     gap: 1rem;
     text-align: left;
     font-size: 1.6rem;
     padding: 0.6rem 1.2rem;
     border-radius: 0.6rem;
     align-items: center;
+    height: 37px;
 
     &:hover,
     &:active {
@@ -109,8 +138,15 @@
     // }
 
     &-icon {
-      width: $size-icon;
-      height: $size-icon;
+      width: $icon-size;
+      height: $icon-size;
+    }
+
+    &--minimized {
+      span {
+        display: none;
+      }
+      // gap: 0;
     }
   }
 

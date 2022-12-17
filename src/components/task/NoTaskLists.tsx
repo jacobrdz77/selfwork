@@ -6,7 +6,7 @@ const NoTaskLists: React.FC<{ buttonHandler: () => void }> = ({
   return (
     <div className="h-full flex mt-[10rem] justify-center text-center">
       <div className="flex flex-col p-3">
-        <div className="object-cover ">
+        <div className="object-cover">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             data-name="Layer 1"

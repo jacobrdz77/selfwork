@@ -6,9 +6,12 @@
   box-sizing: border-box;
 }
 
+/*Allow percentage-based heights in the application
+*/
 html,
 body {
   height: 100%;
+  // overflow-y: auto;
 }
 
 html {
@@ -23,6 +26,13 @@ canvas,
 svg {
   display: block;
   max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
 }
 
 a {
@@ -44,9 +54,31 @@ h6 {
 #__next {
   isolation: isolate;
   height: 100%;
+  // overflow-y: auto;
 }
 
 .main {
   flex: auto;
   height: 100%;
+}
+
+.layout {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  // overflow-y: auto;
+}
+
+// Scrollbar
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: $color-gray--dark;
+  border-radius: 10px;
 }

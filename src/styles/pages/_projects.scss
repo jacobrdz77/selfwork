@@ -1,0 +1,22 @@
+.project-page {
+  overflow-y: auto;
+}
+
+// .projects {
+//   display: flex;
+//   flex-wrap: wrap;
+//   gap: 1.6rem;
+//   overflow-y: auto;
+// }
+
+.project-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-width: 22rem;
+  padding: 1rem 1rem 1rem 1.5rem;
+  border-radius: 0.8rem;
+  border: 1px solid $color-stroke;
+  border-left: 4px solid red;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}

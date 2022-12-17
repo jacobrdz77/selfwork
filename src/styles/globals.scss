@@ -4,7 +4,6 @@
 
 @import "base/base";
 @import "base/typography";
-@import "base/utilities";
 @import "base/animations";
 
 @import "components/button";
@@ -12,4 +11,8 @@
 @import "components/icon";
 @import "layout/header";
 @import "layout/navigation";
-@import "layout/layout";
+
+@import "pages/page";
+@import "pages/projects";
+@import "pages/clients";
+@import "pages/tasks";

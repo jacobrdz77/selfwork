@@ -4,13 +4,15 @@ $[attribute]-[name]--[modifier]
 */
 
 // COLORS
-$color-primary: "#322641";
-$color-primary--light: "#6c528d";
-$color-primary--dark: "#312540";
-$color-secondary: "#8AD07C";
-$color-github: "#333333";
-$color-github--hover: "#111111";
-$color-skyblue: rgb(14 165 233);
+$color-primary: #322641;
+$color-primary--light: #6c528d;
+$color-primary--dark: #312540;
+$color-green--light: #6ea67a;
+$color-green--dark: #358658;
+
+$color-github: #333333;
+$color-github--hover: #111111;
+$color-skyblue: rgb(55, 135, 232);
 $color-gray: #87868b;
 $color-gray--dark: #34353e;
 $color-gray--background: #48494f;
@@ -20,4 +22,4 @@ $color-stroke: #e9edf1;
 // FONT
 $default-font-size: 1.6rem;
 
-$size-icon: 2rem;
+$icon-size: 2rem;

@@ -1,27 +1,24 @@
-import { Task, TaskList } from "@prisma/client";
-import { useQuery } from "@tanstack/react-query";
+import { Task } from "@prisma/client";
 import React, { useState } from "react";
-import { getTasks } from "../../utils/taskFunctions";
+import LoadingSpinner from "../ui/LoadingSpinner";
 import NoTasks from "./NoTasks";
 import OneTask from "./OneTask";
 
-const Tasks: React.FC<{}> = ({}) => {
+const Tasks: React.FC<{
+  tasks: Task[];
+  status: "error" | "success" | "loading";
+}> = ({ tasks, status }) => {
   const [isAddTaskOpen, setAddTaskOpen] = useState(false);
-  // const {
-  //   data: tasks,
-  //   isLoading,
-  //   status,
-  //   refetch,
-  // } = useQuery("tasks", () => getTasks());
   return (
-    <div className="flex flex-col">
-      {isLoading && <p>Loading...</p>}
-      {tasks?.map((task) => (
-        <OneTask key={task.id} task={task} />
-      ))}{" "}
+    <div className="">
+      {status === "loading" && <LoadingSpinner />}
+
+      {/* Succesful with no data */}
       {status === "success" && tasks.length === 0 && (
         <NoTasks setIsModalOpen={setAddTaskOpen} />
       )}
+
+      {/* Succesful with data */}
       {status === "success" &&
         tasks.length > 0 &&
         tasks?.map((task) => <OneTask key={task.id} task={task} />)}

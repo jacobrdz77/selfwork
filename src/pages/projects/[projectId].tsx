@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import Header from "../../components/header/PageHeader";
+import PageHeader from "../../components/header/PageHeader";
 import EditProjectModal from "../../components/project/EditProjectModal";
 import { useState } from "react";
 import useProjects from "../../hooks/useProjects";
@@ -20,7 +20,7 @@ const ProjectDetailPage = () => {
         setIsModalOpen={setIsEditProjectModalOpen}
       /> */}
       {/* Wrapper */}
-      <Header
+      <PageHeader
         isButton={true}
         buttonText="Edit Project"
         title={project?.name ? project.name : ""}

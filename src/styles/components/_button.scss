@@ -14,7 +14,7 @@
   }
 
   &:hover {
-    background-color: #9ca3af;
+    background-color: darken(#d1d5db, 5);
   }
 
   // &:active,
@@ -28,7 +28,7 @@
     background-color: $color-skyblue;
     color: #fff;
     &:hover {
-      background-color: lighten($color-skyblue, 10);
+      background-color: darken($color-skyblue, 5);
     }
   }
 

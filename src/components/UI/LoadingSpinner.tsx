@@ -1,7 +1,3 @@
-import React from "react";
-
-const LoadingSpinner = () => {
-  return <div className="loading-spinner"></div>;
-};
-
-export default LoadingSpinner;
+export default function LoadingSpinner() {
+  return <div className="double-lines-spinner"></div>;
+}

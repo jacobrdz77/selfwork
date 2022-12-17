@@ -6,14 +6,13 @@ import OneTaskList from "./OneTaskList";
 
 const TaskLists: React.FC<{
   taskLists: TaskList[];
-  isLoading: boolean;
   status: "error" | "success" | "loading";
-}> = ({ taskLists, isLoading, status }) => {
+}> = ({ taskLists, status }) => {
   const [searchValue, setSearchValue] = useState("");
   return (
     <main>
       {/* Loading */}
-      {isLoading && <LoadingSpinner />}
+      {status === "loading" && <LoadingSpinner />}
 
       {/* Succesful with data */}
       {status === "success" &&
@@ -23,6 +22,8 @@ const TaskLists: React.FC<{
         ))}
       {/* Succesful with no data */}
       {status === "success" && taskLists.length === 0 && <NoTaskLists />}
+
+      {/* Error */}
       {status === "error" && (
         <div className="w-full h-full flex flex-col justify-center align-middle">
           <h1 className="text-2xl text-red-600">Error</h1>

@@ -3,14 +3,49 @@ import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 
 const NavBar: React.FC = () => {
-  const { data: session } = useSession();
+  const [isMinimized, setIsMinimized] = useState(false);
+  console.log("Is Minimized: ", isMinimized);
 
   return (
-    <nav className="nav">
+    <div className={`nav ${isMinimized ? "nav--minimized" : ""}`}>
       {/* LOGO */}
       <div className="nav__logo">
-        selfwork<span className="navigation__logo--dot">.</span>
+        {isMinimized ? "s" : "selfwork"}
+        <span className="nav__logo--dot">.</span>
       </div>
+      <button
+        onClick={() => setIsMinimized((state) => !state)}
+        className={`nav__toggle ${isMinimized ? "nav__toggle--active" : ""}`}
+      >
+        <svg className="" viewBox="0 0 6.3499999 6.3500002">
+          <g id="layer1" transform="translate(0 -290.65)">
+            <path
+              id="path9429"
+              d="m2.2580394 291.96502a.26460982.26460982 0 0 0 -.1741496.46871l1.6190225 1.38699-1.6190225 1.38648a.26460982.26460982 0 1 0 .3436483.40049l1.8536335-1.58595a.26460982.26460982 0 0 0 0-.40256l-1.8536335-1.5875a.26460982.26460982 0 0 0 -.1694987-.0667z"
+              font-variant-ligatures="normal"
+              font-variant-position="normal"
+              font-variant-caps="normal"
+              font-variant-numeric="normal"
+              font-variant-alternates="normal"
+              font-feature-settings="normal"
+              text-indent="0"
+              text-align="start"
+              text-decoration-line="none"
+              text-decoration-style="solid"
+              text-decoration-color="rgb(0,0,0)"
+              text-transform="none"
+              text-orientation="mixed"
+              white-space="normal"
+              shape-padding="0"
+              isolation="auto"
+              mix-blend-mode="normal"
+              solid-color="rgb(0,0,0)"
+              solid-opacity="1"
+              vector-effect="none"
+            />
+          </g>
+        </svg>
+      </button>
       {/* <hr className="nav__hr" />
       <div className="nav__project-container">
         <div className="nav__project">
@@ -41,10 +76,15 @@ const NavBar: React.FC = () => {
         </div>
       </div> */}
       {/* Links*/}
-      <div className="nav__list-container">
+      <nav className="nav__list-container">
         <ul className="nav__list">
           <li className="nav__link-container">
-            <Link className="nav__link" href="/tasks">
+            <Link
+              className={`nav__link ${
+                isMinimized ? "nav__link--minimized" : ""
+              }`}
+              href="/tasks"
+            >
               <svg
                 className="nav__link-icon"
                 fill="currentColor"
@@ -56,13 +96,15 @@ const NavBar: React.FC = () => {
             </Link>
           </li>
           <li className="nav__link-container">
-            <Link className="nav__link" href="/projects">
+            <Link
+              className={`nav__link ${
+                isMinimized ? "nav__link--minimized" : ""
+              }`}
+              href="/projects"
+            >
               <svg
                 className="nav__link-icon"
-                clip-rule="evenodd"
                 fill="currentColor"
-                stroke-linejoin="round"
-                stroke-miterlimit="2"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
               >
@@ -76,12 +118,16 @@ const NavBar: React.FC = () => {
             </Link>
           </li>
           <li className="nav__link-container">
-            <Link className="nav__link" href="/clients">
+            <Link
+              className={`nav__link ${
+                isMinimized ? "nav__link--minimized" : ""
+              }`}
+              href="/clients"
+            >
               <svg
                 className="nav__link-icon"
                 id="Capa_1"
                 fill="currentColor"
-                enable-background="new 0 0 512 512"
                 viewBox="0 0 512 512"
               >
                 <g>
@@ -97,7 +143,7 @@ const NavBar: React.FC = () => {
             </Link>
           </li>
         </ul>
-      </div>
+      </nav>
       <footer className="nav__footer">
         {/* User Profile
         <div className="w-full flex justify-center">
@@ -110,7 +156,6 @@ const NavBar: React.FC = () => {
         {/* <a className="nav__signout" onClick={() => signOut()}>
           <svg
             className="icon"
-            enable-background="new 0 0 512 512"
             viewBox="0 0 512 512"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -124,7 +169,7 @@ const NavBar: React.FC = () => {
           <div className="icon-container"></div>
         </a> */}
       </footer>
-    </nav>
+    </div>
   );
 };
 

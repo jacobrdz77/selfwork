@@ -1,5 +1,5 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { getTasks } from "../lib/taskFunctions";
+import { useQuery } from "@tanstack/react-query";
+import { getTasks } from "../utils/taskFunctions";
 import { useUserStore } from "../store/user";
 
 const useTasks = (onSuccess?: () => void) => {
