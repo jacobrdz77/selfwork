@@ -50,28 +50,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ projectData }) => {
           >
             {projectData.name}
           </a>
-          <button
-            onClick={() => setIsPopupOpen(!isPopupOpen)}
-            className={`${
-              isPopupOpen ? "project-card__header-btn--on" : ""
-            } project-card__header-btn`}
-          >
-            ...
-          </button>
-          {isPopupOpen && (
-            <ProjectEditPopup
-              deleteProjectHandler={() => {
-                window.confirm("Are you sure you want to delete this project?");
-                deleteProject("userId");
-              }}
-              ref={modalRef}
-              isPopupOpen={isPopupOpen}
-              setIsEditModalOpen={setIsEditModalOpen}
-            />
-          )}
         </div>
         {/* Info */}
-        <div className=""></div>
+        <div className="project-card__description">
+          {projectData.description}
+        </div>
       </div>
     </>
   );

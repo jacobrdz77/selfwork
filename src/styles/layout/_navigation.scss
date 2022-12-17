@@ -54,45 +54,6 @@
     }
   }
 
-  &__project {
-    display: grid;
-    align-items: center;
-    grid-template-columns: auto 18px;
-    width: 100%;
-    border-radius: 0.4rem;
-    padding: 0.6rem 1rem;
-    background-color: $color-gray--background;
-    transition: all 0.1s;
-    &-container {
-      margin: 1rem 0.8rem;
-    }
-    &-info {
-      display: flex;
-      flex-direction: column;
-      text-align: left;
-    }
-    &-name {
-      font-size: 1.8rem;
-      font-weight: bolder;
-      color: #fff;
-    }
-    &-sub {
-      font-size: 1.4rem;
-    }
-
-    &:hover {
-      transform: translateY(-0.5px);
-      box-shadow: 0 1rem 2rem rgba(#000, 0.2);
-      cursor: pointer;
-      .nav__dropdown-icon {
-        fill: lighten($color: $color-gray, $amount: 20);
-      }
-      .nav__project-sub {
-        color: lighten($color: $color-gray, $amount: 20);
-      }
-    }
-  }
-
   &__dropdown {
     margin: 0 auto;
     &-icon {

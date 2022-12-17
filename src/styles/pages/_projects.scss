@@ -1,5 +1,5 @@
 .project-page {
-  overflow-y: auto;
+  height: 100%;
 }
 
 // .projects {
@@ -17,6 +17,14 @@
   padding: 1rem 1rem 1rem 1.5rem;
   border-radius: 0.8rem;
   border: 1px solid $color-stroke;
-  border-left: 4px solid red;
+  // border-left: 4px solid red;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
+  &__header {
+    &-btn {
+    }
+  }
+
+  &__name {
+  }
 }
