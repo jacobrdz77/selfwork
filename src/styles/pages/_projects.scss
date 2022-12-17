@@ -1,5 +1,6 @@
 .project-page {
-  height: 100%;
+  //! Causes overflow
+  // height: 100%;
 }
 
 // .projects {
@@ -13,18 +14,17 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  max-width: 22rem;
+  max-width: 24rem;
   padding: 1rem 1rem 1rem 1.5rem;
   border-radius: 0.8rem;
   border: 1px solid $color-stroke;
-  // border-left: 4px solid red;
+  border-left: 4px solid rgb(194, 84, 84);
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 
-  &__header {
-    &-btn {
-    }
-  }
-
   &__name {
+    font-weight: 700;
+    &:hover {
+      text-decoration: underline $color-gray;
+    }
   }
 }

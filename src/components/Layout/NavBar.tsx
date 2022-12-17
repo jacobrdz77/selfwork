@@ -3,7 +3,7 @@ import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 
 const NavBar: React.FC = () => {
-  const [isMinimized, setIsMinimized] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(true);
   console.log("Is Minimized: ", isMinimized);
 
   return (
@@ -37,7 +37,6 @@ const NavBar: React.FC = () => {
               text-orientation="mixed"
               white-space="normal"
               shape-padding="0"
-              isolation="auto"
               mix-blend-mode="normal"
               solid-color="rgb(0,0,0)"
               solid-opacity="1"

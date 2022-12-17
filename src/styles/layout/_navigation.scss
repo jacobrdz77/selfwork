@@ -1,8 +1,6 @@
 .nav {
+  flex: 0 0 auto;
   position: relative;
-  // position: sticky;
-  // top: 0;
-  // left: 0;
   width: 220px;
   height: 100%;
   background-color: $color-gray--dark;
@@ -19,15 +17,16 @@
     top: 400px;
     left: 208px;
     width: 25px;
-    background-color: darken($color-gray--dark, 15);
+    background-color: $color-gray--dark;
     border-radius: 50%;
-    border: none;
+    border: 2px solid $color-stroke;
     fill: $color-gray;
     transition: transform 0.2s;
 
     &:hover {
       cursor: pointer;
       fill: $color-stroke;
+      background-color: darken($color-gray--dark, 15);
     }
 
     &--active {

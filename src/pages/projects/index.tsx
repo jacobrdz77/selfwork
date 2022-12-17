@@ -12,11 +12,11 @@ import useProjects from "../../hooks/useProjects";
 
 import projects from "./SampleProjects.json";
 
-export type ProjectForProjectCard = Project & {
-  client: {
-    name: string;
-  };
-};
+// export type ProjectForProjectCard = Project & {
+//   client: {
+//     name: string;
+//   };
+// };
 
 const ProjectsPage: NextPage = () => {
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
