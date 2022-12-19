@@ -56,3 +56,23 @@
     }
   }
 }
+
+@mixin sidebar-btn {
+  display: grid;
+  grid-template-columns: $icon-size auto;
+  gap: 1rem;
+  text-align: left;
+  font-size: 1.6rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.6rem;
+  align-items: center;
+  height: 37px;
+  border: none;
+
+  &--minimized {
+    span {
+      display: none;
+    }
+    // gap: 0;
+  }
+}

@@ -3,21 +3,22 @@ import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 
 const NavBar: React.FC = () => {
-  const [isMinimized, setIsMinimized] = useState(true);
-  console.log("Is Minimized: ", isMinimized);
+  const [isMinimized, setIsMinimized] = useState(false);
 
   return (
-    <div className={`nav ${isMinimized ? "nav--minimized" : ""}`}>
+    <div className={`sidebar ${isMinimized ? "sidebar--minimized" : ""}`}>
       {/* LOGO */}
-      <div className="nav__logo">
+      <div className="sidebar__logo">
         {isMinimized ? "s" : "selfwork"}
-        <span className="nav__logo--dot">.</span>
+        <span className="sidebar__logo--dot">.</span>
       </div>
       <button
         onClick={() => setIsMinimized((state) => !state)}
-        className={`nav__toggle ${isMinimized ? "nav__toggle--active" : ""}`}
+        className={`sidebar__toggle ${
+          isMinimized ? "sidebar__toggle--active" : ""
+        }`}
       >
-        <svg className="" viewBox="0 0 6.3499999 6.3500002">
+        <svg viewBox="0 0 6.3499999 6.3500002">
           <g id="layer1" transform="translate(0 -290.65)">
             <path
               id="path9429"
@@ -40,52 +41,39 @@ const NavBar: React.FC = () => {
               mix-blend-mode="normal"
               solid-color="rgb(0,0,0)"
               solid-opacity="1"
-              vector-effect="none"
             />
           </g>
         </svg>
       </button>
-      {/* <hr className="nav__hr" />
-      <div className="nav__project-container">
-        <div className="nav__project">
-          <div className="nav__project-info">
-            <span className="nav__project-name">Pet Business Website</span>
-            <span className="nav__project-sub">Clients Projects</span>
-          </div>
-          <div className="nav__dropdown">
-            <svg
-              className="nav__dropdown-icon"
-              id="Capa_1"
-              xmlns="http://www.w3.org/2000/svg"
-              x="0px"
-              y="0px"
-              width="18"
-              height="18"
-              viewBox="0 0 451.847 451.847"
-            >
-              <g>
-                <path
-                  d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751
-		c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0
-		c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"
-                />
-              </g>
-            </svg>
-          </div>
-        </div>
-      </div> */}
+
+      <div className="sidebar__add-container">
+        <button
+          className={`sidebar__add ${
+            isMinimized ? "sidebar__add--minimized" : ""
+          }`}
+        >
+          <svg
+            fill="currentColor"
+            className="sidebar__add-icon"
+            viewBox="0 0 24 24"
+          >
+            <path d="m12 6a1 1 0 0 0 -1 1v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2h-4v-4a1 1 0 0 0 -1-1z" />
+          </svg>
+          <span>Add</span>
+        </button>
+      </div>
       {/* Links*/}
-      <nav className="nav__list-container">
-        <ul className="nav__list">
-          <li className="nav__link-container">
+      <nav className="sidebar__nav-container">
+        <ul className="sidebar__nav">
+          <li className="sidebar__link-container">
             <Link
-              className={`nav__link ${
-                isMinimized ? "nav__link--minimized" : ""
+              className={`sidebar__link ${
+                isMinimized ? "sidebar__link--minimized" : ""
               }`}
               href="/tasks"
             >
               <svg
-                className="nav__link-icon"
+                className="sidebar__link-icon"
                 fill="currentColor"
                 viewBox="0 0 24 24"
               >
@@ -94,15 +82,15 @@ const NavBar: React.FC = () => {
               <span>Tasks</span>
             </Link>
           </li>
-          <li className="nav__link-container">
+          <li className="sidebar__link-container">
             <Link
-              className={`nav__link ${
-                isMinimized ? "nav__link--minimized" : ""
+              className={`sidebar__link ${
+                isMinimized ? "sidebar__link--minimized" : ""
               }`}
               href="/projects"
             >
               <svg
-                className="nav__link-icon"
+                className="sidebar__link-icon"
                 fill="currentColor"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -116,15 +104,15 @@ const NavBar: React.FC = () => {
               <span>Projects</span>
             </Link>
           </li>
-          <li className="nav__link-container">
+          <li className="sidebar__link-container">
             <Link
-              className={`nav__link ${
-                isMinimized ? "nav__link--minimized" : ""
+              className={`sidebar__link ${
+                isMinimized ? "sidebar__link--minimized" : ""
               }`}
               href="/clients"
             >
               <svg
-                className="nav__link-icon"
+                className="sidebar__link-icon"
                 id="Capa_1"
                 fill="currentColor"
                 viewBox="0 0 512 512"

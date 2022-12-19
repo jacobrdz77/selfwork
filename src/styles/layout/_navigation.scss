@@ -1,4 +1,4 @@
-.nav {
+.sidebar {
   flex: 0 0 auto;
   position: relative;
   width: 220px;
@@ -12,9 +12,39 @@
     width: 60px;
   }
 
+  &__add {
+    width: 100%;
+    color: inherit;
+    @include sidebar-btn;
+    background-color: $color-gray--dark;
+    color: #fff;
+    border: 1px $color-gray--background solid;
+
+    &:hover,
+    &:active {
+      background-color: $color-gray--background;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    &-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.6rem;
+      padding: 0.8rem;
+    }
+
+    &-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+  }
+
   &__toggle {
+    rotate: 180deg;
     position: absolute;
-    top: 400px;
+    top: 88%;
     left: 208px;
     width: 25px;
     background-color: $color-gray--dark;
@@ -26,7 +56,6 @@
     &:hover {
       cursor: pointer;
       fill: $color-stroke;
-      background-color: darken($color-gray--dark, 15);
     }
 
     &--active {
@@ -53,15 +82,7 @@
     }
   }
 
-  &__dropdown {
-    margin: 0 auto;
-    &-icon {
-      fill: $color-gray;
-      width: 1.4rem;
-    }
-  }
-
-  &__list {
+  &__nav {
     width: 100%;
     margin: 0 auto;
     display: flex;
@@ -74,39 +95,18 @@
   }
 
   &__link {
-    display: grid;
-    grid-template-columns: $icon-size auto;
-    gap: 1rem;
-    text-align: left;
-    font-size: 1.6rem;
-    padding: 0.6rem 1.2rem;
-    border-radius: 0.6rem;
-    align-items: center;
-    height: 37px;
+    @include sidebar-btn;
 
     &:hover,
     &:active {
       background-color: $color-gray--background;
-      outline: none;
-      border: none;
       color: #fff;
       cursor: pointer;
     }
 
-    // &-container {
-    //   padding: 0 0.8rem;
-    // }
-
     &-icon {
       width: $icon-size;
       height: $icon-size;
-    }
-
-    &--minimized {
-      span {
-        display: none;
-      }
-      // gap: 0;
     }
   }
 
