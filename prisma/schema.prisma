@@ -42,8 +42,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  projects      Project[]
-  tasks         Task[]
+  websites      Website[]
   clients       Client[]
 }
 
@@ -62,42 +61,51 @@ enum Priority {
   HIGH
 }
 
-model Project {
+model Note {
+  id String @id @default(cuid())
+  title String
+  content String
+  website Website @relation(fields: [websiteId], references: [id], onDelete: Cascade)
+  websiteId String 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Website {
   id String @id @default(cuid())
   name String
-  priority Priority @default(NONE)
-  startDate DateTime @default(now())
-  dueDate DateTime? 
   taskLists TaskList[]
+  lumpSum Int?
+  priority Priority? @default(NONE)
+  dueDate DateTime? 
+  notes Note[]
+  description String?
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
-  client Client @relation(fields: [clientId, clientName], references: [id, name])
+  client Client? @relation(fields: [clientId, clientName], references: [id, name])
   clientId String
   clientName String
-  description String?
-  hourlyRate Int?
-  @@unique([id, name, userId])
+  createdAt DateTime @default(now())
+  @@unique([id, name])
 }
 
 model Client {
   id String @id @default(cuid())
-  name String 
-  description String?
+  name String
+  companyName String? 
   phone String?
   email String? @unique
-  website String? 
   businessAddress String?
-  projects Project[]
+  contacts  Contact[]
+  website   Website[]
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
-  contacts  Contact[]
   @@unique([id, name])
 }
 
 model Contact {
   id  String @id @default(cuid())
-  firstName String
-  lastName String
+  name String
   email String
   phoneNumber String?
   jobTitle  String?
@@ -105,38 +113,20 @@ model Contact {
   clientId String
 }
 
-model LogTime {
-  id  String @id @default(cuid())
-  startDate  DateTime  @default(now())
-  endDate  DateTime  @default(now())
-  startTime DateTime
-  endTime   DateTime  
-  timeSpent   DateTime
-  description String?
-  task  Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
-  taskId String
-}
-
 model Task {
   id String @id @default(cuid())
   createdAt   DateTime  @default(now())
   name String
-  description String?
-  isComplete  Boolean 
   priority  Priority @default(NONE)
-  tags  Tag[]
-  loggedTime  LogTime[]
-  startDate  DateTime?  @default(now())
-  endDate  DateTime?  @default(now())
-  user User @relation(fields: [ userId], references: [id], onDelete: Cascade)
-  userId String
-  taskList  TaskList @relation(fields: [taskListId, projectId, projectName], references: [id, projectId, projectName])
+  description String?
+  dueDate  DateTime?
+  isComplete  Boolean 
+  labels  Label[]
+  taskList  TaskList @relation(fields: [taskListId], references: [id])
   taskListId  String
-  projectId String
-  projectName String
 }
 
-model Tag {
+model Label {
   id String @id @default(cuid())
   name  String
   task Task? @relation(fields: [taskId], references: [id])
@@ -145,12 +135,9 @@ model Tag {
 
 model TaskList {
   id String @id @default(cuid())
-  project Project @relation(fields: [projectId, projectName, userId], references: [id, name, userId], onDelete: Cascade)
-  projectId String 
-  projectName String
-  userId String
   name  String  @unique
-  notes  String?
   tasks Task[]
-  @@unique([id, projectId, projectName])
+  website Website @relation(fields: [websiteId], references: [id], onDelete: Cascade)
+  websiteId String 
+  @@unique([id, websiteId ])
 }
