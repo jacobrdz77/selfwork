@@ -9,12 +9,7 @@ export default async function handler(
   // Get all tasks
   if (req.method === "GET") {
     try {
-      const { userId } = req.body;
-      const tasks = await prisma.task.findMany({
-        where: {
-          userId: userId as string,
-        },
-      });
+      const tasks = await prisma.task.findMany();
       return res.status(200).json(tasks);
     } catch (error: Error | any) {
       return res.status(400).json({ error: error.message });

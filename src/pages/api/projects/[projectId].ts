@@ -31,7 +31,7 @@ export default async function handler(
           id: projectId as string,
         },
       });
-      return res.status(200).json({ project, message: "DELETED PROJECT" });
+      return res.status(200).json({ project, message: "DELETED project" });
     } catch (error: Error | any) {
       return res.status(400).json(error);
     }

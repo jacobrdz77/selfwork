@@ -6,13 +6,13 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // Get all TaskList
+  // Get all task-lists
   if (req.method === "GET") {
     try {
-      const { projectId } = req.body;
+      const { websiteId } = req.body;
       const taskList = await prisma.taskList.findMany({
         where: {
-          projectId: projectId as string,
+          websiteId,
         },
       });
       return res.status(200).json(taskList);
@@ -21,16 +21,16 @@ export default async function handler(
     }
   }
 
-  // Create a new taskList
+  // Create a new task-list
   if (req.method === "POST") {
     try {
       // Get the taskList data from the request body
       const { taskList } = req.body;
       const taskData = {
         ...taskList,
-        project: {
+        website: {
           connect: {
-            id: taskList.projectId,
+            id: taskList.websiteId,
           },
         },
       };

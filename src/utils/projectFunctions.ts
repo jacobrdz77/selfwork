@@ -1,6 +1,6 @@
 import { Priority, Project } from "@prisma/client";
 import axios from "axios";
-interface NewProjectData {
+interface NewprojectData {
   name: string;
   description: string;
   clientId: string;
@@ -13,24 +13,28 @@ interface NewProjectData {
 
 // GET ALL
 export const getProjects = async (userId: string) => {
-  const projects = await axios.get("/api/projects", {
-    data: {
-      userId,
-    },
-  });
-  return projects.data as Project[];
+  try {
+    const response = await fetch(`/api/projects?userId=${userId}`);
+    return (await response.json()) as Project[];
+  } catch (error) {
+    throw error;
+  }
 };
 
 // GET ONE
 export const getOneProject = async (projectId: string) => {
-  const project = await axios.get(`/api/projects/${projectId}`);
-  return project.data as Project;
+  try {
+    const response = await fetch(`/api/projects/${projectId}`);
+    return (await response.json()) as Project;
+  } catch (error) {
+    throw error;
+  }
 };
 
 // NEW
-export const createProject = async (project: NewProjectData) => {
-  const newProject = await axios.post("/api/projects", { project });
-  return newProject.data as Project;
+export const createProject = async (project: NewprojectData) => {
+  const newproject = await axios.post("/api/projects", { project });
+  return newproject.data as Project;
 };
 
 export type UpdateProjectData = {
@@ -49,16 +53,16 @@ export const updateProject = async (
   projectId: string,
   projectData: UpdateProjectData
 ) => {
-  const updatedProject = await axios.put(`/api/projects/${projectId}`, {
+  const updatedproject = await axios.put(`/api/projects/${projectId}`, {
     data: {
       projectData,
     },
   });
-  return updatedProject.data as Project;
+  return updatedproject.data as Project;
 };
 
 // DELETE
 export const deleteProject = async (projectId: string) => {
-  const deletedProject = await axios.delete(`/api/projects/${projectId}`);
-  return deletedProject.data as Project;
+  const deletedproject = await axios.delete(`/api/projects/${projectId}`);
+  return deletedproject.data as Project;
 };

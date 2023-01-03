@@ -5,23 +5,20 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // Get all projects from current user
-  // RETURN: array of projects
+  // Get all projects from the userId provided
   if (req.method === "GET") {
     try {
-      const { userId } = req.body;
+      const { userId } = req.query;
+      // For Development
+      if (!userId) {
+        throw new Error("Provide a userId.");
+      }
       const projects = await prisma.project.findMany({
         where: {
           userId: userId as string,
         },
-        include: {
-          client: {
-            select: {
-              name: true,
-            },
-          },
-        },
       });
+
       return res.status(200).json(projects);
     } catch (error: Error | any) {
       return res.status(400).json({ error: error.message });
@@ -33,17 +30,15 @@ export default async function handler(
     try {
       // Get the project data from the request body
       const { project } = req.body;
-      console.log("Project from request: ", project);
+      console.log("Creating new project: ", project);
       const projectData = {
         name: project.name,
         description: project.description,
-        hourlyRate: project.hourlyRate,
-        startDate: new Date(project.startDate).toISOString(),
-        dueDate:
-          project.dueDate === null
-            ? null
-            : new Date(project.dueDate).toISOString(),
+        lumpSum: project.lumpSum,
         priority: project.priority,
+        startDate: project.startDate,
+        // new Date(project.startDate).toISOString()
+        dueDate: project.dueDate,
         client: {
           connect: {
             id: project.clientId,

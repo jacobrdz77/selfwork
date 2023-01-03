@@ -19,7 +19,7 @@ model Account {
   token_type         String?
   scope              String?
   id_token           String?  @db.Text
- session_state      String?
+  session_state      String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -42,7 +42,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  websites      Website[]
+  projects      Project[]
   clients       Client[]
 }
 
@@ -65,13 +65,13 @@ model Note {
   id String @id @default(cuid())
   title String
   content String
-  website Website @relation(fields: [websiteId], references: [id], onDelete: Cascade)
-  websiteId String 
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Website {
+model Project {
   id String @id @default(cuid())
   name String
   taskLists TaskList[]
@@ -83,8 +83,8 @@ model Website {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
   client Client? @relation(fields: [clientId, clientName], references: [id, name])
-  clientId String
-  clientName String
+  clientId String?
+  clientName String?
   createdAt DateTime @default(now())
   @@unique([id, name])
 }
@@ -97,7 +97,7 @@ model Client {
   email String? @unique
   businessAddress String?
   contacts  Contact[]
-  website   Website[]
+  project   Project[]
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
   @@unique([id, name])
@@ -137,7 +137,7 @@ model TaskList {
   id String @id @default(cuid())
   name  String  @unique
   tasks Task[]
-  website Website @relation(fields: [websiteId], references: [id], onDelete: Cascade)
-  websiteId String 
-  @@unique([id, websiteId ])
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String 
+  @@unique([id, projectId ])
 }

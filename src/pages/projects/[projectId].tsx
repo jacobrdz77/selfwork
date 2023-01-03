@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import PageHeader from "../../components/header/PageHeader";
 import EditProjectModal from "../../components/project/EditProjectModal";
 import { useState } from "react";
-import useProjects from "../../hooks/useProjects";
 import { useUserStore } from "../../store/user";
 
 const ProjectDetailPage = () => {

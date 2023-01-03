@@ -3,14 +3,12 @@ import { NextPage } from "next";
 import PageHeader from "../../components/header/PageHeader";
 import NoProjects from "../../components/project/NoProjects";
 import AddProjectModal from "../../components/project/AddProjectModal";
-import { Project } from "@prisma/client";
 import LoadingSpinner from "../../components/ui/LoadingSpinner";
 import Button from "../../components/ui/Button";
-import Projects from "../../components/project/Projects";
-import useClients from "../../hooks/useClients";
 import useProjects from "../../hooks/useProjects";
+import Projects from "../../components/project/Projects";
 
-import projects from "./SampleProjects.json";
+// import projects from "./SampleProjects.json";
 
 // export type ProjectForProjectCard = Project & {
 //   client: {
@@ -20,9 +18,7 @@ import projects from "./SampleProjects.json";
 
 const ProjectsPage: NextPage = () => {
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
-  // const { clients } = useClients();
-  // const { projects, status } = useProjects();
-  console.log(projects);
+  const { projects, status } = useProjects();
 
   return (
     <>
@@ -43,9 +39,10 @@ const ProjectsPage: NextPage = () => {
         {/* Filter buttons */}
         <Button>Sort By</Button>
       </PageHeader>
+
       <div className="page project-page">
         {/* Loading Spinner */}
-        {/* {status === "loading" && (
+        {status === "loading" && (
           <div className="w-full h-full flex justify-center mt-11">
             <LoadingSpinner />
           </div>
@@ -58,19 +55,13 @@ const ProjectsPage: NextPage = () => {
           />
         )}
         {status === "error" && (
-          <div className="w-full h-full flex justify-center align-middle">
-            <h1 className="text-2xl">Error</h1>
-            <p className="text-gray-500">
-              Sorry about that. Try to refresh the page.
-            </p>
+          <div className="error w-full h-full flex justify-center align-middle">
+            <h1>Error</h1>
+            <p>Sorry about that. Try to refresh the page.</p>
           </div>
-        )} */}
+        )}
         {/* Grid of projects */}
-        {/* {status === "success" && (
-          <Projects projects={projects!} status={status} />
-        ) } */}
-
-        <Projects projects={projects!} />
+        {status === "success" && <Projects projects={projects!} />}
       </div>
     </>
   );

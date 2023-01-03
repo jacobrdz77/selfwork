@@ -1,6 +1,6 @@
 import Modal from "../ui/Modal";
 import { Client } from "@prisma/client";
-import { createProject } from "../../utils/projectsFunctions";
+import { createProject } from "../../utils/projectFunctions";
 import useProjectForm from "../../hooks/useProjectForm";
 import { upperCaseName } from "../../utils/uppercaseName";
 
