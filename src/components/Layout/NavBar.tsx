@@ -1,21 +1,21 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
+import { useUserStore } from "../../store/user";
 
-const NavBar: React.FC = () => {
-  const [isMinimized, setIsMinimized] = useState(false);
-
+const NavBar = () => {
+  const [isNavMinimized, setIsNavMinimized] = useState(false);
   return (
-    <div className={`sidebar ${isMinimized ? "sidebar--minimized" : ""}`}>
+    <div className={`sidebar ${isNavMinimized ? "sidebar--minimized" : ""}`}>
       {/* LOGO */}
       <div className="sidebar__logo">
-        {isMinimized ? "s" : "selfwork"}
+        {isNavMinimized ? "s" : "selfwork"}
         <span className="sidebar__logo--dot">.</span>
       </div>
       <button
-        onClick={() => setIsMinimized((state) => !state)}
+        onClick={() => setIsNavMinimized(!isNavMinimized)}
         className={`sidebar__toggle ${
-          isMinimized ? "sidebar__toggle--active" : ""
+          isNavMinimized ? "sidebar__toggle--active" : ""
         }`}
       >
         <svg viewBox="0 0 6.3499999 6.3500002">
@@ -49,7 +49,7 @@ const NavBar: React.FC = () => {
       <div className="sidebar__add-container">
         <button
           className={`sidebar__add ${
-            isMinimized ? "sidebar__add--minimized" : ""
+            isNavMinimized ? "sidebar__add--minimized" : ""
           }`}
         >
           <svg
@@ -68,7 +68,7 @@ const NavBar: React.FC = () => {
           <li className="sidebar__link-container">
             <Link
               className={`sidebar__link ${
-                isMinimized ? "sidebar__link--minimized" : ""
+                isNavMinimized ? "sidebar__link--minimized" : ""
               }`}
               href="/tasks"
             >
@@ -85,7 +85,7 @@ const NavBar: React.FC = () => {
           <li className="sidebar__link-container">
             <Link
               className={`sidebar__link ${
-                isMinimized ? "sidebar__link--minimized" : ""
+                isNavMinimized ? "sidebar__link--minimized" : ""
               }`}
               href="/projects"
             >
@@ -107,7 +107,7 @@ const NavBar: React.FC = () => {
           <li className="sidebar__link-container">
             <Link
               className={`sidebar__link ${
-                isMinimized ? "sidebar__link--minimized" : ""
+                isNavMinimized ? "sidebar__link--minimized" : ""
               }`}
               href="/clients"
             >

@@ -35,6 +35,27 @@ select {
   font: inherit;
 }
 
+// Gets rid of buttons from number input
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input[type="number"],
+input[type="text"] {
+  border: 1px solid;
+  outline: none;
+}
+
+fieldset {
+  border: none;
+}
+
 a {
   text-decoration: none;
   color: inherit;

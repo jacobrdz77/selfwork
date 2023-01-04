@@ -74,12 +74,13 @@ model Note {
 model Project {
   id String @id @default(cuid())
   name String
-  taskLists TaskList[]
+  description String?
   lumpSum Int?
   priority Priority? @default(NONE)
+  startDate DateTime?
   dueDate DateTime? 
+  taskLists TaskList[]
   notes Note[]
-  description String?
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
   client Client? @relation(fields: [clientId, clientName], references: [id, name])

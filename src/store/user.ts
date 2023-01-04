@@ -4,7 +4,11 @@ interface UserState {
   userId: string | null;
 }
 
-export const useUserStore = create<UserState>((set) => ({
+interface Action {
+  setUserId: (id: UserState["userId"]) => void;
+}
+
+export const useUserStore = create<UserState & Action>((set) => ({
   userId: "clcfpjw9z0000gp7k2nldac6q",
-  setUserId: (id: string) => set({ userId: id }),
+  setUserId: (id) => set(() => ({ userId: id })),
 }));

@@ -7,6 +7,7 @@ import LoadingSpinner from "../../components/ui/LoadingSpinner";
 import Button from "../../components/ui/Button";
 import useProjects from "../../hooks/useProjects";
 import Projects from "../../components/project/Projects";
+import { createPortal } from "react-dom";
 
 // import projects from "./SampleProjects.json";
 
@@ -22,11 +23,13 @@ const ProjectsPage: NextPage = () => {
 
   return (
     <>
-      {/* <AddProjectModal
-        clients={clients!}
-        isOpen={isAddProjectModalOpen}
-        setIsModalOpen={setIsAddProjectModalOpen}
-      /> */}
+      {
+        <AddProjectModal
+          isOpen={isAddProjectModalOpen}
+          setIsModalOpen={setIsAddProjectModalOpen}
+        />
+      }
+
       {/* Wrapper */}
       <PageHeader
         isButton={true}
