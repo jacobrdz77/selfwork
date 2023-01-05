@@ -41,12 +41,12 @@ const Modal = (props: {
   closeHandler: () => void;
 }) => {
   return (
-    <>
+    <div className={`${props.isOpen ? "" : "modal--hidden"} modal-container `}>
       <Backdrop onClose={props.closeHandler} isOpen={props.isOpen} />
       <ModalOverlay onClose={props.closeHandler} isOpen={props.isOpen}>
         {props.children}
       </ModalOverlay>
-    </>
+    </div>
   );
 };
 

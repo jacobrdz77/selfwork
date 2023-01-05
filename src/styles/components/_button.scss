@@ -25,10 +25,19 @@
   // }
 
   &--blue {
-    background-color: $color-skyblue;
+    background-color: var(--color-skyblue);
     color: #fff;
     &:hover {
-      background-color: darken($color-skyblue, 5);
+      background-color: darken(rgb(55, 135, 232), 5);
+    }
+  }
+
+  &--disabled {
+    background-color: #d1d5db;
+    color: #000;
+    &:hover {
+      background-color: #e3e4e6;
+      cursor: not-allowed;
     }
   }
 

@@ -3,8 +3,8 @@
   position: relative;
   width: 220px;
   height: 100%;
-  background-color: $color-gray--dark;
-  color: $color-gray;
+  background-color: var(--color-gray--dark);
+  color: var(--color-gray);
   font-size: 1.6rem;
   // padding: 0 0.8rem;
   z-index: 10;
@@ -17,13 +17,13 @@
     width: 100%;
     color: inherit;
     @include sidebar-btn;
-    background-color: $color-gray--dark;
+    background-color: var(--color-gray--dark);
     color: #fff;
-    border: 1px $color-gray--background solid;
+    border: 1px var(--color-gray--background) solid;
 
     &:hover,
     &:active {
-      background-color: $color-gray--background;
+      background-color: var(--color-gray--background);
       color: #fff;
       cursor: pointer;
     }
@@ -48,15 +48,15 @@
     top: 88%;
     left: 208px;
     width: 25px;
-    background-color: $color-gray--dark;
+    background-color: var(--color-gray--dark);
     border-radius: 50%;
-    border: 2px solid $color-stroke;
-    fill: $color-gray;
+    border: 2px solid var(--color-stroke);
+    fill: var(--color-gray);
     transition: transform 0.2s;
 
     &:hover {
       cursor: pointer;
-      fill: $color-stroke;
+      fill: var(--color-stroke);
     }
 
     &--active {
@@ -68,7 +68,7 @@
   &__hr {
     border: none;
     height: 0.1px;
-    background-color: $color-gray;
+    background-color: var(--color-gray);
   }
 
   &__logo {
@@ -79,7 +79,7 @@
     padding-left: 2rem;
     margin-top: 1rem;
     &--dot {
-      color: $color-green--light;
+      color: var(--color-green--light);
     }
   }
 
@@ -100,14 +100,14 @@
 
     &:hover,
     &:active {
-      background-color: $color-gray--background;
+      background-color: var(--color-gray--background);
       color: #fff;
       cursor: pointer;
     }
 
     &-icon {
-      width: $icon-size;
-      height: $icon-size;
+      width: var(--icon-size);
+      height: var(--icon-size);
     }
   }
 

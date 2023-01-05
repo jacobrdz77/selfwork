@@ -17,14 +17,14 @@
   max-width: 24rem;
   padding: 1rem 1rem 1rem 1.5rem;
   border-radius: 0.8rem;
-  border: 1px solid $color-stroke;
+  border: 1px solid var(--color-stroke);
   border-left: 4px solid rgb(194, 84, 84);
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 
   &__name {
     font-weight: 700;
     &:hover {
-      text-decoration: underline $color-gray;
+      text-decoration: underline var(--color-gray);
     }
   }
 }

@@ -4,20 +4,26 @@ $[attribute]-[name]--[modifier]
 */
 
 // COLORS
-$color-primary: #322641;
-$color-primary--light: #6c528d;
-$color-primary--dark: #312540;
-$color-green--light: #6ea67a;
-$color-green--dark: #358658;
+:root {
+  --color-primary: #322641;
+  --color-primary--light: #6c528d;
+  --color-primary--dark: #312540;
+  --color-green--light: #6ea67a;
+  --color-green--dark: #358658;
 
-$color-github: #333333;
-$color-github--hover: #111111;
-$color-skyblue: rgb(55, 135, 232);
-$color-gray: #87868b;
-$color-gray--dark: #34353e;
-$color-gray--background: #48494f;
-$color-orange: #f2a84c;
-$color-stroke: #e9edf1;
+  --color-github: #333333;
+  --color-github--hover: #111111;
+  --color-skyblue: #3787e8;
+  --color-gray: #87868b;
+  --color-gray--light: #bbbcbd;
+  --color-gray--dark: #34353e;
+  --color-gray--background: #48494f;
+  --color-orange: #f2a84c;
+  --color-stroke: #e9edf1;
+
+  --default-font-size: 1.6rem;
+  --icon-size: 2rem;
+}
 
 // FONT
 $default-font-size: 1.6rem;

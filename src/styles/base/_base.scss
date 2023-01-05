@@ -1,3 +1,4 @@
+// CSS Resets
 *,
 *::after,
 *::before {
@@ -6,8 +7,8 @@
   box-sizing: border-box;
 }
 
-/*Allow percentage-based heights in the application
-*/
+// Allow percentage-based heights in the application
+
 html,
 body {
   height: 100%;
@@ -91,7 +92,6 @@ h6 {
   display: flex;
   width: 100%;
   height: 100%;
-  // overflow-y: auto;
 }
 
 // Scrollbar

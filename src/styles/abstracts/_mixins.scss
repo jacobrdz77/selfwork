@@ -59,7 +59,7 @@
 
 @mixin sidebar-btn {
   display: grid;
-  grid-template-columns: $icon-size auto;
+  grid-template-columns: var(--icon-size) auto;
   gap: 1rem;
   text-align: left;
   font-size: 1.6rem;
