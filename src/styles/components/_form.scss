@@ -9,39 +9,25 @@
   }
 
   &__input {
-    display: flex;
-    flex-direction: column;
+    font-size: 1.4rem;
+    padding: 0.6rem 1.4rem;
+    border-radius: 5px;
+    border: 2px solid var(--color-gray--light);
 
-    label {
+    &::placeholder {
+      color: #919394;
+    }
+
+    &-container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &--label {
       margin-bottom: 0.4rem;
     }
 
-    input,
-    textarea {
-      font-size: 1.4rem;
-      padding: 0.6rem 1.4rem;
-      border-radius: 5px;
-      border: 2px solid var(--color-gray--light);
-
-      &::placeholder {
-        color: #919394;
-      }
-    }
-
-    input[type="number"] {
-      position: relative;
-      &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 100px;
-        width: 5px;
-        height: 100%;
-        background-color: red;
-      }
-    }
-
-    textarea {
+    &--textarea {
       resize: none;
       outline: none;
       height: 10rem;
@@ -84,7 +70,7 @@
   margin-bottom: 1rem;
   &__list {
     display: flex;
-    gap: 1rem;
+    gap: 2.5rem;
     justify-content: space-between;
   }
 
@@ -95,8 +81,10 @@
   }
 
   &__item {
+    width: 100%;
+    text-align: center;
     margin-top: 0.8rem;
-    padding: 0.6rem 5rem;
+    padding: 0.6rem 0;
     border: 1px solid var(--color-gray--light);
     border-radius: 5px;
     &:hover {

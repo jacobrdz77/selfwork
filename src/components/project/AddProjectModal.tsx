@@ -1,72 +1,145 @@
+import { useState, useEffect } from "react";
 import Modal from "../ui/Modal";
 import { createProject } from "../../utils/projectFunctions";
-import useProjectForm from "../../hooks/useProjectForm";
-import { upperCaseName } from "../../utils/uppercaseName";
-import { useState, useEffect } from "react";
+import { useMutation } from "@tanstack/react-query";
 
 const AddProjectModal: React.FC<{
   isOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
 }> = ({ isOpen, setIsModalOpen }) => {
-  const closeHandler = () => {
+  const closeHandler = () => setIsModalOpen(false);
+
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [lumpSum, setLumpSum] = useState("");
+  const [dateType, setDateType] = useState("noDeadline");
+  const [dueDate, setDueDate] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [isPriority, setIsPriority] = useState(false);
+  const [priority, setPriority] = useState("NONE");
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Replace using mutate from useMutation
+    console.log({
+      name,
+      description,
+      lumpSum: Number(lumpSum),
+      startDate,
+      dueDate,
+      priority,
+    });
+    // Redirect to ProjectDetailPage
     setIsModalOpen(false);
   };
-  const [isPriority, setIsPriority] = useState(false);
-  const [priorityType, setPriorityType] = useState("");
-  const [dateType, setDateType] = useState("noDeadline");
 
-  const submitHandler = (e: SubmitEvent) => {
-    e.preventDefault();
-  };
+  // Form Validation
+  useEffect(() => {
+    if (name.length > 0) {
+      if (isPriority && priority === "NONE") {
+        return setIsFormValid(false);
+      }
+
+      if (dateType !== "noDeadline") {
+        if (dateType === "dueOn" && dueDate.length === 0) {
+          return setIsFormValid(false);
+        }
+        if (
+          dateType === "fromTo" &&
+          dueDate.length === 0 &&
+          startDate.length === 0
+        ) {
+          return setIsFormValid(false);
+        }
+      }
+
+      return setIsFormValid(true);
+    }
+    setIsFormValid(false);
+  }, [name, isPriority, priority, dateType, dueDate, startDate]);
 
   return (
     <Modal isOpen={isOpen} closeHandler={closeHandler}>
       <h1>Create a Project</h1>
-      <form className="new-project form" onSubmit={() => submitHandler}>
-        <div className="form__input">
-          <label htmlFor="name">Name</label>
+      <form className="new-project form" onSubmit={submitHandler}>
+        <div className="form__input-container">
+          <label className="form__input--label" htmlFor="name">
+            Name
+          </label>
           <input
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+            className="form__input"
             id="name"
             type="text"
             placeholder="Project Name"
             autoComplete="off"
           />
         </div>
-        <div className="form__input">
-          <label htmlFor="description">Description</label>
+        <div className="form__input-container">
+          <label className="form__input--label" htmlFor="description">
+            Description
+          </label>
           <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="form__input form__input--textarea"
             id="description"
-            placeholder="Your awesome description here..."
+            placeholder="An awesome description here!"
           />
         </div>
-        <div className="form__input">
-          <label htmlFor="lump-sum">Lump Sum</label>
-          <input type="number" placeholder="1000.00" min="0" />
+        <div className="form__input-container">
+          <label className="form__input--label" htmlFor="lump-sum">
+            Lump Sum ($)
+          </label>
+          <input
+            className="form__input"
+            type="number"
+            step=".01"
+            placeholder="1000.00"
+            min="0"
+            value={lumpSum}
+            onChange={(e) => setLumpSum(e.target.value)}
+          />
         </div>
 
         {/* Deadlines */}
         <fieldset className="new-project__dates-section">
           <ul className="new-project__dates-list">
-            <div onClick={() => setDateType("noDeadline")}>
+            <div
+              onClick={() => {
+                setDateType("noDeadline");
+                setStartDate("");
+                setDueDate("");
+              }}
+            >
               <input
                 className="new-project__dates-input"
                 type="radio"
                 id="no-deadline"
                 name="deadline"
                 value={dateType}
-                checked={dateType === "noDeadline"}
+                defaultChecked={dateType === "noDeadline"}
               />
               <label htmlFor="no-deadline">No deadline</label>
             </div>
 
-            <div onClick={() => setDateType("dueOn")}>
+            <div
+              onClick={() => {
+                setDateType("dueOn");
+                setStartDate("");
+              }}
+            >
               <input
                 className="new-project__dates-input"
                 type="radio"
                 id="due-on"
                 name="deadline"
                 value={dateType}
-                checked={dateType === "dueOn"}
+                defaultChecked={dateType === "dueOn"}
               />
               <label htmlFor="due-on">Due on</label>
             </div>
@@ -78,7 +151,7 @@ const AddProjectModal: React.FC<{
                 id="from-to"
                 name="deadline"
                 value={dateType}
-                checked={dateType === "fromTo"}
+                defaultChecked={dateType === "fromTo"}
               />
               <label htmlFor="from-to">From - to</label>
             </div>
@@ -90,6 +163,8 @@ const AddProjectModal: React.FC<{
               className="date-input"
               type="date"
               min={new Date().toISOString()}
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
             />
           )}
 
@@ -100,12 +175,16 @@ const AddProjectModal: React.FC<{
                 className="date-input"
                 type="date"
                 min={new Date().toISOString()}
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
               />
               <span>-</span>
               <input
                 className="date-input"
                 type="date"
                 min={new Date().toISOString()}
+                value={dueDate}
+                onChange={(e) => setDueDate(e.target.value)}
               />
             </div>
           )}
@@ -117,10 +196,10 @@ const AddProjectModal: React.FC<{
             <input
               type="checkbox"
               id="priority"
-              checked={isPriority}
+              defaultChecked={isPriority}
               onClick={() => {
                 setIsPriority((state) => !state);
-                setPriorityType("NONE");
+                setPriority("NONE");
               }}
             />
             <label htmlFor="priority">Priority</label>
@@ -129,33 +208,25 @@ const AddProjectModal: React.FC<{
             <ul className="priority__list">
               <li
                 className={`priority__item ${
-                  priorityType === "NONE" ? "priority__item--active" : ""
+                  priority === "LOW" ? "priority__item--active" : ""
                 }`}
-                onClick={() => setPriorityType("NONE")}
-              >
-                None
-              </li>
-              <li
-                className={`priority__item ${
-                  priorityType === "LOW" ? "priority__item--active" : ""
-                }`}
-                onClick={() => setPriorityType("LOW")}
+                onClick={() => setPriority("LOW")}
               >
                 Low
               </li>
               <li
                 className={`priority__item ${
-                  priorityType === "MEDIUM" ? "priority__item--active" : ""
+                  priority === "MEDIUM" ? "priority__item--active" : ""
                 }`}
-                onClick={() => setPriorityType("MEDIUM")}
+                onClick={() => setPriority("MEDIUM")}
               >
                 Medium
               </li>
               <li
                 className={`priority__item ${
-                  priorityType === "HIGH" ? "priority__item--active" : ""
+                  priority === "HIGH" ? "priority__item--active" : ""
                 }`}
-                onClick={() => setPriorityType("HIGH")}
+                onClick={() => setPriority("HIGH")}
               >
                 High
               </li>
@@ -164,8 +235,10 @@ const AddProjectModal: React.FC<{
         </fieldset>
         <button
           type="submit"
-          className="form__submit button button--blue button--disabled"
-          disabled
+          className={`form__submit button button--blue ${
+            !isFormValid ? "button--disabled" : ""
+          }`}
+          disabled={!isFormValid}
         >
           Create
         </button>

@@ -75,7 +75,7 @@ model Project {
   id String @id @default(cuid())
   name String
   description String?
-  lumpSum Int?
+  lumpSum Decimal?  @db.Money
   priority Priority? @default(NONE)
   startDate DateTime?
   dueDate DateTime? 

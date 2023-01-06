@@ -43,13 +43,9 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input[type="number"] {
-  -moz-appearance: textfield;
-}
-
 input[type="number"],
-input[type="text"] {
-  border: 1px solid;
+input[type="text"],
+textarea {
   outline: none;
 }
 
