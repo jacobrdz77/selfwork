@@ -1,15 +1,14 @@
-import Modal from "./UI/Modal";
+import Modal from "../ui/Modal";
 import { Client, Project } from "@prisma/client";
-import { updateProject, UpdateProjectData } from "../lib/projectsFunctions";
-import useProjectForm from "../hooks/useProjectForm";
-import { getClients } from "../lib/clientFunctions";
+import { updateProject, UpdateProjectData } from "../../utils/projectFunctions";
+import useProjectForm from "../../hooks/useProjectForm";
+import { getClients } from "../../utils/clientFunctions";
 
 const EditProjectModal: React.FC<{
   isOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
   currentProjectData: Project;
-  clients: Client[];
-}> = ({ isOpen, setIsModalOpen, currentProjectData, clients }) => {
+}> = ({ isOpen, setIsModalOpen, currentProjectData }) => {
   const closeHandler = () => {
     setIsModalOpen(false);
   };

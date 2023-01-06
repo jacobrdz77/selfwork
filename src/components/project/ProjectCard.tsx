@@ -1,4 +1,5 @@
 import { Project } from "@prisma/client";
+import Link from "next/link";
 
 const ProjectCard: React.FC<{
   projectData: Project;
@@ -7,9 +8,12 @@ const ProjectCard: React.FC<{
     <div className="project-card">
       {/* Header */}
       <div className="project-card__header">
-        <a className="project-card__name" href={`/projects/${projectData.id}`}>
+        <Link
+          className="project-card__name"
+          href={`/projects/${projectData.id}`}
+        >
           {projectData.name}
-        </a>
+        </Link>
       </div>
       {/* Info */}
     </div>

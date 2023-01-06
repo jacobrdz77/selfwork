@@ -3,11 +3,9 @@ import { NextPage } from "next";
 import PageHeader from "../../components/header/PageHeader";
 import NoProjects from "../../components/project/NoProjects";
 import AddProjectModal from "../../components/project/AddProjectModal";
-import LoadingSpinner from "../../components/ui/LoadingSpinner";
 import Button from "../../components/ui/Button";
-import useProjects from "../../hooks/useProjects";
 import Projects from "../../components/project/Projects";
-import { createPortal } from "react-dom";
+import { useProjects } from "../../hooks/ProjectHooks";
 
 // import projects from "./SampleProjects.json";
 
@@ -23,12 +21,12 @@ const ProjectsPage: NextPage = () => {
 
   return (
     <>
-      {
+      {isAddProjectModalOpen && (
         <AddProjectModal
           isOpen={isAddProjectModalOpen}
           setIsModalOpen={setIsAddProjectModalOpen}
         />
-      }
+      )}
 
       {/* Wrapper */}
       <PageHeader
@@ -45,11 +43,7 @@ const ProjectsPage: NextPage = () => {
 
       <div className="page project-page">
         {/* Loading Spinner */}
-        {status === "loading" && (
-          <div className="w-full h-full flex justify-center mt-11">
-            <LoadingSpinner />
-          </div>
-        )}
+        {status === "loading" && <div>Loading...</div>}
         {status === "success" && projects?.length === 0 && (
           <NoProjects
             buttonHandler={() => {
@@ -58,9 +52,9 @@ const ProjectsPage: NextPage = () => {
           />
         )}
         {status === "error" && (
-          <div className="error w-full h-full flex justify-center align-middle">
+          <div>
             <h1>Error</h1>
-            <p>Sorry about that. Try to refresh the page.</p>
+            <p>Try to refresh the page.</p>
           </div>
         )}
         {/* Grid of projects */}

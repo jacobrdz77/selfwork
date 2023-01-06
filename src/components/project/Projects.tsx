@@ -3,7 +3,7 @@ import { Project } from "@prisma/client";
 
 const Projects: React.FC<{ projects: Project[] }> = ({ projects }) => {
   return (
-    <div className="projects flex gap-4 flex-wrap overflow-y-auto">
+    <div className="projects">
       {projects.map((project) => (
         <ProjectCard key={project.id} projectData={project} />
       ))}
