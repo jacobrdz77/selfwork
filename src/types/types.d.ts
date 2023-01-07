@@ -20,6 +20,17 @@ interface NewProjectData {
   userId: string;
 }
 
+export type UpdateProjectData = {
+  id: number;
+  name?: string;
+  lumpSum?: number;
+  priority?: Priority;
+  description?: string;
+  startDate?: Date;
+  dueDate?: Date;
+  clientId?: string;
+};
+
 interface NewClientData {
   name: string;
   description: string;

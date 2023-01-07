@@ -36,8 +36,10 @@ export default async function handler(
   // Create a new project
   if (req.method === "POST") {
     try {
-      // Get the project data from the request body
-      const { project } = req.body;
+      // Parse the body to transfrom the data
+      const body = JSON.parse(req.body);
+      const { project } = body;
+
       // Transform the projects properties to valid datatypes
       const transformedProject = transformProjectData(project);
 
@@ -58,8 +60,6 @@ export default async function handler(
       const newProject = await prisma.project.create({
         data: projectData,
       });
-
-      console.log("New Project: ", newProject);
 
       return res.status(200).json(newProject);
     } catch (error: any) {

@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 import { useUserStore } from "../store/user";
 import { NewProjectData } from "../types/types";
 import {
@@ -44,12 +45,14 @@ export const useOneProject = (projectId: string) => {
 
 export const useCreateProject = () => {
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   return useMutation({
     mutationFn: (project: NewProjectData) => createProject(project),
 
-    onSuccess: () => {
+    onSuccess: (newProject) => {
       queryClient.invalidateQueries({ queryKey: ["projects"] });
+      router.push(`/projects/${newProject?.id}`);
     },
   });
 };

@@ -2,12 +2,17 @@ import { useState, useEffect } from "react";
 import Modal from "../ui/Modal";
 import { createProject } from "../../utils/projectFunctions";
 import { useMutation } from "@tanstack/react-query";
+import { useCreateProject } from "../../hooks/ProjectHooks";
+import { Priority } from "@prisma/client";
+import { useUserStore } from "../../store/user";
 
 const AddProjectModal: React.FC<{
   isOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
 }> = ({ isOpen, setIsModalOpen }) => {
   const closeHandler = () => setIsModalOpen(false);
+  const userId = useUserStore((state) => state.userId as string);
+  const { mutate } = useCreateProject();
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -16,21 +21,20 @@ const AddProjectModal: React.FC<{
   const [dueDate, setDueDate] = useState("");
   const [startDate, setStartDate] = useState("");
   const [isPriority, setIsPriority] = useState(false);
-  const [priority, setPriority] = useState("NONE");
+  const [priority, setPriority] = useState<Priority>("NONE");
   const [isFormValid, setIsFormValid] = useState(false);
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Replace using mutate from useMutation
-    console.log({
+    mutate({
       name,
       description,
       lumpSum: Number(lumpSum),
       startDate,
       dueDate,
       priority,
+      userId,
     });
-    // Redirect to ProjectDetailPage
     setIsModalOpen(false);
   };
 

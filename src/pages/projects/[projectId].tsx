@@ -2,19 +2,15 @@ import { useRouter } from "next/router";
 import PageHeader from "../../components/header/PageHeader";
 import EditProjectModal from "../../components/project/EditProjectModal";
 import { useState } from "react";
-import { useUserStore } from "../../store/user";
-import { useQuery } from "@tanstack/react-query";
-import { getOneProject } from "../../utils/projectFunctions";
-import LoadingSpinner from "../../components/ui/LoadingSpinner";
 
 import { useOneProject } from "../../hooks/ProjectHooks";
 
 const ProjectDetailPage = () => {
-  const { query } = useRouter();
-  const projectId = query.projectId as string;
   const [isEditProjectModalOpen, setIsEditProjectModalOpen] = useState(false);
+  const { query } = useRouter();
+  const projectId = query.projectId;
 
-  const { project, status } = useOneProject(projectId);
+  const { project, status } = useOneProject(projectId as string);
 
   return (
     <>
@@ -43,7 +39,7 @@ const ProjectDetailPage = () => {
           </div>
         )}
 
-        {status === "success" && JSON.stringify(project)}
+        {status === "success" && <p>{JSON.stringify(project)}</p>}
       </div>
     </>
   );

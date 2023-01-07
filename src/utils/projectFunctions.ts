@@ -1,6 +1,6 @@
 import { Priority, Project } from "@prisma/client";
 import axios from "axios";
-import { NewProjectData } from "../types/types";
+import { NewProjectData, UpdateProjectData } from "../types/types";
 
 // ***** Client Funcitons
 // GET ALL
@@ -29,25 +29,14 @@ export const createProject = async (project: NewProjectData) => {
     const response = await fetch("/api/projects", {
       method: "POST",
       body: JSON.stringify({
-        project,
+        project: { ...project },
       }),
     });
 
     return (await response.json()) as Project;
   } catch (error) {
-    throw error;
+    console.log(error);
   }
-};
-
-export type UpdateProjectData = {
-  id: number;
-  name?: string;
-  description?: string;
-  startDate?: Date;
-  dueDate?: Date;
-  clientId?: string;
-  hourlyRate?: number;
-  priority?: Priority;
 };
 
 // UPDATE
