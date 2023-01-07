@@ -3,21 +3,17 @@ import { NextPage } from "next";
 import PageHeader from "../../components/header/PageHeader";
 import Tasks from "../../components/task/Tasks";
 import useTasks from "../../hooks/useTasks";
-import LoadingSpinner from "../../components/ui/LoadingSpinner";
-import TaskLists from "../../components/task/TaskLists";
-import AddTaskListModal from "../../components/task/AddTaskListModal";
+import { Task } from "@prisma/client";
 
 const TasksPage: NextPage = () => {
   const [isTaskListModal, setIsTaskListModal] = useState(false);
-  const { tasks, status } = useTasks();
+  // const { tasks, status } = useTasks();
+  const tasks: Task[] = [];
+  const status: "success" | "loading" | "error" = "success";
   return (
     <>
       <PageHeader title="Tasks" buttonText="Add Task" isButton={true} />
       <div className="page clients-page">
-        <AddTaskListModal
-          isOpen={isTaskListModal}
-          setIsModalOpen={setIsTaskListModal}
-        />
         <Tasks status={status} tasks={tasks!} />
       </div>
     </>

@@ -4,9 +4,16 @@ const Button: React.FC<{
   buttonHandler?: any;
   children?: string | React.ReactNode | React.ReactNode[];
   className?: string;
-}> = ({ buttonHandler, children, className }) => {
+  type?: "button" | "submit" | "reset";
+  disabled?: boolean;
+}> = ({ buttonHandler, children, className, type, disabled }) => {
   return (
-    <button className={"button " + className} onClick={buttonHandler}>
+    <button
+      className={"button " + className}
+      onClick={buttonHandler}
+      type={type}
+      disabled={disabled}
+    >
       {children}
     </button>
   );

@@ -8,6 +8,8 @@ const OneTaskList: React.FC<{
 }> = ({ taskList }) => {
   const [isOpen, setIsOpen] = useState(false);
   // const { data: tasks, isLoading, status } = useQuery();
+  const tasks: Task[] = [];
+  const status: "success" | "loading" | "error" = "success";
   return (
     <div>
       <div className="flex gap-3 items-baseline py-4">
@@ -54,7 +56,7 @@ const OneTaskList: React.FC<{
           +
         </button>
       </div>
-      {isOpen && <Tasks />}
+      {isOpen && <Tasks tasks={tasks} status={status} />}
     </div>
   );
 };

@@ -5,6 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useCreateProject } from "../../hooks/ProjectHooks";
 import { Priority } from "@prisma/client";
 import { useUserStore } from "../../store/user";
+import Button from "../ui/Button";
 
 const AddProjectModal: React.FC<{
   isOpen: boolean;
@@ -237,15 +238,15 @@ const AddProjectModal: React.FC<{
             </ul>
           ) : null}
         </fieldset>
-        <button
+        <Button
           type="submit"
-          className={`form__submit button button--blue ${
+          className={`form__submit button--blue ${
             !isFormValid ? "button--disabled" : ""
           }`}
           disabled={!isFormValid}
         >
           Create
-        </button>
+        </Button>
       </form>
     </Modal>
   );
