@@ -55,10 +55,17 @@ model VerificationToken {
 }
 
 enum Priority {
-  NONE
-  LOW
-  MEDIUM
-  HIGH
+  None
+  Low
+  Medium
+  High
+}
+
+enum Status {
+  Open
+  InProgress
+  Done
+  Closed
 }
 
 model Note {
@@ -76,7 +83,7 @@ model Project {
   name String
   description String?
   lumpSum Decimal?  @db.Money
-  priority Priority? @default(NONE)
+  priority Priority? @default(None)
   startDate DateTime?
   dueDate DateTime? 
   taskLists TaskList[]
@@ -87,6 +94,7 @@ model Project {
   clientId String?
   clientName String?
   createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
   @@unique([id, name])
 }
 
@@ -118,10 +126,11 @@ model Task {
   id String @id @default(cuid())
   createdAt   DateTime  @default(now())
   name String
-  priority  Priority @default(NONE)
+  status Status @default(Open)
+  priority  Priority @default(None)
+  isComplete  Boolean
   description String?
   dueDate  DateTime?
-  isComplete  Boolean 
   labels  Label[]
   taskList  TaskList @relation(fields: [taskListId], references: [id])
   taskListId  String

@@ -21,7 +21,7 @@ const AddProjectModal: React.FC<{
   const [dueDate, setDueDate] = useState("");
   const [startDate, setStartDate] = useState("");
   const [isPriority, setIsPriority] = useState(false);
-  const [priority, setPriority] = useState<Priority>("NONE");
+  const [priority, setPriority] = useState<Priority>("None");
   const [isFormValid, setIsFormValid] = useState(false);
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
@@ -41,7 +41,7 @@ const AddProjectModal: React.FC<{
   // Form Validation
   useEffect(() => {
     if (name.length > 0) {
-      if (isPriority && priority === "NONE") {
+      if (isPriority && priority === "None") {
         return setIsFormValid(false);
       }
 
@@ -203,7 +203,7 @@ const AddProjectModal: React.FC<{
               defaultChecked={isPriority}
               onClick={() => {
                 setIsPriority((state) => !state);
-                setPriority("NONE");
+                setPriority("None");
               }}
             />
             <label htmlFor="priority">Priority</label>
@@ -212,25 +212,25 @@ const AddProjectModal: React.FC<{
             <ul className="priority__list">
               <li
                 className={`priority__item ${
-                  priority === "LOW" ? "priority__item--active" : ""
+                  priority === "Low" ? "priority__item--active" : ""
                 }`}
-                onClick={() => setPriority("LOW")}
+                onClick={() => setPriority("Low")}
               >
                 Low
               </li>
               <li
                 className={`priority__item ${
-                  priority === "MEDIUM" ? "priority__item--active" : ""
+                  priority === "Medium" ? "priority__item--active" : ""
                 }`}
-                onClick={() => setPriority("MEDIUM")}
+                onClick={() => setPriority("Medium")}
               >
                 Medium
               </li>
               <li
                 className={`priority__item ${
-                  priority === "HIGH" ? "priority__item--active" : ""
+                  priority === "High" ? "priority__item--active" : ""
                 }`}
-                onClick={() => setPriority("HIGH")}
+                onClick={() => setPriority("High")}
               >
                 High
               </li>
