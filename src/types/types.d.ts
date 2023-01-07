@@ -9,33 +9,23 @@ declare module "next-auth" {
   }
 }
 
+//Data Structure from Frontend
 interface NewProjectData {
-  id?: string;
   name: string;
   description: string;
-  clientId: string;
-  hourlyRate: number;
-  priority: Priority;
+  lumpSum: number;
   startDate: string;
-  dueDate: string | null;
+  dueDate: string;
+  priority: Priority;
   userId: string;
-  client?: {
-    name: string;
-  };
 }
 
 interface NewClientData {
-  id?: string;
   name: string;
   description: string;
+  userId: string;
   businessAddress?: string;
   email?: string;
   phone?: string;
   website?: string;
-  userId: string;
-  user: {
-    connect: {
-      id: string;
-    };
-  };
 }

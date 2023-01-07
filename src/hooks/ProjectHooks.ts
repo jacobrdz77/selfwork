@@ -1,11 +1,16 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUserStore } from "../store/user";
-import { getOneProject, getProjects } from "../utils/projectFunctions";
+import { NewProjectData } from "../types/types";
+import {
+  createProject,
+  getOneProject,
+  getProjects,
+} from "../utils/projectFunctions";
 
 export const useProjects = () => {
   const userId = useUserStore((state) => state.userId);
   const { data: projects, status } = useQuery(
-    ["projects", userId],
+    ["projects"],
     () => getProjects(userId!),
     {
       refetchOnWindowFocus: false,
@@ -29,8 +34,22 @@ export const useOneProject = (projectId: string) => {
     }
   );
 
+  console.log("project: ", project);
+
   return {
     project,
     status,
   };
+};
+
+export const useCreateProject = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (project: NewProjectData) => createProject(project),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+    },
+  });
 };

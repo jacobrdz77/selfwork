@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../utils/prisma";
+import { NewProjectData } from "../../../types/types";
+import { transformProjectData } from "../../../utils/projectFunctions";
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,13 +13,19 @@ export default async function handler(
       const { userId } = req.query;
       // For Development
       if (!userId) {
-        throw new Error("Provide a userId.");
+        throw new Error("Provide a userId.", { cause: {} });
       }
+
       const projects = await prisma.project.findMany({
         where: {
           userId: userId as string,
         },
       });
+
+      // User doesn't exist error
+      if (projects.length === 0) {
+        return res.status(404).json({ error: "User doesn't exist" });
+      }
 
       return res.status(200).json(projects);
     } catch (error: Error | any) {
@@ -30,23 +38,19 @@ export default async function handler(
     try {
       // Get the project data from the request body
       const { project } = req.body;
-      console.log("Creating new project: ", project);
+      // Transform the projects properties to valid datatypes
+      const transformedProject = transformProjectData(project);
+
       const projectData = {
-        name: project.name,
-        description: project.description,
-        lumpSum: project.lumpSum,
-        priority: project.priority,
-        startDate: project.startDate,
-        // new Date(project.startDate).toISOString()
-        dueDate: project.dueDate,
-        client: {
-          connect: {
-            id: project.clientId,
-          },
-        },
+        name: transformedProject.name,
+        description: transformedProject.description,
+        lumpSum: transformedProject.lumpSum,
+        priority: transformedProject.priority,
+        startDate: transformedProject.startDate,
+        dueDate: transformedProject.dueDate,
         user: {
           connect: {
-            id: project.userId,
+            id: transformedProject.userId,
           },
         },
       };
@@ -55,9 +59,10 @@ export default async function handler(
         data: projectData,
       });
 
+      console.log("New Project: ", newProject);
+
       return res.status(200).json(newProject);
     } catch (error: any) {
-      console.log("Request body: \n", req.body);
       return res.status(400).json(error.message);
     }
   }
