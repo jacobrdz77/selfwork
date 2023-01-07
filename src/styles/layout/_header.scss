@@ -3,7 +3,7 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #e7e6e9;
-  padding: 1.6rem 2rem;
+  padding: 1.6rem var(--page-padding);
 
   &__title {
     font-size: 3.2rem;
