@@ -5,12 +5,17 @@ const NoProjects: React.FC<{ buttonHandler: () => void }> = ({
   buttonHandler,
 }) => {
   return (
-    <div>
+    <div className="no-data">
       <div>
-        <h1>No Projects</h1>
-        <p>There are currently no projects set up yet</p>
+        <h1>No projects</h1>
+        <p>There are no projects. Create one!</p>
       </div>
-      <Button buttonHandler={buttonHandler}>Add Project</Button>
+      <Button
+        className="button--blue no-data__button"
+        buttonHandler={buttonHandler}
+      >
+        Add Project
+      </Button>
     </div>
   );
 };
