@@ -9,10 +9,14 @@ export default async function handler(
   // Get all task-lists
   if (req.method === "GET") {
     try {
-      const { websiteId } = req.body;
+      const projectId = req.query.projectId as string;
+      // For Development
+      if (!projectId) {
+        throw new Error("Provide a projectId.", { cause: {} });
+      }
       const taskList = await prisma.taskList.findMany({
         where: {
-          websiteId,
+          projectId,
         },
       });
       return res.status(200).json(taskList);
@@ -30,7 +34,7 @@ export default async function handler(
         ...taskList,
         website: {
           connect: {
-            id: taskList.websiteId,
+            id: taskList.projectId,
           },
         },
       };

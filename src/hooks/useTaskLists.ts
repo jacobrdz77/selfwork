@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getTaskLists } from "../lib/taskListsFunctions";
+import { getTaskLists } from "../utils/taskListFunction";
 import { useUserStore } from "../store/user";
 
 const useTaskLists = (onSuccess?: () => void) => {

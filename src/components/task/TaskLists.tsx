@@ -1,7 +1,6 @@
 import { Task, TaskList } from "@prisma/client";
 import { useState } from "react";
 import LoadingSpinner from "../ui/LoadingSpinner";
-import NoTaskLists from "./NoTaskLists";
 import OneTaskList from "./OneTaskList";
 
 const TaskLists: React.FC<{
@@ -20,8 +19,6 @@ const TaskLists: React.FC<{
         taskLists?.map((taskList) => (
           <OneTaskList key={taskList.id} taskList={taskList} />
         ))}
-      {/* Succesful with no data */}
-      {status === "success" && taskLists.length === 0 && <NoTaskLists />}
 
       {/* Error */}
       {status === "error" && (
