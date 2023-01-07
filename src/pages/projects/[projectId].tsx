@@ -25,7 +25,6 @@ const ProjectDetailPage = () => {
           setIsModalOpen={setIsEditProjectModalOpen}
         />
       )}
-      {/* Wrapper */}
       <PageHeader
         isButton={true}
         buttonText="Edit Project"

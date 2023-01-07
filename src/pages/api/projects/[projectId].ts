@@ -15,6 +15,13 @@ export default async function handler(
           id: projectId as string,
         },
       });
+
+      if (!project) {
+        return res
+          .status(404)
+          .json({ error: `Project ${projectId} not found.` });
+      }
+
       return res.status(200).json(project);
     } catch (error: Error | any) {
       return res.status(400).json({ error: error.message });
