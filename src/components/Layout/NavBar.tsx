@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { useUserStore } from "../../store/user";
+import { useRouter } from "next/router";
 
 const NavBar = () => {
   const [isNavMinimized, setIsNavMinimized] = useState(false);
+
+  const router = useRouter();
+  console.log("Basepath: ", router.pathname);
   return (
     <div className={`sidebar ${isNavMinimized ? "sidebar--minimized" : ""}`}>
       {/* LOGO */}
@@ -69,7 +73,7 @@ const NavBar = () => {
             <Link
               className={`sidebar__link ${
                 isNavMinimized ? "sidebar__link--minimized" : ""
-              }`}
+              } ${router.pathname === "/tasks" ? "sidebar__link--active" : ""}`}
               href="/tasks"
             >
               <svg
@@ -86,6 +90,8 @@ const NavBar = () => {
             <Link
               className={`sidebar__link ${
                 isNavMinimized ? "sidebar__link--minimized" : ""
+              } ${
+                router.pathname === "/projects" ? "sidebar__link--active" : ""
               }`}
               href="/projects"
             >
@@ -108,6 +114,8 @@ const NavBar = () => {
             <Link
               className={`sidebar__link ${
                 isNavMinimized ? "sidebar__link--minimized" : ""
+              } ${
+                router.pathname === "/clients" ? "sidebar__link--active" : ""
               }`}
               href="/clients"
             >

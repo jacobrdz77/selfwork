@@ -105,6 +105,11 @@
       cursor: pointer;
     }
 
+    &--active {
+      background-color: var(--color-gray--background);
+      color: #fff;
+    }
+
     &-icon {
       width: var(--icon-size);
       height: var(--icon-size);
