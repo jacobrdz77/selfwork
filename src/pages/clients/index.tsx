@@ -21,10 +21,7 @@ const ClientsPage: NextPage = () => {
         buttonHandler={() => {
           setModalIsOpen(true);
         }}
-      >
-        {/* Filter buttons */}
-        <Button>Sort By</Button>
-      </PageHeader>
+      />
       <div className="page clients-page">
         {/* Loading Spinner */}
         {isLoading && (

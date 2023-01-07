@@ -8,7 +8,6 @@ const NavBar = () => {
   const [isNavMinimized, setIsNavMinimized] = useState(false);
 
   const router = useRouter();
-  console.log("Basepath: ", router.pathname);
   return (
     <div className={`sidebar ${isNavMinimized ? "sidebar--minimized" : ""}`}>
       {/* LOGO */}
