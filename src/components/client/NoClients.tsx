@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../ui/Button";
+import Button from "../UI/Button";
 
 const NoClients: React.FC<{
   setIsModalOpen: (isOpen: boolean) => any;

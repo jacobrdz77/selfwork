@@ -1,6 +1,6 @@
 import { Task } from "@prisma/client";
 import React, { useState } from "react";
-import LoadingSpinner from "../ui/LoadingSpinner";
+import LoadingSpinner from "../UI/LoadingSpinner";
 import NoTasks from "./NoTasks";
 import OneTask from "./OneTask";
 

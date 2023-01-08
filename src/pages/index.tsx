@@ -1,5 +1,7 @@
-const Page = () => {
-  return <div className="test"></div>;
+import { NextPage } from "next";
+
+const Page: NextPage = () => {
+  return <div></div>;
 };
 
 export default Page;

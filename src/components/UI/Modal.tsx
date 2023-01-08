@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
+import React from "react";
 
 const Backdrop: React.FC<{ onClose: () => void; isOpen: boolean }> = ({
   onClose,
@@ -13,14 +12,14 @@ const Backdrop: React.FC<{ onClose: () => void; isOpen: boolean }> = ({
   );
 };
 
-const ModalOverlay = (props: {
+const ModalOverlay: React.FC<{
   children?: JSX.Element[] | JSX.Element;
   onClose: () => void;
   isOpen: boolean;
-}) => {
+}> = ({ children, onClose, isOpen }) => {
   return (
-    <div className={`${props.isOpen ? "" : "modal--hidden"} modal `}>
-      <button onClick={props.onClose} className="modal__close">
+    <div className={`${isOpen ? "" : "modal--hidden"} modal `}>
+      <button onClick={onClose} className="modal__close">
         <svg viewBox="0 0 320.591 320.591">
           <g>
             <g id="close_1_">
@@ -30,21 +29,21 @@ const ModalOverlay = (props: {
           </g>
         </svg>
       </button>
-      <div className="modal__content">{props.children}</div>
+      <div className="modal__content">{children}</div>
     </div>
   );
 };
 
-const Modal = (props: {
+const Modal: React.FC<{
   children: JSX.Element[] | JSX.Element;
   isOpen: boolean;
   closeHandler: () => void;
-}) => {
+}> = ({ children, isOpen, closeHandler }) => {
   return (
-    <div className={`${props.isOpen ? "" : "modal--hidden"} modal-container `}>
-      <Backdrop onClose={props.closeHandler} isOpen={props.isOpen} />
-      <ModalOverlay onClose={props.closeHandler} isOpen={props.isOpen}>
-        {props.children}
+    <div className={`${isOpen ? "" : "modal--hidden"} modal-container `}>
+      <Backdrop onClose={closeHandler} isOpen={isOpen} />
+      <ModalOverlay onClose={closeHandler} isOpen={isOpen}>
+        {children}
       </ModalOverlay>
     </div>
   );

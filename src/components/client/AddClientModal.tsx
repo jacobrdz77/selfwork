@@ -1,5 +1,5 @@
-import Modal from "../ui/Modal";
-import Button from "../ui/Button";
+import Modal from "../UI/Modal";
+import Button from "../UI/Button";
 
 const AddClientModal: React.FC<{
   isOpen: boolean;

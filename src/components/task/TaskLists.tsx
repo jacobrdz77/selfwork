@@ -1,6 +1,6 @@
 import { Task, TaskList } from "@prisma/client";
 import { useState } from "react";
-import LoadingSpinner from "../ui/LoadingSpinner";
+import LoadingSpinner from "../UI/LoadingSpinner";
 import OneTaskList from "./OneTaskList";
 
 const TaskLists: React.FC<{

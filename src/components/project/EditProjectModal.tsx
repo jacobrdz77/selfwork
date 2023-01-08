@@ -1,9 +1,9 @@
 import { useState } from "react";
-import Modal from "../ui/Modal";
+import Modal from "../UI/Modal";
 import { Priority, Project } from "@prisma/client";
 import { updateProject } from "../../utils/projectFunctions";
 import { useUserStore } from "../../store/user";
-import Button from "../ui/Button";
+import Button from "../UI/Button";
 
 const EditProjectModal: React.FC<{
   isOpen: boolean;

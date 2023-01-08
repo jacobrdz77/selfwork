@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
-import Modal from "../ui/Modal";
-import { createProject } from "../../utils/projectFunctions";
-import { useMutation } from "@tanstack/react-query";
+import Modal from "../UI/Modal";
+import Button from "../UI/Button";
 import { useCreateProject } from "../../hooks/ProjectHooks";
 import { Priority } from "@prisma/client";
 import { useUserStore } from "../../store/user";
-import Button from "../ui/Button";
 
 const AddProjectModal: React.FC<{
   isOpen: boolean;
