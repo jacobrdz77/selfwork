@@ -1,11 +1,9 @@
 import React from "react";
 import NavBar from "./NavBar";
 
-type LayoutProps = {
+const PageLayout: React.FC<{
   children: JSX.Element | JSX.Element[];
-};
-
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+}> = ({ children }) => {
   return (
     <div className="layout">
       <NavBar />
@@ -14,4 +12,4 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   );
 };
 
-export default Layout;
+export default PageLayout;
