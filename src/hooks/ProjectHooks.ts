@@ -1,4 +1,10 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Project } from "@prisma/client";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  UseQueryOptions,
+} from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useUserStore } from "../store/user";
 import { NewProjectData } from "../types/types";
@@ -23,12 +29,16 @@ export const useProjects = () => {
   };
 };
 
-export const useOneProject = (projectId: string) => {
+export const useOneProject = (
+  projectId: string,
+  options?: UseQueryOptions<Project, unknown, Project, string[]>
+) => {
   const { data: project, status } = useQuery(
     ["project", projectId],
     () => getOneProject(projectId),
     {
       refetchOnWindowFocus: false,
+      ...options,
     }
   );
   return {

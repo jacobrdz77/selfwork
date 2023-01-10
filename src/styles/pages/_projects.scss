@@ -1,6 +1,12 @@
 .project-page {
   //! Causes overflow
-  // height: 100%;
+  height: 100%;
+  overflow-y: auto;
+
+  &__overview {
+    margin: 0 auto;
+    max-width: 800px;
+  }
 }
 
 .projects {
