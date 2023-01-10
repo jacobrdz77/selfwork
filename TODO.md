@@ -1,6 +1,12 @@
 # Project Page
 
-- allow user to create a project.
+## User Stories
+
+- allow users to navigate to different pages of a single project
+  - overview
+  - list
+  - board
+  - sketch
 
 ## Inputs for project:
 

@@ -17,9 +17,6 @@ export const useProjects = () => {
       refetchOnWindowFocus: false,
     }
   );
-
-  console.log("projects: ", projects);
-
   return {
     projects,
     status,
@@ -34,9 +31,6 @@ export const useOneProject = (projectId: string) => {
       refetchOnWindowFocus: false,
     }
   );
-
-  console.log("project: ", project);
-
   return {
     project,
     status,

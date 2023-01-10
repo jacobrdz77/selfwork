@@ -1,14 +1,26 @@
 import "../styles/main.scss";
 import Head from "next/head";
-import Layout from "../components/layout/PageLayout";
+import PageLayout from "../components/layout/PageLayout";
 import type { AppProps } from "next/app";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Query, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { SessionProvider } from "next-auth/react";
+import { NextPage } from "next";
+import { ReactElement, ReactNode } from "react";
 
-function MyApp({ Component, pageProps: { ...pageProps } }: AppProps) {
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const client = new QueryClient();
   const path = useRouter().pathname;
+
+  const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
     <SessionProvider>
@@ -20,18 +32,11 @@ function MyApp({ Component, pageProps: { ...pageProps } }: AppProps) {
           />
           <meta
             name="description"
-            content="Project Management for Freelancers"
+            content="Project Management for freelancers"
           />
-          <title>selfwork. | Project Management for Freelancers</title>
+          <title>selfwork.</title>
         </Head>
-        <div aria-hidden="true" id="overlay"></div>
-        {path !== "/login" ? (
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        ) : (
-          <Component {...pageProps} />
-        )}
+        <PageLayout>{getLayout(<Component {...pageProps} />)}</PageLayout>
       </QueryClientProvider>
     </SessionProvider>
   );

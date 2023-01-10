@@ -6,10 +6,53 @@
   padding: 1.6rem var(--page-padding);
 
   &__title {
-    font-size: 3.2rem;
+    font-size: 2.8rem;
   }
   &__buttons {
     display: flex;
     gap: 0.8rem;
+  }
+}
+
+.project-header {
+  border-bottom: 1px solid #e7e6e9;
+  padding: 1.6rem var(--page-padding);
+
+  &__title {
+    font-size: 2.8rem;
+    margin-right: 1rem;
+  }
+
+  &__nav {
+    display: flex;
+    gap: 2rem;
+    &-container {
+    }
+
+    &--link {
+      &:active {
+        background-color: rgb(236, 234, 234);
+      }
+    }
+  }
+
+  &__breadcrumbs {
+    display: flex;
+    align-items: center;
+  }
+
+  &__button {
+    background-color: #fff;
+    border: none;
+    border-radius: 5px;
+    width: 25px;
+    height: 25px;
+    // padding: 5px;
+    rotate: 90deg;
+
+    &:hover {
+      background-color: rgb(236, 234, 234);
+      cursor: pointer;
+    }
   }
 }

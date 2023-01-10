@@ -9,6 +9,6 @@ interface Action {
 }
 
 export const useUserStore = create<UserState & Action>((set) => ({
-  userId: "clcfpjw9z0000gp7k2nldac6q",
+  userId: "clco0iv8d0000gpq01aki4z8m",
   setUserId: (id) => set(() => ({ userId: id })),
 }));
