@@ -42,17 +42,44 @@
   }
 
   &__button {
+    position: relative;
     background-color: #fff;
     border: none;
-    border-radius: 5px;
     width: 25px;
     height: 25px;
     // padding: 5px;
-    rotate: 90deg;
 
-    &:hover {
-      background-color: rgb(236, 234, 234);
-      cursor: pointer;
+    &-icon {
+      rotate: 90deg;
+      border-radius: 5px;
+      transition: all 0.1s ease-out;
+      &:hover {
+        background-color: rgb(236, 234, 234);
+        cursor: pointer;
+      }
+      &--active {
+        background-color: rgb(236, 234, 234);
+      }
+    }
+  }
+
+  &__menu {
+    &-container {
+      text-align: left;
+      display: block;
+      visibility: hidden;
+      width: 175px;
+      padding-top: 5px;
+      position: absolute;
+      top: 110%;
+      left: 0;
+      z-index: 1;
+      border: var(--color-stroke) 2px solid;
+      border-radius: 5px;
+      background-color: rgb(255, 255, 255);
+      &--active {
+        visibility: visible;
+      }
     }
   }
 }

@@ -4,6 +4,7 @@ import Button from "../UI/Button";
 import { useCreateProject } from "../../hooks/ProjectHooks";
 import { Priority } from "@prisma/client";
 import { useUserStore } from "../../store/user";
+import { useRouter } from "next/router";
 
 const AddProjectModal: React.FC<{
   isOpen: boolean;
@@ -11,7 +12,8 @@ const AddProjectModal: React.FC<{
 }> = ({ isOpen, setIsModalOpen }) => {
   const closeHandler = () => setIsModalOpen(false);
   const userId = useUserStore((state) => state.userId as string);
-  const { mutate } = useCreateProject();
+  const { mutateAsync } = useCreateProject();
+  const router = useRouter();
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -23,9 +25,10 @@ const AddProjectModal: React.FC<{
   const [priority, setPriority] = useState<Priority>("None");
   const [isFormValid, setIsFormValid] = useState(false);
 
-  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    mutate({
+    // Waits until it creates newProject. Then it redirects
+    const newProject = await mutateAsync({
       name,
       description,
       lumpSum: Number(lumpSum),
@@ -34,7 +37,7 @@ const AddProjectModal: React.FC<{
       priority,
       userId,
     });
-    setIsModalOpen(false);
+    router.push(`/projects/${newProject?.id}`);
   };
 
   // Form Validation

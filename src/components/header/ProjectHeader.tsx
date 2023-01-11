@@ -1,32 +1,30 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 
 type HeaderProps = {
   title: string;
-  subTitle?: string;
-  buttonHandler?: () => void;
-  buttonText?: string;
   children?: JSX.Element | JSX.Element[];
-  isButton?: boolean;
 };
 
-const ProjectHeader: React.FC<HeaderProps> = ({
-  title,
-  subTitle,
-  buttonHandler,
-  buttonText,
-  children,
-  isButton,
-}) => {
+const ProjectHeader: React.FC<HeaderProps> = ({ title, children }) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
   const { projectId } = router.query;
   return (
     <header className="project-header">
       <div className="project-header__breadcrumbs">
         <h1 className="project-header__title">{title}</h1>
-        <button className="project-header__button">
-          <svg viewBox="0 0 6.3499999 6.3500002">
+        <button
+          className="project-header__button"
+          onClick={() => setIsMenuOpen((state) => !state)}
+        >
+          <svg
+            className={`project-header__button-icon ${
+              isMenuOpen ? "project-header__button-icon--active" : ""
+            }`}
+            viewBox="0 0 6.3499999 6.3500002"
+          >
             <g id="layer1" transform="translate(0 -290.65)">
               <path
                 id="path9429"
@@ -52,6 +50,16 @@ const ProjectHeader: React.FC<HeaderProps> = ({
               />
             </g>
           </svg>
+          <div
+            className={`project-header__menu-container ${
+              isMenuOpen ? "project-header__menu-container--active" : ""
+            }`}
+          >
+            <ul className="project-header__menu">
+              <li>Edit project details</li>
+              <li>Delete project</li>
+            </ul>
+          </div>
         </button>
       </div>
       <nav className="project-header__nav-container">
