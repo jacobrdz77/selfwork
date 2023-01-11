@@ -21,31 +21,8 @@ const NavBar = () => {
           isNavMinimized ? "sidebar__toggle--active" : ""
         }`}
       >
-        <svg viewBox="0 0 6.3499999 6.3500002">
-          <g id="layer1" transform="translate(0 -290.65)">
-            <path
-              id="path9429"
-              d="m2.2580394 291.96502a.26460982.26460982 0 0 0 -.1741496.46871l1.6190225 1.38699-1.6190225 1.38648a.26460982.26460982 0 1 0 .3436483.40049l1.8536335-1.58595a.26460982.26460982 0 0 0 0-.40256l-1.8536335-1.5875a.26460982.26460982 0 0 0 -.1694987-.0667z"
-              font-variant-ligatures="normal"
-              font-variant-position="normal"
-              font-variant-caps="normal"
-              font-variant-numeric="normal"
-              font-variant-alternates="normal"
-              font-feature-settings="normal"
-              text-indent="0"
-              text-align="start"
-              text-decoration-line="none"
-              text-decoration-style="solid"
-              text-decoration-color="rgb(0,0,0)"
-              text-transform="none"
-              text-orientation="mixed"
-              white-space="normal"
-              shape-padding="0"
-              mix-blend-mode="normal"
-              solid-color="rgb(0,0,0)"
-              solid-opacity="1"
-            />
-          </g>
+        <svg className="sidebar__toggle-icon" viewBox="0 0 30 30">
+          <path d="M 3 7 A 1.0001 1.0001 0 1 0 3 9 L 27 9 A 1.0001 1.0001 0 1 0 27 7 L 3 7 z M 3 14 A 1.0001 1.0001 0 1 0 3 16 L 27 16 A 1.0001 1.0001 0 1 0 27 14 L 3 14 z M 3 21 A 1.0001 1.0001 0 1 0 3 23 L 27 23 A 1.0001 1.0001 0 1 0 27 21 L 3 21 z" />
         </svg>
       </button>
 

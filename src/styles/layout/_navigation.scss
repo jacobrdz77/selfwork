@@ -43,25 +43,29 @@
   }
 
   &__toggle {
-    rotate: 180deg;
     position: absolute;
-    top: 88%;
-    left: 208px;
-    width: 25px;
+    top: 90%;
+    left: 180px;
+    width: 30px;
     background-color: var(--color-gray--dark);
-    border-radius: 50%;
-    border: 2px solid var(--color-stroke);
+    border: none;
+    border-radius: 0.6rem;
     fill: var(--color-gray);
-    transition: transform 0.2s;
+    display: flex;
+    justify-content: center;
 
     &:hover {
       cursor: pointer;
       fill: var(--color-stroke);
+      background-color: var(--color-gray--background);
     }
 
     &--active {
-      transform: rotate(-180deg);
-      left: 47px;
+      left: 14.5px;
+    }
+    &-icon {
+      width: 2.8rem;
+      height: 2.8rem;
     }
   }
 
