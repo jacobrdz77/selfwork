@@ -87,6 +87,7 @@ model Project {
   startDate DateTime?
   dueDate DateTime? 
   taskLists TaskList[]
+  tasks   Task[]
   notes Note[]
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
@@ -132,8 +133,10 @@ model Task {
   description String?
   dueDate  DateTime?
   labels  Label[]
-  taskList  TaskList @relation(fields: [taskListId], references: [id])
-  taskListId  String
+  project     Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId   String
+  taskList  TaskList? @relation(fields: [taskListId], references: [id])
+  taskListId  String?
 }
 
 model Label {

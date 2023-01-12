@@ -1,4 +1,13 @@
-# Project Page
+# Projects
+
+## List view
+
+- create a table view of tasks in Tasks component.
+  - Task needs to show by default:
+    - Task Name
+    - Due Date
+    - Priority
+    - Status
 
 ## User Stories
 
