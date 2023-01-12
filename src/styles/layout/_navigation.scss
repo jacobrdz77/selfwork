@@ -45,7 +45,7 @@
   &__toggle {
     position: absolute;
     top: 90%;
-    left: 180px;
+    left: 14.5px;
     width: 30px;
     background-color: var(--color-gray--dark);
     border: none;
@@ -60,9 +60,9 @@
       background-color: var(--color-gray--background);
     }
 
-    &--active {
-      left: 14.5px;
-    }
+    // &--active {
+    //   left: 14.5px;
+    // }
     &-icon {
       width: 2.8rem;
       height: 2.8rem;
