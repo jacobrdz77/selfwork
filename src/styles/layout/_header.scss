@@ -25,13 +25,17 @@
 
   &__nav {
     display: flex;
-    gap: 2rem;
-    &-container {
-    }
+    gap: 1.4rem;
 
-    &--link {
-      &:active {
-        background-color: rgb(236, 234, 234);
+    &-link {
+      padding: 2px 6px;
+      border-radius: 6px;
+      &:active,
+      &:hover {
+        background-color: #f0f0f0;
+      }
+      &--active {
+        background-color: #f0f0f0;
       }
     }
   }

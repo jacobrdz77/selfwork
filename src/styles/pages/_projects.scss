@@ -11,8 +11,9 @@
 
 .projects {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1.6rem;
+  flex-direction: column;
+  // flex-wrap: wrap;
+  gap: 1rem;
   overflow-y: auto;
 }
 
@@ -20,14 +21,15 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 22rem;
+  justify-content: center;
   padding: 1rem 1rem 1rem 1.5rem;
   border-radius: 0.8rem;
   border: 1px solid var(--color-stroke);
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  height: 5.4rem;
+  // box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 
   &__name {
-    font-weight: 700;
+    font-weight: 600;
     &:hover {
       text-decoration: underline var(--color-gray);
     }

@@ -1,6 +1,10 @@
-import { Priority, Project } from "@prisma/client";
+import { Priority, Project, Task } from "@prisma/client";
 import axios from "axios";
-import { NewProjectData, UpdateProjectData } from "../types/types";
+import {
+  NewProjectData,
+  ProjectWithTasks,
+  UpdateProjectData,
+} from "../types/types";
 
 // ***** Client Funcitons
 // GET ALL
@@ -14,10 +18,17 @@ export const getProjects = async (userId: string) => {
 };
 
 // GET ONE
-export const getOneProject = async (projectId: string) => {
+export const getOneProject = async (
+  projectId: string,
+  showTasks: boolean = false
+) => {
   try {
+    if (showTasks) {
+      const response = await fetch(`/api/projects/${projectId}?tasks=true`);
+      return (await response.json()) as ProjectWithTasks;
+    }
     const response = await fetch(`/api/projects/${projectId}`);
-    return (await response.json()) as Project;
+    return (await response.json()) as ProjectWithTasks;
   } catch (error) {
     throw error;
   }

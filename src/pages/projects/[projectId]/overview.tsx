@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import ProjectPageLayout from "../../../components/project/ProjectPageLayout";
 import { useOneProject } from "../../../hooks/ProjectHooks";
 import { NextPageWithLayout } from "../../_app";
@@ -7,6 +7,7 @@ import { NextPageWithLayout } from "../../_app";
 const ProjectOverviewPage: NextPageWithLayout = () => {
   const { projectId } = useRouter().query;
   const { project, status } = useOneProject(projectId as string);
+  console.log("Project in overview: ", project);
 
   if (status === "loading") {
     return <div>Loading...</div>;
@@ -20,16 +21,11 @@ const ProjectOverviewPage: NextPageWithLayout = () => {
       </div>
     );
   }
-
   return (
-    <>
-      {status === "success" && (
-        <div className="project-page__overview">
-          <h2>Description</h2>
-          <p>{project?.description ?? "You're description would go here!"}</p>
-        </div>
-      )}
-    </>
+    <div className="project-page__overview">
+      <h2>Description</h2>
+      <p>{project?.description ?? "You're description would go here!"}</p>
+    </div>
   );
 };
 

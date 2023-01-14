@@ -10,6 +10,7 @@ type HeaderProps = {
 const ProjectHeader: React.FC<HeaderProps> = ({ title, children }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
+  const currentPath = router.pathname.split("/")[3];
   const { projectId } = router.query;
   return (
     <header className="project-header">
@@ -62,12 +63,16 @@ const ProjectHeader: React.FC<HeaderProps> = ({ title, children }) => {
           </div>
         </button>
       </div>
-      <nav className="project-header__nav-container">
+      <nav>
         <ul className="project-header__nav">
           <li>
             <Link
               href={`/projects/${projectId}/overview`}
-              className="project-header__nav--link"
+              className={`project-header__nav-link ${
+                currentPath === "overview"
+                  ? "project-header__nav-link--active"
+                  : ""
+              }`}
             >
               Overview
             </Link>
@@ -75,7 +80,9 @@ const ProjectHeader: React.FC<HeaderProps> = ({ title, children }) => {
           <li>
             <Link
               href={`/projects/${projectId}/list`}
-              className="project-header__nav--link"
+              className={`project-header__nav-link ${
+                currentPath === "list" ? "project-header__nav-link--active" : ""
+              }`}
             >
               List
             </Link>
@@ -83,7 +90,11 @@ const ProjectHeader: React.FC<HeaderProps> = ({ title, children }) => {
           <li>
             <Link
               href={`/projects/${projectId}/board`}
-              className="project-header__nav--link"
+              className={`project-header__nav-link ${
+                currentPath === "board"
+                  ? "project-header__nav-link--active"
+                  : ""
+              }`}
             >
               Board
             </Link>
@@ -91,7 +102,11 @@ const ProjectHeader: React.FC<HeaderProps> = ({ title, children }) => {
           <li>
             <Link
               href={`/projects/${projectId}/sketch`}
-              className="project-header__nav--link"
+              className={`project-header__nav-link ${
+                currentPath === "sketch"
+                  ? "project-header__nav-link--active"
+                  : ""
+              }`}
             >
               Sketch
             </Link>

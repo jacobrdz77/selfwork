@@ -9,7 +9,21 @@ export default async function handler(
   // RETURN: a project
   if (req.method === "GET") {
     try {
-      const { projectId } = req.query;
+      const { projectId, tasks } = req.query;
+
+      if (tasks === "true") {
+        const project = await prisma.project.findUnique({
+          where: {
+            id: projectId as string,
+          },
+          include: {
+            tasks: true,
+          },
+        });
+
+        return res.status(200).json(project);
+      }
+
       const project = await prisma.project.findUnique({
         where: {
           id: projectId as string,

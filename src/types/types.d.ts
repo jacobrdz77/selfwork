@@ -1,5 +1,5 @@
 import type { DefaultUser } from "next-auth";
-import type { Priority } from "@prisma/client";
+import type { Priority, Project } from "@prisma/client";
 
 declare module "next-auth" {
   interface Session {
@@ -10,7 +10,7 @@ declare module "next-auth" {
 }
 
 //Data Structure from Frontend
-interface NewProjectData {
+type NewProjectData = {
   name: string;
   description: string;
   lumpSum: number;
@@ -18,7 +18,7 @@ interface NewProjectData {
   dueDate: string;
   priority: Priority;
   userId: string;
-}
+};
 
 export type UpdateProjectData = {
   id: number;
@@ -31,7 +31,11 @@ export type UpdateProjectData = {
   clientId?: string;
 };
 
-interface NewClientData {
+export type ProjectWithTasks = Project & {
+  tasks?: Task[];
+};
+
+export type NewClientData = {
   name: string;
   description: string;
   userId: string;
@@ -39,4 +43,4 @@ interface NewClientData {
   email?: string;
   phone?: string;
   website?: string;
-}
+};

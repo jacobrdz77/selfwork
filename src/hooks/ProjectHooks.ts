@@ -30,14 +30,15 @@ export const useProjects = () => {
 
 export const useOneProject = (
   projectId: string,
-  options?: UseQueryOptions<Project, unknown, Project, string[]>
+  showTasks: boolean = false
+  // options?: UseQueryOptions<Project, unknown, Project, string[]>
 ) => {
   const { data: project, status } = useQuery(
     ["project", projectId],
-    () => getOneProject(projectId),
+    () => getOneProject(projectId, showTasks),
     {
       refetchOnWindowFocus: false,
-      ...options,
+      // ...options,
     }
   );
   return {
