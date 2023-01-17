@@ -1,0 +1,105 @@
+.tasks-table {
+  font-size: 1.4rem;
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+  th,
+  td {
+    padding: 8px;
+  }
+  thead {
+    border-bottom: 1px solid lightgray;
+  }
+
+  // Task name heading and task name of row
+  th:first-child,
+  td:first-child {
+    min-width: 400px;
+    border-left: none;
+  }
+}
+
+// Each row of task
+.task {
+  height: 37px;
+  transition: all 0.1s ease-in-out;
+  border-bottom: 1px solid var(--color-border);
+
+  &:hover {
+    cursor: pointer;
+    background-color: var(--color-gray--hover);
+  }
+  &:hover &__drag {
+    visibility: visible;
+  }
+  &--active {
+    background-color: var(--color-gray--hover);
+  }
+  &__drag {
+    align-self: center;
+    visibility: hidden;
+    fill: #000;
+    width: 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & svg {
+      width: 12px;
+      height: 12px;
+      margin-bottom: 2px;
+    }
+    &:hover {
+      cursor: grab;
+    }
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  &__name {
+    height: 21px;
+    padding-left: 0.5rem;
+
+    &-container {
+      max-width: 700px;
+      padding-left: 4px;
+      display: flex;
+    }
+  }
+
+  &__date:hover,
+  &__status:hover,
+  &__priority:hover {
+    background-color: #fafafa;
+  }
+
+  &__date,
+  &__status,
+  &__priority {
+    width: 14rem;
+    border: 1px solid var(--color-border);
+  }
+
+  &__priority {
+    border-right: none;
+
+    span {
+      padding: 0 8px;
+      border-radius: 10px;
+    }
+    &--none {
+      background-color: #e8e8e8;
+    }
+    &--low {
+      background-color: #f1bd6c;
+    }
+    &--medium {
+      background-color: #ec8d71;
+    }
+    &--high {
+      background-color: #f06a6a;
+    }
+  }
+}

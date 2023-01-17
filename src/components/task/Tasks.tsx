@@ -1,6 +1,5 @@
 import { Task } from "@prisma/client";
 import React, { useState } from "react";
-import LoadingSpinner from "../UI/LoadingSpinner";
 import NoTasks from "./NoTasks";
 import OneTask from "./OneTask";
 
@@ -9,20 +8,34 @@ const Tasks: React.FC<{
   status: "error" | "success" | "loading";
 }> = ({ tasks, status }) => {
   const [isAddTaskOpen, setAddTaskOpen] = useState(false);
-  return (
-    <div className="">
-      {status === "loading" && <LoadingSpinner />}
 
-      {/* Succesful with no data */}
-      {status === "success" && tasks.length === 0 && (
-        <NoTasks setIsModalOpen={setAddTaskOpen} />
-      )}
+  if (status === "success" && tasks.length === 0) {
+    return <NoTasks setIsModalOpen={setAddTaskOpen} />;
+  }
+
+  return (
+    <>
+      {status === "loading" && "Loading..."}
 
       {/* Succesful with data */}
-      {status === "success" &&
-        tasks.length > 0 &&
-        tasks?.map((task) => <OneTask key={task.id} task={task} />)}
-    </div>
+      {status === "success" && tasks.length > 0 && (
+        <table className="tasks-table">
+          <thead>
+            <tr>
+              <th>Task name</th>
+              <th>Due date</th>
+              <th>Status</th>
+              <th>Priority</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tasks.map((task) => (
+              <OneTask key={task.id} task={task} />
+            ))}
+          </tbody>
+        </table>
+      )}
+    </>
   );
 };
 

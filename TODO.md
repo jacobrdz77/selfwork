@@ -1,3 +1,7 @@
+## User Stories
+
+- as a user I want to be able to click on a task in the list view and it opens a popup that shows more details about the task.
+
 # Projects
 
 ## List view
@@ -8,14 +12,6 @@
     - Due Date
     - Priority
     - Status
-
-## User Stories
-
-- allow users to navigate to different pages of a single project
-  - overview
-  - list
-  - board
-  - sketch
 
 ## Inputs for project:
 

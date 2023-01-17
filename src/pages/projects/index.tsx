@@ -18,6 +18,8 @@ import { useProjects } from "../../hooks/ProjectHooks";
 const ProjectsPage: NextPage = () => {
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
   const { projects, status } = useProjects();
+  console.log("projects: ", projects);
+  console.log("status: ", status);
 
   return (
     <>
