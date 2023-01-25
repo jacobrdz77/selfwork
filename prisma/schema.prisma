@@ -86,7 +86,7 @@ model Project {
   priority Priority? @default(None)
   startDate DateTime?
   dueDate DateTime? 
-  taskLists TaskList[]
+  sections Section[]
   tasks   Task[]
   notes Note[]
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -125,32 +125,32 @@ model Contact {
 
 model Task {
   id String @id @default(cuid())
-  createdAt   DateTime  @default(now())
   name String
   status Status @default(Open)
   priority  Priority @default(None)
   isComplete  Boolean
   description String?
-  dueDate  DateTime?
-  labels  Label[]
+  dueDate  DateTime?  
+  tags  Tag[]
   project     Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId   String
-  taskList  TaskList? @relation(fields: [taskListId], references: [id])
-  taskListId  String?
+  section  Section @relation(fields: [sectionId], references: [id])
+  sectionId  String
+  createdAt   DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
-model Label {
+model Tag {
   id String @id @default(cuid())
   name  String
   task Task? @relation(fields: [taskId], references: [id])
   taskId String?
 }
 
-model TaskList {
+model Section {
   id String @id @default(cuid())
   name  String  @unique
   tasks Task[]
   project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId String 
-  @@unique([id, projectId ])
 }
