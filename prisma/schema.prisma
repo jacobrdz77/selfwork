@@ -128,7 +128,7 @@ model Task {
   name String
   status Status @default(Open)
   priority  Priority @default(None)
-  isComplete  Boolean
+  isComplete  Boolean @default(false)
   description String?
   dueDate  DateTime?  
   tags  Tag[]
