@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
-import ProjectPageLayout from "../../../components/project/ProjectPageLayout";
-import { useOneProject } from "../../../hooks/ProjectHooks";
+import ProjectPageLayout from "@/components/project/ProjectPageLayout";
+import { useOneProject } from "@/hooks/ProjectHooks";
 import { NextPageWithLayout } from "../../_app";
 
 const ProjectOverviewPage: NextPageWithLayout = () => {

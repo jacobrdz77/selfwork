@@ -1,4 +1,4 @@
-import ProjectPageLayout from "../../../components/project/ProjectPageLayout";
+import ProjectPageLayout from "@/components/project/ProjectPageLayout";
 import { NextPageWithLayout } from "../../_app";
 
 const Board: NextPageWithLayout = () => {

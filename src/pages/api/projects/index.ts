@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../utils/prisma";
-import { NewProjectData } from "../../../types/types";
-import { transformProjectData } from "../../../utils/projectFunctions";
+import prisma from "../../../../prisma/client";
+import { NewProjectData } from "@/types/types";
+import { transformProjectData } from "@/utils/projectFunctions";
 
 export default async function handler(
   req: NextApiRequest,

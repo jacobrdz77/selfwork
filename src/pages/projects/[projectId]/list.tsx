@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
-import ProjectPageLayout from "../../../components/project/ProjectPageLayout";
-import Tasks from "../../../components/task/Tasks";
-import { useOneProject } from "../../../hooks/ProjectHooks";
-import { ProjectWithTasks } from "../../../types/types";
+import ProjectPageLayout from "@/components/project/ProjectPageLayout";
+import Tasks from "@/components/task/Tasks";
+import { useOneProject } from "@/hooks/ProjectHooks";
+import { ProjectWithTasks } from "@/types/types";
 import { NextPageWithLayout } from "../../_app";
 
 const List: NextPageWithLayout = () => {

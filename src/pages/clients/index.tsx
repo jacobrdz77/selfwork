@@ -1,12 +1,12 @@
 import { NextPage } from "next";
-import Button from "../../components/UI/Button";
-import PageHeader from "../../components/header/PageHeader";
-import Clients from "../../components/client/Clients";
-import NoClients from "../../components/client/NoClients";
-import LoadingPage from "../../components/UI/LoadingSpinner";
+import Button from "@/components/UI/Button";
+import PageHeader from "@/components/header/PageHeader";
+import Clients from "@/components/client/Clients";
+import NoClients from "@/components/client/NoClients";
+import LoadingPage from "@/components/UI/LoadingSpinner";
 import { useMemo, useState } from "react";
-import AddClientModal from "../../components/client/AddClientModal";
-import useClients from "../../hooks/useClients";
+import AddClientModal from "@/components/client/AddClientModal";
+import useClients from "@/hooks/useClients";
 
 const ClientsPage: NextPage = () => {
   const [isModalOpen, setModalIsOpen] = useState(false);
