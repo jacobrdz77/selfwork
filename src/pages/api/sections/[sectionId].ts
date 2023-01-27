@@ -5,55 +5,55 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // GET one taskList
-  // RETURN: a taskList
+  // GET one section
+  // RETURN: a section
   if (req.method === "GET") {
     try {
-      const { taskListId } = req.query;
-      const taskList = await prisma.taskList.findUnique({
+      const { sectionId } = req.query;
+      const section = await prisma.section.findUnique({
         where: {
-          id: taskListId as string,
+          id: sectionId as string,
         },
       });
-      return res.status(200).json(taskList);
+      return res.status(200).json(section);
     } catch (error: Error | any) {
       return res.status(400).json({ error: error.message });
     }
   }
 
-  // DELETE a taskList
-  // RETURN: the deleted taskList
+  // DELETE a section
+  // RETURN: the deleted section
   else if (req.method === "DELETE") {
     try {
-      const { taskListId } = req.query;
-      const deletedTaskList = await prisma.taskList.delete({
+      const { sectionId } = req.query;
+      const deletedsection = await prisma.section.delete({
         where: {
-          id: taskListId as string,
+          id: sectionId as string,
         },
       });
       return res
         .status(200)
-        .json({ deletedTaskList, message: "DELETED taskList" });
+        .json({ deletedsection, message: "DELETED section" });
     } catch (error: Error | any) {
       return res.status(400).json(error);
     }
   }
 
-  // UPDATE a taskList
-  // RETURN: the updated taskList
+  // UPDATE a section
+  // RETURN: the updated section
   else if (req.method === "PUT") {
     try {
-      const { taskListId } = req.query;
-      const { taskListData } = req.body;
-      const taskList = await prisma.taskList.update({
+      const { sectionId } = req.query;
+      const { sectionData } = req.body;
+      const section = await prisma.section.update({
         where: {
-          id: taskListId as string,
+          id: sectionId as string,
         },
         data: {
-          ...taskListData,
+          ...sectionData,
         },
       });
-      return res.status(200).json(taskList);
+      return res.status(200).json(section);
     } catch (error: Error | any) {
       return res.status(400).json({ error: error.message });
     }

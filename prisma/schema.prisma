@@ -34,6 +34,14 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -42,16 +50,25 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  projects      Project[]
   clients       Client[]
+  ownedWorkspaces     Workspace[]   @relation("Owner")
+  involvedWorkspaces      Workspace[]   @relation("Members")
+  ownedProjects     Project[]   @relation("Owner")
+  involvedProjects      Project[]   @relation("Members")
+  sections      Section[] @relation("Sections")
+  assignedTasksSection      Section   @relation("NewTasksSection", fields: [assignedTasksSectionId], references: [id])
+  assignedTasksSectionId   String
+  @@unique([assignedTasksSectionId])
 }
 
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
+model Workspace {
+  id            String    @id @default(cuid())
+  name          String
+  description   String?
+  projects      Project[]
+  owner User @relation("Owner", fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId String
+  members User[] @relation("Members")
 }
 
 enum Priority {
@@ -89,8 +106,11 @@ model Project {
   sections Section[]
   tasks   Task[]
   notes Note[]
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String
+  owner User? @relation("Owner", fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId String?
+  members User[]  @relation("Members")
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaceId String 
   client Client? @relation(fields: [clientId, clientName], references: [id, name])
   clientId String?
   clientName String?
@@ -151,6 +171,9 @@ model Section {
   id String @id @default(cuid())
   name  String  @unique
   tasks Task[]
-  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId String 
+  project Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String? 
+  user User? @relation("Sections",fields: [userId], references: [id], onDelete: Cascade)
+  userId String?
+  everyUser User?  @relation("NewTasksSection")
 }

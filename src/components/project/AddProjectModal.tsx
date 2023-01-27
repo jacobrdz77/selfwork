@@ -28,6 +28,7 @@ const AddProjectModal: React.FC<{
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Waits until it creates newProject. Then it redirects
+    //! get workspaceId to create project
     const newProject = await mutateAsync({
       name,
       description,

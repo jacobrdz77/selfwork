@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { Task, TaskList } from "@prisma/client";
+import { Task, Section } from "@prisma/client";
 import prisma from "../../../../prisma/client";
 
 export default async function handler(
@@ -14,12 +14,12 @@ export default async function handler(
       if (!projectId) {
         throw new Error("Provide a projectId.", { cause: {} });
       }
-      const taskList = await prisma.taskList.findMany({
+      const section = await prisma.section.findMany({
         where: {
           projectId,
         },
       });
-      return res.status(200).json(taskList);
+      return res.status(200).json(section);
     } catch (error: Error | any) {
       return res.status(400).json({ error: error.message });
     }
@@ -28,22 +28,22 @@ export default async function handler(
   // Create a new task-list
   if (req.method === "POST") {
     try {
-      // Get the taskList data from the request body
-      const { taskList } = req.body;
+      // Get the section data from the request body
+      const { section } = req.body;
       const taskData = {
-        ...taskList,
+        ...section,
         website: {
           connect: {
-            id: taskList.projectId,
+            id: section.projectId,
           },
         },
       };
 
-      const newTaskList = await prisma.taskList.create({
+      const newsection = await prisma.section.create({
         data: taskData,
       });
 
-      return res.status(200).json(newTaskList);
+      return res.status(200).json(newsection);
     } catch (error: any) {
       console.log("Request body: \n", req.body);
       return res.status(400).json(error.message);
