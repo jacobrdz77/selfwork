@@ -14,10 +14,10 @@ import {
 } from "../utils/projectFunctions";
 
 export const useProjects = () => {
-  const userId = useUserStore((state) => state.userId);
+  const workspaceId = useUserStore((state) => state.workspaceId);
   const { data: projects, status } = useQuery(
     ["projects"],
-    () => getProjects(userId!),
+    () => getProjects(workspaceId),
     {
       refetchOnWindowFocus: false,
     }

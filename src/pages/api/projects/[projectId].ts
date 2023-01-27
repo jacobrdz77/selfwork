@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../prisma/client";
 
@@ -9,15 +10,19 @@ export default async function handler(
   // RETURN: a project
   if (req.method === "GET") {
     try {
-      const { projectId, tasks } = req.query;
+      const { projectId, sections } = req.query;
 
-      if (tasks === "true") {
+      if (sections === "true") {
         const project = await prisma.project.findUnique({
           where: {
             id: projectId as string,
           },
           include: {
-            tasks: true,
+            sections: {
+              include: {
+                tasks: true,
+              },
+            },
           },
         });
 

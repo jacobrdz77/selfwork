@@ -2,15 +2,15 @@ import { Priority, Project, Task } from "@prisma/client";
 import axios from "axios";
 import {
   NewProjectData,
-  ProjectWithTasks,
+  ProjectWithSections,
   UpdateProjectData,
 } from "../types/types";
 
 // ***** Client Funcitons
 // GET ALL
-export const getProjects = async (userId: string) => {
+export const getProjects = async (workspaceId: string) => {
   try {
-    const response = await fetch(`/api/projects?userId=${userId}`);
+    const response = await fetch(`/api/projects?workspaceId=${workspaceId}`);
     return (await response.json()) as Project[];
   } catch (error) {
     throw error;
@@ -20,15 +20,15 @@ export const getProjects = async (userId: string) => {
 // GET ONE
 export const getOneProject = async (
   projectId: string,
-  showTasks: boolean = false
+  showSections: boolean = false
 ) => {
   try {
-    if (showTasks) {
-      const response = await fetch(`/api/projects/${projectId}?tasks=true`);
-      return (await response.json()) as ProjectWithTasks;
+    if (showSections) {
+      const response = await fetch(`/api/projects/${projectId}?sections=true`);
+      return (await response.json()) as ProjectWithSections;
     }
     const response = await fetch(`/api/projects/${projectId}`);
-    return (await response.json()) as ProjectWithTasks;
+    return (await response.json()) as ProjectWithSections;
   } catch (error) {
     throw error;
   }

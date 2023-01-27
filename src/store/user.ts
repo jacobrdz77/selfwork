@@ -2,6 +2,7 @@ import create from "zustand";
 
 interface UserState {
   userId: string | null;
+  workspaceId: string;
 }
 
 interface Action {
@@ -16,5 +17,6 @@ export const MOCK_USER = {
 
 export const useUserStore = create<UserState & Action>((set) => ({
   userId: MOCK_USER.id,
+  workspaceId: "clde1v92g0003gpx0p79c6mig",
   setUserId: (id) => set(() => ({ userId: id })),
 }));

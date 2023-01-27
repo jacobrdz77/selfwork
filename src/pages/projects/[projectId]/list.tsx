@@ -1,14 +1,16 @@
+import { useState } from "react";
 import { useRouter } from "next/router";
 import ProjectPageLayout from "@/components/project/ProjectPageLayout";
 import Tasks from "@/components/task/Tasks";
 import { useOneProject } from "@/hooks/ProjectHooks";
-import { ProjectWithTasks } from "@/types/types";
 import { NextPageWithLayout } from "../../_app";
+import { Task } from "@prisma/client";
 
 const List: NextPageWithLayout = () => {
   const { projectId } = useRouter().query;
   const { project, status } = useOneProject(projectId as string, true);
-
+  console.log("Project in list: ", project);
+  console.log("Sections: ", project?.sections);
   return (
     <div className="project-page__list">
       {status === "error" && (
@@ -20,9 +22,9 @@ const List: NextPageWithLayout = () => {
 
       {status === "loading" && <div>Loading...</div>}
 
-      {status === "success" && (
-        <Tasks status={status} tasks={project?.tasks!} />
-      )}
+      {/* {status === "success" && (
+          Add a Sections component
+      )} */}
     </div>
   );
 };
