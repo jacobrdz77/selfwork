@@ -8,13 +8,21 @@ async function main() {
     create: {
       id: "al814zcy86074hloymogrg1mv",
       name: "Jacob",
-      email: "jacob@jacob.com",
-      projects: {
+      ownedWorkspaces: {
         create: {
           id: "cldclt74u9600gpecetnyigta",
-          name: "Law Firm Website",
-          priority: "High",
-          sections: {},
+          name: "My Workspace",
+        },
+      },
+      assignedTasksSection: {
+        create: {
+          id: "cqpclt74u9945gpecetnyigta",
+          name: "New Tasks",
+          user: {
+            connect: {
+              id: "al814zcy86074hloymogrg1mv",
+            },
+          },
         },
       },
     },
@@ -28,7 +36,12 @@ async function main() {
       name: "Law Firm Website",
       priority: "High",
       description: "A website based on a local law firm.",
-      user: {
+      workspace: {
+        connect: {
+          id: "cldclt74u9600gpecetnyigta",
+        },
+      },
+      owner: {
         connect: {
           id: "al814zcy86074hloymogrg1mv",
         },
