@@ -1,6 +1,6 @@
 # selfwork (in development)
 
-### A project management system targeted for freelancers.
+A project management system for small teams and freelancers.
 
 # Tech Stack
 
