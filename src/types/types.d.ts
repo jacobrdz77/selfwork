@@ -17,7 +17,8 @@ type NewProjectData = {
   startDate: string;
   dueDate: string;
   priority: Priority;
-  userId: string;
+  workspaceId: string;
+  ownerId: string;
 };
 
 export type UpdateProjectData = {

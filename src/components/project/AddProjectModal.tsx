@@ -36,7 +36,8 @@ const AddProjectModal: React.FC<{
       startDate,
       dueDate,
       priority,
-      userId,
+      workspaceId,
+      ownerId: userId,
     });
     router.push(`/projects/${newProject?.id}`);
   };

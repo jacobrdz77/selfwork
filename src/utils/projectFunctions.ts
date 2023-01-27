@@ -79,12 +79,14 @@ export const transformProjectData = ({
   lumpSum,
   priority,
   startDate,
-  userId,
+  workspaceId,
+  ownerId,
 }: NewProjectData) => {
   return {
     name,
     priority,
-    userId,
+    workspaceId,
+    ownerId,
     description: description.trim().length === 0 ? null : description,
     lumpSum: lumpSum === 0 ? null : lumpSum,
     startDate: startDate.length === 0 ? null : new Date(startDate),

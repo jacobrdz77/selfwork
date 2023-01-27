@@ -7,18 +7,18 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // Get all projects from the userId provided
+  // Get all projects from the workspaceId provided
   if (req.method === "GET") {
     try {
-      const { userId } = req.query;
+      const { workspaceId } = req.query;
       // For Development
-      if (!userId) {
-        throw new Error("Provide a userId.", { cause: {} });
+      if (!workspaceId) {
+        throw new Error("Provide a workspaceId.");
       }
 
       const projects = await prisma.project.findMany({
         where: {
-          userId: userId as string,
+          workspaceId: workspaceId as string,
         },
       });
 
@@ -31,23 +31,26 @@ export default async function handler(
   // Create a new project
   if (req.method === "POST") {
     try {
-      // Parse the body to transfrom the data
-      const body = JSON.parse(req.body);
-      const { project } = body;
+      const { project } = req.body;
 
       // Transform the projects properties to valid datatypes
-      const transformedProject = transformProjectData(project);
+      const modifiedProject = transformProjectData(project);
 
       const projectData = {
-        name: transformedProject.name,
-        description: transformedProject.description,
-        lumpSum: transformedProject.lumpSum,
-        priority: transformedProject.priority,
-        startDate: transformedProject.startDate,
-        dueDate: transformedProject.dueDate,
-        user: {
+        name: modifiedProject.name,
+        description: modifiedProject.description,
+        lumpSum: modifiedProject.lumpSum,
+        priority: modifiedProject.priority,
+        startDate: modifiedProject.startDate,
+        dueDate: modifiedProject.dueDate,
+        workspace: {
           connect: {
-            id: transformedProject.userId,
+            id: modifiedProject.workspaceId,
+          },
+        },
+        owner: {
+          connect: {
+            id: modifiedProject.ownerId,
           },
         },
       };
@@ -58,7 +61,7 @@ export default async function handler(
 
       return res.status(200).json(newProject);
     } catch (error: any) {
-      return res.status(400).json(error.message);
+      return res.status(400).json({ error: error.message });
     }
   }
   return res.status(400).json({ error: "Request Not Allowed" });
