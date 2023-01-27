@@ -6,9 +6,9 @@ A project management system for small teams and freelancers.
 
 ## Front-end
 
+- TypeScript
 - React
 - Nextjs
-- TypeScript
 - SCSS
 
 ## Back-end
@@ -18,6 +18,6 @@ A project management system for small teams and freelancers.
 
 # Features
 
-- Full CRUD functionality for projects, clients, tasks, and task lists.
-- Allows you to log in and register using Github.
+- Full CRUD functionality for projects, clients, tasks, and sections.
+- Allows you to log in and register using Google.
 - Add Tasks for projects which you can define the start date and due date, priority, and description.
