@@ -145,6 +145,26 @@
           fill: #f1f1f1;
         }
       }
+      &--minimized {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 12px;
+        border-radius: 0.6rem;
+        height: 28px;
+        &:hover {
+          background-color: var(--color-gray--background);
+          cursor: pointer;
+          .sidebar__workspace-add-icon {
+            fill: #f1f1f1;
+          }
+          // Only shows tooltip when navbar is minimized
+          .sidebar__tooltip {
+            visibility: visible;
+          }
+        }
+      }
     }
 
     &--minimized {
@@ -179,6 +199,7 @@
     height: 28px;
     padding: 0 12px;
     border-radius: 0.6rem;
+    position: relative;
     &:hover {
       background-color: var(--color-gray--background);
       cursor: pointer;
@@ -200,6 +221,8 @@
   }
 
   &__projects-list {
+    display: grid;
+    gap: 5px;
     &--minimized {
       .sidebar__project {
         justify-content: center;
@@ -210,6 +233,11 @@
       }
       .sidebar__color-icon {
         margin: unset;
+      }
+
+      // Only shows tooltip when navbar is minimized
+      .sidebar__project:hover .sidebar__tooltip {
+        visibility: visible;
       }
     }
   }
@@ -284,6 +312,31 @@
     padding: 0.4rem 0.8rem;
     &-icon {
       display: inline-block;
+    }
+  }
+
+  &__tooltip {
+    visibility: hidden;
+    width: auto;
+    display: flex;
+    background-color: var(--color-gray--dark);
+    padding: 4px 10px;
+    border-radius: 6px;
+    position: absolute;
+    top: 0;
+    left: 140%;
+    z-index: 1;
+    white-space: nowrap;
+
+    &::after {
+      content: " ";
+      position: absolute;
+      top: 50%;
+      right: 100%; /* To the left of the tooltip */
+      margin-top: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent var(--color-gray--dark) transparent transparent;
     }
   }
 }

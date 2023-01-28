@@ -117,19 +117,29 @@ const NavBar = () => {
         </ul>
       </nav>
       <nav className="sidebar__nav-container sidebar__nav--workspace">
-        <Link
-          href="/workspace"
-          className={`sidebar__workspace ${
-            isNavMinimized ? "sidebar__workspace--minimized" : ""
-          }`}
-        >
-          <span className="sidebar__workspace-name">My Workspace</span>
-          <div className="sidebar__workspace-add">
+        {isNavMinimized ? (
+          <div className="sidebar__workspace-add--minimized">
             <svg className="sidebar__workspace-add-icon" viewBox="0 0 24 24">
               <path d="m12 6a1 1 0 0 0 -1 1v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2h-4v-4a1 1 0 0 0 -1-1z" />
             </svg>
+            <span className="sidebar__tooltip">Create project</span>
           </div>
-        </Link>
+        ) : (
+          <Link
+            href="/workspace"
+            className={`sidebar__workspace ${
+              isNavMinimized ? "sidebar__workspace--minimized" : ""
+            }`}
+          >
+            <span className="sidebar__workspace-name">My Workspace</span>
+            <div className="sidebar__workspace-add">
+              <svg className="sidebar__workspace-add-icon" viewBox="0 0 24 24">
+                <path d="m12 6a1 1 0 0 0 -1 1v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2h-4v-4a1 1 0 0 0 -1-1z" />
+              </svg>
+            </div>
+          </Link>
+        )}
+
         <div
           className={`sidebar__projects-list ${
             isNavMinimized ? "sidebar__projects-list--minimized" : ""
@@ -149,8 +159,9 @@ const NavBar = () => {
                 <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
               </svg>
             </div>
+            <span className="sidebar__tooltip">Our First Project</span>
           </div>
-          <div className="sidebar__project sidebar__project--active">
+          <div className="sidebar__project">
             <svg
               className="sidebar__color-icon sidebar__color-icon--blue-green"
               viewBox="0 0 24 24"
@@ -164,6 +175,8 @@ const NavBar = () => {
                 <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
               </svg>
             </div>
+
+            <span className="sidebar__tooltip">selfwork</span>
           </div>
           <div className="sidebar__project">
             <svg
@@ -179,6 +192,7 @@ const NavBar = () => {
                 <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
               </svg>
             </div>
+            <span className="sidebar__tooltip">New project</span>
           </div>
           <div className="sidebar__project">
             <svg
@@ -194,6 +208,7 @@ const NavBar = () => {
                 <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
               </svg>
             </div>
+            <span className="sidebar__tooltip">Trailer Website</span>
           </div>
           <div className="sidebar__project">
             <svg
@@ -209,6 +224,7 @@ const NavBar = () => {
                 <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
               </svg>
             </div>
+            <span className="sidebar__tooltip">Law firm website</span>
           </div>
           {projects.length > 5 && (
             <span
