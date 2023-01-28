@@ -8,6 +8,7 @@ const NavBar = () => {
   const [isNavMinimized, setIsNavMinimized] = useState(false);
 
   const router = useRouter();
+  const projects = [1, 2, 3, 4, 5];
   return (
     <div className={`sidebar ${isNavMinimized ? "sidebar--minimized" : ""}`}>
       {/* LOGO */}
@@ -115,6 +116,113 @@ const NavBar = () => {
           </li>
         </ul>
       </nav>
+      <nav className="sidebar__nav-container sidebar__nav--workspace">
+        <Link
+          href="/workspace"
+          className={`sidebar__workspace ${
+            isNavMinimized ? "sidebar__workspace--minimized" : ""
+          }`}
+        >
+          <span className="sidebar__workspace-name">My Workspace</span>
+          <div className="sidebar__workspace-add">
+            <svg className="sidebar__workspace-add-icon" viewBox="0 0 24 24">
+              <path d="m12 6a1 1 0 0 0 -1 1v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2h-4v-4a1 1 0 0 0 -1-1z" />
+            </svg>
+          </div>
+        </Link>
+        <div
+          className={`sidebar__projects-list ${
+            isNavMinimized ? "sidebar__projects-list--minimized" : ""
+          } `}
+        >
+          <div className="sidebar__project">
+            <svg
+              className="sidebar__color-icon sidebar__color-icon--purple"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
+            <span className="sidebar__project-name">Our First Project</span>
+            <div className="sidebar__more-btn" role="button">
+              <svg className="sidebar__more-icon" viewBox="0 0 16 16">
+                <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
+              </svg>
+            </div>
+          </div>
+          <div className="sidebar__project sidebar__project--active">
+            <svg
+              className="sidebar__color-icon sidebar__color-icon--blue-green"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
+            <span className="sidebar__project-name">Selfwork</span>
+            <div className="sidebar__more-btn">
+              <svg className="sidebar__more-icon" viewBox="0 0 16 16">
+                <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
+              </svg>
+            </div>
+          </div>
+          <div className="sidebar__project">
+            <svg
+              className="sidebar__color-icon sidebar__color-icon--blue"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
+            <span className="sidebar__project-name">New project</span>
+            <div className="sidebar__more-btn">
+              <svg className="sidebar__more-icon" viewBox="0 0 16 16">
+                <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
+              </svg>
+            </div>
+          </div>
+          <div className="sidebar__project">
+            <svg
+              className="sidebar__color-icon sidebar__color-icon--pink"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
+            <span className="sidebar__project-name">Trailer Website</span>
+            <div className="sidebar__more-btn">
+              <svg className="sidebar__more-icon" viewBox="0 0 16 16">
+                <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
+              </svg>
+            </div>
+          </div>
+          <div className="sidebar__project">
+            <svg
+              className="sidebar__color-icon sidebar__color-icon--oat"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
+            <span className="sidebar__project-name">Law firm website</span>
+            <div className="sidebar__more-btn">
+              <svg className="sidebar__more-icon" viewBox="0 0 16 16">
+                <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
+              </svg>
+            </div>
+          </div>
+          {projects.length > 5 && (
+            <span
+              className={`sidebar__show-more-projects ${
+                isNavMinimized ? "sidebar__show-more-projects--minimized" : ""
+              }`}
+              role="button"
+            >
+              Show more projects
+            </span>
+          )}
+        </div>
+      </nav>
+
       <footer className="nav__footer">
         {/* User Profile
         <div className="w-full flex justify-center">

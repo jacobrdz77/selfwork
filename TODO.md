@@ -7,6 +7,8 @@
   - Description
   - Members (include owner)
   - Projects
+- add color functionality to Project icon in the sidebar and in ProjectDetailPage
+  - randomnly generate a color in backend
 
 ## User Stories
 

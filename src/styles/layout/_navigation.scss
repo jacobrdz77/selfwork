@@ -4,8 +4,8 @@
   width: 220px;
   height: 100%;
   background-color: var(--color-gray--dark);
-  color: var(--color-gray);
-  font-size: 1.6rem;
+  color: #f1f1f1;
+  font-size: 1.4rem;
   // padding: 0 0.8rem;
   z-index: 10;
 
@@ -18,13 +18,11 @@
     color: inherit;
     @include sidebar-btn;
     background-color: var(--color-gray--dark);
-    color: #fff;
     border: 1px var(--color-gray--background) solid;
-
+    font-size: 1.4rem;
     &:hover,
     &:active {
       background-color: var(--color-gray--background);
-      color: #fff;
       cursor: pointer;
     }
 
@@ -32,7 +30,6 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 1.6rem;
       padding: 0.8rem;
     }
 
@@ -76,7 +73,6 @@
   }
 
   &__logo {
-    color: #fff;
     font-size: 2.2rem;
     font-weight: bolder;
     letter-spacing: 0.2rem;
@@ -88,7 +84,6 @@
   }
 
   &__nav {
-    width: 100%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -96,27 +91,188 @@
 
     &-container {
       padding: 0.8rem 0.8rem;
+      border-bottom: 1px solid var(--color-dark-gray);
+    }
+
+    &--workspace {
+      padding-bottom: 24px;
     }
   }
 
   &__link {
     @include sidebar-btn;
+    font-size: 1.4rem;
 
     &:hover,
     &:active {
       background-color: var(--color-gray--background);
-      color: #fff;
       cursor: pointer;
     }
 
     &--active {
       background-color: var(--color-gray--background);
-      color: #fff;
     }
 
     &-icon {
       width: var(--icon-size);
       height: var(--icon-size);
+    }
+  }
+
+  &__workspace {
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 0.6rem;
+    height: 28px;
+    &:hover {
+      background-color: var(--color-gray--background);
+      cursor: pointer;
+    }
+
+    &-name {
+      @include showEllipsis;
+    }
+    &-add {
+      flex-shrink: 0;
+      &-icon {
+        fill: var(--color-gray);
+        width: 2rem;
+        height: 2rem;
+        transition: all 0.1s ease-out;
+        &:hover {
+          fill: #f1f1f1;
+        }
+      }
+    }
+
+    &--minimized {
+      .sidebar__workspace {
+        &-name {
+          display: none;
+        }
+      }
+    }
+  }
+  &__more-icon {
+    width: 12px;
+    height: 12px;
+    flex: 0 0 auto;
+    fill: var(--color-gray);
+    transition: fill 0.1s ease-out;
+    &:hover {
+      fill: #f1f1f1;
+    }
+  }
+  &__more-btn {
+    visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+  }
+  &__project {
+    display: flex;
+    align-items: center;
+    height: 28px;
+    padding: 0 12px;
+    border-radius: 0.6rem;
+    &:hover {
+      background-color: var(--color-gray--background);
+      cursor: pointer;
+      .sidebar__more-btn {
+        visibility: visible;
+      }
+    }
+    &-name {
+      @include showEllipsis;
+      flex: 1 1 auto;
+    }
+
+    &--active {
+      background-color: var(--color-gray--background);
+      .sidebar__more-btn {
+        visibility: visible;
+      }
+    }
+  }
+
+  &__projects-list {
+    &--minimized {
+      .sidebar__project {
+        justify-content: center;
+        &-name,
+        .sidebar__more-btn {
+          display: none;
+        }
+      }
+      .sidebar__color-icon {
+        margin: unset;
+      }
+    }
+  }
+
+  &__show-more-projects {
+    color: var(--color-gray);
+    font-size: 1.2rem;
+    margin-left: 12px;
+    display: inline-flex;
+    align-items: center;
+    height: 28px;
+    &:hover {
+      color: #f1f1f1;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    &--minimized {
+      display: none;
+    }
+  }
+
+  &__color-icon {
+    width: 12px;
+    height: 12px;
+    margin-right: 8px;
+    flex: 0 0 auto;
+
+    &--classic {
+      fill: var(--color-customization-classic-background);
+    }
+    &--maroon {
+      fill: var(--color-customization-maroon-background);
+    }
+    &--orange-yellow {
+      fill: var(--color-customization-orange-yellow-background);
+    }
+    &--yellow-green {
+      fill: var(--color-customization-yellow-green-background);
+    }
+    &--forest {
+      fill: var(--color-customization-forest-background);
+    }
+    &--blue-green {
+      fill: var(--color-customization-blue-green-background);
+    }
+    &--aqua {
+      fill: var(--color-customization-aqua-background);
+    }
+    &--blue {
+      fill: var(--color-customization-blue-background);
+    }
+    &--pink-purple {
+      fill: var(--color-customization-pink-purple-background);
+    }
+    &--purple {
+      fill: var(--color-customization-purple-background);
+    }
+    &--pink {
+      fill: var(--color-customization-pink-background);
+    }
+    &--oat {
+      fill: var(--color-customization-oat-background);
     }
   }
 

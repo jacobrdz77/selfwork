@@ -95,6 +95,20 @@ model Note {
   updatedAt DateTime @updatedAt
 }
 
+enum Color {
+  Classic
+  Maroon
+  Orange
+  Yellow
+  Forest
+  BlueGreen
+  Aqua
+  Blue
+  Purple
+  PinkPurple
+  Pink
+  Oat
+}
 model Project {
   id String @id @default(cuid())
   name String
@@ -103,6 +117,7 @@ model Project {
   priority Priority? @default(None)
   startDate DateTime?
   dueDate DateTime? 
+  iconColor Color @default(Classic)
   sections Section[]
   tasks   Task[]
   notes Note[]

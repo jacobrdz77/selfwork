@@ -66,13 +66,18 @@
   padding: 0.6rem 1.2rem;
   border-radius: 0.6rem;
   align-items: center;
-  height: 37px;
+  height: 34px;
   border: none;
 
   &--minimized {
     span {
       display: none;
     }
-    // gap: 0;
   }
+}
+
+@mixin showEllipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

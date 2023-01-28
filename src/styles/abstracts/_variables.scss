@@ -15,6 +15,7 @@ $[attribute]-[name]--[modifier]
   --color-github--hover: #111111;
   --color-skyblue: #3787e8;
   --color-gray: #87868b;
+  --color-dark-gray: #4d4c4f;
   --color-gray--light: #bbbcbd;
   --color-gray--dark: #2b2b30;
   --color-gray--background: #3e3f44;
@@ -24,8 +25,21 @@ $[attribute]-[name]--[modifier]
   --color-border: #bfbfbf;
   --color-gray--hover: #f0f0f0;
 
+  --color-customization-classic-background: #1e1f21;
+  --color-customization-maroon-background: #5b073a;
+  --color-customization-orange-yellow-background: #e2a039;
+  --color-customization-yellow-green-background: #aecf55;
+  --color-customization-forest-background: #285b52;
+  --color-customization-blue-green-background: #36b8b1;
+  --color-customization-aqua-background: #a9dcd9;
+  --color-customization-blue-background: #4573d2;
+  --color-customization-purple-background: #938ce1;
+  --color-customization-pink-purple-background: #ad7cc4;
+  --color-customization-pink-background: #f6a0a3;
+  --color-customization-oat-background: #e0dedc;
+
   --default-font-size: 1.6rem;
-  --icon-size: 2rem;
+  --icon-size: 1.8rem;
 
   --page-padding: 2.5rem;
 }
