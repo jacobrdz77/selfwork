@@ -98,8 +98,8 @@ model Note {
 enum Color {
   Classic
   Maroon
-  Orange
-  Yellow
+  OrangeYellow
+  YellowGreen
   Forest
   BlueGreen
   Aqua

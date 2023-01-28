@@ -1,6 +1,8 @@
 # Todos
 
-- add workspace name to side bar and fetch all the projects and display them in the sidebar.
+X add workspace name to side bar
+
+- fetch all the projects and display them in the sidebar.
 - Remove Projects link from sidebar.
 - Remove Projects Page.
 - Create Workspace Page that shows:

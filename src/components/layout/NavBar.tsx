@@ -3,6 +3,7 @@ import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { useUserStore } from "../../store/user";
 import { useRouter } from "next/router";
+import SidebarProject from "../project/SidebarProject";
 
 const NavBar = () => {
   const [isNavMinimized, setIsNavMinimized] = useState(false);
@@ -60,7 +61,7 @@ const NavBar = () => {
               >
                 <path d="m16.19 2h-8.38c-3.64 0-5.81 2.17-5.81 5.81v8.38c0 3.64 2.17 5.81 5.81 5.81h8.38c3.64 0 5.81-2.17 5.81-5.81v-8.38c0-3.64-2.17-5.81-5.81-5.81zm-6.22 12.9-2.25 2.25c-.15.15-.34.22-.53.22s-.39-.07-.53-.22l-.75-.75c-.3-.29-.3-.77 0-1.06.29-.29.76-.29 1.06 0l.22.22 1.72-1.72c.29-.29.76-.29 1.06 0 .29.29.29.77 0 1.06zm0-7-2.25 2.25c-.15.15-.34.22-.53.22s-.39-.07-.53-.22l-.75-.75c-.3-.29-.3-.77 0-1.06.29-.29.76-.29 1.06 0l.22.22 1.72-1.72c.29-.29.76-.29 1.06 0 .29.29.29.77 0 1.06zm7.59 8.72h-5.25c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h5.25c.42 0 .75.34.75.75s-.33.75-.75.75zm0-7h-5.25c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h5.25c.42 0 .75.34.75.75s-.33.75-.75.75z" />
               </svg>
-              <span>Tasks</span>
+              <span>My Tasks</span>
             </Link>
           </li>
           <li className="sidebar__link-container">
@@ -145,87 +146,12 @@ const NavBar = () => {
             isNavMinimized ? "sidebar__projects-list--minimized" : ""
           } `}
         >
-          <div className="sidebar__project">
-            <svg
-              className="sidebar__color-icon sidebar__color-icon--purple"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
-            </svg>
-            <span className="sidebar__project-name">Our First Project</span>
-            <div className="sidebar__more-btn" role="button">
-              <svg className="sidebar__more-icon" viewBox="0 0 16 16">
-                <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
-              </svg>
-            </div>
-            <span className="sidebar__tooltip">Our First Project</span>
-          </div>
-          <div className="sidebar__project">
-            <svg
-              className="sidebar__color-icon sidebar__color-icon--blue-green"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
-            </svg>
-            <span className="sidebar__project-name">Selfwork</span>
-            <div className="sidebar__more-btn">
-              <svg className="sidebar__more-icon" viewBox="0 0 16 16">
-                <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
-              </svg>
-            </div>
+          <SidebarProject name="Our first project" color="OrangeYellow" />
+          <SidebarProject name="Selfwork" color="YellowGreen" />
+          <SidebarProject name="New Project" color="Oat" />
+          <SidebarProject name="Trailer Website" color="BlueGreen" />
+          <SidebarProject name="Law firm website" color="Purple" />
 
-            <span className="sidebar__tooltip">selfwork</span>
-          </div>
-          <div className="sidebar__project">
-            <svg
-              className="sidebar__color-icon sidebar__color-icon--blue"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
-            </svg>
-            <span className="sidebar__project-name">New project</span>
-            <div className="sidebar__more-btn">
-              <svg className="sidebar__more-icon" viewBox="0 0 16 16">
-                <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
-              </svg>
-            </div>
-            <span className="sidebar__tooltip">New project</span>
-          </div>
-          <div className="sidebar__project">
-            <svg
-              className="sidebar__color-icon sidebar__color-icon--pink"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
-            </svg>
-            <span className="sidebar__project-name">Trailer Website</span>
-            <div className="sidebar__more-btn">
-              <svg className="sidebar__more-icon" viewBox="0 0 16 16">
-                <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
-              </svg>
-            </div>
-            <span className="sidebar__tooltip">Trailer Website</span>
-          </div>
-          <div className="sidebar__project">
-            <svg
-              className="sidebar__color-icon sidebar__color-icon--oat"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
-            </svg>
-            <span className="sidebar__project-name">Law firm website</span>
-            <div className="sidebar__more-btn">
-              <svg className="sidebar__more-icon" viewBox="0 0 16 16">
-                <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
-              </svg>
-            </div>
-            <span className="sidebar__tooltip">Law firm website</span>
-          </div>
           {projects.length > 5 && (
             <span
               className={`sidebar__show-more-projects ${
