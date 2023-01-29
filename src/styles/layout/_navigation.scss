@@ -242,6 +242,7 @@
       // Only shows tooltip when navbar is minimized
       .sidebar__project:hover .sidebar__tooltip {
         visibility: visible;
+        scale: 100%;
       }
     }
   }
@@ -331,6 +332,8 @@
     left: 140%;
     z-index: 1;
     white-space: nowrap;
+    transition: all 0.1s;
+    scale: 0%;
 
     &::after {
       content: " ";

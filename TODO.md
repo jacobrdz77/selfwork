@@ -2,8 +2,6 @@
 
 ## High
 
-X - add endpoint /api/workspaces/:workspaceId/projects to fetch all projects in that workspace
-
 - fetch all the projects and display them in the sidebar.
 - Remove Projects link from sidebar.
 - Remove Projects Page.
