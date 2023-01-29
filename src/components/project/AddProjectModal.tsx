@@ -5,6 +5,7 @@ import { useCreateProject } from "../../hooks/ProjectHooks";
 import { Priority } from "@prisma/client";
 import { useUserStore } from "../../store/user";
 import { useRouter } from "next/router";
+import { createProject } from "@/utils/projectFunctions";
 
 const AddProjectModal: React.FC<{
   isOpen: boolean;
@@ -12,6 +13,7 @@ const AddProjectModal: React.FC<{
 }> = ({ isOpen, setIsModalOpen }) => {
   const closeHandler = () => setIsModalOpen(false);
   const userId = useUserStore((state) => state.userId as string);
+  const workspaceId = useUserStore((state) => state.workspaceId);
   const { mutateAsync } = useCreateProject();
   const router = useRouter();
 
@@ -28,7 +30,6 @@ const AddProjectModal: React.FC<{
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Waits until it creates newProject. Then it redirects
-    //! get workspaceId to create project
     const newProject = await mutateAsync({
       name,
       description,

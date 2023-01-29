@@ -6,11 +6,10 @@ import {
   UpdateProjectData,
 } from "../types/types";
 
-// ***** Client Funcitons
 // GET ALL
 export const getProjects = async (workspaceId: string) => {
   try {
-    const response = await fetch(`/api/projects?workspaceId=${workspaceId}`);
+    const response = await fetch(`/api/workspaces/${workspaceId}/projects`);
     return (await response.json()) as Project[];
   } catch (error) {
     throw error;
@@ -18,15 +17,9 @@ export const getProjects = async (workspaceId: string) => {
 };
 
 // GET ONE
-export const getOneProject = async (
-  projectId: string,
-  showSections: boolean = false
-) => {
+// Todo: Make new Project return type with notes and members
+export const getOneProject = async (projectId: string) => {
   try {
-    if (showSections) {
-      const response = await fetch(`/api/projects/${projectId}?sections=true`);
-      return (await response.json()) as ProjectWithSections;
-    }
     const response = await fetch(`/api/projects/${projectId}`);
     return (await response.json()) as ProjectWithSections;
   } catch (error) {

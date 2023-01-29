@@ -10,13 +10,13 @@ interface Action {
 }
 
 export const MOCK_USER = {
-  id: "al814zcy86074hloymogrg1mv",
+  id: "cldgszkdc0000gp0k9acjl0al",
   name: "Jacob",
   email: "jacob@jacob.com",
 };
 
 export const useUserStore = create<UserState & Action>((set) => ({
   userId: MOCK_USER.id,
-  workspaceId: "clde1v92g0003gpx0p79c6mig",
+  workspaceId: "cldgv39c90003gp7o7nzib01g",
   setUserId: (id) => set(() => ({ userId: id })),
 }));

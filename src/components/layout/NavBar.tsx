@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
 import { useUserStore } from "../../store/user";
-import { useRouter } from "next/router";
+import { useProjects } from "@/hooks/ProjectHooks";
 import SidebarProject from "../project/SidebarProject";
 
 const NavBar = () => {
   const [isNavMinimized, setIsNavMinimized] = useState(false);
+  const { projects, status } = useProjects();
 
   const router = useRouter();
-  const projects = [1, 2, 3, 4, 5];
   return (
     <div className={`sidebar ${isNavMinimized ? "sidebar--minimized" : ""}`}>
       {/* LOGO */}
@@ -146,13 +147,16 @@ const NavBar = () => {
             isNavMinimized ? "sidebar__projects-list--minimized" : ""
           } `}
         >
-          <SidebarProject name="Our first project" color="OrangeYellow" />
-          <SidebarProject name="Selfwork" color="YellowGreen" />
-          <SidebarProject name="New Project" color="Oat" />
-          <SidebarProject name="Trailer Website" color="BlueGreen" />
-          <SidebarProject name="Law firm website" color="Purple" />
-
-          {projects.length > 5 && (
+          {status === "loading" && <p>Loading..</p>}
+          {status === "success" &&
+            projects?.map((project) => (
+              <SidebarProject
+                key={project.id}
+                name={project.name}
+                color={project.iconColor}
+              />
+            ))}
+          {status === "success" && projects!.length > 5 && (
             <span
               className={`sidebar__show-more-projects ${
                 isNavMinimized ? "sidebar__show-more-projects--minimized" : ""

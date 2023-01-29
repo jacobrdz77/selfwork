@@ -2,21 +2,26 @@
 
 ## High
 
-- fetch all the projects and display them in the sidebar.
-- Remove Projects link from sidebar.
-- Remove Projects Page.
+X - fetch all the projects and display them in the sidebar.
+
+- Make new Project return type with notes and members in ProjectFunctions
 - Create Workspace Page that shows:
   - Description
   - Members (include owner)
   - Projects
-- add color functionality to Project icon in the sidebar and in ProjectDetailPage
-  - randomnly generate a color in backend
+- Remove Projects link from sidebar.
+- Remove Projects Page.
+- randomnly generate a color in backend
 
 ## Medium
+
+- show project iconColor in project detail page to edit
+- add loading skeleton component for sidebar projects
 
 ## Low
 
 - add responsiveness to sidebar project-list if the number of projects overflow
+- make pagination in sidebar projects when projects.length > 5.
 
 ## User Stories
 

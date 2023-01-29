@@ -10,8 +10,10 @@ export default async function handler(
   // Create a new project
   if (req.method === "POST") {
     try {
-      const { project } = req.body;
-      if (!project || Object.keys(project).length === 0) {
+      // PARSE
+      const body = JSON.parse(req.body);
+      const { project } = body;
+      if (!project) {
         return res.status(400).json({ error: "Provide project data." });
       }
 
