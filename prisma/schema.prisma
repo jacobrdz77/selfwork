@@ -51,14 +51,11 @@ model User {
   accounts      Account[]
   sessions      Session[]
   clients       Client[]
+  lastUsingWorkspaceId    String?
   ownedWorkspaces     Workspace[]   @relation("Owner")
   involvedWorkspaces      Workspace[]   @relation("Members")
   ownedProjects     Project[]   @relation("Owner")
   involvedProjects      Project[]   @relation("Members")
-  sections      Section[] @relation("Sections")
-  assignedTasksSection      Section   @relation("NewTasksSection", fields: [assignedTasksSectionId], references: [id])
-  assignedTasksSectionId   String
-  @@unique([assignedTasksSectionId])
 }
 
 model Workspace {
@@ -69,6 +66,10 @@ model Workspace {
   owner User @relation("Owner", fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId String
   members User[] @relation("Members")
+  userSections      Section[] @relation("UserSections")
+  userAssignedTasksSection      Section   @relation("NewTasksSection", fields: [userAssignedTasksSectionId], references: [id])
+  userAssignedTasksSectionId   String
+  @@unique([userAssignedTasksSectionId])
 }
 
 enum Priority {
@@ -184,11 +185,11 @@ model Tag {
 
 model Section {
   id String @id @default(cuid())
-  name  String  @unique
+  name  String 
   tasks Task[]
   project Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId String? 
-  user User? @relation("Sections",fields: [userId], references: [id], onDelete: Cascade)
-  userId String?
-  everyUser User?  @relation("NewTasksSection")
+  userWorkspace Workspace? @relation("UserSections",fields: [userWorkspaceId], references: [id], onDelete: Cascade)
+  userWorkspaceId String?
+  userAssignedWorkspace Workspace?  @relation("NewTasksSection")
 }

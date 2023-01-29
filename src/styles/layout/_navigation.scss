@@ -126,6 +126,7 @@
     justify-content: space-between;
     border-radius: 0.6rem;
     height: 28px;
+    margin-bottom: 5px;
     &:hover {
       background-color: var(--color-gray--background);
       cursor: pointer;
@@ -223,6 +224,9 @@
   &__projects-list {
     display: grid;
     gap: 5px;
+    height: 100%;
+    // overflow-x: hidden;
+    // overflow-y: scroll;
     &--minimized {
       .sidebar__project {
         justify-content: center;

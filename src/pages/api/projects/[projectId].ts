@@ -10,28 +10,20 @@ export default async function handler(
   // RETURN: a project
   if (req.method === "GET") {
     try {
-      const { projectId, sections } = req.query;
-
-      if (sections === "true") {
-        const project = await prisma.project.findUnique({
-          where: {
-            id: projectId as string,
-          },
-          include: {
-            sections: {
-              include: {
-                tasks: true,
-              },
-            },
-          },
-        });
-
-        return res.status(200).json(project);
-      }
+      const { projectId } = req.query;
 
       const project = await prisma.project.findUnique({
         where: {
           id: projectId as string,
+        },
+        include: {
+          sections: {
+            include: {
+              tasks: true,
+            },
+          },
+          members: true,
+          notes: true,
         },
       });
 
@@ -82,4 +74,5 @@ export default async function handler(
       return res.status(400).json({ error: error.message });
     }
   }
+  return res.status(400).json({ error: "Request Not Allowed" });
 }

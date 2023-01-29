@@ -1,6 +1,8 @@
 # Todos
 
-X add workspace name to side bar
+## High
+
+X - add endpoint /api/workspaces/:workspaceId/projects to fetch all projects in that workspace
 
 - fetch all the projects and display them in the sidebar.
 - Remove Projects link from sidebar.
@@ -11,6 +13,12 @@ X add workspace name to side bar
   - Projects
 - add color functionality to Project icon in the sidebar and in ProjectDetailPage
   - randomnly generate a color in backend
+
+## Medium
+
+## Low
+
+- add responsiveness to sidebar project-list if the number of projects overflow
 
 ## User Stories
 
