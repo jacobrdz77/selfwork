@@ -1,0 +1,119 @@
+.button {
+  background-color: #d1d5db;
+  color: #000;
+  font-size: 1.4rem;
+  padding: 0.8rem 1.4rem;
+  border-radius: 0.6rem;
+
+  &,
+  &:link,
+  &:visited {
+    position: relative;
+    border: none;
+    cursor: pointer;
+  }
+
+  &:hover {
+    background-color: darken(#d1d5db, 5);
+  }
+
+  // &:active,
+  // &:focus {
+  //   outline: none;
+  //   transform: translateY(-0.1px);
+  //   box-shadow: 0 0.5rem 1rem rgba(#000, 0.2);
+  // }
+
+  &--blue {
+    background-color: var(--color-skyblue);
+    color: #fff;
+    &:hover {
+      background-color: darken(rgb(55, 135, 232), 5);
+    }
+  }
+
+  &--disabled {
+    background-color: #d1d5db;
+    color: #000;
+    &:hover {
+      background-color: #e3e4e6;
+      cursor: not-allowed;
+    }
+  }
+
+  &--animated {
+    animation: moveInBottom 0.5s ease-out 0.75s;
+    animation-fill-mode: backwards;
+  }
+}
+
+.icon {
+  width: 1.8rem;
+  height: 1.8rem;
+  fill: var(--color-gray);
+  display: inline-block;
+}
+
+.no-data {
+  &__button {
+    margin-top: 1rem;
+  }
+}
+
+.avatar {
+  width: 180px;
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 8px;
+  border-radius: 8px;
+  &:hover {
+    background-color: var(--color-gray--hover);
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    padding: 10px;
+    margin-right: 6px;
+
+    &--orange-yellow {
+      background-color: var(--color-customization-orange-yellow-background);
+    }
+    &--yellow-green {
+      background-color: var(--color-customization-yellow-green-background);
+    }
+    &--forest {
+      background-color: var(--color-customization-forest-background);
+    }
+    &--blue-green {
+      background-color: var(--color-customization-blue-green-background);
+    }
+    &--aqua {
+      background-color: var(--color-customization-aqua-background);
+    }
+    &--blue {
+      background-color: var(--color-customization-blue-background);
+    }
+    &--pink-purple {
+      background-color: var(--color-customization-pink-purple-background);
+    }
+    &--purple {
+      background-color: var(--color-customization-purple-background);
+    }
+    &--pink {
+      background-color: var(--color-customization-pink-background);
+    }
+    &--oat {
+      background-color: var(--color-customization-oat-background);
+    }
+  }
+
+  &__name {
+    font-size: 1.4rem;
+    @include showEllipsis;
+  }
+}

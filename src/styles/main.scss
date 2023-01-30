@@ -5,12 +5,9 @@
 @import "base/typography";
 @import "base/animations";
 
-@import "components/button";
-@import "components/card";
-@import "components/icon";
+@import "components/components";
 @import "components/modal";
 @import "components/form";
-@import "components/no-data.scss";
 @import "components/loading";
 @import "layout/header";
 @import "layout/navigation";
@@ -19,3 +16,4 @@
 @import "pages/projects";
 @import "pages/clients";
 @import "pages/tasks";
+@import "pages/workspaces";

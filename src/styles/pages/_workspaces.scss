@@ -1,0 +1,48 @@
+.workspace {
+  &-page {
+    margin: 0 auto;
+  }
+
+  &__sections {
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  &__section {
+    &:nth-child(1) {
+      margin-top: 20px;
+    }
+    margin-top: 36px;
+    &-header {
+      font-size: 1.6rem;
+      font-weight: 700;
+      border-bottom: 2px solid var(--color-border);
+      padding: 6px 0;
+    }
+  }
+
+  &__description {
+    margin-top: 8px;
+    height: 100%;
+    &-input {
+      overflow-y: hidden;
+      resize: none;
+      font-size: 1.4rem;
+      padding: 6px 4px;
+      width: 100%;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      &:hover,
+      &:focus {
+        border: 1px solid var(--color-border);
+      }
+    }
+  }
+
+  &__members {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 6px;
+  }
+}

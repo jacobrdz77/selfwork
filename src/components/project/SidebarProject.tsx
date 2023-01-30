@@ -5,12 +5,6 @@ const SidebarProject = ({ name, color }: { name: string; color: Color }) => {
   const [projectColor, setProjectColor] = useState("");
   useEffect(() => {
     switch (color) {
-      case "Classic":
-        setProjectColor("classic");
-        break;
-      case "Maroon":
-        setProjectColor("maroon");
-        break;
       case "OrangeYellow":
         setProjectColor("orange-yellow");
         break;

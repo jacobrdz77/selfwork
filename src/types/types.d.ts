@@ -63,3 +63,15 @@ export type WorkspaceWithMembers = Workspace & {
   owner: User;
   members: User[];
 };
+
+export type UserColor =
+  | "OrangeYellow"
+  | "YellowGreen"
+  | "Forest"
+  | "BlueGreen"
+  | "Aqua"
+  | "Blue"
+  | "Purple"
+  | "PinkPurple"
+  | "Pink"
+  | "Oat";

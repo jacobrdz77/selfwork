@@ -12,6 +12,7 @@ X - fetch all the projects and display them in the sidebar.
 - Remove Projects link from sidebar.
 - Remove Projects Page.
 - randomnly generate a color in backend
+- Add creater of workspace as a member.
 
 ## Medium
 
