@@ -19,6 +19,8 @@ export default async function handler(
         },
         include: {
           userAssignedTasksSection: true,
+          members: true,
+          owner: true,
         },
       });
 

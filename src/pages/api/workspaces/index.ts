@@ -66,7 +66,7 @@ export default async function handler(
       // Then updating that section with the newly created workspace ID
       await prisma.section.update({
         where: {
-          id: newWorkspace.userAssignedTasksSectionId,
+          id: newWorkspace.userAssignedTasksSectionId!,
         },
         data: {
           userWorkspace: {

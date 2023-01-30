@@ -8,8 +8,7 @@ import {
 } from "../utils/projectFunctions";
 
 export const useProjects = () => {
-  // const workspaceId = useUserStore((state) => state.workspaceId);
-  const workspaceId = "cldgv39c90003gp7o7nzib01g";
+  const workspaceId = useUserStore((state) => state.workspaceId);
   const { data: projects, status } = useQuery(["projects"], () =>
     getProjects(workspaceId)
   );

@@ -1,5 +1,13 @@
 import type { DefaultUser } from "next-auth";
-import type { Priority, Prisma, Project, Section, Task } from "@prisma/client";
+import type {
+  Priority,
+  Prisma,
+  Project,
+  Section,
+  Task,
+  User,
+  Workspace,
+} from "@prisma/client";
 
 declare module "next-auth" {
   interface Session {
@@ -49,4 +57,9 @@ export type NewClientData = {
 // Section types
 type SectionWithTasks = Section & {
   tasks: Task[];
+};
+
+export type WorkspaceWithMembers = Workspace & {
+  owner: User;
+  members: User[];
 };

@@ -1,3 +1,5 @@
-export default function LoadingSpinner() {
-  return <div className="double-lines-spinner"></div>;
-}
+const LoadingSpinner = () => {
+  return <div className="loading-spinner"></div>;
+};
+
+export default LoadingSpinner;

@@ -1,7 +1,8 @@
 import React from "react";
+import LoadingSkeleton from "../UI/LoadingSkeleton";
 
 type HeaderProps = {
-  title: string;
+  title?: string;
   subTitle?: string;
   buttonHandler?: () => void;
   buttonText?: string;
@@ -19,7 +20,7 @@ const PageHeader: React.FC<HeaderProps> = ({
 }) => {
   return (
     <header className="header">
-      <h1 className="header__title">{title}</h1>
+      <h1 className="header__title">{title ?? <LoadingSkeleton />}</h1>
       <div className="header__buttons-container">
         <div className="header__buttons">
           {isButton && (

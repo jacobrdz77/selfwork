@@ -4,22 +4,22 @@ datasource db {
 }
 
 generator client {
-  provider        = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -43,32 +43,33 @@ model VerificationToken {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  clients       Client[]
-  lastUsingWorkspaceId    String?
-  ownedWorkspaces     Workspace[]   @relation("Owner")
-  involvedWorkspaces      Workspace[]   @relation("Members")
-  ownedProjects     Project[]   @relation("Owner")
-  involvedProjects      Project[]   @relation("Members")
+  id                   String      @id @default(cuid())
+  name                 String?
+  email                String?     @unique
+  emailVerified        DateTime?
+  image                String?
+  accounts             Account[]
+  sessions             Session[]
+  clients              Client[]
+  lastUsingWorkspaceId String?
+  ownedWorkspaces      Workspace[] @relation("Owner")
+  involvedWorkspaces   Workspace[] 
+  ownedProjects        Project[]   @relation("Owner")
+  involvedProjects     Project[]   @relation("Members")
 }
 
 model Workspace {
-  id            String    @id @default(cuid())
-  name          String
-  description   String?
-  projects      Project[]
-  owner User @relation("Owner", fields: [ownerId], references: [id], onDelete: Cascade)
-  ownerId String
-  members User[] @relation("Members")
-  userSections      Section[] @relation("UserSections")
-  userAssignedTasksSection      Section   @relation("NewTasksSection", fields: [userAssignedTasksSectionId], references: [id])
-  userAssignedTasksSectionId   String
+  id                         String    @id @default(cuid())
+  name                       String
+  description                String?
+  projects                   Project[]
+  owner                      User      @relation("Owner", fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId                    String
+  members                    User[]    
+  userSections               Section[] @relation("UserSections")
+  userAssignedTasksSection   Section?   @relation("NewTasksSection", fields: [userAssignedTasksSectionId], references: [id])
+  userAssignedTasksSectionId String?
+
   @@unique([userAssignedTasksSectionId])
 }
 
@@ -87,11 +88,11 @@ enum Status {
 }
 
 model Note {
-  id String @id @default(cuid())
-  title String
-  content String
-  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId String 
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -110,86 +111,89 @@ enum Color {
   Pink
   Oat
 }
+
 model Project {
-  id String @id @default(cuid())
-  name String
+  id          String    @id @default(cuid())
+  name        String
   description String?
-  lumpSum Decimal?  @db.Money
-  priority Priority? @default(None)
-  startDate DateTime?
-  dueDate DateTime? 
-  iconColor Color @default(Classic)
-  sections Section[]
-  tasks   Task[]
-  notes Note[]
-  owner User? @relation("Owner", fields: [ownerId], references: [id], onDelete: Cascade)
-  ownerId String?
-  members User[]  @relation("Members")
-  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-  workspaceId String 
-  client Client? @relation(fields: [clientId, clientName], references: [id, name])
-  clientId String?
-  clientName String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime? @updatedAt
+  lumpSum     Decimal?  @db.Money
+  priority    Priority? @default(None)
+  startDate   DateTime?
+  dueDate     DateTime?
+  iconColor   Color     @default(Classic)
+  sections    Section[]
+  tasks       Task[]
+  notes       Note[]
+  owner       User?     @relation("Owner", fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId     String?
+  members     User[]    @relation("Members")
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaceId String
+  client      Client?   @relation(fields: [clientId, clientName], references: [id, name])
+  clientId    String?
+  clientName  String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+
   @@unique([id, name])
 }
 
 model Client {
-  id String @id @default(cuid())
-  name String
-  companyName String? 
-  phone String?
-  email String? @unique
+  id              String    @id @default(cuid())
+  name            String
+  companyName     String?
+  phone           String?
+  email           String?   @unique
   businessAddress String?
-  contacts  Contact[]
-  project   Project[]
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String
+  contacts        Contact[]
+  project         Project[]
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String
+
   @@unique([id, name])
 }
 
 model Contact {
-  id  String @id @default(cuid())
-  name String
-  email String
+  id          String  @id @default(cuid())
+  name        String
+  email       String
   phoneNumber String?
-  jobTitle  String?
-  client  Client @relation(fields: [clientId], references: [id])
-  clientId String
+  jobTitle    String?
+  client      Client  @relation(fields: [clientId], references: [id])
+  clientId    String
 }
 
 model Task {
-  id String @id @default(cuid())
-  name String
-  status Status @default(Open)
-  priority  Priority @default(None)
-  isComplete  Boolean @default(false)
+  id          String    @id @default(cuid())
+  name        String
+  status      Status    @default(Open)
+  priority    Priority  @default(None)
+  isComplete  Boolean   @default(false)
   description String?
-  dueDate  DateTime?  
-  tags  Tag[]
-  project     Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  dueDate     DateTime?
+  tags        Tag[]
+  project     Project?  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId   String?
-  section  Section @relation(fields: [sectionId], references: [id])
-  sectionId  String
+  section     Section   @relation(fields: [sectionId], references: [id])
+  sectionId   String
   createdAt   DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+  updatedAt   DateTime? @updatedAt
 }
 
 model Tag {
-  id String @id @default(cuid())
-  name  String
-  task Task? @relation(fields: [taskId], references: [id])
+  id     String  @id @default(cuid())
+  name   String
+  task   Task?   @relation(fields: [taskId], references: [id])
   taskId String?
 }
 
 model Section {
-  id String @id @default(cuid())
-  name  String 
-  tasks Task[]
-  project Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId String? 
-  userWorkspace Workspace? @relation("UserSections",fields: [userWorkspaceId], references: [id], onDelete: Cascade)
-  userWorkspaceId String?
-  userAssignedWorkspace Workspace?  @relation("NewTasksSection")
+  id                    String     @id @default(cuid())
+  name                  String
+  tasks                 Task[]
+  project               Project?   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId             String?
+  userWorkspace         Workspace? @relation("UserSections", fields: [userWorkspaceId], references: [id], onDelete: Cascade)
+  userWorkspaceId       String?
+  userAssignedWorkspace Workspace? @relation("NewTasksSection")
 }
