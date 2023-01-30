@@ -164,6 +164,7 @@
           // Only shows tooltip when navbar is minimized
           .sidebar__tooltip {
             visibility: visible;
+            scale: 100%;
           }
         }
       }
@@ -198,6 +199,7 @@
   &__project {
     display: flex;
     align-items: center;
+    width: 226px;
     height: 28px;
     padding: 0 12px;
     border-radius: 0.6rem;
@@ -226,10 +228,9 @@
     display: grid;
     gap: 5px;
     height: 100%;
-    // overflow-x: hidden;
-    // overflow-y: scroll;
     &--minimized {
       .sidebar__project {
+        width: 44px;
         justify-content: center;
         &-name,
         .sidebar__more-btn {

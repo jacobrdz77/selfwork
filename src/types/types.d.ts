@@ -1,5 +1,6 @@
 import type { DefaultUser } from "next-auth";
 import type {
+  Note,
   Priority,
   Prisma,
   Project,
@@ -40,8 +41,10 @@ export type UpdateProjectData = {
   clientId?: string;
 };
 
-export type ProjectWithSections = Project & {
+export type ProjectWithAll = Project & {
   sections: SectionWithTasks[];
+  members: User[];
+  notes: Note[];
 };
 
 export type NewClientData = {

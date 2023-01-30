@@ -10,28 +10,90 @@
 }
 
 .projects {
+  margin-top: 6px;
   display: flex;
   flex-direction: column;
-  // flex-wrap: wrap;
-  gap: 1rem;
-  overflow-y: auto;
+  gap: 4px;
 }
 
 .project-card {
   position: relative;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
   padding: 1rem 1rem 1rem 1.5rem;
   border-radius: 0.8rem;
   border: 1px solid var(--color-stroke);
   height: 5.4rem;
-  // box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  font-size: 14px;
+  font-weight: 600;
+  span {
+    @include showEllipsis;
+  }
+  &:hover {
+    background-color: var(--color-gray--hover);
+    cursor: pointer;
+    .project-card__more-btn {
+      visibility: visible;
+    }
+  }
 
-  &__name {
-    font-weight: 600;
+  &__more-icon {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 auto;
+    transition: fill 0.1s ease-out;
+  }
+
+  &__more-btn {
+    flex: 0 0 auto;
+    border-radius: 0.6rem;
+    visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    position: relative;
     &:hover {
-      text-decoration: underline var(--color-gray);
+      background-color: #fefefe;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 3px;
+    }
+  }
+
+  &__edit-menu {
+    display: none;
+    padding: 4px 0;
+    font-size: 14px;
+    width: 184px;
+    border-radius: 0.6rem;
+    background-color: #fff;
+    border: 1px solid var(--color-border);
+    position: absolute;
+    top: 40px;
+    right: 10px;
+    z-index: 10;
+
+    &--active {
+      display: block;
+    }
+    &-item {
+      display: flex;
+      padding: 6px 4px;
+      &:hover {
+        cursor: pointer;
+        background-color: var(--color-gray--hover);
+      }
+      &--delete {
+        color: #f80000;
+        fill: #f80000;
+      }
+    }
+
+    &--icon {
+      width: 20px;
+      height: 20px;
+      margin-right: 6px;
     }
   }
 }

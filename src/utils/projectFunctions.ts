@@ -2,7 +2,7 @@ import { Priority, Project, Task } from "@prisma/client";
 import axios from "axios";
 import {
   NewProjectData,
-  ProjectWithSections,
+  ProjectWithAll,
   UpdateProjectData,
 } from "../types/types";
 
@@ -21,7 +21,7 @@ export const getProjects = async (workspaceId: string) => {
 export const getOneProject = async (projectId: string) => {
   try {
     const response = await fetch(`/api/projects/${projectId}`);
-    return (await response.json()) as ProjectWithSections;
+    return (await response.json()) as ProjectWithAll;
   } catch (error) {
     throw error;
   }

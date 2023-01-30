@@ -23,7 +23,12 @@ const WorkspacePage = () => {
           setIsModalOpen={setIsAddProjectModalOpen}
         />
       )}
-      <PageHeader title={workspace?.name} />
+      <PageHeader
+        title={workspace?.name}
+        isButton={true}
+        buttonText="Create Project"
+        buttonHandler={() => setIsAddProjectModalOpen(true)}
+      />
 
       <div className="page workspace-page">
         <div className="workspace__sections">
@@ -65,7 +70,6 @@ const WorkspacePage = () => {
                   <LoadingSpinner />
                 </div>
               )}
-              {/* Grid of projects */}
               {status === "success" && <Projects projects={projects!} />}
             </div>
           </div>

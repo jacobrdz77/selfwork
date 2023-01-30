@@ -2,22 +2,28 @@
 
 ## High
 
-X - fetch all the projects and display them in the sidebar.
-
-- Make new Project return type with notes and members in ProjectFunctions
-- Create Workspace Page that shows:
-  - Description
-  - Members (include owner)
-  - Projects
+- Add menu when clicking Add button in sidebar and show:
+  - Create Task
+  - Create Project
+  - Create Client
+- Add user to sidebar and when I click, it opens a menu with:
+  - Workspaces
+  - Create workspace
+  - My Profile
+  - Log out
+- Add Tooltips for Links in sidebar.
 - Remove Projects link from sidebar.
 - Remove Projects Page.
-- randomnly generate a color in backend
-- Add creater of workspace as a member.
+- randomnly generate a color in backend for project.
+- Add owner of workspace as a member.
 
 ## Medium
 
+- Darkmode
 - show project iconColor in project detail page to edit
+- add a Manage members in Workspace page that redirects to a admin panel.
 - add loading skeleton component for sidebar projects
+- Fix /projects/undefined when ProjectPageLayout is initially mounted
 
 ## Low
 

@@ -1,6 +1,8 @@
 .workspace {
   &-page {
     margin: 0 auto;
+    height: 100%;
+    overflow-y: auto;
   }
 
   &__sections {
