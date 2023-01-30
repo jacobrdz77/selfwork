@@ -18,12 +18,21 @@ export const useProjects = () => {
   };
 };
 
+const checkProjectId = (id: string) => {
+  if (id) return true;
+  else return false;
+};
+
 export const useOneProject = (
   projectId: string
   // options?: UseQueryOptions<Project, unknown, Project, string[]>
 ) => {
-  const { data: project, status } = useQuery(["project", projectId], () =>
-    getOneProject(projectId)
+  const { data: project, status } = useQuery(
+    ["project", projectId],
+    () => getOneProject(projectId),
+    {
+      enabled: checkProjectId(projectId),
+    }
   );
   return {
     project,

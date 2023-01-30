@@ -16,6 +16,7 @@
 - Remove Projects Page.
 - randomnly generate a color in backend for project.
 - Add owner of workspace as a member.
+- Add Invite model to send to other users via email.
 
 ## Medium
 

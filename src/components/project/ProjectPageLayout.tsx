@@ -10,8 +10,6 @@ const ProjectPageLayout = ({
   children: JSX.Element | JSX.Element[];
 }) => {
   const { projectId } = useRouter().query;
-  console.log("LAYOUT projectId: ", projectId);
-  // Need to fix /projects/undefined when this layout is mounted
   const { project } = useOneProject(projectId as string);
 
   const [isEditProjectModalOpen, setIsEditProjectModalOpen] = useState(false);
