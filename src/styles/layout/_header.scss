@@ -18,9 +18,15 @@
   border-bottom: 1px solid #e7e6e9;
   padding: 1.6rem var(--page-padding);
 
+  &__top {
+    display: flex;
+    align-items: center;
+  }
+
   &__title {
     font-size: 2.8rem;
     margin-right: 1rem;
+    min-width: 250px;
   }
 
   &__nav {
@@ -39,11 +45,6 @@
         background-color: var(--color-gray--hover);
       }
     }
-  }
-
-  &__breadcrumbs {
-    display: flex;
-    align-items: center;
   }
 
   &__button {

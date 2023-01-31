@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 type HeaderProps = {
-  title: string;
+  title: string | JSX.Element;
   children?: JSX.Element | JSX.Element[];
 };
 
@@ -14,7 +14,7 @@ const ProjectHeader: React.FC<HeaderProps> = ({ title, children }) => {
   const { projectId } = router.query;
   return (
     <header className="project-header">
-      <div className="project-header__breadcrumbs">
+      <div className="project-header__top">
         <h1 className="project-header__title">{title}</h1>
         <button
           className="project-header__button"
