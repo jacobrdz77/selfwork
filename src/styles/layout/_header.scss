@@ -71,22 +71,38 @@
   }
 
   &__menu {
-    &-container {
-      text-align: left;
+    display: none;
+    padding: 4px 0;
+    font-size: 14px;
+    width: 184px;
+    border-radius: 0.6rem;
+    background-color: #fff;
+    border: 1px solid var(--color-border);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 10;
+
+    &--active {
       display: block;
-      visibility: hidden;
-      width: 175px;
-      padding-top: 5px;
-      position: absolute;
-      top: 110%;
-      left: 0;
-      z-index: 1;
-      border: var(--color-stroke) 2px solid;
-      border-radius: 5px;
-      background-color: rgb(255, 255, 255);
-      &--active {
-        visibility: visible;
+    }
+    &-item {
+      display: flex;
+      padding: 6px 4px;
+      &:hover {
+        cursor: pointer;
+        background-color: var(--color-gray--hover);
       }
+      &--delete {
+        color: #f80000;
+        fill: #f80000;
+      }
+    }
+
+    &--icon {
+      width: 20px;
+      height: 20px;
+      margin-right: 6px;
     }
   }
 }

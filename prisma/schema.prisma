@@ -134,7 +134,6 @@ model Project {
   clientName  String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
-
   @@unique([id, name])
 }
 

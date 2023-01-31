@@ -1,3 +1,4 @@
+import { useMenu } from "@/hooks/useMenu";
 import { useOnClickOutside } from "@/hooks/useOnClickOutside";
 import { Project } from "@prisma/client";
 import Link from "next/link";
@@ -6,16 +7,7 @@ import { useState, useRef } from "react";
 const ProjectCard: React.FC<{
   projectData: Project;
 }> = ({ projectData }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const menuRef = useRef(null);
-  const btnRef = useRef(null);
-  useOnClickOutside(
-    menuRef,
-    () => {
-      setIsMenuOpen(false);
-    },
-    btnRef
-  );
+  const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   return (
     <>
       <Link href={`/projects/${projectData.id}`} className="project-card">
