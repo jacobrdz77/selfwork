@@ -1,7 +1,16 @@
 import { useState, useEffect } from "react";
 import { Color } from "@prisma/client";
+import Link from "next/link";
 
-const SidebarProject = ({ name, color }: { name: string; color: Color }) => {
+const SidebarProject = ({
+  name,
+  color,
+  id,
+}: {
+  name: string;
+  color: Color;
+  id: string;
+}) => {
   const [projectColor, setProjectColor] = useState("");
   useEffect(() => {
     switch (color) {
@@ -39,7 +48,7 @@ const SidebarProject = ({ name, color }: { name: string; color: Color }) => {
   }, [color]);
 
   return (
-    <div className="sidebar__project">
+    <Link href={`/projects/${id}`} className="sidebar__project">
       <svg
         className={`sidebar__color-icon sidebar__color-icon--${projectColor}`}
         viewBox="0 0 24 24"
@@ -53,8 +62,10 @@ const SidebarProject = ({ name, color }: { name: string; color: Color }) => {
           <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
         </svg>
       </div>
-      <span className="sidebar__tooltip">{name}</span>
-    </div>
+      <div className="sidebar__tooltip">
+        <span>{name}</span>
+      </div>
+    </Link>
   );
 };
 

@@ -4,12 +4,18 @@ type Event = MouseEvent | TouchEvent;
 
 export const useOnClickOutside = <T extends HTMLElement = HTMLElement>(
   ref: RefObject<T>,
-  handler: (event: Event) => void
+  handler: (event: Event) => void,
+  buttonRef?: RefObject<T>
 ) => {
   useEffect(() => {
     const listener = (event: Event) => {
       const el = ref?.current;
-      if (!el || el.contains((event?.target as Node) || null)) {
+      const btn = buttonRef?.current;
+      if (
+        !el ||
+        el.contains((event?.target as Node) || null) ||
+        btn?.contains(event.target as Node)
+      ) {
         return;
       }
 
@@ -23,7 +29,7 @@ export const useOnClickOutside = <T extends HTMLElement = HTMLElement>(
       document.removeEventListener("mousedown", listener);
       document.removeEventListener("touchstart", listener);
     };
-  }, [ref, handler]); // Reload only if ref or handler changes
+  }, [ref, handler, buttonRef]); // Reload only if ref or handler changes
 };
 
 // Used hook from https://usehooks-ts.com/react-hook/use-on-click-outside

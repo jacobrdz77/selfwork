@@ -2,7 +2,6 @@
 
 ## High
 
-- Make sidebar projects into clickable links
 - Add menu when clicking Add button in sidebar and show:
   - Create Task
   - Create Project

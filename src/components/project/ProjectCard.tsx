@@ -8,14 +8,20 @@ const ProjectCard: React.FC<{
 }> = ({ projectData }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
-  useOnClickOutside(menuRef, () => {
-    setIsMenuOpen(false);
-  });
+  const btnRef = useRef(null);
+  useOnClickOutside(
+    menuRef,
+    () => {
+      setIsMenuOpen(false);
+    },
+    btnRef
+  );
   return (
     <>
       <Link href={`/projects/${projectData.id}`} className="project-card">
         <span>{projectData.name}</span>
         <div
+          ref={btnRef}
           onClick={(e) => {
             e.preventDefault();
             setIsMenuOpen((state) => !state);
