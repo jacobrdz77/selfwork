@@ -112,7 +112,11 @@ const NavBar = () => {
       {/* Links*/}
       <nav className="sidebar__nav-container">
         <ul className="sidebar__nav">
-          <li className="sidebar__link-container">
+          <li
+            className={`sidebar__link-container ${
+              isNavMinimized ? "sidebar__link-container--minimized" : ""
+            }`}
+          >
             <Link
               className={`sidebar__link ${
                 isNavMinimized ? "sidebar__link--minimized" : ""
@@ -128,8 +132,15 @@ const NavBar = () => {
               </svg>
               <span>My Tasks</span>
             </Link>
+            <div className="sidebar__tooltip">
+              <span>My Tasks</span>
+            </div>
           </li>
-          <li className="sidebar__link-container">
+          <li
+            className={`sidebar__link-container ${
+              isNavMinimized ? "sidebar__link-container--minimized" : ""
+            }`}
+          >
             <Link
               className={`sidebar__link ${
                 isNavMinimized ? "sidebar__link--minimized" : ""
@@ -152,8 +163,15 @@ const NavBar = () => {
 
               <span>Projects</span>
             </Link>
+            <div className="sidebar__tooltip">
+              <span>Projects</span>
+            </div>
           </li>
-          <li className="sidebar__link-container">
+          <li
+            className={`sidebar__link-container ${
+              isNavMinimized ? "sidebar__link-container--minimized" : ""
+            }`}
+          >
             <Link
               className={`sidebar__link ${
                 isNavMinimized ? "sidebar__link--minimized" : ""
@@ -179,6 +197,9 @@ const NavBar = () => {
               </svg>
               <span>Clients</span>
             </Link>
+            <div className="sidebar__tooltip">
+              <span>Clients</span>
+            </div>
           </li>
         </ul>
       </nav>

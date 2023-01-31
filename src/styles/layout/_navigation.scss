@@ -141,6 +141,23 @@
   &__link {
     @include sidebar-btn;
     font-size: 1.4rem;
+    position: relative;
+
+    &-container {
+      position: relative;
+      &--minimized {
+        &:hover .sidebar__tooltip {
+          visibility: visible;
+          scale: 100%;
+        }
+        .sidebar__link {
+          grid-template-columns: var(--icon-size);
+          span {
+            display: none;
+          }
+        }
+      }
+    }
 
     &:hover,
     &:active {
