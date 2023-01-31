@@ -55,8 +55,12 @@
 }
 
 .no-data {
+  font-size: 1.4rem;
+  h1 {
+    font-size: 2rem;
+  }
   &__button {
-    margin-top: 1rem;
+    margin-top: 0.6rem;
   }
 }
 

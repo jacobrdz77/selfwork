@@ -1,21 +1,13 @@
 import React from "react";
 import Button from "../UI/Button";
 
-const NoProjects: React.FC<{ buttonHandler: () => void }> = ({
-  buttonHandler,
-}) => {
+const NoProjects = () => {
   return (
     <div className="no-data">
       <div>
         <h1>No projects</h1>
         <p>There are no projects. Create one!</p>
       </div>
-      <Button
-        className="button--blue no-data__button"
-        buttonHandler={buttonHandler}
-      >
-        Add Project
-      </Button>
     </div>
   );
 };

@@ -23,7 +23,7 @@ const ProjectOverviewPage: NextPageWithLayout = () => {
   }
   return (
     <div className="project-page__overview">
-      <h2>Description</h2>
+      <h2 className="project-page__overview-description">Description</h2>
       <p>{project?.description ?? "You're description would go here!"}</p>
     </div>
   );

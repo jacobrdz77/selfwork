@@ -134,7 +134,7 @@
     }
 
     &--workspace {
-      padding-bottom: 24px;
+      padding-bottom: 20px;
     }
   }
 
@@ -363,6 +363,19 @@
     }
     &--oat {
       fill: var(--color-customization-oat-background);
+    }
+  }
+
+  &__no-projects {
+    color: var(--color-gray);
+    font-size: 1.2rem;
+    margin-left: 12px;
+    display: inline-flex;
+    align-items: center;
+    height: 28px;
+
+    &--minimized {
+      display: none;
     }
   }
 

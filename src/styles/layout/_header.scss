@@ -6,7 +6,7 @@
   padding: 1.6rem var(--page-padding);
 
   &__title {
-    font-size: 2.8rem;
+    font-size: 2.4rem;
   }
   &__buttons {
     display: flex;
@@ -17,6 +17,7 @@
 .project-header {
   border-bottom: 1px solid #e7e6e9;
   padding: 1.6rem var(--page-padding);
+  font-size: 1.4rem;
 
   &__top {
     display: flex;
@@ -24,14 +25,14 @@
   }
 
   &__title {
-    font-size: 2.8rem;
+    font-size: 2.4rem;
     margin-right: 1rem;
-    min-width: 250px;
   }
 
   &__nav {
     display: flex;
-    gap: 1.4rem;
+    gap: 1.6rem;
+    margin-top: 1rem;
 
     &-link {
       padding: 2px 6px;
@@ -39,10 +40,10 @@
       transition: all 0.1s ease-out;
       &:active,
       &:hover {
-        background-color: var(--color-gray--hover);
+        background-color: var(--color-gray--active);
       }
       &--active {
-        background-color: var(--color-gray--hover);
+        background-color: var(--color-gray--active);
       }
     }
   }

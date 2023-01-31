@@ -6,60 +6,31 @@ import AddProjectModal from "@/components/project/AddProjectModal";
 import Button from "@/components/UI/Button";
 import Projects from "@/components/project/Projects";
 import { useProjects } from "@/hooks/ProjectHooks";
-
-// import projects from "./SampleProjects.json";
-
-// export type ProjectForProjectCard = Project & {
-//   client: {
-//     name: string;
-//   };
-// };
+import LoadingSpinner from "@/components/UI/LoadingSpinner";
 
 const ProjectsPage: NextPage = () => {
-  const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
   const { projects, status } = useProjects();
   console.log("projects: ", projects);
   console.log("status: ", status);
 
   return (
     <>
-      {isAddProjectModalOpen && (
-        <AddProjectModal
-          isOpen={isAddProjectModalOpen}
-          setIsModalOpen={setIsAddProjectModalOpen}
-        />
-      )}
-
       {/* Wrapper */}
-      <PageHeader
-        isButton={true}
-        buttonText="Add Project"
-        title="Projects"
-        buttonHandler={() => {
-          setIsAddProjectModalOpen(true);
-        }}
-      >
-        {/* Filter buttons */}
-        <Button>Sort By</Button>
-      </PageHeader>
+      <PageHeader title="Projects"></PageHeader>
 
       <div className="page project-page">
-        {/* Loading Spinner */}
-        {status === "loading" && <div>Loading...</div>}
-        {status === "success" && projects?.length === 0 && (
-          <NoProjects
-            buttonHandler={() => {
-              setIsAddProjectModalOpen(true);
-            }}
-          />
+        {status === "loading" && (
+          <div>
+            <LoadingSpinner />
+          </div>
         )}
+        {status === "success" && projects?.length === 0 && <NoProjects />}
         {status === "error" && (
           <div>
             <h1>Error</h1>
             <p>Try to refresh the page.</p>
           </div>
         )}
-        {/* Grid of projects */}
         {status === "success" && <Projects projects={projects!} />}
       </div>
     </>
