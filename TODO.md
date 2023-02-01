@@ -2,18 +2,13 @@
 
 ## High
 
-- Add menu when clicking Add button in sidebar and show:
-  - Create Task
-  - Create Project
-  - Create Client
 - Add user to sidebar and when I click, it opens a menu with:
   - Workspaces
+    - fetch workspaces
   - Create workspace
   - My Profile
   - Log out
-- Add Tooltips for Links in sidebar.
-- Remove Projects link from sidebar.
-- Remove Projects Page.
+- Fetch Workspace in navbar to display name
 - randomnly generate a color in backend for project.
 - Add owner of workspace as a member.
 - Add Invite model to send to other users via email.
@@ -24,7 +19,6 @@
 - show project iconColor in project detail page to edit
 - add a Manage members in Workspace page that redirects to a admin panel.
 - add loading skeleton component for sidebar projects
-- Fix /projects/undefined when ProjectPageLayout is initially mounted
 
 ## Low
 

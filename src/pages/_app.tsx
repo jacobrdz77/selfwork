@@ -24,7 +24,6 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       },
     },
   });
-  const path = useRouter().pathname;
 
   const getLayout = Component.getLayout ?? ((page) => page);
 

@@ -11,6 +11,19 @@
 
   &--minimized {
     width: 60px;
+
+    .sidebar__user {
+      position: relative;
+      justify-content: center;
+      &:hover .sidebar__tooltip {
+        top: 20%;
+        visibility: visible;
+        scale: 100%;
+      }
+      &-icon {
+        margin: unset;
+      }
+    }
   }
 
   &__add {
@@ -419,6 +432,75 @@
       border-style: solid;
       border-color: transparent var(--color-navigation-background) transparent
         transparent;
+    }
+  }
+
+  &__user {
+    display: inline-flex;
+    width: 100%;
+    align-items: center;
+    padding: 12px 12px;
+    border-radius: 0.6rem;
+    &:hover {
+      cursor: pointer;
+      background-color: var(--color-navigation-button-hover);
+    }
+
+    &-container {
+      margin-top: 8px;
+      position: relative;
+      padding: 0 8px;
+    }
+    &-name {
+      @include showEllipsis;
+    }
+
+    .sidebar__tooltip {
+      display: flex;
+      flex-direction: column;
+    }
+    &-icon {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      font-size: 1.2rem;
+      border-radius: 50%;
+      padding: 10px;
+      margin-right: 8px;
+      // background-color: green;
+      &--orange-yellow {
+        background-color: var(--color-customization-orange-yellow-background);
+      }
+      &--yellow-green {
+        background-color: var(--color-customization-yellow-green-background);
+      }
+      &--forest {
+        background-color: var(--color-customization-forest-background);
+      }
+      &--blue-green {
+        background-color: var(--color-customization-blue-green-background);
+      }
+      &--aqua {
+        background-color: var(--color-customization-aqua-background);
+      }
+      &--blue {
+        background-color: var(--color-customization-blue-background);
+      }
+      &--pink-purple {
+        background-color: var(--color-customization-pink-purple-background);
+      }
+      &--purple {
+        background-color: var(--color-customization-purple-background);
+      }
+      &--pink {
+        background-color: var(--color-customization-pink-background);
+      }
+      &--oat {
+        background-color: var(--color-customization-oat-background);
+      }
     }
   }
 }

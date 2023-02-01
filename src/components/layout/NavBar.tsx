@@ -7,6 +7,7 @@ import { useProjects } from "@/hooks/ProjectHooks";
 import SidebarProject from "../project/SidebarProject";
 import { useOnClickOutside } from "@/hooks/useOnClickOutside";
 import AddProjectModal from "../project/AddProjectModal";
+import UserSidebarCard from "../UI/UserSidebarCard";
 
 const NavBar = () => {
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
@@ -24,6 +25,7 @@ const NavBar = () => {
   const { projects, status } = useProjects();
 
   const router = useRouter();
+
   return (
     <>
       {" "}
@@ -39,17 +41,6 @@ const NavBar = () => {
           {isNavMinimized ? "s" : "selfwork"}
           <span className="sidebar__logo--dot">.</span>
         </div>
-        <button
-          onClick={() => setIsNavMinimized(!isNavMinimized)}
-          className={`sidebar__toggle ${
-            isNavMinimized ? "sidebar__toggle--active" : ""
-          }`}
-        >
-          <svg className="sidebar__toggle-icon" viewBox="0 0 30 30">
-            <path d="M 3 7 A 1.0001 1.0001 0 1 0 3 9 L 27 9 A 1.0001 1.0001 0 1 0 27 7 L 3 7 z M 3 14 A 1.0001 1.0001 0 1 0 3 16 L 27 16 A 1.0001 1.0001 0 1 0 27 14 L 3 14 z M 3 21 A 1.0001 1.0001 0 1 0 3 23 L 27 23 A 1.0001 1.0001 0 1 0 27 21 L 3 21 z" />
-          </svg>
-        </button>
-
         <div className="sidebar__add-container">
           <button
             ref={addBtnRef}
@@ -295,12 +286,22 @@ const NavBar = () => {
         </nav>
 
         <footer className="nav__footer">
-          {/* User Profile
-        <div className="w-full flex justify-center">
-          <div className="w-[190px] mt-9">
-            <Avatar name={name} />
-          </div>
-        </div> */}
+          <button
+            onClick={() => setIsNavMinimized(!isNavMinimized)}
+            className={`sidebar__toggle ${
+              isNavMinimized ? "sidebar__toggle--active" : ""
+            }`}
+          >
+            <svg className="sidebar__toggle-icon" viewBox="0 0 30 30">
+              <path d="M 3 7 A 1.0001 1.0001 0 1 0 3 9 L 27 9 A 1.0001 1.0001 0 1 0 27 7 L 3 7 z M 3 14 A 1.0001 1.0001 0 1 0 3 16 L 27 16 A 1.0001 1.0001 0 1 0 27 14 L 3 14 z M 3 21 A 1.0001 1.0001 0 1 0 3 23 L 27 23 A 1.0001 1.0001 0 1 0 27 21 L 3 21 z" />
+            </svg>
+          </button>
+          {/* User Profile */}
+          <UserSidebarCard
+            name="Jacob Rodriguez"
+            workspaceName="My Workspace"
+            iconColor="Blue"
+          />
 
           {/* Sign out button */}
           {/* <a className="nav__signout" onClick={() => signOut()}>
