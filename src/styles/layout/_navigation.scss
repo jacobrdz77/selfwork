@@ -503,4 +503,43 @@
       }
     }
   }
+
+  &__user-menu {
+    display: none;
+    padding: 4px 0;
+    font-size: 14px;
+    width: 340px;
+    border-radius: 0.6rem;
+    background-color: var(--color-navigation-background);
+    border: 1px solid var(--color-border);
+    position: absolute;
+    top: 0;
+    left: 100%;
+    z-index: 2;
+
+    &--active {
+      display: block;
+    }
+
+    &-item {
+      padding: 6px 32px;
+      &:hover {
+        cursor: pointer;
+        background-color: var(--color-navigation-button-hover);
+      }
+    }
+    &-icon {
+      fill: var(--color-gray);
+      width: 16px;
+      height: 16px;
+      margin-right: 10px;
+    }
+    &-section {
+      border-top: 1px solid var(--color-navigation-border);
+      border-bottom: 1px solid var(--color-navigation-border);
+      &:nth-last-child(1) {
+        border-top: unset;
+      }
+    }
+  }
 }

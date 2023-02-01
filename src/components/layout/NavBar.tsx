@@ -5,23 +5,14 @@ import { signOut, useSession } from "next-auth/react";
 import { useUserStore } from "../../store/user";
 import { useProjects } from "@/hooks/ProjectHooks";
 import SidebarProject from "../project/SidebarProject";
-import { useOnClickOutside } from "@/hooks/useOnClickOutside";
 import AddProjectModal from "../project/AddProjectModal";
 import UserSidebarCard from "../UI/UserSidebarCard";
+import useMenu from "@/hooks/useMenu";
 
 const NavBar = () => {
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
   const [isNavMinimized, setIsNavMinimized] = useState(false);
-  const [isAddMenuOpen, setIsAddMenuOpen] = useState(false);
-  const addMenuRef = useRef(null);
-  const addBtnRef = useRef(null);
-  useOnClickOutside(
-    addMenuRef,
-    () => {
-      setIsAddMenuOpen(false);
-    },
-    addBtnRef
-  );
+  const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const { projects, status } = useProjects();
 
   const router = useRouter();
@@ -43,11 +34,11 @@ const NavBar = () => {
         </div>
         <div className="sidebar__add-container">
           <button
-            ref={addBtnRef}
+            ref={btnRef}
             className={`sidebar__add ${
               isNavMinimized ? "sidebar__add--minimized" : ""
             }`}
-            onClick={() => setIsAddMenuOpen((state) => !state)}
+            onClick={() => setIsMenuOpen((state) => !state)}
           >
             <svg
               fill="currentColor"
@@ -60,9 +51,9 @@ const NavBar = () => {
           </button>
           <div
             className={`sidebar__add-menu ${
-              isAddMenuOpen ? "project-card__edit-menu--active" : ""
+              isMenuOpen ? "project-card__edit-menu--active" : ""
             }`}
-            ref={addMenuRef}
+            ref={menuRef}
             onClick={(e) => {
               e.preventDefault();
             }}
@@ -79,7 +70,7 @@ const NavBar = () => {
             <div
               className="sidebar__add-menu-item"
               onClick={() => {
-                setIsAddMenuOpen(false);
+                setIsMenuOpen(false);
                 setIsAddProjectModalOpen((state) => true);
               }}
             >

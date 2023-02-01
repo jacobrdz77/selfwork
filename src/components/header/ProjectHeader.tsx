@@ -1,8 +1,7 @@
-import { useMenu } from "@/hooks/useMenu";
-import { useOnClickOutside } from "@/hooks/useOnClickOutside";
+import React, { useState, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState, useRef } from "react";
+import useMenu from "@/hooks/useMenu";
 
 type HeaderProps = {
   title: string | JSX.Element;

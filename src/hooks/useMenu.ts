@@ -1,7 +1,7 @@
-import { useOnClickOutside } from "./useOnClickOutside";
 import { useState, useRef } from "react";
+import useOnClickOutside from "./useOnClickOutside";
 
-export const useMenu = () => {
+const useMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
   const btnRef = useRef(null);
@@ -12,6 +12,7 @@ export const useMenu = () => {
     },
     btnRef
   );
+
   return {
     isMenuOpen,
     setIsMenuOpen,
@@ -19,3 +20,5 @@ export const useMenu = () => {
     btnRef,
   };
 };
+
+export default useMenu;

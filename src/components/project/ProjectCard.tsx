@@ -1,8 +1,7 @@
-import { useMenu } from "@/hooks/useMenu";
-import { useOnClickOutside } from "@/hooks/useOnClickOutside";
-import { Project } from "@prisma/client";
-import Link from "next/link";
 import { useState, useRef } from "react";
+import Link from "next/link";
+import useMenu from "@/hooks/useMenu";
+import { Project } from "@prisma/client";
 
 const ProjectCard: React.FC<{
   projectData: Project;

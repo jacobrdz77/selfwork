@@ -2,7 +2,7 @@ import { useEffect, RefObject } from "react";
 
 type Event = MouseEvent | TouchEvent;
 
-export const useOnClickOutside = <T extends HTMLElement = HTMLElement>(
+const useOnClickOutside = <T extends HTMLElement = HTMLElement>(
   ref: RefObject<T>,
   handler: (event: Event) => void,
   buttonRef?: RefObject<T>
@@ -33,3 +33,5 @@ export const useOnClickOutside = <T extends HTMLElement = HTMLElement>(
 };
 
 // Used hook from https://usehooks-ts.com/react-hook/use-on-click-outside
+
+export default useOnClickOutside;
