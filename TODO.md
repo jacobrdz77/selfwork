@@ -2,6 +2,8 @@
 
 ## High
 
+- Create add task modal.
+- Create add client modal.
 - Add user to sidebar and when I click, it opens a menu with:
   - Workspaces
     - fetch workspaces

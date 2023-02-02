@@ -24,6 +24,12 @@
         margin: unset;
       }
     }
+    .sidebar__add {
+      grid-template-columns: 20px;
+      span {
+        display: none;
+      }
+    }
   }
 
   &__add {
@@ -43,7 +49,9 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 8px 8px 0 8px;
+      margin-top: 8px;
+      margin-bottom: 8px;
+      padding: 0 8px;
       position: relative;
     }
 

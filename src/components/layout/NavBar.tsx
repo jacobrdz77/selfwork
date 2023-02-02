@@ -8,6 +8,7 @@ import SidebarProject from "../project/SidebarProject";
 import AddProjectModal from "../project/AddProjectModal";
 import UserSidebarCard from "../UI/UserSidebarCard";
 import useMenu from "@/hooks/useMenu";
+import AddTaskPopup from "../task/AddTaskPopup";
 
 const NavBar = () => {
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);

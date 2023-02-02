@@ -52,7 +52,7 @@ const UserSidebarCard = ({
             <div
               className="sidebar__user-menu-item"
               onClick={() => {
-                setIsMenuOpen(false);
+                console.log("Create workspace modal opens");
               }}
             >
               Create New Workspace
