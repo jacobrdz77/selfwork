@@ -2,7 +2,8 @@
 
 ## High
 
-- Create add task modal.
+- For AddTaskPopup
+  - Finish adding functionality to submit to backend
 - Create add client modal.
 - Add user to sidebar and when I click, it opens a menu with:
   - Workspaces

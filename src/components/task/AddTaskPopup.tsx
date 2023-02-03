@@ -21,6 +21,7 @@ const AddTaskPopup: React.FC<{
   const [dueDate, setDueDate] = useState("");
   const [priority, setPriority] = useState<Priority | null>(null);
   const [isFormValid, setIsFormValid] = useState(false);
+
   const {
     btnRef: assigneeBtnRef,
     menuRef: assigneeMenuRef,
@@ -66,7 +67,7 @@ const AddTaskPopup: React.FC<{
       return setIsFormValid(true);
     }
     setIsFormValid(false);
-  }, [name, priority, dueDate, startDate]);
+  }, [name, priority, dueDate, startDate, assigneeId]);
 
   return (
     <div className={`new-task ${isOpen ? "" : "new-task--hidden"}`}>
@@ -106,7 +107,7 @@ const AddTaskPopup: React.FC<{
             >
               Assignee
             </button>
-            {/* Menu that renders all members */}
+            {/* Menu that loads all members of workspace */}
             <div
               className={`assignee-menu ${
                 isAssigneeMenuOpen ? "assignee-menu--active" : ""
@@ -138,6 +139,7 @@ const AddTaskPopup: React.FC<{
             >
               Project
             </button>
+            {/* Loaded projects in workspace */}
             <div
               className={`project-menu ${
                 isProjectMenuOpen ? "project-menu--active" : ""
