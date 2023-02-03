@@ -4,9 +4,13 @@ import { Color } from "@prisma/client";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-export const getInitials = (name: string) => {
+export const getInitials = (name: string): string | undefined => {
   const fullName = name.split(" ");
-  if (!name) return;
+  if (fullName.length === 0) return;
+  if (fullName.length === 1) {
+    const firstName = fullName[0];
+    return `${firstName[0].toUpperCase()}`;
+  }
   const firstName = fullName[0];
   const lastName = fullName[1];
   return `${firstName[0].toUpperCase()}${lastName[0].toUpperCase()}`;

@@ -143,6 +143,7 @@
   }
 
   &__name {
+    width: 100%;
     font-size: 2rem;
     font-weight: 600;
     color: #f1f1f1;
@@ -170,23 +171,52 @@
     & #in {
       margin: 0 8px;
     }
+  }
 
-    button {
-      background-color: inherit;
+  &__assignee--selected {
+    display: flex;
+    align-items: center;
+    color: #f1f1f1;
+    background-color: #424244;
+    transition: background-color 0.1s ease-in;
+    border: none;
+    border-radius: 14px;
+    padding: 0 8px;
+    &:hover {
+      color: #f1f1f1;
+      cursor: pointer;
+    }
+
+    .assignee-close {
+      padding: 4px;
+      margin-left: 6px;
+      fill: #f1f1f1;
+      border-radius: 100%;
       transition: all 0.1s ease-in;
-      border: 1px var(--color-gray-weak) dashed;
-      border-radius: 14px;
-      padding: 0 16px;
       &:hover {
-        color: #f1f1f1;
-        cursor: pointer;
-        background-color: var(--color-navigation-button-hover);
+        background-color: #ffff;
+        fill: #424244;
+      }
+      svg {
+        width: 7px;
+        height: 7px;
       }
     }
   }
 
   &__assignee-btn {
     color: var(--color-gray-weak);
+    background-color: inherit;
+    transition: background-color 0.1s ease-in;
+    transition: color 0.1s ease-in;
+    border: 1px var(--color-gray-weak) dashed;
+    border-radius: 14px;
+    padding: 0 16px;
+    &:hover {
+      color: #f1f1f1;
+      cursor: pointer;
+      background-color: var(--color-navigation-button-hover);
+    }
 
     &-container {
       position: relative;
@@ -222,11 +252,25 @@
             }
           }
         }
+
+        &__skeleton {
+          padding: 6px 16px;
+        }
       }
     }
   }
   &__project-btn {
     color: var(--color-gray-weak);
+    background-color: inherit;
+    transition: all 0.1s ease-in;
+    border: 1px var(--color-gray-weak) dashed;
+    border-radius: 14px;
+    padding: 0 16px;
+    &:hover {
+      color: #f1f1f1;
+      cursor: pointer;
+      background-color: var(--color-navigation-button-hover);
+    }
 
     &-container {
       position: relative;
@@ -251,7 +295,7 @@
           color: #f1f1f1;
           display: flex;
           align-items: center;
-          padding: 8px 16px;
+          padding: 6px 16px;
           &:hover {
             cursor: pointer;
             background-color: var(--color-navigation-button-hover);
@@ -259,6 +303,10 @@
               all: unset;
             }
           }
+        }
+
+        &__skeleton {
+          padding: 6px 16px;
         }
       }
     }
