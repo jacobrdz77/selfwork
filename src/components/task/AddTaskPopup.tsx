@@ -1,14 +1,10 @@
 import { useState, useEffect } from "react";
-import Modal from "../UI/Modal";
-import Button from "../UI/Button";
-import { Priority, User } from "@prisma/client";
+import { Priority, Section, User } from "@prisma/client";
 import useMenu from "@/hooks/useMenu";
-import { useQuery } from "@tanstack/react-query";
 import { useUserStore } from "store/user";
-import { WorkspaceWithMembers } from "@/types/types";
-import { useWorkspaceMembers } from "@/hooks/WorkspaceHooks";
 import AssigneeMenu from "./AssigneeMenu";
-import LoadingSkeleton from "../UI/LoadingSkeleton";
+import NewTaskProjectMenu from "./NewTaskProjectMenu";
+import NewTaskSectionButton from "./NewTaskSectionButton";
 
 const AddTaskPopup: React.FC<{
   isOpen: boolean;
@@ -21,6 +17,14 @@ const AddTaskPopup: React.FC<{
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [assignee, setAssignee] = useState<User | null>(null);
+  const [project, setProject] = useState<{
+    id: string;
+    name: string;
+    sections: Section[];
+  } | null>(null);
+  const [section, setSection] = useState<{ id: string; name: string } | null>(
+    null
+  );
   const [startDate, setStartDate] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [priority, setPriority] = useState<Priority | null>(null);
@@ -104,10 +108,10 @@ const AddTaskPopup: React.FC<{
 
           <div className="new-task__assignee-btn-container">
             {assignee ? (
-              <button className="new-task__assignee--selected">
+              <button className="new-task__data-selected">
                 {assignee.name}
                 <div
-                  className="assignee-close"
+                  className="data-selected__close"
                   onClick={() => setAssignee(null)}
                 >
                   <svg viewBox="0 0 320.591 320.591">
@@ -144,33 +148,47 @@ const AddTaskPopup: React.FC<{
           <label id="in">in</label>
 
           <div className="new-task__project-btn-container">
-            <button
-              className="new-task__project-btn"
-              onClick={() => setIsProjectMenuOpen(!isProjectMenuOpen)}
-              ref={projectBtnRef}
-            >
-              Project
-            </button>
+            {project ? (
+              <button className="new-task__data-selected">
+                {project.name}
+
+                <NewTaskSectionButton
+                  setSection={setSection}
+                  sections={project.sections}
+                />
+                <div
+                  className="data-selected__close"
+                  onClick={() => setProject(null)}
+                >
+                  <svg viewBox="0 0 320.591 320.591">
+                    <g>
+                      <g>
+                        <path d="m30.391 318.583c-7.86.457-15.59-2.156-21.56-7.288-11.774-11.844-11.774-30.973 0-42.817l257.812-257.813c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875l-259.331 259.331c-5.893 5.058-13.499 7.666-21.256 7.288z" />
+                        <path d="m287.9 318.583c-7.966-.034-15.601-3.196-21.257-8.806l-257.813-257.814c-10.908-12.738-9.425-31.908 3.313-42.817 11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414-6.35 5.522-14.707 8.161-23.078 7.288z" />
+                      </g>
+                    </g>
+                  </svg>
+                </div>
+              </button>
+            ) : (
+              <button
+                className="new-task__project-btn"
+                onClick={() => setIsProjectMenuOpen(!isProjectMenuOpen)}
+                ref={projectBtnRef}
+              >
+                Project
+              </button>
+            )}
+
             {/* Loaded projects in workspace */}
-            <div
-              className={`project-menu ${
-                isProjectMenuOpen ? "project-menu--active" : ""
-              }`}
-              ref={projectMenuRef}
-            >
-              <div
-                className="project-menu__item"
-                onClick={() => setIsProjectMenuOpen(false)}
-              >
-                Selfwork
-              </div>
-              <div
-                className="project-menu__item"
-                onClick={() => setIsProjectMenuOpen(false)}
-              >
-                Law firm Website
-              </div>
-            </div>
+            {isProjectMenuOpen && (
+              <NewTaskProjectMenu
+                isProjectMenuOpen={isProjectMenuOpen}
+                projectMenuRef={projectMenuRef}
+                setIsProjectMenuOpen={setIsProjectMenuOpen}
+                setProject={setProject}
+              />
+            )}
           </div>
         </div>
 

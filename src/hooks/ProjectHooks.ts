@@ -23,10 +23,7 @@ const checkProjectId = (id: string) => {
   else return false;
 };
 
-export const useOneProject = (
-  projectId: string
-  // options?: UseQueryOptions<Project, unknown, Project, string[]>
-) => {
+export const useOneProject = (projectId: string) => {
   const { data: project, status } = useQuery(
     ["project", projectId],
     () => getOneProject(projectId),

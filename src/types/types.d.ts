@@ -41,6 +41,12 @@ export type UpdateProjectData = {
   clientId?: string;
 };
 
+type OneProjectWithSections = Project & {
+  sections: Section[];
+};
+
+export type ProjectsWithSections = [OneProjectWithSections];
+
 export type ProjectWithAll = Project & {
   sections: SectionWithTasks[];
   members: User[];

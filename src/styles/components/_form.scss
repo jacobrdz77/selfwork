@@ -105,7 +105,7 @@
 .new-task {
   display: flex;
   flex-direction: column;
-  width: 50rem;
+  width: 500px;
   background-color: var(--color-navigation-background);
   color: #f1f1f1;
   border: 1px solid var(--color-navigation-border);
@@ -118,6 +118,7 @@
   &--hidden {
   }
   &__header {
+    width: 100%;
     font-size: 14px;
     display: flex;
     align-items: center;
@@ -157,23 +158,24 @@
     }
   }
 
-  &__form {
-  }
   &__assignee-project {
     display: flex;
+    flex-wrap: wrap;
+    row-gap: 6px;
     color: var(--color-gray-weak);
     font-size: 1.4rem;
     padding: 4px 24px;
 
     & #for {
-      margin-right: 8px;
+      margin-right: 6px;
     }
     & #in {
-      margin: 0 8px;
+      margin: 0 6px;
     }
   }
 
-  &__assignee--selected {
+  &__data-selected {
+    border: solid 1px transparent;
     display: flex;
     align-items: center;
     color: #f1f1f1;
@@ -181,13 +183,13 @@
     transition: background-color 0.1s ease-in;
     border: none;
     border-radius: 14px;
-    padding: 0 8px;
+    padding: 0 4px 0 8px;
     &:hover {
       color: #f1f1f1;
       cursor: pointer;
     }
 
-    .assignee-close {
+    .data-selected__close {
       padding: 4px;
       margin-left: 6px;
       fill: #f1f1f1;
@@ -259,10 +261,14 @@
       }
     }
   }
+  &__section--selected {
+  }
+
   &__project-btn {
     color: var(--color-gray-weak);
     background-color: inherit;
-    transition: all 0.1s ease-in;
+    transition: background-color 0.1s ease-in;
+    transition: color 0.1s ease-in;
     border: 1px var(--color-gray-weak) dashed;
     border-radius: 14px;
     padding: 0 16px;

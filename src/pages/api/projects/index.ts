@@ -11,8 +11,8 @@ export default async function handler(
   if (req.method === "POST") {
     try {
       // PARSE
-      const body = JSON.parse(req.body);
-      const { project } = body;
+      // const body = JSON.parse(req.body);
+      const { project } = req.body;
       if (!project) {
         return res.status(400).json({ error: "Provide project data." });
       }
@@ -35,6 +35,12 @@ export default async function handler(
         owner: {
           connect: {
             id: modifiedProject.ownerId,
+          },
+        },
+        // Creates a new section on every new project
+        sections: {
+          create: {
+            name: "Untitled Section",
           },
         },
       };
