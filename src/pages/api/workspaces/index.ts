@@ -44,7 +44,7 @@ export default async function handler(
       */
       const { workspaceData } = req.body;
 
-      // Create a new workspace with a user assigned section.
+      // Create a new workspace and makes the owner a member.
       const newWorkspace = await prisma.workspace.create({
         data: {
           name: workspaceData.name,
@@ -53,30 +53,9 @@ export default async function handler(
               id: workspaceData.ownerId,
             },
           },
-          userAssignedTasksSection: {
-            create: {
-              name: "Recently Assigned",
-            },
-          },
           members: {
             connect: {
               id: workspaceData.ownerId,
-            },
-          },
-        },
-        include: {
-          userAssignedTasksSection: true,
-        },
-      });
-      // Then updating that section with the newly created workspace ID
-      await prisma.section.update({
-        where: {
-          id: newWorkspace.userAssignedTasksSectionId!,
-        },
-        data: {
-          userWorkspace: {
-            connect: {
-              id: newWorkspace.id,
             },
           },
         },

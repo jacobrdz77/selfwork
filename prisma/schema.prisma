@@ -43,35 +43,35 @@ model VerificationToken {
 }
 
 model User {
-  id                   String      @id @default(cuid())
-  name                 String?
-  email                String?     @unique
-  emailVerified        DateTime?
-  image                String?
-  accounts             Account[]
-  sessions             Session[]
-  clients              Client[]
-  assignedTasks         Task[]
-  lastUsingWorkspaceId String?
-  ownedWorkspaces      Workspace[] @relation("Owner")
-  involvedWorkspaces   Workspace[] 
-  ownedProjects        Project[]   @relation("Owner")
-  involvedProjects     Project[]   @relation("Members")
-}
-
-model Workspace {
-  id                         String    @id @default(cuid())
-  name                       String
-  description                String?
-  projects                   Project[]
-  owner                      User      @relation("Owner", fields: [ownerId], references: [id], onDelete: Cascade)
-  ownerId                    String
-  members                    User[]    
-  userSections               Section[] @relation("UserSections")
-  userAssignedTasksSection   Section?   @relation("NewTasksSection", fields: [userAssignedTasksSectionId], references: [id])
+  id                         String      @id @default(cuid())
+  name                       String?
+  email                      String?     @unique
+  emailVerified              DateTime?
+  image                      String?
+  accounts                   Account[]
+  sessions                   Session[]
+  clients                    Client[]
+  assignedTasks              Task[]
+  lastUsingWorkspaceId       String?
+  ownedWorkspaces            Workspace[] @relation("Owner")
+  involvedWorkspaces         Workspace[]
+  ownedProjects              Project[]   @relation("Owner")
+  involvedProjects           Project[]   @relation("Members")
+  userSections               Section[]   @relation("UserSections")
+  userAssignedTasksSection   Section?    @relation("UserNewTasksSection", fields: [userAssignedTasksSectionId], references: [id])
   userAssignedTasksSectionId String?
 
   @@unique([userAssignedTasksSectionId])
+}
+
+model Workspace {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  projects    Project[]
+  owner       User      @relation("Owner", fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId     String
+  members     User[]
 }
 
 enum Priority {
@@ -116,7 +116,6 @@ model Project {
   dueDate     DateTime?
   iconColor   Color     @default(Classic)
   sections    Section[]
-  tasks       Task[]
   notes       Note[]
   owner       User?     @relation("Owner", fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId     String?
@@ -128,6 +127,7 @@ model Project {
   clientName  String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
+
   @@unique([id, name])
 }
 
@@ -142,6 +142,7 @@ model Client {
   project         Project[]
   user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId          String
+
   @@unique([id, name])
 }
 
@@ -164,11 +165,9 @@ model Task {
   startDate   DateTime?
   dueDate     DateTime?
   tags        Tag[]
-  project     Project?  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId   String?
   section     Section   @relation(fields: [sectionId], references: [id])
   sectionId   String
-  assignee    User?      @relation(fields: [assigneeId], references: [id], onDelete: Cascade)
+  assignee    User?     @relation(fields: [assigneeId], references: [id], onDelete: Cascade)
   assigneeId  String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
@@ -182,12 +181,12 @@ model Tag {
 }
 
 model Section {
-  id                    String     @id @default(cuid())
-  name                  String
-  tasks                 Task[]
-  project               Project?   @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId             String?
-  userWorkspace         Workspace? @relation("UserSections", fields: [userWorkspaceId], references: [id], onDelete: Cascade)
-  userWorkspaceId       String?
-  userAssignedWorkspace Workspace? @relation("NewTasksSection")
+  id           String   @id @default(cuid())
+  name         String
+  tasks        Task[]
+  project      Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId    String?
+  user         User?    @relation("UserSections", fields: [userId], references: [id], onDelete: Cascade)
+  userId       String?
+  userAssigned User?    @relation("UserNewTasksSection")
 }

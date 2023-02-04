@@ -18,7 +18,6 @@ export default async function handler(
           id: workspaceId as string,
         },
         include: {
-          userAssignedTasksSection: true,
           members: true,
           owner: true,
         },

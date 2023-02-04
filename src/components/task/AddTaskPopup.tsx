@@ -5,15 +5,14 @@ import { useUserStore } from "store/user";
 import AssigneeMenu from "./AssigneeMenu";
 import NewTaskProjectMenu from "./NewTaskProjectMenu";
 import NewTaskSectionButton from "./NewTaskSectionButton";
+import { useCreateTask } from "@/hooks/TaskHooks";
 
 const AddTaskPopup: React.FC<{
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
 }> = ({ isOpen, setIsOpen }) => {
   const closeHandler = () => setIsOpen(false);
-  //   const userId = useUserStore((state) => state.userId as string);
-  //   const { mutateAsync } = useCreateProject();
-  // Todo: Only fetch when assignee menu opens
+  const { mutate } = useCreateTask();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [assignee, setAssignee] = useState<User | null>(null);
@@ -23,11 +22,10 @@ const AddTaskPopup: React.FC<{
     sections: Section[];
   } | null>(null);
   const [selectedSection, setSelectedSection] = useState<Section | null>(null);
-  const [startDate, setStartDate] = useState("");
-  const [dueDate, setDueDate] = useState("");
   const [priority, setPriority] = useState<Priority | null>(null);
   const [isFormValid, setIsFormValid] = useState(false);
-
+  // const [startDate, setStartDate] = useState("");
+  // const [dueDate, setDueDate] = useState("");
   const {
     btnRef: assigneeBtnRef,
     menuRef: assigneeMenuRef,
@@ -49,17 +47,14 @@ const AddTaskPopup: React.FC<{
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Waits until it creates newTask. Then it redirects
-    //   await mutateAsync({
-    //   name,
-    //   description,
-    //   lumpSum: Number(lumpSum),
-    //   startDate,
-    //   dueDate,
-    //   priority,
-    //   workspaceId,
-    //   ownerId: userId,
-    // });
+    mutate({
+      name,
+      description,
+      priority,
+      assignee,
+      sectionId: selectedSection?.id,
+    });
+    setIsOpen(false);
   };
 
   // Form Validation
@@ -72,7 +67,7 @@ const AddTaskPopup: React.FC<{
       return setIsFormValid(true);
     }
     setIsFormValid(false);
-  }, [name, priority, dueDate, startDate, assignee]);
+  }, [name, priority, assignee]);
 
   return (
     <div className={`new-task ${isOpen ? "" : "new-task--hidden"}`}>
@@ -124,6 +119,7 @@ const AddTaskPopup: React.FC<{
               </button>
             ) : (
               <button
+                type="button"
                 className="new-task__assignee-btn"
                 onClick={() => setIsAssigneeMenuOpen(!isAssigneeMenuOpen)}
                 ref={assigneeBtnRef}
@@ -148,6 +144,7 @@ const AddTaskPopup: React.FC<{
           <div className="new-task__project-btn-container">
             {project ? (
               <button
+                type="button"
                 className="new-task__data-selected"
                 onClick={() => setIsProjectMenuOpen(!isProjectMenuOpen)}
                 ref={projectBtnRef}
@@ -179,6 +176,7 @@ const AddTaskPopup: React.FC<{
               </button>
             ) : (
               <button
+                type="button"
                 className="new-task__project-btn"
                 onClick={() => setIsProjectMenuOpen(!isProjectMenuOpen)}
                 ref={projectBtnRef}
@@ -201,6 +199,7 @@ const AddTaskPopup: React.FC<{
 
         <div className="new-task__priority">
           <button
+            type="button"
             ref={priorityBtnRef}
             onClick={() => setIsPriorityMenuOpen(!isPriorityMenuOpen)}
           >

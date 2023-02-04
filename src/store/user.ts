@@ -21,3 +21,13 @@ export const useUserStore = create<UserState & Action>((set) => ({
   workspaceId: "opdclt74u9913gpecetnyigta",
   setUserId: (id) => set(() => ({ userId: id })),
 }));
+
+type ModalStore = {
+  isAddTaskOpen: boolean;
+  setIsAddTaskOpen: (boolean: boolean) => void;
+};
+
+export const useModalStore = create<ModalStore>((set) => ({
+  isAddTaskOpen: true,
+  setIsAddTaskOpen: (boolean: boolean) => set({ isAddTaskOpen: boolean }),
+}));

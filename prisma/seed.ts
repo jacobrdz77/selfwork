@@ -9,6 +9,12 @@ async function main() {
     create: {
       id: "al814zcy86074hloymogrg1mv",
       name: "Jacob Rodriguez",
+      userAssignedTasksSection: {
+        create: {
+          id: "cqpclt74u9945gpecetnyigta",
+          name: "New Tasks",
+        },
+      },
     },
   });
 
@@ -21,12 +27,6 @@ async function main() {
       owner: {
         connect: {
           id: "al814zcy86074hloymogrg1mv",
-        },
-      },
-      userAssignedTasksSection: {
-        create: {
-          id: "cqpclt74u9945gpecetnyigta",
-          name: "New Tasks",
         },
       },
       members: {
@@ -73,19 +73,9 @@ async function main() {
         create: [
           {
             name: "Create blue button",
-            project: {
-              connect: {
-                id: "cldclt74u9600gpecetnyigta",
-              },
-            },
           },
           {
             name: "Create navigation",
-            project: {
-              connect: {
-                id: "cldclt74u9600gpecetnyigta",
-              },
-            },
           },
         ],
       },

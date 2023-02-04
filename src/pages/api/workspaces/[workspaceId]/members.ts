@@ -20,6 +20,12 @@ export default async function handler(
         },
       });
 
+      if (!workspace) {
+        return res
+          .status(404)
+          .json({ error: `Workspace ${workspaceId} not found.` });
+      }
+
       return res.status(200).json(workspace?.members);
     } catch (error: Error | any) {
       return res.status(400).json({ error: error.message });

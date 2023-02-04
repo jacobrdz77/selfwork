@@ -19,24 +19,65 @@ export default async function handler(
   // Create a new task
   if (req.method === "POST") {
     try {
-      // Get the task data from the request body
-      const task = req.body.task;
-      const taskData = {
-        ...task,
-        user: {
-          connect: {
-            id: task.userId,
+      const body = JSON.parse(req.body);
+      const { task } = body;
+      if (!task) {
+        return res.status(400).json({ error: "Provide project data." });
+      }
+
+      /* 
+        Different scenarios:
+        - If the assignee is only defined
+          - connect assignee and to the assignee's assignment section.
+        - If the assignee and project is defined
+          - connect the assignee to the task
+          - connect the project and section to the task. 
+      */
+
+      if (!task.hasOwnProperty("sectionId")) {
+        const newTask = await prisma.task.create({
+          data: {
+            name: task.name,
+            description:
+              task.description.trim().length === 0 ? null : task.description,
+            priority: task.priority === null ? "None" : task.priority,
+            section: {
+              connect: {
+                id: task.assignee.userAssignedTasksSectionId,
+              },
+            },
+            assignee: {
+              connect: {
+                id: task.assignee.id,
+              },
+            },
           },
-        },
-      };
+        });
+
+        return res.status(200).json(newTask);
+      }
 
       const newTask = await prisma.task.create({
-        data: taskData,
+        data: {
+          name: task.name,
+          description:
+            task.description.trim().length === 0 ? null : task.description,
+          priority: task.priority === null ? "None" : task.priority,
+          section: {
+            connect: {
+              id: task.sectionId,
+            },
+          },
+          assignee: {
+            connect: {
+              id: task.assignee.id,
+            },
+          },
+        },
       });
 
       return res.status(200).json(newTask);
     } catch (error: any) {
-      console.log("Request body: \n", req.body);
       return res.status(400).json(error.message);
     }
   }
