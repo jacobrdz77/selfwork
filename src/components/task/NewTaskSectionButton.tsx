@@ -1,52 +1,85 @@
 import useMenu from "@/hooks/useMenu";
 import { Section } from "@prisma/client";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 import LoadingSkeleton from "../UI/LoadingSkeleton";
 
 const NewTaskSectionButton = ({
-  setSection,
+  selectedSection,
+  setSelectedSection,
   sections,
 }: {
-  setSection: Dispatch<SetStateAction<{ id: string; name: string } | null>>;
+  selectedSection: Section | null;
+  setSelectedSection: Dispatch<SetStateAction<Section | null>>;
   sections: Section[];
 }) => {
   const { btnRef, menuRef, isMenuOpen, setIsMenuOpen } = useMenu();
-  //!   Todo: FINISH STYLING THIS
+  useEffect(() => {
+    setSelectedSection(sections[0]);
+
+    return () => {
+      setSelectedSection(null);
+    };
+  }, [sections, setSelectedSection]);
+
   return (
-    <div>
-      <button className="new-task__section-select" ref={btnRef}>
-        Untitled
-        <div
-          className="section-select__close"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          <svg viewBox="0 0 320.591 320.591">
-            <g>
-              <g>
-                <path d="m30.391 318.583c-7.86.457-15.59-2.156-21.56-7.288-11.774-11.844-11.774-30.973 0-42.817l257.812-257.813c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875l-259.331 259.331c-5.893 5.058-13.499 7.666-21.256 7.288z" />
-                <path d="m287.9 318.583c-7.966-.034-15.601-3.196-21.257-8.806l-257.813-257.814c-10.908-12.738-9.425-31.908 3.313-42.817 11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414-6.35 5.522-14.707 8.161-23.078 7.288z" />
-              </g>
-            </g>
-          </svg>
-        </div>
-      </button>
+    <div className="new-task__section-select-container">
       <div
-        className={`section-menu ${isMenuOpen ? "section-menu--active" : ""}`}
-        ref={menuRef}
+        className="new-task__section-select"
+        ref={btnRef}
+        onClick={(e) => {
+          setIsMenuOpen(!isMenuOpen);
+          e.stopPropagation();
+        }}
       >
-        {sections!.map((section) => (
-          <div
-            key={section.id}
-            className="section-menu__item"
-            onClick={() => {
-              setIsMenuOpen(!isMenuOpen);
-              setSection(section);
-            }}
-          >
-            {section.name}
-          </div>
-        ))}
+        <span>{!selectedSection ? "" : selectedSection.name}</span>
+
+        <svg className="section-select__icon" viewBox="0 0 6.3499999 6.3500002">
+          <g id="layer1" transform="translate(0 -290.65)">
+            <path
+              id="path9429"
+              d="m2.2580394 291.96502a.26460982.26460982 0 0 0 -.1741496.46871l1.6190225 1.38699-1.6190225 1.38648a.26460982.26460982 0 1 0 .3436483.40049l1.8536335-1.58595a.26460982.26460982 0 0 0 0-.40256l-1.8536335-1.5875a.26460982.26460982 0 0 0 -.1694987-.0667z"
+              font-variant-ligatures="normal"
+              font-variant-position="normal"
+              font-variant-caps="normal"
+              font-variant-numeric="normal"
+              font-variant-alternates="normal"
+              font-feature-settings="normal"
+              text-indent="0"
+              text-align="start"
+              text-decoration-line="none"
+              text-decoration-style="solid"
+              text-decoration-color="rgb(0,0,0)"
+              text-transform="none"
+              text-orientation="mixed"
+              white-space="normal"
+              shape-padding="0"
+              mix-blend-mode="normal"
+              solid-color="rgb(0,0,0)"
+              solid-opacity="1"
+            ></path>
+          </g>
+        </svg>
       </div>
+      {isMenuOpen && (
+        <div
+          className={`section-menu ${isMenuOpen ? "section-menu--active" : ""}`}
+          ref={menuRef}
+        >
+          {sections!.map((section) => (
+            <div
+              key={section.id}
+              className="section-menu__item"
+              onClick={(e) => {
+                setIsMenuOpen(!isMenuOpen);
+                setSelectedSection(section);
+                e.stopPropagation();
+              }}
+            >
+              {section.name}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

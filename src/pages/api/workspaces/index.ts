@@ -58,6 +58,11 @@ export default async function handler(
               name: "Recently Assigned",
             },
           },
+          members: {
+            connect: {
+              id: workspaceData.ownerId,
+            },
+          },
         },
         include: {
           userAssignedTasksSection: true,

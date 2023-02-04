@@ -29,6 +29,11 @@ async function main() {
           name: "New Tasks",
         },
       },
+      members: {
+        connect: {
+          id: "al814zcy86074hloymogrg1mv",
+        },
+      },
     },
   });
 

@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUserStore } from "../store/user";
-import { NewProjectData } from "../types/types";
+import { NewProjectData, ProjectsWithSections } from "../types/types";
 import {
   createProject,
   getOneProject,
@@ -12,6 +12,37 @@ export const useProjects = () => {
   const { data: projects, status } = useQuery(["projects"], () =>
     getProjects(workspaceId)
   );
+  return {
+    projects,
+    status,
+  };
+};
+
+export const useProjectWithSections = () => {
+  const workspaceId = useUserStore((state) => state.workspaceId);
+  const { data: projects, status } = useQuery({
+    queryKey: ["projects"],
+    queryFn: async () => {
+      try {
+        const response = await fetch(
+          `/api/workspaces/${workspaceId}/projects?sections=true`
+        );
+        return (await response.json()) as ProjectsWithSections;
+      } catch (error) {
+        throw error;
+      }
+    },
+    select(data) {
+      if (!data) return;
+      const projects = data.map((project) => ({
+        id: project.id,
+        name: project.name,
+        sections: project.sections,
+      }));
+      return projects;
+    },
+  });
+
   return {
     projects,
     status,

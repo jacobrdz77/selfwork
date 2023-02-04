@@ -4,6 +4,7 @@ import { useUserStore } from "store/user";
 import LoadingSkeleton from "../UI/LoadingSkeleton";
 import { useQuery } from "@tanstack/react-query";
 import { ProjectsWithSections } from "@/types/types";
+import { useProjectWithSections } from "@/hooks/ProjectHooks";
 
 const NewTaskProjectMenu = ({
   projectMenuRef,
@@ -22,29 +23,8 @@ const NewTaskProjectMenu = ({
     } | null>
   >;
 }) => {
-  const workspaceId = useUserStore((state) => state.workspaceId);
-  const { data: projects, status } = useQuery({
-    queryKey: ["projects"],
-    queryFn: async () => {
-      try {
-        const response = await fetch(
-          `/api/workspaces/${workspaceId}/projects?sections=true`
-        );
-        return (await response.json()) as ProjectsWithSections;
-      } catch (error) {
-        throw error;
-      }
-    },
-    select(data) {
-      if (!data) return;
-      const projects = data.map((project) => ({
-        id: project.id,
-        name: project.name,
-        sections: project.sections,
-      }));
-      return projects;
-    },
-  });
+  const { projects, status } = useProjectWithSections();
+  console.log("Projects: ", projects);
 
   return (
     <div

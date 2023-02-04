@@ -21,11 +21,6 @@ export default async function handler(
           where: {
             workspaceId: workspaceId as string,
           },
-          // select: {
-          //   id: true,
-          //   name: true,
-          //   sections: true,
-          // },
           include: {
             sections: true,
           },

@@ -15,7 +15,6 @@ const AssigneeMenu = ({
   setAssignee: Dispatch<SetStateAction<User | null>>;
 }) => {
   const { members, status } = useWorkspaceMembers();
-  console.log("members", members);
 
   return (
     <div

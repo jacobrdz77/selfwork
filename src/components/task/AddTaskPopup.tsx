@@ -22,9 +22,7 @@ const AddTaskPopup: React.FC<{
     name: string;
     sections: Section[];
   } | null>(null);
-  const [section, setSection] = useState<{ id: string; name: string } | null>(
-    null
-  );
+  const [selectedSection, setSelectedSection] = useState<Section | null>(null);
   const [startDate, setStartDate] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [priority, setPriority] = useState<Priority | null>(null);
@@ -149,16 +147,25 @@ const AddTaskPopup: React.FC<{
 
           <div className="new-task__project-btn-container">
             {project ? (
-              <button className="new-task__data-selected">
+              <button
+                className="new-task__data-selected"
+                onClick={() => setIsProjectMenuOpen(!isProjectMenuOpen)}
+                ref={projectBtnRef}
+              >
                 {project.name}
 
+                {/* Section button inside Project button */}
                 <NewTaskSectionButton
-                  setSection={setSection}
+                  setSelectedSection={setSelectedSection}
+                  selectedSection={selectedSection}
                   sections={project.sections}
                 />
                 <div
                   className="data-selected__close"
-                  onClick={() => setProject(null)}
+                  onClick={(e) => {
+                    setProject(null);
+                    e.stopPropagation();
+                  }}
                 >
                   <svg viewBox="0 0 320.591 320.591">
                     <g>

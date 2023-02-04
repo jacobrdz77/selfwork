@@ -17,7 +17,6 @@ export const getProjects = async (workspaceId: string) => {
 };
 
 // GET ONE
-// Todo: Make new Project return type with notes and members
 export const getOneProject = async (projectId: string) => {
   try {
     const response = await fetch(`/api/projects/${projectId}`);
@@ -27,7 +26,7 @@ export const getOneProject = async (projectId: string) => {
   }
 };
 
-// NEW
+// POST
 export const createProject = async (project: NewProjectData) => {
   try {
     const response = await fetch("/api/projects", {
