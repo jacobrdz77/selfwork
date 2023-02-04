@@ -25,9 +25,14 @@ export const useUserStore = create<UserState & Action>((set) => ({
 type ModalStore = {
   isAddTaskOpen: boolean;
   setIsAddTaskOpen: (boolean: boolean) => void;
+  isAddProjectModalOpen: boolean;
+  setIsAddProjectModalOpen: (boolean: boolean) => void;
 };
 
 export const useModalStore = create<ModalStore>((set) => ({
-  isAddTaskOpen: true,
+  isAddTaskOpen: false,
   setIsAddTaskOpen: (boolean: boolean) => set({ isAddTaskOpen: boolean }),
+  isAddProjectModalOpen: false,
+  setIsAddProjectModalOpen: (boolean: boolean) =>
+    set({ isAddProjectModalOpen: boolean }),
 }));

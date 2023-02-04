@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
-import { useUserStore } from "../../store/user";
+import { useModalStore, useUserStore } from "../../store/user";
 import { useProjects } from "@/hooks/ProjectHooks";
 import SidebarProject from "../project/SidebarProject";
 import AddProjectModal from "../project/AddProjectModal";
@@ -11,22 +11,19 @@ import useMenu from "@/hooks/useMenu";
 import AddTaskPopup from "../task/AddTaskPopup";
 
 const NavBar = () => {
-  const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
   const [isNavMinimized, setIsNavMinimized] = useState(false);
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const { projects, status } = useProjects();
 
+  const setIsAddTaskOpen = useModalStore((state) => state.setIsAddTaskOpen);
+  const setIsAddProjectModalOpen = useModalStore(
+    (state) => state.setIsAddProjectModalOpen
+  );
   const router = useRouter();
 
   return (
     <>
       {" "}
-      {isAddProjectModalOpen && (
-        <AddProjectModal
-          isOpen={isAddProjectModalOpen}
-          setIsModalOpen={setIsAddProjectModalOpen}
-        />
-      )}
       <div className={`sidebar ${isNavMinimized ? "sidebar--minimized" : ""}`}>
         {/* LOGO */}
         <div className="sidebar__logo">
@@ -56,7 +53,8 @@ const NavBar = () => {
             }`}
             ref={menuRef}
             onClick={(e) => {
-              e.preventDefault();
+              setIsMenuOpen(false);
+              setIsAddTaskOpen(true);
             }}
           >
             <div
@@ -70,9 +68,10 @@ const NavBar = () => {
             </div>
             <div
               className="sidebar__add-menu-item"
-              onClick={() => {
+              onClick={(e) => {
                 setIsMenuOpen(false);
-                setIsAddProjectModalOpen((state) => true);
+                setIsAddProjectModalOpen(true);
+                e.stopPropagation();
               }}
             >
               <svg
@@ -89,7 +88,11 @@ const NavBar = () => {
             </div>
             <div
               className="sidebar__add-menu-item"
-              onClick={() => console.log("EDIT")}
+              onClick={(e) => {
+                setIsMenuOpen(false);
+                console.log("EDIT");
+                e.stopPropagation();
+              }}
             >
               <svg className="sidebar__add-menu-icon" viewBox="0 0 512 512">
                 <g>
