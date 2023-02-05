@@ -15,23 +15,12 @@ export default async function handler(
         throw new Error("Provide a workspaceId.");
       }
 
-      // /api/workspaces/:workspaceId/projects?sections=true
-      if (sections === "true") {
-        const projects = await prisma.project.findMany({
-          where: {
-            workspaceId: workspaceId as string,
-          },
-          include: {
-            sections: true,
-          },
-        });
-
-        return res.status(200).json(projects);
-      }
-
       const projects = await prisma.project.findMany({
         where: {
           workspaceId: workspaceId as string,
+        },
+        include: {
+          sections: sections === "true" ? true : false,
         },
       });
 
