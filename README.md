@@ -21,5 +21,5 @@ A project management system for small teams and freelancers. Organize your proje
 
 - Full CRUD functionality for projects, clients, sections, tasks, and workspaces.
 - View your project's tasks in different views.
-- Use intigrated <a href="https://excalidraw.com/" target="_blank">Excalidraw</a> to create diagrams in the ***sketch*** view for each project.
+- Use intigrated [Excalidraw](https://excalidraw.com/) to create diagrams in the ***sketch*** view for each project.
 - Allows you to log in and register using Google.
