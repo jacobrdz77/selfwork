@@ -1,3 +1,5 @@
+import { projectIconColors } from "../src/utils/constants";
+import getRandomInt from "../src/utils/getRandomInt";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
@@ -45,6 +47,7 @@ async function main() {
       name: "Law Firm Website",
       priority: "High",
       description: "A website based on a local law firm.",
+      iconColor: projectIconColors[getRandomInt(0, 11)],
       workspace: {
         connect: {
           id: "opdclt74u9913gpecetnyigta",

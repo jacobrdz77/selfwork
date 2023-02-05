@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../prisma/client";
-import { NewProjectData } from "@/types/types";
 import { transformProjectData } from "@/utils/projectFunctions";
+import getRandomInt from "@/utils/getRandomInt";
+import { projectIconColors } from "@/utils/constants";
 
 export default async function handler(
   req: NextApiRequest,
@@ -27,6 +28,7 @@ export default async function handler(
         priority: modifiedProject.priority,
         startDate: modifiedProject.startDate,
         dueDate: modifiedProject.dueDate,
+        iconColor: "Classic",
         workspace: {
           connect: {
             id: modifiedProject.workspaceId,
@@ -46,7 +48,31 @@ export default async function handler(
       };
 
       const newProject = await prisma.project.create({
-        data: projectData,
+        data: {
+          name: modifiedProject.name,
+          description: modifiedProject.description,
+          lumpSum: modifiedProject.lumpSum,
+          priority: modifiedProject.priority,
+          startDate: modifiedProject.startDate,
+          dueDate: modifiedProject.dueDate,
+          iconColor: projectIconColors[getRandomInt(0, 11)],
+          workspace: {
+            connect: {
+              id: modifiedProject.workspaceId,
+            },
+          },
+          owner: {
+            connect: {
+              id: modifiedProject.ownerId,
+            },
+          },
+          // Creates a new section on every new project
+          sections: {
+            create: {
+              name: "Untitled Section",
+            },
+          },
+        },
       });
 
       return res.status(200).json(newProject);

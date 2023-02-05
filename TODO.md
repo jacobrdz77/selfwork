@@ -2,7 +2,6 @@
 
 ## High
 
-- Show confirmation of creating task with toast.
 - Add user to sidebar and when I click, it opens a menu with:
   - Workspaces
     - fetch workspaces
@@ -10,7 +9,6 @@
   - My Profile
   - Log out
 - Fetch Workspace in navbar to display name
-- randomnly generate a color in backend for project.
 - Add Invite model to send to other users via email.
 - Create add client modal.
 
