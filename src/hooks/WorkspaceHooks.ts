@@ -1,4 +1,4 @@
-import { WorkspaceWithMembers } from "@/types/types";
+import { WorkspaceWithMembers, WorkspaceWithProjects } from "@/types/types";
 import { User, Workspace } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import { useUserStore } from "store/user";
@@ -20,6 +20,28 @@ export const useWorkspace = () => {
 
   return {
     workspace,
+    status,
+  };
+};
+
+export const useWorkspaceWithProjects = () => {
+  const { data: workspace, status } = useQuery({
+    queryKey: ["workspace", workspaceId],
+    queryFn: async () => {
+      try {
+        const response = await fetch(
+          `/api/workspaces/${workspaceId}?with_projects=true`
+        );
+        return (await response.json()) as WorkspaceWithProjects;
+      } catch (error) {
+        throw error;
+      }
+    },
+  });
+
+  return {
+    workspace,
+    projects: workspace?.projects,
     status,
   };
 };

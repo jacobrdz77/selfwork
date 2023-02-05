@@ -3,15 +3,14 @@ import PageHeader from "@/components/header/PageHeader";
 import { useProjects } from "@/hooks/ProjectHooks";
 import Projects from "@/components/project/Projects";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
-import { useWorkspace } from "@/hooks/WorkspaceHooks";
+import { useWorkspace, useWorkspaceWithProjects } from "@/hooks/WorkspaceHooks";
 import AddProjectModal from "@/components/project/AddProjectModal";
 import LoadingSkeleton from "@/components/UI/LoadingSkeleton";
 import UserCard from "@/components/UI/UserCard";
 
 const WorkspacePage = () => {
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
-  const { projects, status } = useProjects();
-  const { workspace, status: workspaceStatus } = useWorkspace();
+  const { workspace, projects, status } = useWorkspaceWithProjects();
 
   console.log("projects: ", projects);
   console.log("workspace ", workspace);
@@ -44,8 +43,8 @@ const WorkspacePage = () => {
             </div>
           </div>
           <div className="workspace__section">
-            {workspaceStatus === "loading" && <LoadingSkeleton />}
-            {workspaceStatus === "success" && (
+            {status === "loading" && <LoadingSkeleton />}
+            {status === "success" && (
               <h2 className="workspace__section-header">
                 Members ({workspace?.members.length!})
               </h2>

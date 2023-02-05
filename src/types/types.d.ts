@@ -72,6 +72,11 @@ export type WorkspaceWithMembers = Workspace & {
   owner: User;
   members: User[];
 };
+export type WorkspaceWithProjects = Workspace & {
+  owner: User;
+  members: User[];
+  projects: Project[];
+};
 
 export type UserColor =
   | "OrangeYellow"

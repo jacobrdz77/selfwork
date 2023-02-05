@@ -11,7 +11,7 @@ export default async function handler(
   // RETURN: a workspace
   if (req.method === "GET") {
     try {
-      const { workspaceId } = req.query;
+      const { workspaceId, with_projects } = req.query;
 
       const workspace = await prisma.workspace.findUnique({
         where: {
@@ -20,6 +20,7 @@ export default async function handler(
         include: {
           members: true,
           owner: true,
+          projects: with_projects === "true" ? true : false,
         },
       });
 

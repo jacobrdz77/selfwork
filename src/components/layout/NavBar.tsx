@@ -7,11 +7,12 @@ import { useProjects } from "@/hooks/ProjectHooks";
 import SidebarProject from "../project/SidebarProject";
 import UserSidebarCard from "../UI/UserSidebarCard";
 import useMenu from "@/hooks/useMenu";
+import { useWorkspaceWithProjects } from "@/hooks/WorkspaceHooks";
 
 const NavBar = () => {
   const [isNavMinimized, setIsNavMinimized] = useState(false);
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
-  const { projects, status } = useProjects();
+  const { workspace, projects, status } = useWorkspaceWithProjects();
 
   const setIsAddTaskOpen = useModalStore((state) => state.setIsAddTaskOpen);
   const setIsAddProjectModalOpen = useModalStore(
@@ -222,7 +223,10 @@ const NavBar = () => {
                 isNavMinimized ? "sidebar__workspace--minimized" : ""
               }`}
             >
-              <span className="sidebar__workspace-name">My Workspace</span>
+              <span className="sidebar__workspace-name">
+                {status === "loading" && "Loading..."}
+                {status === "success" && workspace?.name}
+              </span>
               <div
                 onClick={(e) => {
                   setIsAddProjectModalOpen(true);
