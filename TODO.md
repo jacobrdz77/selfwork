@@ -14,6 +14,7 @@
 
 ## Medium
 
+- Figure out why navbar useWorkspaceWithProject doesn't refetch after creating a project.
 - Darkmode
 - show project iconColor in project detail page to edit
 - add a Manage members in Workspace page that redirects to a admin panel.

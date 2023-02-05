@@ -20,7 +20,7 @@ const WorkspacePage = () => {
   return (
     <>
       <PageHeader
-        title={workspace?.name}
+        title={workspace?.name ?? "Loading..."}
         isButton={true}
         buttonText="Create Project"
         buttonHandler={() => setIsAddProjectModalOpen(true)}
@@ -49,12 +49,7 @@ const WorkspacePage = () => {
 
             <div className="workspace__members">
               {workspace?.members.map((member) => (
-                <UserCard
-                  key={member.id}
-                  name={member.name!}
-                  id={member.id}
-                  color="Purple"
-                />
+                <UserCard key={member.id} name={member.name!} id={member.id} />
               ))}
             </div>
           </div>

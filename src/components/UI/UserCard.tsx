@@ -1,31 +1,21 @@
-import useUserColor from "@/hooks/useUserColor";
-import { UserColor } from "@/types/types";
-import { Color } from "@prisma/client";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-export const getInitials = (name: string): string | undefined => {
+export const getInitials = (name: string): string => {
   const fullName = name.split(" ");
-  if (fullName.length === 0) return;
+  if (fullName.length === 0) return "";
   if (fullName.length === 1) {
     const firstName = fullName[0];
     return `${firstName[0].toUpperCase()}`;
   }
   const firstName = fullName[0];
-  const lastName = fullName[1];
+  const lastName = fullName[fullName.length - 1];
   return `${firstName[0].toUpperCase()}${lastName[0].toUpperCase()}`;
 };
-const UserCard: React.FC<{ name: string; id: string; color?: UserColor }> = ({
-  name,
-  id,
-  color,
-}) => {
-  const iconColor = useUserColor(color!);
+const UserCard: React.FC<{ name: string; id: string }> = ({ name, id }) => {
   return (
     <Link href={`/profile/${id}`} className="avatar">
-      <div className={`avatar__icon avatar__icon--${iconColor}`}>
-        {getInitials(name)}
-      </div>
+      <div className={`avatar__icon`}>{getInitials(name)}</div>
       <span className="avatar__name">{name}</span>
     </Link>
   );

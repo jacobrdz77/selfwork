@@ -5,7 +5,7 @@ import { useUserStore } from "store/user";
 
 const workspaceId = useUserStore.getState().workspaceId;
 
-export const useWorkspace = () => {
+export const useOneWorkspace = () => {
   const { data: workspace, status } = useQuery({
     queryKey: ["workspace", workspaceId],
     queryFn: async () => {
@@ -20,6 +20,28 @@ export const useWorkspace = () => {
 
   return {
     workspace,
+    status,
+  };
+};
+
+export const useWorkspaces = (enabled: boolean = true) => {
+  // Future: get owner id from session
+  const ownerId = useUserStore((state) => state.userId);
+  const { data: workspaces, status } = useQuery({
+    queryKey: ["workspaces", ownerId],
+    queryFn: async () => {
+      try {
+        const response = await fetch(`/api/workspaces?ownerId=${ownerId}`);
+        return (await response.json()) as Workspace[];
+      } catch (error) {
+        throw error;
+      }
+    },
+    enabled,
+  });
+
+  return {
+    workspaces,
     status,
   };
 };

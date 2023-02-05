@@ -1,19 +1,17 @@
-import useUserColor from "@/hooks/useUserColor";
-import { UserColor } from "@/types/types";
 import useMenu from "@/hooks/useMenu";
-import { getInitials } from "./UserCard";
+import { getInitials } from "../UI/UserCard";
+import LoadingSkeleton from "../UI/LoadingSkeleton";
+import { useWorkspaces } from "@/hooks/WorkspaceHooks";
 
 const UserSidebarCard = ({
   name,
   workspaceName,
-  iconColor,
 }: {
   name: string;
   workspaceName: string;
-  iconColor: UserColor;
 }) => {
-  const color = useUserColor(iconColor);
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
+  const { workspaces, status } = useWorkspaces(isMenuOpen);
   return (
     <>
       <div
@@ -23,9 +21,7 @@ const UserSidebarCard = ({
         onClick={() => setIsMenuOpen((state) => !state)}
       >
         <div className="sidebar__user">
-          <div className={`sidebar__user-icon sidebar__user-icon--${color}`}>
-            {getInitials(name)}
-          </div>
+          <div className={`sidebar__user-icon`}>{getInitials(name)}</div>
           <span className="sidebar__user-name">{name}</span>
           <div className="sidebar__tooltip">
             <span>{name}</span>
@@ -43,12 +39,24 @@ const UserSidebarCard = ({
         >
           <div className="sidebar__user-menu-section">
             {/* Render all of user's workspaces*/}
-            <div
-              className="sidebar__user-menu-item"
-              onClick={() => console.log("Add task modal opens")}
-            >
-              Workspaces
-            </div>
+            {status === "loading" && (
+              <div className="sidebar__user-menu-item">
+                <LoadingSkeleton isDark={true} />
+              </div>
+            )}
+            {status === "success" &&
+              workspaces?.map((workspace) => (
+                <div
+                  key={workspace.id}
+                  className="sidebar__user-menu-item"
+                  onClick={() =>
+                    console.log("Opens a new page with different workspace")
+                  }
+                >
+                  {workspace.name}
+                </div>
+              ))}
+
             <div
               className="sidebar__user-menu-item"
               onClick={() => {

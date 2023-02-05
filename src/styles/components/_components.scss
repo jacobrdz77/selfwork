@@ -83,37 +83,7 @@
     border-radius: 50%;
     padding: 10px;
     margin-right: 6px;
-
-    &--orange-yellow {
-      background-color: var(--color-customization-orange-yellow-background);
-    }
-    &--yellow-green {
-      background-color: var(--color-customization-yellow-green-background);
-    }
-    &--forest {
-      background-color: var(--color-customization-forest-background);
-    }
-    &--blue-green {
-      background-color: var(--color-customization-blue-green-background);
-    }
-    &--aqua {
-      background-color: var(--color-customization-aqua-background);
-    }
-    &--blue {
-      background-color: var(--color-customization-blue-background);
-    }
-    &--pink-purple {
-      background-color: var(--color-customization-pink-purple-background);
-    }
-    &--purple {
-      background-color: var(--color-customization-purple-background);
-    }
-    &--pink {
-      background-color: var(--color-customization-pink-background);
-    }
-    &--oat {
-      background-color: var(--color-customization-oat-background);
-    }
+    background-color: var(--color-green--light);
   }
 
   &__name {

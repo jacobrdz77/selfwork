@@ -13,7 +13,7 @@ const AddProjectModal: React.FC<{
 }> = ({ isOpen, setIsModalOpen }) => {
   const closeHandler = () => setIsModalOpen(false);
   const router = useRouter();
-  const { mutateAsync } = useCreateProject();
+  const { mutateAsync, isLoading } = useCreateProject();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [lumpSum, setLumpSum] = useState("");
@@ -240,9 +240,9 @@ const AddProjectModal: React.FC<{
         <Button
           type="submit"
           className={`form__submit button--blue ${
-            !isFormValid ? "button--disabled" : ""
+            !isFormValid || isLoading ? "button--disabled" : ""
           }`}
-          disabled={!isFormValid}
+          disabled={!isFormValid || isLoading}
         >
           Create
         </Button>

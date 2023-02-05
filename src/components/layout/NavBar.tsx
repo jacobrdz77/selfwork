@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
-import { useModalStore, useUserStore } from "../../store/user";
-import { useProjects } from "@/hooks/ProjectHooks";
+import { useModalStore } from "../../store/user";
 import SidebarProject from "../project/SidebarProject";
-import UserSidebarCard from "../UI/UserSidebarCard";
+import UserSidebarCard from "./UserSidebarCard";
 import useMenu from "@/hooks/useMenu";
 import { useWorkspaceWithProjects } from "@/hooks/WorkspaceHooks";
 
@@ -295,9 +294,8 @@ const NavBar = () => {
           </button>
           {/* User Profile */}
           <UserSidebarCard
-            name="Jacob Rodriguez"
-            workspaceName="My Workspace"
-            iconColor="Blue"
+            name={workspace?.owner.name ?? "Loading..."}
+            workspaceName={workspace?.name ?? "Loading..."}
           />
         </footer>
       </div>
