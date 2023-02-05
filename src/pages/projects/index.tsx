@@ -2,7 +2,6 @@ import { useState } from "react";
 import { NextPage } from "next";
 import PageHeader from "@/components/header/PageHeader";
 import NoProjects from "@/components/project/NoProjects";
-import AddProjectModal from "@/components/project/AddProjectModal";
 import Button from "@/components/UI/Button";
 import Projects from "@/components/project/Projects";
 import { useProjects } from "@/hooks/ProjectHooks";

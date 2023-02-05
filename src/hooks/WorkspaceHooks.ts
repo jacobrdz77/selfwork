@@ -57,7 +57,6 @@ export const useWorkspaceMembers = () => {
         throw error;
       }
     },
-    // initialData: [] as User[],
   });
 
   return {

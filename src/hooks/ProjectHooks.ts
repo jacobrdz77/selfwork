@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUserStore } from "../store/user";
-import { NewProjectData, ProjectsWithSections } from "../types/types";
+import { NewProjectFormData, ProjectsWithSections } from "../types/types";
 import {
   createProject,
   getOneProject,
@@ -21,7 +21,7 @@ export const useProjects = () => {
 export const useProjectWithSections = () => {
   const workspaceId = useUserStore((state) => state.workspaceId);
   const { data: projects, status } = useQuery({
-    queryKey: ["projects"],
+    queryKey: ["projects", "sections"],
     queryFn: async () => {
       try {
         const response = await fetch(
@@ -70,12 +70,20 @@ export const useOneProject = (projectId: string) => {
 
 export const useCreateProject = () => {
   const queryClient = useQueryClient();
+  const ownerId = useUserStore((state) => state.userId);
+  const workspaceId = useUserStore((state) => state.workspaceId);
 
   return useMutation({
-    mutationFn: (project: NewProjectData) => createProject(project),
+    mutationFn: (projectData: NewProjectFormData) =>
+      createProject({ ...projectData, ownerId, workspaceId }),
 
     onSuccess: (newProject) => {
-      queryClient.invalidateQueries({ queryKey: ["projects"] });
+      queryClient.invalidateQueries({
+        queryKey: ["projects"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["workspace"],
+      });
     },
   });
 };

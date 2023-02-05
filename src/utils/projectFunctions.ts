@@ -1,10 +1,6 @@
 import { Priority, Project, Task } from "@prisma/client";
 import axios from "axios";
-import {
-  NewProjectData,
-  ProjectWithAll,
-  UpdateProjectData,
-} from "../types/types";
+import { NewProject, ProjectWithAll, UpdateProjectData } from "../types/types";
 
 // GET ALL
 export const getProjects = async (workspaceId: string) => {
@@ -27,7 +23,7 @@ export const getOneProject = async (projectId: string) => {
 };
 
 // POST
-export const createProject = async (project: NewProjectData) => {
+export const createProject = async (project: NewProject) => {
   try {
     const response = await fetch("/api/projects", {
       method: "POST",
@@ -73,7 +69,7 @@ export const transformProjectData = ({
   startDate,
   workspaceId,
   ownerId,
-}: NewProjectData) => {
+}: NewProject) => {
   return {
     name,
     priority,

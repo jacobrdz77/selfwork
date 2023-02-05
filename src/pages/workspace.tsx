@@ -1,27 +1,24 @@
-import React, { useState, Suspense } from "react";
+import React, { useState } from "react";
 import PageHeader from "@/components/header/PageHeader";
 import { useProjects } from "@/hooks/ProjectHooks";
 import Projects from "@/components/project/Projects";
 import LoadingSpinner from "@/components/UI/LoadingSpinner";
-import { useWorkspace, useWorkspaceWithProjects } from "@/hooks/WorkspaceHooks";
-import AddProjectModal from "@/components/project/AddProjectModal";
+import { useWorkspaceWithProjects } from "@/hooks/WorkspaceHooks";
 import LoadingSkeleton from "@/components/UI/LoadingSkeleton";
 import UserCard from "@/components/UI/UserCard";
+import { useModalStore } from "store/user";
 
 const WorkspacePage = () => {
-  const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
+  const setIsAddProjectModalOpen = useModalStore(
+    (state) => state.setIsAddProjectModalOpen
+  );
   const { workspace, projects, status } = useWorkspaceWithProjects();
 
   console.log("projects: ", projects);
   console.log("workspace ", workspace);
+  console.log("members ", workspace?.members);
   return (
     <>
-      {isAddProjectModalOpen && (
-        <AddProjectModal
-          isOpen={isAddProjectModalOpen}
-          setIsModalOpen={setIsAddProjectModalOpen}
-        />
-      )}
       <PageHeader
         title={workspace?.name}
         isButton={true}

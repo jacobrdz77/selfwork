@@ -19,7 +19,16 @@ declare module "next-auth" {
 }
 
 //Data Structure from Frontend
-type NewProjectData = {
+export type NewProjectFormData = {
+  name: string;
+  description: string;
+  lumpSum: number;
+  startDate: string;
+  dueDate: string;
+  priority: Priority;
+};
+
+export type NewProject = {
   name: string;
   description: string;
   lumpSum: number;

@@ -1,9 +1,6 @@
 import { Section } from "@prisma/client";
 import { Dispatch, MutableRefObject, SetStateAction } from "react";
-import { useUserStore } from "store/user";
 import LoadingSkeleton from "../UI/LoadingSkeleton";
-import { useQuery } from "@tanstack/react-query";
-import { ProjectsWithSections } from "@/types/types";
 import { useProjectWithSections } from "@/hooks/ProjectHooks";
 
 const NewTaskProjectMenu = ({

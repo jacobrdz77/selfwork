@@ -12,11 +12,8 @@ const AddProjectModal: React.FC<{
   setIsModalOpen: (isOpen: boolean) => void;
 }> = ({ isOpen, setIsModalOpen }) => {
   const closeHandler = () => setIsModalOpen(false);
-  const userId = useUserStore((state) => state.userId as string);
-  const workspaceId = useUserStore((state) => state.workspaceId);
-  const { mutateAsync } = useCreateProject();
   const router = useRouter();
-
+  const { mutateAsync } = useCreateProject();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [lumpSum, setLumpSum] = useState("");
@@ -37,8 +34,6 @@ const AddProjectModal: React.FC<{
       startDate,
       dueDate,
       priority,
-      workspaceId,
-      ownerId: userId,
     });
     router.push(`/projects/${newProject?.id}`);
   };
