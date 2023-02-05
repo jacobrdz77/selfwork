@@ -6,6 +6,7 @@ import AssigneeMenu from "./AssigneeMenu";
 import NewTaskProjectMenu from "./NewTaskProjectMenu";
 import NewTaskSectionButton from "./NewTaskSectionButton";
 import { useCreateTask } from "@/hooks/TaskHooks";
+import { toast } from "react-toastify";
 
 const AddTaskPopup: React.FC<{
   isOpen: boolean;
@@ -55,6 +56,12 @@ const AddTaskPopup: React.FC<{
       sectionId: selectedSection?.id,
     });
     setIsOpen(false);
+
+    toast.success(
+      <p>
+        Added <span className="toast__name">{name}</span>
+      </p>
+    );
   };
 
   // Form Validation

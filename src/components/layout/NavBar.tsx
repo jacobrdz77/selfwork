@@ -1,14 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
 import { useModalStore, useUserStore } from "../../store/user";
 import { useProjects } from "@/hooks/ProjectHooks";
 import SidebarProject from "../project/SidebarProject";
-import AddProjectModal from "../project/AddProjectModal";
 import UserSidebarCard from "../UI/UserSidebarCard";
 import useMenu from "@/hooks/useMenu";
-import AddTaskPopup from "../task/AddTaskPopup";
 
 const NavBar = () => {
   const [isNavMinimized, setIsNavMinimized] = useState(false);

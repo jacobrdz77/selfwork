@@ -121,3 +121,14 @@
     @include showEllipsis;
   }
 }
+
+.toast {
+  &-container {
+    background: var(--color-navigation-background) !important;
+    font-size: 1.4rem;
+  }
+  &__name {
+    font-weight: 600;
+    color: #5a8eef;
+  }
+}

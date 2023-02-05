@@ -6,6 +6,7 @@ import { useModalStore } from "store/user";
 import AddProjectModal from "../project/AddProjectModal";
 import AddTaskPopup from "../task/AddTaskPopup";
 import NavBar from "./NavBar";
+import { ToastContainer, Slide } from "react-toastify";
 
 const PageLayout: React.FC<{
   children: ReactNode | ReactNode[];
@@ -22,18 +23,31 @@ const PageLayout: React.FC<{
   return (
     <div className="layout">
       <NavBar />
-      <main className="main">
-        {children}
-        {isAddTaskOpen && (
-          <AddTaskPopup isOpen={isAddTaskOpen} setIsOpen={setIsAddTaskOpen} />
-        )}
-        {isAddProjectModalOpen && (
-          <AddProjectModal
-            isOpen={isAddProjectModalOpen}
-            setIsModalOpen={setIsAddProjectModalOpen}
-          />
-        )}
-      </main>
+      <main className="main">{children}</main>
+      {isAddTaskOpen && (
+        <AddTaskPopup isOpen={isAddTaskOpen} setIsOpen={setIsAddTaskOpen} />
+      )}
+      {isAddProjectModalOpen && (
+        <AddProjectModal
+          isOpen={isAddProjectModalOpen}
+          setIsModalOpen={setIsAddProjectModalOpen}
+        />
+      )}
+      <ToastContainer
+        toastClassName="toast-container"
+        icon={false}
+        position="bottom-left"
+        autoClose={1000000}
+        hideProgressBar={true}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable={false}
+        pauseOnHover={false}
+        transition={Slide}
+        theme="dark"
+      />
     </div>
   );
 };

@@ -5,7 +5,7 @@ import React from "react";
 const Login: React.FC = () => {
   return (
     <>
-      <section
+      {/* <section
         className="h-screen w-screen text-center flex align-middle justify-center
       "
       >
@@ -33,7 +33,7 @@ const Login: React.FC = () => {
             </button>
           </div>
         </div>
-      </section>
+      </section> */}
     </>
   );
 };
