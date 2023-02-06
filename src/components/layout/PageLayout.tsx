@@ -6,7 +6,7 @@ import { useModalStore } from "store/user";
 import AddProjectModal from "../project/AddProjectModal";
 import AddTaskPopup from "../task/AddTaskPopup";
 import NavBar from "./NavBar";
-import { ToastContainer, Slide } from "react-toastify";
+import { Toaster } from "react-hot-toast";
 
 const PageLayout: React.FC<{
   children: ReactNode | ReactNode[];
@@ -33,20 +33,12 @@ const PageLayout: React.FC<{
           setIsModalOpen={setIsAddProjectModalOpen}
         />
       )}
-      <ToastContainer
-        toastClassName="toast-container"
-        icon={false}
+      <Toaster
         position="bottom-left"
-        autoClose={1000000}
-        hideProgressBar={true}
-        newestOnTop={true}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss={false}
-        draggable={false}
-        pauseOnHover={false}
-        transition={Slide}
-        theme="dark"
+        toastOptions={{
+          className: "toast",
+          duration: 4000,
+        }}
       />
     </div>
   );

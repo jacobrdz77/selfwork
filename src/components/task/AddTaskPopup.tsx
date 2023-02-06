@@ -6,7 +6,7 @@ import AssigneeMenu from "./AssigneeMenu";
 import NewTaskProjectMenu from "./NewTaskProjectMenu";
 import NewTaskSectionButton from "./NewTaskSectionButton";
 import { useCreateTask } from "@/hooks/TaskHooks";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 const AddTaskPopup: React.FC<{
   isOpen: boolean;
@@ -58,9 +58,9 @@ const AddTaskPopup: React.FC<{
     setIsOpen(false);
 
     toast.success(
-      <p>
+      <div className="toast__text-container">
         Added <span className="toast__name">{name}</span>
-      </p>
+      </div>
     );
   };
 

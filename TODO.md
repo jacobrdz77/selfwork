@@ -6,6 +6,12 @@
 - Finish useSections hook.
 - Create task detail modal for list and board view.
 - Add status to task
+- Add user to sidebar and when I click, it opens a menu with:
+  - Workspaces
+    - fetch workspaces
+  - Create workspace
+  - My Profile
+  - Log out
 - Add Invite model to send to other users via email.
 - Create add client modal.
 
