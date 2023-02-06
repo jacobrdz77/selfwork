@@ -8,7 +8,6 @@
   - Create workspace
   - My Profile
   - Log out
-- Fetch Workspace in navbar to display name
 - Add Invite model to send to other users via email.
 - Create add client modal.
 
