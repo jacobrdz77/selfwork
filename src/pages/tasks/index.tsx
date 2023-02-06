@@ -2,7 +2,7 @@ import { useState } from "react";
 import { NextPage } from "next";
 import PageHeader from "@/components/header/PageHeader";
 import Tasks from "@/components/task/Tasks";
-import useTasks from "@/hooks/useTasks";
+import { useTasks } from "@/hooks/TaskHooks";
 import { Task } from "@prisma/client";
 
 const TasksPage: NextPage = () => {

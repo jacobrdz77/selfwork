@@ -6,31 +6,44 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // Get all task-lists
+  // Get all sections
   if (req.method === "GET") {
     try {
-      const projectId = req.query.projectId as string;
-      // For Development
-      if (!projectId) {
-        throw new Error("Provide a projectId.", { cause: {} });
+      const { projectId, userId } = req.query;
+
+      // Fetch sections relating to a project
+      if (projectId && !userId) {
+        const section = await prisma.section.findMany({
+          where: {
+            projectId: projectId as string,
+          },
+        });
+        return res.status(200).json(section);
       }
-      const section = await prisma.section.findMany({
-        where: {
-          projectId,
-        },
-      });
-      return res.status(200).json(section);
+
+      // Fetch user's sections
+      if (userId && !projectId) {
+        const userSections = await prisma.section.findMany({
+          where: {
+            userId: userId as string,
+          },
+        });
+        return res.status(200).json(userSections);
+      }
+
+      return res.status(400).json({ error: "Specify a userId or projectId." });
     } catch (error: Error | any) {
       return res.status(400).json({ error: error.message });
     }
   }
 
-  // Create a new task-list
+  // Todo: Update sectionData
+  // Create a new section
   if (req.method === "POST") {
     try {
       // Get the section data from the request body
       const { section } = req.body;
-      const taskData = {
+      const sectionData = {
         ...section,
         website: {
           connect: {
@@ -39,13 +52,12 @@ export default async function handler(
         },
       };
 
-      const newsection = await prisma.section.create({
-        data: taskData,
+      const newSection = await prisma.section.create({
+        data: sectionData,
       });
 
-      return res.status(200).json(newsection);
+      return res.status(200).json(newSection);
     } catch (error: any) {
-      console.log("Request body: \n", req.body);
       return res.status(400).json(error.message);
     }
   }
