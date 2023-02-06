@@ -93,12 +93,14 @@
 }
 
 .toast {
-  &-container {
-    background: var(--color-navigation-background) !important;
+  background-color: var(--color-navigation-background) !important;
+  &__text-container {
+    word-spacing: 3px;
+    color: #f1f1f1;
+    font-weight: 500;
     font-size: 1.4rem;
   }
   &__name {
-    font-weight: 600;
     color: #5a8eef;
   }
 }
