@@ -87,14 +87,7 @@ export type WorkspaceWithProjects = Workspace & {
   projects: Project[];
 };
 
-export type UserColor =
-  | "OrangeYellow"
-  | "YellowGreen"
-  | "Forest"
-  | "BlueGreen"
-  | "Aqua"
-  | "Blue"
-  | "Purple"
-  | "PinkPurple"
-  | "Pink"
-  | "Oat";
+export type UserSections = {
+  userSections: [SectionWithTasks];
+  userAssignedTasksSection: SectionWithTasks;
+};

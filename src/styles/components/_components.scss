@@ -94,13 +94,135 @@
 
 .toast {
   background-color: var(--color-navigation-background) !important;
-  &__text-container {
-    word-spacing: 3px;
-    color: #f1f1f1;
-    font-weight: 500;
-    font-size: 1.4rem;
-  }
   &__name {
     color: #5a8eef;
+  }
+}
+
+.section {
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  height: 50px;
+  width: 400px;
+  max-width: 550px;
+  user-select: none;
+
+  &-container {
+    width: 100%;
+  }
+
+  &:hover {
+    .section__drag {
+      visibility: visible;
+    }
+  }
+
+  &__drag {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    visibility: hidden;
+    margin-right: 5px;
+
+    &:hover {
+      cursor: grab;
+    }
+
+    &:active {
+      cursor: grabbing;
+    }
+
+    &-icon {
+      width: 14px;
+      height: 14px;
+    }
+  }
+  &__icon {
+    width: 18px;
+    height: 18px;
+  }
+  &__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+
+    &:hover {
+      background-color: rgb(236, 234, 234);
+      cursor: pointer;
+    }
+  }
+  &__toggle {
+    margin-right: 4px;
+
+    .section__icon {
+      transition: rotate 0.1s;
+    }
+    &--open {
+      .section__icon {
+        rotate: 90deg;
+      }
+    }
+  }
+  &__name {
+    &-input {
+      font-size: 1.6rem;
+      font-weight: 600;
+      border: 2px solid transparent;
+      border-radius: 8px;
+      padding: 6px;
+      &:focus {
+        border: 2px solid var(--color-skyblue);
+      }
+    }
+  }
+  &__add {
+  }
+  &__more {
+    &-container {
+      position: relative;
+    }
+    &-menu {
+      &--active {
+        display: block;
+      }
+      display: none;
+      background-color: #fff;
+      padding: 4px 0;
+      font-size: 14px;
+      width: 180px;
+      border-radius: 0.6rem;
+      border: 1px solid var(--color-border);
+      position: absolute;
+      top: 105%;
+      left: 0;
+      z-index: 10;
+
+      &--active {
+        display: block;
+      }
+
+      &-item {
+        display: flex;
+        align-items: center;
+        padding: 6px 14px;
+        &:hover {
+          cursor: pointer;
+          background-color: var(--color-gray--hover);
+        }
+        &--delete {
+          color: #f80000;
+          fill: #f80000;
+        }
+
+        .section__icon {
+          flex-shrink: 0;
+          margin-right: 10px;
+        }
+      }
+    }
   }
 }

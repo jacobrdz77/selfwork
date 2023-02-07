@@ -3,9 +3,7 @@ import Modal from "../UI/Modal";
 import Button from "../UI/Button";
 import { useCreateProject } from "../../hooks/ProjectHooks";
 import { Priority } from "@prisma/client";
-import { useUserStore } from "../../store/user";
 import { useRouter } from "next/router";
-import { createProject } from "@/utils/projectFunctions";
 
 const AddProjectModal: React.FC<{
   isOpen: boolean;
@@ -35,7 +33,8 @@ const AddProjectModal: React.FC<{
       dueDate,
       priority,
     });
-    router.push(`/projects/${newProject?.id}`);
+    setIsModalOpen(false);
+    router.push(`/projects/${newProject?.id}/overview`);
   };
 
   // Form Validation

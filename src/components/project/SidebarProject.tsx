@@ -48,7 +48,7 @@ const SidebarProject = ({
   }, [color]);
 
   return (
-    <Link href={`/projects/${id}`} className="sidebar__project">
+    <Link href={`/projects/${id}/overview`} className="sidebar__project">
       <svg
         className={`sidebar__color-icon sidebar__color-icon--${projectColor}`}
         viewBox="0 0 24 24"
