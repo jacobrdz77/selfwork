@@ -58,7 +58,7 @@ const AddTaskPopup: React.FC<{
     setIsOpen(false);
 
     toast.success(
-      <div className="toast__text-container">
+      <div>
         Added <span className="toast__name">{name}</span>
       </div>
     );

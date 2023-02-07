@@ -38,6 +38,10 @@ const PageLayout: React.FC<{
         toastOptions={{
           className: "toast",
           duration: 4000,
+          style: {
+            color: "#fff",
+            fontSize: "1.4rem",
+          },
         }}
       />
     </div>

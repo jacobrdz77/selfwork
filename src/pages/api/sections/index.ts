@@ -17,17 +17,33 @@ export default async function handler(
           where: {
             projectId: projectId as string,
           },
+          include: {
+            tasks: true,
+          },
         });
         return res.status(200).json(section);
       }
 
       // Fetch user's sections
       if (userId && !projectId) {
-        const userSections = await prisma.section.findMany({
+        const userSections = await prisma.user.findUnique({
           where: {
-            userId: userId as string,
+            id: userId as string,
+          },
+          select: {
+            userSections: {
+              include: {
+                tasks: true,
+              },
+            },
+            userAssignedTasksSection: {
+              include: {
+                tasks: true,
+              },
+            },
           },
         });
+
         return res.status(200).json(userSections);
       }
 
@@ -53,7 +69,9 @@ export default async function handler(
       };
 
       const newSection = await prisma.section.create({
-        data: sectionData,
+        data: {
+          name: section.name,
+        },
       });
 
       return res.status(200).json(newSection);
