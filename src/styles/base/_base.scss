@@ -36,6 +36,13 @@ select {
   font: inherit;
 }
 
+button {
+  width: auto;
+  border: none;
+  outline: none;
+  background-color: inherit;
+}
+
 // Gets rid of buttons from number input
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

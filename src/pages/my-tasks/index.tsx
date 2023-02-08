@@ -10,8 +10,8 @@ const MyTasksPage: NextPage = () => {
   return (
     <>
       <PageHeader title="Tasks" buttonText="Add Task" isButton={true} />
-      <div className="page clients-page">
-        <table className="tasks-table">
+      <div className="page tasks-page">
+        {/* <table className="tasks-table">
           <thead>
             <tr>
               <th>Task name</th>
@@ -20,12 +20,15 @@ const MyTasksPage: NextPage = () => {
               <th>Priority</th>
             </tr>
           </thead>
-        </table>
+        </table> */}
 
-        {/* {status === "loading" && <p>Loading...</p>} */}
+        {status === "loading" && <p>Loading...</p>}
+
+        {/* User assigned section. This cannot be deleted because this is where assigned tasks go to. */}
         {status === "success" && (
           <SectionListView
-            name={userAssignedTasksSection?.name ?? ""}
+            isUserAssignedSection={true}
+            section={userAssignedTasksSection!}
             tasks={userAssignedTasksSection?.tasks ?? []}
           />
         )}
@@ -33,7 +36,7 @@ const MyTasksPage: NextPage = () => {
           userSections?.map((section) => (
             <SectionListView
               key={section.id}
-              name={section.name}
+              section={section}
               tasks={section.tasks}
             />
           ))}

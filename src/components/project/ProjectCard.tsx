@@ -1,4 +1,3 @@
-import { useState, useRef } from "react";
 import Link from "next/link";
 import useMenu from "@/hooks/useMenu";
 import { Project } from "@prisma/client";
@@ -9,13 +8,16 @@ const ProjectCard: React.FC<{
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   return (
     <>
-      <Link href={`/projects/${projectData.id}`} className="project-card">
+      <Link
+        href={`/projects/${projectData.id}/overview`}
+        className="project-card"
+      >
         <span>{projectData.name}</span>
         <div
           ref={btnRef}
           onClick={(e) => {
             e.preventDefault();
-            setIsMenuOpen((state) => !state);
+            setIsMenuOpen(!isMenuOpen);
           }}
           className="project-card__more-btn"
           role="button"

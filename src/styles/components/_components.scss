@@ -105,7 +105,6 @@
   border-radius: 8px;
   height: 50px;
   width: 400px;
-  max-width: 550px;
   user-select: none;
 
   &-container {
@@ -113,7 +112,8 @@
   }
 
   &:hover {
-    .section__drag {
+    .section__drag,
+    .section__button {
       visibility: visible;
     }
   }
@@ -150,14 +150,17 @@
     height: 28px;
     border-radius: 6px;
 
+    &.section__add,
+    &.section__more {
+      visibility: hidden;
+    }
+
     &:hover {
       background-color: rgb(236, 234, 234);
       cursor: pointer;
     }
   }
   &__toggle {
-    margin-right: 4px;
-
     .section__icon {
       transition: rotate 0.1s;
     }
@@ -168,15 +171,28 @@
     }
   }
   &__name {
+    margin-right: 2px;
     &-input {
+      width: 240px;
       font-size: 1.6rem;
       font-weight: 600;
       border: 2px solid transparent;
       border-radius: 8px;
-      padding: 6px;
+      padding-left: 6px;
       &:focus {
+        padding: 6px;
         border: 2px solid var(--color-skyblue);
       }
+    }
+  }
+  &__input-placeholder {
+    @include showEllipsis;
+    width: 240px;
+    font-size: 1.6rem;
+    font-weight: 600;
+    padding-left: 8px;
+    &:hover {
+      cursor: pointer;
     }
   }
   &__add {
@@ -206,9 +222,11 @@
       }
 
       &-item {
+        width: 100%;
         display: flex;
         align-items: center;
         padding: 6px 14px;
+
         &:hover {
           cursor: pointer;
           background-color: var(--color-gray--hover);
@@ -216,6 +234,14 @@
         &--delete {
           color: #f80000;
           fill: #f80000;
+          &.disabled:disabled {
+            &:hover {
+              background-color: inherit;
+            }
+            fill: gray;
+            color: gray;
+            cursor: not-allowed;
+          }
         }
 
         .section__icon {

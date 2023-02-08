@@ -67,7 +67,7 @@ export const useCreateSection = () => {
           }),
         });
 
-        return (await response.json()) as Task;
+        return (await response.json()) as Section;
       } catch (error) {
         console.log(error);
       }
@@ -76,6 +76,65 @@ export const useCreateSection = () => {
     onSuccess: (newSection) => {
       queryClient.invalidateQueries({ queryKey: ["sections"] });
       console.log("Created new section! \n", newSection);
+    },
+  });
+};
+
+export const useDeleteSection = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (sectionId: string) => {
+      try {
+        const response = await fetch(`/api/sections/${sectionId}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        return await response.json();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["sections"] });
+      console.log("Deleted section: ", data.deletedSection);
+    },
+  });
+};
+export const useUpdateSection = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      sectionId,
+      sectionData,
+    }: {
+      sectionId: string;
+      sectionData: { name: string };
+    }) => {
+      try {
+        const response = await fetch(`/api/sections/${sectionId}`, {
+          method: "PUT",
+          body: JSON.stringify({
+            sectionData: {
+              name: sectionData.name,
+            },
+          }),
+        });
+
+        return (await response.json()) as Section;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    onSuccess: (updatedSection) => {
+      queryClient.invalidateQueries({ queryKey: ["sections"] });
+      console.log("Updated section: ", updatedSection?.name);
     },
   });
 };

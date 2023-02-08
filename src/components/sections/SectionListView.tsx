@@ -1,13 +1,60 @@
-import { useState } from "react";
-import { Task } from "@prisma/client";
+import { FocusEvent, useEffect, useRef, useState } from "react";
+import { Section, Task } from "@prisma/client";
 import useMenu from "@/hooks/useMenu";
 import { toast } from "react-hot-toast";
+import { useDeleteSection, useUpdateSection } from "@/hooks/SectionHooks";
+import { SectionWithTasks } from "@/types/types";
 
-const SectionListView = ({ name, tasks }: { name: string; tasks: Task[] }) => {
-  const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
+const SectionListView = ({
+  section,
+  tasks,
+  isUserAssignedSection = false,
+}: {
+  section: SectionWithTasks;
+  tasks: Task[];
+  isUserAssignedSection?: boolean;
+}) => {
   const [showTasks, setShowTasks] = useState(false);
-  const [sectionInputName, setSectionInputName] = useState(name);
+  const [oldName, setOldName] = useState(section.name);
+  const [sectionInputName, setSectionInputName] = useState(section.name);
+  const [isInputFocused, setIsInputFocused] = useState(false);
+  const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
+  const inputRef = useRef(null);
+  const { mutate: deleteSection } = useDeleteSection();
+  const { mutate: updateSection } = useUpdateSection();
+  const focusOnInput = () => {
+    // @ts-ignore
+    inputRef.current!.focus();
+  };
 
+  useEffect(() => {
+    if (isInputFocused === true) {
+      focusOnInput();
+    }
+  }, [isInputFocused]);
+
+  const handleInputBlur = (e: FocusEvent<HTMLInputElement, Element>) => {
+    const trimmedName = e.currentTarget.value.trim();
+    if (e.currentTarget.value.trim().length === 0) {
+      setSectionInputName("Untitled Section");
+    }
+
+    if (oldName === trimmedName) {
+      setSectionInputName(trimmedName);
+      console.log("NOPE");
+      return;
+    } else {
+      updateSection({
+        sectionId: section.id,
+        sectionData: { name: trimmedName },
+      });
+      setSectionInputName(trimmedName);
+      setOldName(trimmedName);
+
+      // Switches to display button
+      setIsInputFocused(false);
+    }
+  };
   return (
     <>
       <div className="section-container">
@@ -37,27 +84,37 @@ const SectionListView = ({ name, tasks }: { name: string; tasks: Task[] }) => {
               />
             </svg>
           </div>
+
           <div className="section__name">
-            <input
-              className="section__name-input"
-              autoComplete="off"
-              type="text"
-              name="name"
-              placeholder="New Section"
-              value={sectionInputName}
-              onChange={(e) => {
-                setSectionInputName(e.currentTarget.value);
-              }}
-              onBlur={(e) => {
-                if (e.currentTarget.value.trim().length === 0) {
-                  setSectionInputName("Untitled Section");
-                }
-              }}
-            />
+            {!isInputFocused ? (
+              <div
+                className="section__input-placeholder"
+                role="button"
+                onClick={() => {
+                  setIsInputFocused(true);
+                }}
+              >
+                {sectionInputName}
+              </div>
+            ) : (
+              <input
+                ref={inputRef}
+                className="section__name-input"
+                autoComplete="off"
+                type="text"
+                name="name"
+                placeholder="New Section"
+                value={sectionInputName}
+                onChange={(e) => {
+                  setSectionInputName(e.currentTarget.value);
+                }}
+                onBlur={handleInputBlur}
+              />
+            )}
           </div>
           {/* Add new task */}
           <div
-            className="section__button"
+            className="section__add section__button"
             onClick={() => {
               console.log("Toggle task view open");
               console.log("Render a task row with name input highlighted");
@@ -100,18 +157,22 @@ const SectionListView = ({ name, tasks }: { name: string; tasks: Task[] }) => {
                 e.preventDefault();
               }}
             >
-              <div
-                className="section__more-menu-item section__more-menu-item--delete"
+              <button
+                className={`section__more-menu-item section__more-menu-item--delete ${
+                  isUserAssignedSection ? "disabled" : ""
+                } `}
                 onClick={() => {
-                  toast.success(`Deleted ${name}`);
+                  deleteSection(section.id);
+                  toast.success(`Deleted ${sectionInputName}`);
                   setIsMenuOpen(false);
                 }}
+                disabled={isUserAssignedSection}
               >
                 <svg className="section__icon" viewBox="0 0 24 24">
                   <path d="M 10 2 L 9 3 L 4 3 L 4 5 L 5 5 L 5 20 C 5 20.522222 5.1913289 21.05461 5.5683594 21.431641 C 5.9453899 21.808671 6.4777778 22 7 22 L 17 22 C 17.522222 22 18.05461 21.808671 18.431641 21.431641 C 18.808671 21.05461 19 20.522222 19 20 L 19 5 L 20 5 L 20 3 L 15 3 L 14 2 L 10 2 z M 7 5 L 17 5 L 17 20 L 7 20 L 7 5 z M 9 7 L 9 18 L 11 18 L 11 7 L 9 7 z M 13 7 L 13 18 L 15 18 L 15 7 L 13 7 z" />
                 </svg>
                 Delete Section
-              </div>
+              </button>
             </div>
           </div>
         </div>

@@ -15,6 +15,12 @@ export default async function handler(
           id: sectionId as string,
         },
       });
+
+      if (!section) {
+        return res
+          .status(404)
+          .json({ error: `Section ${sectionId} not found.` });
+      }
       return res.status(200).json(section);
     } catch (error: Error | any) {
       return res.status(400).json({ error: error.message });
@@ -23,17 +29,17 @@ export default async function handler(
 
   // DELETE a section
   // RETURN: the deleted section
-  else if (req.method === "DELETE") {
+  if (req.method === "DELETE") {
     try {
       const { sectionId } = req.query;
-      const deletedsection = await prisma.section.delete({
+      const deletedSection = await prisma.section.delete({
         where: {
           id: sectionId as string,
         },
       });
       return res
         .status(200)
-        .json({ deletedsection, message: "DELETED section" });
+        .json({ deletedSection, message: "DELETED section" });
     } catch (error: Error | any) {
       return res.status(400).json(error);
     }
@@ -41,16 +47,17 @@ export default async function handler(
 
   // UPDATE a section
   // RETURN: the updated section
-  else if (req.method === "PUT") {
+  if (req.method === "PUT") {
     try {
       const { sectionId } = req.query;
-      const { sectionData } = req.body;
+      const body = JSON.parse(req.body);
+      const { sectionData } = body;
       const section = await prisma.section.update({
         where: {
           id: sectionId as string,
         },
         data: {
-          ...sectionData,
+          name: sectionData.name,
         },
       });
       return res.status(200).json(section);
@@ -58,4 +65,5 @@ export default async function handler(
       return res.status(400).json({ error: error.message });
     }
   }
+  return res.status(400).json({ error: "Request Not Allowed" });
 }

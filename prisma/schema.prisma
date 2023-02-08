@@ -165,7 +165,7 @@ model Task {
   startDate   DateTime?
   dueDate     DateTime?
   tags        Tag[]
-  section     Section   @relation(fields: [sectionId], references: [id])
+  section     Section   @relation(fields: [sectionId], references: [id], onDelete: Cascade)
   sectionId   String
   assignee    User?     @relation(fields: [assigneeId], references: [id], onDelete: Cascade)
   assigneeId  String?
