@@ -24,25 +24,35 @@
 
 // Each row of task
 .task {
-  height: 37px;
-  transition: all 0.1s ease-in-out;
+  display: flex;
+  font-size: 1.4rem;
+
+  // align-items: center;
+  height: 40px;
   border-bottom: 1px solid var(--color-border);
+
+  &:nth-of-type(1) {
+    border-top: 1px solid var(--color-border);
+  }
 
   &:hover {
     cursor: pointer;
-    background-color: var(--color-gray--hover);
+    background-color: #f1f2fc;
   }
   &:hover &__drag {
     visibility: visible;
   }
   &--active {
-    background-color: var(--color-gray--hover);
+    background-color: #f1f2fc;
+    // border-top: 1px solid var(--color-skyblue);
+    // border-bottom: 1px solid var(--color-skyblue);
   }
+
   &__drag {
     align-self: center;
     visibility: hidden;
     fill: #000;
-    width: 20px;
+    padding: 6px 4px 4px 4px;
     height: 100%;
     display: flex;
     align-items: center;
@@ -62,43 +72,42 @@
   }
 
   &__name {
-    height: 21px;
-    padding-left: 0.5rem;
+    padding-left: 4px;
+    width: 400px;
+    max-width: 600px;
 
     &-container {
+      align-self: center;
       max-width: 700px;
-      padding-left: 4px;
-      display: flex;
     }
   }
 
-  &__date:hover,
-  &__status:hover,
-  &__priority:hover {
-    background-color: #fafafa;
+  &__assignee {
+    border-left: 1px solid var(--color-border);
   }
 
   &__date,
   &__status,
-  &__priority {
-    width: 14rem;
-    border: 1px solid var(--color-border);
+  &__priority,
+  &__assignee {
+    flex: 0 1 120px;
+    text-align: center;
+    border-right: 1px solid var(--color-border);
   }
 
   &__priority {
-    border-right: none;
-
-    span {
-      padding: 0 8px;
-      border-radius: 10px;
+    &-icon {
+      width: 16px;
+      height: 16px;
     }
-    &--none {
+
+    &-icon--none {
       background-color: #e8e8e8;
     }
-    &--low {
-      background-color: #f1bd6c;
+    &-icon--low {
+      background-color: #3cac41;
     }
-    &--medium {
+    &-icon--medium {
       background-color: #ec8d71;
     }
     &--high {

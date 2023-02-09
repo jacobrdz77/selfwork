@@ -2,14 +2,13 @@ import { NextPage } from "next";
 import PageHeader from "@/components/header/PageHeader";
 import { useSectionsOfUser } from "@/hooks/SectionHooks";
 import SectionListView from "@/components/sections/SectionListView";
-import Tasks from "@/components/task/Tasks";
 
 const MyTasksPage: NextPage = () => {
   const { userAssignedTasksSection, userSections, status } =
     useSectionsOfUser();
   return (
     <>
-      <PageHeader title="Tasks" buttonText="Add Task" isButton={true} />
+      <PageHeader title="Tasks" />
       <div className="page tasks-page">
         {/* <table className="tasks-table">
           <thead>

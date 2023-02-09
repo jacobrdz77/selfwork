@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import ProjectPageLayout from "@/components/project/ProjectPageLayout";
-import Tasks from "@/components/task/Tasks";
 import { useOneProject } from "@/hooks/ProjectHooks";
 import { NextPageWithLayout } from "../../_app";
 import { Task } from "@prisma/client";
 
 const List: NextPageWithLayout = () => {
   const { projectId } = useRouter().query;
-  const { project, status } = useOneProject(projectId as string, true);
+  const { project, status } = useOneProject(projectId as string);
   console.log("Project in list: ", project);
   console.log("Sections: ", project?.sections);
   return (

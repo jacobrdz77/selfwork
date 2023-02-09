@@ -81,6 +81,23 @@ enum Priority {
   High
 }
 
+enum TaskStatus {
+  Open
+  InProgress
+  InReview
+  Delayed
+  Closed
+}
+
+enum ProjectStatus {
+  Active
+  OnTrack
+  OffTrack
+  OnHold
+  InTesting
+  Approved  
+}
+
 model Note {
   id        String   @id @default(cuid())
   title     String
@@ -112,6 +129,7 @@ model Project {
   description String?
   lumpSum     Decimal?  @db.Money
   priority    Priority? @default(None)
+  status      ProjectStatus @default(Active)
   startDate   DateTime?
   dueDate     DateTime?
   iconColor   Color     @default(Classic)
@@ -161,6 +179,7 @@ model Task {
   name        String
   description String?
   priority    Priority  @default(None)
+  status      TaskStatus @default(Open)
   isComplete  Boolean   @default(false)
   startDate   DateTime?
   dueDate     DateTime?
@@ -189,4 +208,6 @@ model Section {
   user         User?    @relation("UserSections", fields: [userId], references: [id], onDelete: Cascade)
   userId       String?
   userAssigned User?    @relation("UserNewTasksSection")
+  displaySequence Int? 
+  createdAt   DateTime  @default(now())
 }

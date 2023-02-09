@@ -21,9 +21,9 @@ const PageHeader: React.FC<HeaderProps> = ({
   return (
     <header className="header">
       <h1 className="header__title">{title ?? <LoadingSkeleton />}</h1>
-      <div className="header__buttons-container">
-        <div className="header__buttons">
-          {isButton && (
+      {isButton && (
+        <div className="header__buttons-container">
+          <div className="header__buttons">
             <button
               className="button button--blue"
               type="button"
@@ -31,11 +31,11 @@ const PageHeader: React.FC<HeaderProps> = ({
             >
               {buttonText}
             </button>
-          )}
 
-          {children}
+            {children}
+          </div>
         </div>
-      </div>
+      )}
     </header>
   );
 };

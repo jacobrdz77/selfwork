@@ -2,8 +2,7 @@
 
 ## High
 
-- Update section's POST endpoint.
-- Finish useSections hook.
+- Figure out how to order after rearraning section.
 - Create task detail modal for list and board view.
 - Add status to task
 - Add user to sidebar and when I click, it opens a menu with:

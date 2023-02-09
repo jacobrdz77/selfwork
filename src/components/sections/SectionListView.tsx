@@ -1,9 +1,9 @@
 import { FocusEvent, useEffect, useRef, useState } from "react";
-import { Section, Task } from "@prisma/client";
 import useMenu from "@/hooks/useMenu";
 import { toast } from "react-hot-toast";
 import { useDeleteSection, useUpdateSection } from "@/hooks/SectionHooks";
-import { SectionWithTasks } from "@/types/types";
+import { SectionWithTasks, TaskWithAssignee } from "@/types/types";
+import OneTaskRow from "../task/OneTaskRow";
 
 const SectionListView = ({
   section,
@@ -11,10 +11,10 @@ const SectionListView = ({
   isUserAssignedSection = false,
 }: {
   section: SectionWithTasks;
-  tasks: Task[];
+  tasks: TaskWithAssignee[];
   isUserAssignedSection?: boolean;
 }) => {
-  const [showTasks, setShowTasks] = useState(false);
+  const [showTasks, setShowTasks] = useState(true);
   const [oldName, setOldName] = useState(section.name);
   const [sectionInputName, setSectionInputName] = useState(section.name);
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -34,14 +34,14 @@ const SectionListView = ({
   }, [isInputFocused]);
 
   const handleInputBlur = (e: FocusEvent<HTMLInputElement, Element>) => {
-    const trimmedName = e.currentTarget.value.trim();
-    if (e.currentTarget.value.trim().length === 0) {
-      setSectionInputName("Untitled Section");
+    let trimmedName = e.currentTarget.value.trim();
+    if (trimmedName.length === 0) {
+      trimmedName = "Untitled Section";
     }
-
     if (oldName === trimmedName) {
       setSectionInputName(trimmedName);
       console.log("NOPE");
+      setIsInputFocused(false);
       return;
     } else {
       updateSection({
@@ -50,10 +50,9 @@ const SectionListView = ({
       });
       setSectionInputName(trimmedName);
       setOldName(trimmedName);
-
-      // Switches to display button
-      setIsInputFocused(false);
     }
+    // Switches to display button
+    setIsInputFocused(false);
   };
   return (
     <>
@@ -67,7 +66,7 @@ const SectionListView = ({
           {/* Toggle view tasks */}
           <div
             className={`section__toggle section__button ${
-              showTasks ? "section__toggle--open" : ""
+              showTasks && "section__toggle--open"
             }`}
             onClick={() => setShowTasks(!showTasks)}
           >
@@ -86,17 +85,7 @@ const SectionListView = ({
           </div>
 
           <div className="section__name">
-            {!isInputFocused ? (
-              <div
-                className="section__input-placeholder"
-                role="button"
-                onClick={() => {
-                  setIsInputFocused(true);
-                }}
-              >
-                {sectionInputName}
-              </div>
-            ) : (
+            {isInputFocused ? (
               <input
                 ref={inputRef}
                 className="section__name-input"
@@ -110,6 +99,16 @@ const SectionListView = ({
                 }}
                 onBlur={handleInputBlur}
               />
+            ) : (
+              <div
+                className="section__input-placeholder"
+                role="button"
+                onClick={() => {
+                  setIsInputFocused(true);
+                }}
+              >
+                {sectionInputName}
+              </div>
             )}
           </div>
           {/* Add new task */}
@@ -177,13 +176,14 @@ const SectionListView = ({
           </div>
         </div>
       </div>
-      {showTasks && (
-        <div className="section__tasks">
-          {tasks.map((task) => (
-            <div key={task.id}>{task.name}</div>
-          ))}
-        </div>
-      )}
+      {showTasks &&
+        (tasks.length === 0 ? null : (
+          <div className="section__tasks">
+            {tasks.map((task) => (
+              <OneTaskRow key={task.id} task={task} />
+            ))}
+          </div>
+        ))}
     </>
   );
 };

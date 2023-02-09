@@ -5,6 +5,7 @@ import type {
   Prisma,
   Project,
   Section,
+  Tag,
   Task,
   User,
   Workspace,
@@ -74,7 +75,7 @@ export type NewClientData = {
 
 // Section types
 type SectionWithTasks = Section & {
-  tasks: Task[];
+  tasks: TaskWithAssignee[];
 };
 
 export type WorkspaceWithMembers = Workspace & {
@@ -90,4 +91,9 @@ export type WorkspaceWithProjects = Workspace & {
 export type UserSections = {
   userSections: [SectionWithTasks];
   userAssignedTasksSection: SectionWithTasks;
+};
+
+export type TaskWithAssignee = Task & {
+  assignee: Pick<User, "id" | "name" | "email">;
+  tags: Tag[];
 };

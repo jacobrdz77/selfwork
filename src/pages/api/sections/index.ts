@@ -18,7 +18,18 @@ export default async function handler(
             projectId: projectId as string,
           },
           include: {
-            tasks: true,
+            tasks: {
+              include: {
+                assignee: {
+                  select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                  },
+                },
+                tags: true,
+              },
+            },
           },
         });
         return res.status(200).json(section);
@@ -33,12 +44,34 @@ export default async function handler(
           select: {
             userSections: {
               include: {
-                tasks: true,
+                tasks: {
+                  include: {
+                    assignee: {
+                      select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                      },
+                    },
+                    tags: true,
+                  },
+                },
               },
             },
             userAssignedTasksSection: {
               include: {
-                tasks: true,
+                tasks: {
+                  include: {
+                    assignee: {
+                      select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                      },
+                    },
+                    tags: true,
+                  },
+                },
               },
             },
           },

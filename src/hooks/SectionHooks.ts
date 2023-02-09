@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Section, Task } from "@prisma/client";
 import { useUserStore } from "store/user";
-import { UserSections } from "@/types/types";
+import { SectionWithTasks, UserSections } from "@/types/types";
 
 export const useSectionsOfProject = (projectId: string) => {
   const { data: projectSections, status } = useQuery({
@@ -9,7 +9,7 @@ export const useSectionsOfProject = (projectId: string) => {
     queryFn: async () => {
       try {
         const response = await fetch(`/api/sections?projectId=${projectId}`);
-        return (await response.json()) as Section[];
+        return (await response.json()) as SectionWithTasks[];
       } catch (error) {
         console.log(error);
       }
