@@ -23,13 +23,13 @@ const taskPriorityClassName = (priority: Priority) => {
 };
 
 const OneTaskRow = ({ task }: { task: TaskWithAssignee }) => {
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   // Handle the state of all of the Task data
   // onClick open task detail modal
   // PUT request to task for isComplete
   // DELETE request after making task for isComplete to true
 
-  // Listen to column size to resize the column size of data
-  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  // Get column width from props size to resize the column size of each cell
 
   return (
     <div

@@ -86,7 +86,7 @@ enum TaskStatus {
   InProgress
   InReview
   Delayed
-  Closed
+  Done
 }
 
 enum ProjectStatus {

@@ -35,6 +35,7 @@
 
 ## Features to add
 
+- Maybe add comments to tasks
 - In projects list view, group tasks by sections
 - In projects board view, group tasks by status
   - Show the task's section name.

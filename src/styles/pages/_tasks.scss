@@ -1,24 +1,58 @@
 .tasks-page {
 }
 
-.tasks-table {
+.tasks-header {
+  border: 1px solid red;
+  // border-bottom: 1px solid lightgray;
   font-size: 1.4rem;
   width: 100%;
   text-align: left;
-  border-collapse: collapse;
-  th,
-  td {
-    padding: 8px;
-  }
-  thead {
-    border-bottom: 1px solid lightgray;
+  margin-bottom: 8px;
+
+  .tr {
+    display: flex;
   }
 
-  // Task name heading and task name of row
-  th:first-child,
-  td:first-child {
-    min-width: 400px;
-    border-left: none;
+  .th-content {
+    padding: 8px 4px;
+  }
+
+  .th {
+    border: 1px solid blue;
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    position: relative;
+    &:hover {
+      .resizer {
+        visibility: visible;
+      }
+    }
+  }
+
+  .resizer {
+    // visibility: hidden;
+    width: 7px;
+    background-color: #8d8d8f;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    cursor: col-resize;
+    user-select: none;
+    touch-action: none;
+
+    &--isResizing {
+      background-color: #5360f7;
+      visibility: visible;
+    }
+    &:hover {
+      cursor: col-resize;
+    }
+
+    &:active {
+      cursor: ew-resize;
+    }
   }
 }
 
@@ -38,7 +72,12 @@
   &:hover {
     cursor: pointer;
     background-color: #f1f2fc;
+
+    &__resizer {
+      visibility: visible;
+    }
   }
+
   &:hover &__drag {
     visibility: visible;
   }
@@ -73,8 +112,6 @@
 
   &__name {
     padding-left: 4px;
-    width: 400px;
-    max-width: 600px;
 
     &-container {
       align-self: center;

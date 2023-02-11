@@ -14,6 +14,16 @@ export default async function handler(
         where: {
           id: taskId as string,
         },
+        include: {
+          assignee: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
+          },
+          tags: true,
+        },
       });
       return res.status(200).json(task);
     } catch (error: Error | any) {
