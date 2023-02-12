@@ -4,18 +4,16 @@
 
 - Figure out how to order after rearraning section.
 - Create task detail modal for list and board view.
-- Add status to task
-- Add user to sidebar and when I click, it opens a menu with:
-  - Workspaces
-    - fetch workspaces
-  - Create workspace
-  - My Profile
-  - Log out
+- Create project detail modal to edit name, description, due date.
+- Add status to task.
 - Add Invite model to send to other users via email.
-- Create add client modal.
+- Create project mutation for deleting.
+- Create profile page.
+- add a max-width to projects.
 
 ## Medium
 
+- Create add client modal.
 - Figure out why navbar useWorkspaceWithProject doesn't refetch after creating a project.
 - Darkmode
 - show project iconColor in project detail page to edit
@@ -24,6 +22,7 @@
 
 ## Low
 
+- / route redirects to /my-tasks
 - add responsiveness to sidebar project-list if the number of projects overflow
 - make pagination in sidebar projects when projects.length > 5.
 - allow users to upload an image for their user icon.
