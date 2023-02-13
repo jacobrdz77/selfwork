@@ -2,22 +2,27 @@ import { useState, useRef, useEffect } from "react";
 
 const TaskHeadCell = ({
   children,
-  width,
+  setHeaderWidth,
+  headerWidth,
   minWidth,
   maxWidth,
 }: {
   children: string;
-  width: number;
+  setHeaderWidth: (width: number) => void;
+  headerWidth: number;
   minWidth: number;
   maxWidth: number;
 }) => {
-  const { resizerRef, headerRef, isResizing, handleMouseDown } = useResizing({
-    minWidth,
-    maxWidth,
-  });
+  // Use the width from props to set initial state of width
+  const { resizerRef, headerRef, isResizing, handleMouseDown } =
+    useTableHeadResizing({
+      setHeaderWidth,
+      minWidth,
+      maxWidth,
+    });
 
   return (
-    <div className="th" style={{ width }} ref={headerRef}>
+    <div className="th" style={{ width: headerWidth }} ref={headerRef}>
       <div className="th-content">{children}</div>
       <div
         ref={resizerRef}
@@ -30,10 +35,12 @@ const TaskHeadCell = ({
 
 export default TaskHeadCell;
 
-const useResizing = ({
+const useTableHeadResizing = ({
+  setHeaderWidth,
   minWidth,
   maxWidth,
 }: {
+  setHeaderWidth: (width: number) => any;
   minWidth: number;
   maxWidth: number;
 }) => {
@@ -51,8 +58,8 @@ const useResizing = ({
       return;
     }
 
-    let headerWidth = parseInt(headerRef.current!.style.width, 10);
-    console.log("Initial Width: ", headerWidth);
+    let headerRefWidth = parseInt(headerRef.current!.style.width, 10);
+    // console.log("Initial Width: ", headerRefWidth);
 
     const handleMouseMove = (event: MouseEvent) => {
       if (!resizerRef.current || !position.current) {
@@ -62,10 +69,10 @@ const useResizing = ({
       const pos = position.current;
       const element = resizerRef.current;
 
-      let newWidth = headerWidth + position.current.x;
-      console.log("new width: ", newWidth);
-      console.log("Position X: ", pos.x);
-      console.log("MovX: ", event.movementX);
+      let newWidth = headerRefWidth + position.current.x;
+      // console.log("new width: ", newWidth);
+      // console.log("Position X: ", pos.x);
+      // console.log("MovX: ", event.movementX);
 
       if (newWidth >= maxWidth && event.movementX > 0) return;
       if (newWidth <= minWidth && event.movementX < 0) return;
@@ -75,7 +82,7 @@ const useResizing = ({
       };
 
       element.style.transform = `translateX(${pos.x}px)`;
-      console.log("Position X: ", pos.x);
+      // console.log("Position X: ", pos.x);
     };
 
     const handleMouseUp = () => {
@@ -83,15 +90,15 @@ const useResizing = ({
 
       let headerWidth = parseInt(headerRef.current?.style.width, 10);
 
-      // Set the width of header
-      headerRef.current.style.width = `${position.current.x + headerWidth}px`;
+      // Set width state so that the cell's width update
+      setHeaderWidth(position.current.x + headerWidth);
+      // console.log("Header WIDTH: ", headerRef.current.style.width);
 
       // set the resizer element back to 0 so it doesn't teleport in unexpected places
       resizerRef.current.style.transform = `translateX(0px)`;
 
       // Reset x position to 0 when mouse is up
       position.current.x = 0;
-      console.log("Header WIDTH: ", headerRef.current.style.width);
       setIsResizing(false);
     };
 
@@ -101,7 +108,7 @@ const useResizing = ({
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [isResizing, minWidth, maxWidth]);
+  }, [isResizing, minWidth, maxWidth, setHeaderWidth]);
 
   return { resizerRef, headerRef, isResizing, handleMouseDown };
 };

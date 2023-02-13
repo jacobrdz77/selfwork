@@ -15,10 +15,13 @@
 
 - Create add client modal.
 - Figure out why navbar useWorkspaceWithProject doesn't refetch after creating a project.
-- Darkmode
 - show project iconColor in project detail page to edit
 - add a Manage members in Workspace page that redirects to a admin panel.
-- add loading skeleton component for sidebar projects
+- add loading skeleton component for:
+  - sidebar projects and workspace name
+  - each page header
+  - sections in my-tasks page
+  - projects list page
 
 ## Low
 

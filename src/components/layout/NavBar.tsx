@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
 import { useModalStore } from "../../store/user";
 import SidebarProject from "../project/SidebarProject";
-import UserSidebarCard from "./UserSidebarCard";
+import UserSidebarCard from "../user/UserSidebarCard";
 import useMenu from "@/hooks/useMenu";
 import { useWorkspaceWithProjects } from "@/hooks/WorkspaceHooks";
 

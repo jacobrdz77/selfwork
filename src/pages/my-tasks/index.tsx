@@ -2,8 +2,7 @@ import { NextPage } from "next";
 import PageHeader from "@/components/header/PageHeader";
 import { useSectionsOfUser } from "@/hooks/SectionHooks";
 import SectionListView from "@/components/sections/SectionListView";
-import { useCallback, useEffect, useRef, useState } from "react";
-import TaskHeadCell from "@/components/task/TaskHeadCell";
+import TaskTableHead from "@/components/task/TaskTableHead";
 
 const MyTasksPage: NextPage = () => {
   const { userAssignedTasksSection, userSections, status } =
@@ -11,7 +10,7 @@ const MyTasksPage: NextPage = () => {
 
   return (
     <>
-      <PageHeader title="Tasks" />
+      <PageHeader title="My Tasks" />
       <div className="page tasks-page">
         <TaskTableHead />
 
@@ -40,27 +39,3 @@ const MyTasksPage: NextPage = () => {
 };
 
 export default MyTasksPage;
-
-const TaskTableHead = () => {
-  return (
-    <div className="tasks-header">
-      <div className="tr">
-        <TaskHeadCell width={400} minWidth={400} maxWidth={800}>
-          Task Name
-        </TaskHeadCell>
-        <TaskHeadCell width={120} minWidth={120} maxWidth={300}>
-          Assignee
-        </TaskHeadCell>
-        <TaskHeadCell width={120} minWidth={120} maxWidth={300}>
-          Due Date
-        </TaskHeadCell>
-        <TaskHeadCell width={120} minWidth={120} maxWidth={300}>
-          Status
-        </TaskHeadCell>
-        <TaskHeadCell width={120} minWidth={120} maxWidth={300}>
-          Priority
-        </TaskHeadCell>
-      </div>
-    </div>
-  );
-};

@@ -4,7 +4,7 @@
 .tasks-header {
   border-top: 1px solid lightgray;
   border-bottom: 1px solid lightgray;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   width: 100%;
   text-align: left;
   margin-bottom: 8px;
@@ -14,7 +14,7 @@
   }
 
   .th-content {
-    padding: 8px 4px;
+    padding: 8px 6px;
   }
 
   .th {
@@ -59,10 +59,18 @@
 .task {
   display: flex;
   font-size: 1.4rem;
-
-  // align-items: center;
+  text-align: left;
   height: 40px;
   border-bottom: 1px solid var(--color-border);
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px var(--color-gray-weak) dashed;
+  }
 
   &:nth-of-type(1) {
     border-top: 1px solid var(--color-border);
@@ -81,7 +89,7 @@
     visibility: visible;
   }
   &--active {
-    background-color: #f1f2fc;
+    background-color: #f1f4fc;
     // border-top: 1px solid var(--color-skyblue);
     // border-bottom: 1px solid var(--color-skyblue);
   }
@@ -109,33 +117,21 @@
     }
   }
 
-  &__name {
+  &__cell {
+    display: flex;
     padding-left: 4px;
-
-    &-container {
-      align-self: center;
-      max-width: 700px;
-    }
-  }
-
-  &__assignee {
-    border-left: 1px solid var(--color-border);
-  }
-
-  &__date,
-  &__status,
-  &__priority,
-  &__assignee {
-    flex: 0 1 120px;
-    text-align: center;
     border-right: 1px solid var(--color-border);
+
+    & > * {
+      align-self: center;
+    }
   }
 
   &__priority {
-    &-icon {
-      width: 16px;
-      height: 16px;
-    }
+    // &-icon {
+    //   width: 16px;
+    //   height: 16px;
+    // }
 
     &-icon--none {
       background-color: #e8e8e8;
