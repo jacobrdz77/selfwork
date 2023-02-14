@@ -9,12 +9,13 @@ A project management system for small teams and freelancers. Organize your proje
 
 - TypeScript
 - React
-- Nextjs
+- Next.js
 - SCSS
 
 ## Back-end
 
-- Nexjs API Routes (Node)
+- Next.js API Routes (Nodejs)
+- Prisma (TypeScript ORM)
 - PostgreSQL
 
 # Features
@@ -30,6 +31,7 @@ A project management system for small teams and freelancers. Organize your proje
 npm install
 # Copies .env.example file to a new .env file.
 cp .env.example .env   
+# Make sure you have Docker Desktop installed for this step.
 # In a separate terminal, create a docker container for database.
 docker compose up
 # Updates database with schema.
