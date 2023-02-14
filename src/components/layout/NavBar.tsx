@@ -7,6 +7,7 @@ import SidebarProject from "../project/SidebarProject";
 import UserSidebarCard from "../user/UserSidebarCard";
 import useMenu from "@/hooks/useMenu";
 import { useWorkspaceWithProjects } from "@/hooks/WorkspaceHooks";
+import LoadingSkeleton from "../UI/LoadingSkeleton";
 
 const NavBar = () => {
   const [isNavMinimized, setIsNavMinimized] = useState(false);
@@ -21,7 +22,6 @@ const NavBar = () => {
 
   return (
     <>
-      {" "}
       <div className={`sidebar ${isNavMinimized ? "sidebar--minimized" : ""}`}>
         {/* LOGO */}
         <div className="sidebar__logo">
@@ -203,35 +203,16 @@ const NavBar = () => {
           </ul>
         </nav>
         <nav className="sidebar__nav-container sidebar__nav--workspace">
-          {isNavMinimized ? (
-            <div
-              onClick={() => setIsAddProjectModalOpen(true)}
-              className="sidebar__workspace-add--minimized"
-            >
-              <svg className="sidebar__workspace-add-icon" viewBox="0 0 24 24">
-                <path d="m12 6a1 1 0 0 0 -1 1v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2h-4v-4a1 1 0 0 0 -1-1z" />
-              </svg>
-              <div className="sidebar__tooltip">
-                <span>Create project</span>
-              </div>
+          {status === "loading" && (
+            <div className="sidebar__workspace-loading">
+              <LoadingSkeleton isDark={true} />
             </div>
-          ) : (
-            <Link
-              href="/workspace"
-              className={`sidebar__workspace ${
-                isNavMinimized ? "sidebar__workspace--minimized" : ""
-              }`}
-            >
-              <span className="sidebar__workspace-name">
-                {status === "loading" && "Loading..."}
-                {status === "success" && workspace?.name}
-              </span>
+          )}
+          {status === "success" &&
+            (isNavMinimized ? (
               <div
-                onClick={(e) => {
-                  setIsAddProjectModalOpen(true);
-                  e.preventDefault();
-                }}
-                className="sidebar__workspace-add"
+                onClick={() => setIsAddProjectModalOpen(true)}
+                className="sidebar__workspace-add--minimized"
               >
                 <svg
                   className="sidebar__workspace-add-icon"
@@ -239,16 +220,49 @@ const NavBar = () => {
                 >
                   <path d="m12 6a1 1 0 0 0 -1 1v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2h-4v-4a1 1 0 0 0 -1-1z" />
                 </svg>
+                <div className="sidebar__tooltip">
+                  <span>Create project</span>
+                </div>
               </div>
-            </Link>
-          )}
+            ) : (
+              <Link
+                href="/workspace"
+                className={`sidebar__workspace ${
+                  isNavMinimized ? "sidebar__workspace--minimized" : ""
+                }`}
+              >
+                <span className="sidebar__workspace-name">
+                  {workspace?.name}
+                </span>
+                <div
+                  onClick={(e) => {
+                    setIsAddProjectModalOpen(true);
+                    e.preventDefault();
+                  }}
+                  className="sidebar__workspace-add"
+                >
+                  <svg
+                    className="sidebar__workspace-add-icon"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="m12 6a1 1 0 0 0 -1 1v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2h-4v-4a1 1 0 0 0 -1-1z" />
+                  </svg>
+                </div>
+              </Link>
+            ))}
 
           <div
             className={`sidebar__projects-list ${
               isNavMinimized ? "sidebar__projects-list--minimized" : ""
             } `}
           >
-            {status === "loading" && <p>Loading..</p>}
+            {status === "loading" && (
+              <div className="sidebar__projects-loading">
+                <LoadingSkeleton isDark={true} />
+                <LoadingSkeleton isDark={true} />
+                <LoadingSkeleton isDark={true} />
+              </div>
+            )}
             {status === "success" &&
               projects?.map((project) => (
                 <SidebarProject
@@ -293,10 +307,17 @@ const NavBar = () => {
             </svg>
           </button>
           {/* User Profile */}
-          <UserSidebarCard
-            name={workspace?.owner.name ?? "Loading..."}
-            workspaceName={workspace?.name ?? "Loading..."}
-          />
+          {status === "loading" && (
+            <div className="sidebar__user-loading">
+              <LoadingSkeleton isDark={true} />
+            </div>
+          )}
+          {status === "success" && (
+            <UserSidebarCard
+              name={workspace?.owner.name!}
+              workspaceName={workspace?.name!}
+            />
+          )}
         </footer>
       </div>
     </>

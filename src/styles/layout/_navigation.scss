@@ -272,6 +272,15 @@
     width: 20px;
     height: 20px;
   }
+
+  &__workspace-loading {
+    margin-bottom: 10px;
+  }
+
+  &__projects-loading {
+    display: grid;
+    gap: 10px;
+  }
   &__project {
     display: flex;
     align-items: center;
@@ -443,12 +452,22 @@
     }
   }
 
+  &__user-loading {
+    margin-top: 8px;
+    padding: 0 8px;
+
+    & .loading-skeleton {
+      height: 32px;
+    }
+  }
+
   &__user {
     display: inline-flex;
     width: 100%;
     align-items: center;
     padding: 12px 12px;
     border-radius: 0.6rem;
+    user-select: none;
     &:hover {
       cursor: pointer;
       background-color: var(--color-navigation-button-hover);
@@ -484,6 +503,7 @@
   }
 
   &__user-menu {
+    user-select: none;
     display: none;
     padding: 4px 0;
     font-size: 14px;

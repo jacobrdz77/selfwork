@@ -114,6 +114,7 @@
   bottom: 0;
   right: 40px;
   z-index: 100;
+  user-select: none;
 
   &--hidden {
   }
@@ -146,7 +147,7 @@
   &__name {
     width: 100%;
     font-size: 2rem;
-    font-weight: 600;
+    font-weight: 500;
     color: var(--color-navigation-text);
     margin-top: 14px;
     margin-bottom: 8px;
@@ -447,7 +448,7 @@
   }
 
   &__description {
-    padding: 4px 0 0 24px;
+    padding: 4px 24px 0 24px;
     textarea {
       &::placeholder {
         color: var(--color-gray-weak);
@@ -458,7 +459,7 @@
       color: var(--color-navigation-text);
       width: 100%;
       resize: none;
-      min-height: 180px;
+      min-height: 250px;
       &::-webkit-scrollbar {
         width: 10px;
       }
