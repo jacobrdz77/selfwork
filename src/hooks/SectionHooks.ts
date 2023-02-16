@@ -54,28 +54,67 @@ export const useSectionsOfUser = () => {
   };
 };
 
-export const useCreateSection = () => {
+export const useCreateUserSection = () => {
   const queryClient = useQueryClient();
+  const userId = useUserStore((state) => state.userId);
 
   return useMutation({
-    mutationFn: async (sectionData) => {
+    mutationFn: async (sectionData: { name: string }) => {
       try {
-        const response = await fetch("/api/sections", {
+        const response = await fetch(`/api/sections?userId=${userId}`, {
           method: "POST",
           body: JSON.stringify({
-            task: { sectionData },
+            sectionData: { ...sectionData },
           }),
         });
 
-        return (await response.json()) as Section;
+        return (await response.json()) as SectionWithTasks;
       } catch (error) {
         console.log(error);
       }
     },
 
-    onSuccess: (newSection) => {
-      queryClient.invalidateQueries({ queryKey: ["sections"] });
+    // Optimistically updates userSections
+    onMutate: async (newSection) => {
+      await queryClient.cancelQueries(["sections", userId]);
+
+      const previousSections = queryClient.getQueryData<UserSections>([
+        "sections",
+        userId,
+      ]);
+      console.log("PREVIOUS sections", previousSections);
+
+      if (previousSections) {
+        queryClient.setQueryData<UserSections>(["sections", userId], {
+          ...previousSections,
+          userSections: [
+            // @ts-ignore
+            ...previousSections.userSections,
+            // @ts-ignore
+
+            { id: Math.random().toString(), name: newSection.name, tasks: [] },
+          ],
+        });
+      }
+
+      // Adds to the context in onError function
+      return { previousSections };
+    },
+
+    // If the mutation fails, use the context returned from onMutate to roll back
+    onError: (err, variables, context) => {
+      if (context?.previousSections) {
+        queryClient.setQueryData<UserSections>(
+          ["sections", userId],
+          context?.previousSections
+        );
+      }
+    },
+
+    onSettled: (newSection) => {
+      console.log("Settled on new section...");
       console.log("Created new section! \n", newSection);
+      queryClient.invalidateQueries({ queryKey: ["sections", userId] });
     },
   });
 };

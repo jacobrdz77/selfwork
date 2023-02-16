@@ -6,12 +6,8 @@ import LoadingSpinner from "@/components/UI/LoadingSpinner";
 import { useWorkspaceWithProjects } from "@/hooks/WorkspaceHooks";
 import LoadingSkeleton from "@/components/UI/LoadingSkeleton";
 import UserCard from "@/components/UI/UserCard";
-import { useModalStore } from "store/user";
 
 const WorkspacePage = () => {
-  const setIsAddProjectModalOpen = useModalStore(
-    (state) => state.setIsAddProjectModalOpen
-  );
   const { workspace, projects, status } = useWorkspaceWithProjects();
 
   console.log("projects: ", projects);
@@ -19,12 +15,7 @@ const WorkspacePage = () => {
   console.log("members ", workspace?.members);
   return (
     <>
-      <PageHeader
-        title={workspace?.name ?? "Loading..."}
-        isButton={true}
-        buttonText="Create Project"
-        buttonHandler={() => setIsAddProjectModalOpen(true)}
-      />
+      <PageHeader title={workspace?.name ?? "Loading..."} />
 
       <div className="page workspace-page">
         <div className="workspace__sections">

@@ -63,15 +63,6 @@
   height: 40px;
   border-bottom: 1px solid var(--color-border);
 
-  &__icon {
-    display: flex;
-    align-items: center;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    border: 1px var(--color-gray-weak) dashed;
-  }
-
   &:nth-of-type(1) {
     border-top: 1px solid var(--color-border);
   }
@@ -80,7 +71,7 @@
     cursor: pointer;
     background-color: #f1f2fc;
 
-    &__resizer {
+    .task__empty-icon {
       visibility: visible;
     }
   }
@@ -92,6 +83,16 @@
     background-color: #f1f4fc;
     // border-top: 1px solid var(--color-skyblue);
     // border-bottom: 1px solid var(--color-skyblue);
+  }
+
+  &__empty-icon {
+    visibility: hidden;
+    display: flex;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px var(--color-gray-weak) dashed;
   }
 
   &__drag {

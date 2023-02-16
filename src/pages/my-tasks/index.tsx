@@ -3,10 +3,13 @@ import PageHeader from "@/components/header/PageHeader";
 import { useSectionsOfUser } from "@/hooks/SectionHooks";
 import SectionListView from "@/components/sections/SectionListView";
 import TaskTableHead from "@/components/task/TaskTableHead";
+import AddSectionButton from "@/components/sections/AddSectionButton";
 
 const MyTasksPage: NextPage = () => {
   const { userAssignedTasksSection, userSections, status } =
     useSectionsOfUser();
+
+  const focusOnNewInput = () => {};
 
   return (
     <>
@@ -33,6 +36,7 @@ const MyTasksPage: NextPage = () => {
             ))}
           </>
         )}
+        <AddSectionButton focusOnInput={focusOnNewInput} />
       </div>
     </>
   );

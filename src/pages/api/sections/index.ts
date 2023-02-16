@@ -11,6 +11,12 @@ export default async function handler(
     try {
       const { projectId, userId } = req.query;
 
+      if (!projectId && !userId) {
+        return res
+          .status(400)
+          .json({ error: "Specify a userId or projectId." });
+      }
+
       // Fetch sections relating to a project
       if (projectId && !userId) {
         const section = await prisma.section.findMany({
@@ -79,8 +85,6 @@ export default async function handler(
 
         return res.status(200).json(userSections);
       }
-
-      return res.status(400).json({ error: "Specify a userId or projectId." });
     } catch (error: Error | any) {
       return res.status(400).json({ error: error.message });
     }
@@ -91,26 +95,55 @@ export default async function handler(
   if (req.method === "POST") {
     try {
       // Get the section data from the request body
-      const { section } = req.body;
-      const sectionData = {
-        ...section,
-        website: {
-          connect: {
-            id: section.projectId,
+      const body = JSON.parse(req.body);
+      const { sectionData } = body;
+      const { projectId, userId } = req.query;
+
+      if (!projectId && !userId) {
+        return res
+          .status(400)
+          .json({ error: "Specify a userId or projectId." });
+      }
+
+      // Create new project section
+      if (projectId && !userId) {
+        const newSection = await prisma.section.create({
+          data: {
+            name: sectionData.name,
+            project: {
+              connect: {
+                id: projectId as string,
+              },
+            },
           },
-        },
-      };
+          include: {
+            tasks: true,
+          },
+        });
+        return res.status(200).json(newSection);
+      }
 
-      const newSection = await prisma.section.create({
-        data: {
-          name: section.name,
-        },
-      });
-
-      return res.status(200).json(newSection);
+      // Create new user section
+      if (userId && !projectId) {
+        const newSection = await prisma.section.create({
+          data: {
+            name: sectionData.name,
+            user: {
+              connect: {
+                id: userId as string,
+              },
+            },
+          },
+          include: {
+            tasks: true,
+          },
+        });
+        return res.status(200).json(newSection);
+      }
     } catch (error: any) {
       return res.status(400).json(error.message);
     }
   }
+
   return res.status(400).json({ error: "Request Not Allowed" });
 }

@@ -49,12 +49,14 @@
   }
 
   &__button {
-    position: relative;
     background-color: #fff;
     border: none;
     width: 25px;
     height: 25px;
-    // padding: 5px;
+
+    &-container {
+      position: relative;
+    }
 
     &-icon {
       rotate: 90deg;

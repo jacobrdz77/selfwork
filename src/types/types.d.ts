@@ -89,7 +89,7 @@ export type WorkspaceWithProjects = Workspace & {
 };
 
 export type UserSections = {
-  userSections: [SectionWithTasks];
+  userSections: SectionWithTasks[];
   userAssignedTasksSection: SectionWithTasks;
 };
 

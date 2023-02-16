@@ -55,7 +55,7 @@ const OneTaskRow = ({ task }: { task: TaskWithAssignee }) => {
           {task.assignee ? (
             task.assignee.name
           ) : (
-            <div className="task__empty-icon"></div>
+            <div className="task__icon"></div>
           )}
         </div>
       </div>
@@ -64,7 +64,7 @@ const OneTaskRow = ({ task }: { task: TaskWithAssignee }) => {
           {task.dueDate ? (
             formatDueDate(task.dueDate)
           ) : (
-            <div className="task__empty-icon"></div>
+            <div className="task__icon"></div>
           )}
         </div>
       </div>

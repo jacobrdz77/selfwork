@@ -17,45 +17,26 @@ const ProjectHeader: React.FC<HeaderProps> = ({ title, children }) => {
     <header className="project-header">
       <div className="project-header__top">
         <h1 className="project-header__title">{title}</h1>
-        <button
-          ref={btnRef}
-          className="project-header__button"
-          onClick={(e) => {
-            e.preventDefault();
-            setIsMenuOpen((state) => !state);
-          }}
-        >
-          <svg
-            className={`project-header__button-icon ${
-              isMenuOpen ? "project-header__button-icon--active" : ""
-            }`}
-            viewBox="0 0 6.3499999 6.3500002"
+        <div className="project-header__button-container">
+          <button
+            ref={btnRef}
+            className="project-header__button"
+            onClick={(e) => {
+              e.preventDefault();
+              setIsMenuOpen((state) => !state);
+            }}
           >
-            <g id="layer1" transform="translate(0 -290.65)">
-              <path
-                id="path9429"
-                d="m2.2580394 291.96502a.26460982.26460982 0 0 0 -.1741496.46871l1.6190225 1.38699-1.6190225 1.38648a.26460982.26460982 0 1 0 .3436483.40049l1.8536335-1.58595a.26460982.26460982 0 0 0 0-.40256l-1.8536335-1.5875a.26460982.26460982 0 0 0 -.1694987-.0667z"
-                font-variant-ligatures="normal"
-                font-variant-position="normal"
-                font-variant-caps="normal"
-                font-variant-numeric="normal"
-                font-variant-alternates="normal"
-                font-feature-settings="normal"
-                text-indent="0"
-                text-align="start"
-                text-decoration-line="none"
-                text-decoration-style="solid"
-                text-decoration-color="rgb(0,0,0)"
-                text-transform="none"
-                text-orientation="mixed"
-                white-space="normal"
-                shape-padding="0"
-                mix-blend-mode="normal"
-                solid-color="rgb(0,0,0)"
-                solid-opacity="1"
-              />
-            </g>
-          </svg>
+            <svg
+              className={`project-header__button-icon ${
+                isMenuOpen ? "project-header__button-icon--active" : ""
+              }`}
+              viewBox="0 0 6.3499999 6.3500002"
+            >
+              <g id="layer1" transform="translate(0 -290.65)">
+                <path d="m2.2580394 291.96502a.26460982.26460982 0 0 0 -.1741496.46871l1.6190225 1.38699-1.6190225 1.38648a.26460982.26460982 0 1 0 .3436483.40049l1.8536335-1.58595a.26460982.26460982 0 0 0 0-.40256l-1.8536335-1.5875a.26460982.26460982 0 0 0 -.1694987-.0667z" />
+              </g>
+            </svg>
+          </button>
           <div
             className={`project-header__menu ${
               isMenuOpen ? "project-header__menu--active" : ""
@@ -67,7 +48,10 @@ const ProjectHeader: React.FC<HeaderProps> = ({ title, children }) => {
           >
             <div
               className="project-card__edit-menu-item"
-              onClick={() => console.log("EDIT")}
+              onClick={() => {
+                setIsMenuOpen(false);
+                console.log("EDIT");
+              }}
             >
               <svg
                 className="project-card__edit-menu--icon"
@@ -79,7 +63,10 @@ const ProjectHeader: React.FC<HeaderProps> = ({ title, children }) => {
             </div>
             <div
               className="project-card__edit-menu-item project-card__edit-menu-item--delete"
-              onClick={() => console.log("Delete")}
+              onClick={() => {
+                setIsMenuOpen(false);
+                console.log("Delete");
+              }}
             >
               <svg
                 className="project-card__edit-menu--icon"
@@ -90,17 +77,7 @@ const ProjectHeader: React.FC<HeaderProps> = ({ title, children }) => {
               Delete project
             </div>
           </div>
-          <div
-            className={`project-header__menu-container ${
-              isMenuOpen ? "project-header__menu-container--active" : ""
-            }`}
-          >
-            <ul className="project-header__menu">
-              <li>Edit project details</li>
-              <li>Delete project</li>
-            </ul>
-          </div>
-        </button>
+        </div>
       </div>
       <nav>
         <ul className="project-header__nav">

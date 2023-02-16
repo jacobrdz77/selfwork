@@ -1,18 +1,20 @@
 import { FocusEvent, useEffect, useRef, useState } from "react";
-import useMenu from "@/hooks/useMenu";
 import { toast } from "react-hot-toast";
 import { useDeleteSection, useUpdateSection } from "@/hooks/SectionHooks";
+import useMenu from "@/hooks/useMenu";
 import { SectionWithTasks, TaskWithAssignee } from "@/types/types";
 import OneTaskRow from "../task/OneTaskRow";
 
 const SectionListView = ({
   section,
   tasks,
+  focusOnNewInput,
   isUserAssignedSection = false,
 }: {
   section: SectionWithTasks;
   tasks: TaskWithAssignee[];
   isUserAssignedSection?: boolean;
+  focusOnNewInput?: (func: () => void) => void;
 }) => {
   const [showTasks, setShowTasks] = useState(true);
   const [oldName, setOldName] = useState(section.name);
@@ -26,6 +28,12 @@ const SectionListView = ({
     // @ts-ignore
     inputRef.current!.focus();
   };
+
+  useEffect(() => {
+    if (focusOnNewInput) {
+      focusOnNewInput(focusOnInput);
+    }
+  }, [focusOnNewInput]);
 
   useEffect(() => {
     if (isInputFocused === true) {
@@ -58,11 +66,12 @@ const SectionListView = ({
     <>
       <div className="section-container">
         <div className="section">
-          <div className="section__drag">
+          {/* Todo: absolute position drag */}
+          {/* <div className="section__drag">
             <svg className="section__drag-icon" viewBox="0 0 24 24">
               <path d="M10,4A2,2,0,1,1,8,2,2,2,0,0,1,10,4ZM8,10a2,2,0,1,0,2,2A2,2,0,0,0,8,10Zm0,8a2,2,0,1,0,2,2A2,2,0,0,0,8,18ZM16,6a2,2,0,1,0-2-2A2,2,0,0,0,16,6Zm0,8a2,2,0,1,0-2-2A2,2,0,0,0,16,14Zm0,8a2,2,0,1,0-2-2A2,2,0,0,0,16,22Z" />
             </svg>
-          </div>
+          </div> */}
           {/* Toggle view tasks */}
           <div
             className={`section__toggle section__button ${
