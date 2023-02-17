@@ -1,6 +1,6 @@
 import { WorkspaceWithMembers, WorkspaceWithProjects } from "@/types/types";
 import { User, Workspace } from "@prisma/client";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useUserStore } from "store/user";
 
 const workspaceId = useUserStore.getState().workspaceId;
@@ -85,4 +85,36 @@ export const useWorkspaceMembers = () => {
     members,
     status,
   };
+};
+
+export const useUpdateWorkspace = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (workspaceData: {
+      name?: string;
+      description?: string;
+    }) => {
+      try {
+        const response = await fetch(`/api/workspaces/${workspaceId}`, {
+          method: "PUT",
+          body: JSON.stringify({
+            workspaceData: {
+              name: workspaceData.name,
+              description: workspaceData.description,
+            },
+          }),
+        });
+
+        return (await response.json()) as Workspace;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    onSuccess: (updatedWorkspace) => {
+      queryClient.invalidateQueries({ queryKey: ["workspace", workspaceId] });
+      console.log("Updated workspace! \n", updatedWorkspace);
+    },
+  });
 };

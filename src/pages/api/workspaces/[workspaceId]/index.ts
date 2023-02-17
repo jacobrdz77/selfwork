@@ -70,8 +70,10 @@ export default async function handler(
   // RETURN: the updated workspace
   else if (req.method === "PUT") {
     try {
+      const body = JSON.parse(req.body);
+      const { workspaceData } = body;
       const { workspaceId } = req.query;
-      const { workspaceData } = req.body;
+
       const workspace = await prisma.workspace.update({
         where: {
           id: workspaceId as string,

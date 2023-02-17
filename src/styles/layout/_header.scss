@@ -56,6 +56,8 @@
 
     &-container {
       position: relative;
+      display: flex;
+      align-items: center;
     }
 
     &-icon {
@@ -81,7 +83,7 @@
     background-color: #fff;
     border: 1px solid var(--color-border);
     position: absolute;
-    top: 100%;
+    top: 110%;
     left: 0;
     z-index: 10;
 
