@@ -91,7 +91,6 @@ export const useCreateUserSection = () => {
             // @ts-ignore
             ...previousSections.userSections,
             // @ts-ignore
-
             { id: Math.random().toString(), name: newSection.name, tasks: [] },
           ],
         });
@@ -112,7 +111,6 @@ export const useCreateUserSection = () => {
     },
 
     onSettled: (newSection) => {
-      console.log("Settled on new section...");
       console.log("Created new section! \n", newSection);
       queryClient.invalidateQueries({ queryKey: ["sections", userId] });
     },

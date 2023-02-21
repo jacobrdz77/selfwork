@@ -20,9 +20,34 @@ export default async function handler(
         include: {
           members: true,
           owner: true,
-          projects: with_projects === "true" ? true : false,
+          projects: false,
         },
       });
+
+      if (!workspace) {
+        return res
+          .status(404)
+          .json({ error: `Workspace ${workspaceId} not found.` });
+      }
+
+      if (with_projects === "true") {
+        const workspace = await prisma.workspace.findUnique({
+          where: {
+            id: workspaceId as string,
+          },
+          include: {
+            members: true,
+            owner: true,
+            projects: {
+              orderBy: {
+                createdAt: "asc",
+              },
+            },
+          },
+        });
+
+        return res.status(200).json(workspace);
+      }
 
       if (!workspace) {
         return res

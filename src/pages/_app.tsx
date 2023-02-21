@@ -3,7 +3,6 @@ import Head from "next/head";
 import PageLayout from "../components/layout/PageLayout";
 import type { AppProps } from "next/app";
 import { Query, QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useRouter } from "next/router";
 import { SessionProvider } from "next-auth/react";
 import { NextPage } from "next";
 import { ReactElement, ReactNode } from "react";

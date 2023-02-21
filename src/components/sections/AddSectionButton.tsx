@@ -1,15 +1,12 @@
 import { useCreateUserSection } from "@/hooks/SectionHooks";
-import React, { useState } from "react";
 
-const AddSectionButton = ({ focusOnInput }: { focusOnInput: () => void }) => {
+const AddSectionButton = () => {
   const { mutate } = useCreateUserSection();
-  // mutate({ name, userId });
   const addNewSectionHandler = () => {
     console.log("BUTTON pressed");
     mutate({ name: "Untitled Section" });
-    // Gets the new created section and focuses on input
-    // focusOnInput();
   };
+
   return (
     <button className="new-section" onClick={addNewSectionHandler}>
       <div className="new-section__add new-section__button">

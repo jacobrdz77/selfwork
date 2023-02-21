@@ -5,6 +5,7 @@ When a person signs up, it creates a user that has:
 - a project that they create after signing up.
 - a default "My Workspace" that cannot be deleted.
 - 3 different random tasks.
+- a assigned task section in my-tasks page.
 
 Allow users to:
 
@@ -15,6 +16,7 @@ Allow users to:
 
 # Project
 
+- every project contains sections, tasks, sketches, and members
 - a user owner is assigned when project is created.
 - different users can be invited to be a part of the project
 

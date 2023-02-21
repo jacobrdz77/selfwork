@@ -77,13 +77,49 @@ export const useCreateProject = () => {
     mutationFn: (projectData: NewProjectFormData) =>
       createProject({ ...projectData, ownerId, workspaceId }),
 
-    onSuccess: (newProject) => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({
         queryKey: ["projects"],
       });
       queryClient.invalidateQueries({
         queryKey: ["workspace"],
       });
+    },
+  });
+};
+
+export const useDeleteProject = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (projectId: string) => {
+      try {
+        const response = await fetch(`/api/projects/${projectId}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        return await response.json();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    onMutate: () => {
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+      queryClient.invalidateQueries({
+        queryKey: ["workspace"],
+      });
+    },
+
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+      queryClient.invalidateQueries({
+        queryKey: ["workspace"],
+      });
+      console.log("Deleted project: ", data.deletedproject);
     },
   });
 };

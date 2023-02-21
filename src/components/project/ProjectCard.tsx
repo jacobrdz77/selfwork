@@ -1,11 +1,14 @@
 import Link from "next/link";
 import useMenu from "@/hooks/useMenu";
 import { Project } from "@prisma/client";
+import { useDeleteProject } from "@/hooks/ProjectHooks";
 
 const ProjectCard: React.FC<{
   projectData: Project;
 }> = ({ projectData }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
+  const { mutate } = useDeleteProject();
+
   return (
     <Link
       href={`/projects/${projectData.id}/overview`}
@@ -50,7 +53,7 @@ const ProjectCard: React.FC<{
           className="project-card__edit-menu-item project-card__edit-menu-item--delete"
           onClick={() => {
             setIsMenuOpen(false);
-            console.log("Delete");
+            mutate(projectData.id);
           }}
         >
           <svg className="project-card__edit-menu--icon" viewBox="0 0 24 24">

@@ -1,7 +1,8 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import useMenu from "@/hooks/useMenu";
+import { useDeleteProject } from "@/hooks/ProjectHooks";
 
 type HeaderProps = {
   title: string | JSX.Element;
@@ -13,6 +14,8 @@ const ProjectHeader: React.FC<HeaderProps> = ({ title, children }) => {
   const currentPath = router.pathname.split("/")[3];
   const { projectId } = router.query;
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
+  const { mutate } = useDeleteProject();
+
   return (
     <header className="project-header">
       <div className="project-header__top">
@@ -65,7 +68,8 @@ const ProjectHeader: React.FC<HeaderProps> = ({ title, children }) => {
               className="project-card__edit-menu-item project-card__edit-menu-item--delete"
               onClick={() => {
                 setIsMenuOpen(false);
-                console.log("Delete");
+                mutate(projectId as string);
+                router.push("/my-tasks");
               }}
             >
               <svg

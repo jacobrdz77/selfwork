@@ -2,17 +2,16 @@ import { FocusEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDeleteSection, useUpdateSection } from "@/hooks/SectionHooks";
 import useMenu from "@/hooks/useMenu";
-import { SectionWithTasks, TaskWithAssignee } from "@/types/types";
+import { SectionWithTasks } from "@/types/types";
 import OneTaskRow from "../task/OneTaskRow";
+import AddTaskRow from "../task/AddTaskRow";
 
 const SectionListView = ({
   section,
-  tasks,
   focusOnNewInput,
   isUserAssignedSection = false,
 }: {
   section: SectionWithTasks;
-  tasks: TaskWithAssignee[];
   isUserAssignedSection?: boolean;
   focusOnNewInput?: (func: () => void) => void;
 }) => {
@@ -20,8 +19,8 @@ const SectionListView = ({
   const [oldName, setOldName] = useState(section.name);
   const [sectionInputName, setSectionInputName] = useState(section.name);
   const [isInputFocused, setIsInputFocused] = useState(false);
-  const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const inputRef = useRef(null);
+  const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const { mutate: deleteSection } = useDeleteSection();
   const { mutate: updateSection } = useUpdateSection();
   const focusOnInput = () => {
@@ -62,6 +61,7 @@ const SectionListView = ({
     // Switches to display button
     setIsInputFocused(false);
   };
+
   return (
     <>
       <div className="section-container">
@@ -75,7 +75,7 @@ const SectionListView = ({
           {/* Toggle view tasks */}
           <div
             className={`section__toggle section__button ${
-              showTasks && "section__toggle--open"
+              showTasks ? "section__toggle--open" : ""
             }`}
             onClick={() => setShowTasks(!showTasks)}
           >
@@ -186,11 +186,12 @@ const SectionListView = ({
         </div>
       </div>
       {showTasks &&
-        (tasks.length === 0 ? null : (
+        (section.tasks.length === 0 ? null : (
           <div className="section__tasks">
-            {tasks.map((task) => (
+            {section.tasks.map((task) => (
               <OneTaskRow key={task.id} task={task} />
             ))}
+            <AddTaskRow />
           </div>
         ))}
     </>
