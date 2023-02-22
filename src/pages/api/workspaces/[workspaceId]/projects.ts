@@ -22,6 +22,9 @@ export default async function handler(
         include: {
           sections: sections === "true" ? true : false,
         },
+        orderBy: {
+          createdAt: "asc",
+        },
       });
 
       return res.status(200).json(projects);

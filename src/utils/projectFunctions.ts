@@ -6,6 +6,11 @@ import { NewProject, ProjectWithAll, UpdateProjectData } from "../types/types";
 export const getProjects = async (workspaceId: string) => {
   try {
     const response = await fetch(`/api/workspaces/${workspaceId}/projects`);
+
+    if (!response.ok) {
+      throw new Error("Error happend!: " + response.status.toLocaleString());
+    }
+
     return (await response.json()) as Project[];
   } catch (error) {
     throw error;
@@ -16,6 +21,11 @@ export const getProjects = async (workspaceId: string) => {
 export const getOneProject = async (projectId: string) => {
   try {
     const response = await fetch(`/api/projects/${projectId}`);
+
+    if (!response.ok) {
+      throw new Error("Error happend!: " + response.status.toLocaleString());
+    }
+
     return (await response.json()) as ProjectWithAll;
   } catch (error) {
     throw error;
@@ -31,6 +41,10 @@ export const createProject = async (project: NewProject) => {
         project: { ...project },
       }),
     });
+
+    if (!response.ok) {
+      throw new Error("Error happend!: " + response.status.toLocaleString());
+    }
 
     return (await response.json()) as Project;
   } catch (error) {

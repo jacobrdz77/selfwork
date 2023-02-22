@@ -23,6 +23,11 @@ export default async function handler(
           where: {
             projectId: projectId as string,
           },
+          orderBy: [
+            {
+              createdAt: "asc",
+            },
+          ],
           include: {
             tasks: {
               include: {
@@ -49,6 +54,11 @@ export default async function handler(
           },
           select: {
             userSections: {
+              orderBy: [
+                {
+                  createdAt: "asc",
+                },
+              ],
               include: {
                 tasks: {
                   include: {

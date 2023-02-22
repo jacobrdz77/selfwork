@@ -1,5 +1,5 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUserStore } from "../store/user";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { NewProjectFormData, ProjectsWithSections } from "../types/types";
 import {
   createProject,
@@ -9,9 +9,11 @@ import {
 
 export const useProjects = () => {
   const workspaceId = useUserStore((state) => state.workspaceId);
-  const { data: projects, status } = useQuery(["projects"], () =>
-    getProjects(workspaceId)
-  );
+  const { data: projects, status } = useQuery({
+    queryKey: ["projects"],
+    queryFn: () => getProjects(workspaceId),
+  });
+
   return {
     projects,
     status,
@@ -27,6 +29,11 @@ export const useProjectWithSections = () => {
         const response = await fetch(
           `/api/workspaces/${workspaceId}/projects?sections=true`
         );
+        if (!response.ok) {
+          throw new Error(
+            "Error happend!: " + response.status.toLocaleString()
+          );
+        }
         return (await response.json()) as ProjectsWithSections;
       } catch (error) {
         throw error;
@@ -55,13 +62,12 @@ const checkProjectId = (id: string) => {
 };
 
 export const useOneProject = (projectId: string) => {
-  const { data: project, status } = useQuery(
-    ["project", projectId],
-    () => getOneProject(projectId),
-    {
-      enabled: checkProjectId(projectId),
-    }
-  );
+  const { data: project, status } = useQuery({
+    queryKey: ["project", projectId],
+    queryFn: () => getOneProject(projectId),
+    enabled: checkProjectId(projectId),
+  });
+
   return {
     project,
     status,
@@ -78,10 +84,10 @@ export const useCreateProject = () => {
       createProject({ ...projectData, ownerId, workspaceId }),
 
     onSuccess: async () => {
-      queryClient.invalidateQueries({
+      await queryClient.invalidateQueries({
         queryKey: ["projects"],
       });
-      queryClient.invalidateQueries({
+      await queryClient.invalidateQueries({
         queryKey: ["workspace"],
       });
     },
@@ -100,26 +106,24 @@ export const useDeleteProject = () => {
             "Content-Type": "application/json",
           },
         });
-
+        if (!response.ok) {
+          throw new Error(
+            "Error happend!: " + response.status.toLocaleString()
+          );
+        }
         return await response.json();
       } catch (error) {
         console.log(error);
+        throw error;
       }
     },
 
-    onMutate: () => {
-      queryClient.invalidateQueries({ queryKey: ["projects"] });
-      queryClient.invalidateQueries({
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries({ queryKey: ["projects"] });
+      await queryClient.invalidateQueries({
         queryKey: ["workspace"],
       });
-    },
-
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["projects"] });
-      queryClient.invalidateQueries({
-        queryKey: ["workspace"],
-      });
-      console.log("Deleted project: ", data.deletedproject);
+      console.log("Deleted project: ", data);
     },
   });
 };

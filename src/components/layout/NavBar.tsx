@@ -272,7 +272,7 @@ const NavBar = () => {
                   color={project.iconColor}
                 />
               ))}
-            {status === "success" && projects!.length > 5 && (
+            {/* {status === "success" && projects!.length > 5 && (
               <span
                 className={`sidebar__show-more-projects ${
                   isNavMinimized ? "sidebar__show-more-projects--minimized" : ""
@@ -281,7 +281,7 @@ const NavBar = () => {
               >
                 Show more projects
               </span>
-            )}
+            )} */}
             {status === "success" && projects!.length === 0 && (
               <span
                 className={`sidebar__no-projects ${

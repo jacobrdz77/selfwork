@@ -21,32 +21,6 @@ export default async function handler(
       // Transform the projects properties to valid datatypes
       const modifiedProject = transformProjectData(project);
 
-      const projectData = {
-        name: modifiedProject.name,
-        description: modifiedProject.description,
-        lumpSum: modifiedProject.lumpSum,
-        priority: modifiedProject.priority,
-        startDate: modifiedProject.startDate,
-        dueDate: modifiedProject.dueDate,
-        iconColor: "Classic",
-        workspace: {
-          connect: {
-            id: modifiedProject.workspaceId,
-          },
-        },
-        owner: {
-          connect: {
-            id: modifiedProject.ownerId,
-          },
-        },
-        // Creates a new section on every new project
-        sections: {
-          create: {
-            name: "Untitled Section",
-          },
-        },
-      };
-
       const newProject = await prisma.project.create({
         data: {
           name: modifiedProject.name,

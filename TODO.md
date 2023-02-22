@@ -17,7 +17,6 @@
 - move client link to project Header under Users.
 - add a Manage members in Workspace page that redirects to a admin panel.
 - add a max-width to projects.
-- Figure out why navbar useWorkspaceWithProject doesn't refetch after creating a project.
 - show project iconColor in project detail page to edit
 - add loading skeleton component for:
   - each page header

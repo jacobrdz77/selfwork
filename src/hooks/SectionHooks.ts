@@ -9,6 +9,11 @@ export const useSectionsOfProject = (projectId: string) => {
     queryFn: async () => {
       try {
         const response = await fetch(`/api/sections?projectId=${projectId}`);
+        if (!response.ok) {
+          throw new Error(
+            "Error happend!: " + response.status.toLocaleString()
+          );
+        }
         return (await response.json()) as SectionWithTasks[];
       } catch (error) {
         console.log(error);
@@ -34,6 +39,11 @@ export const useSectionsOfUser = () => {
     queryFn: async () => {
       try {
         const response = await fetch(`/api/sections?userId=${userId}`);
+        if (!response.ok) {
+          throw new Error(
+            "Error happend!: " + response.status.toLocaleString()
+          );
+        }
         return (await response.json()) as UserSections;
       } catch (error) {
         console.log(error);
@@ -67,7 +77,11 @@ export const useCreateUserSection = () => {
             sectionData: { ...sectionData },
           }),
         });
-
+        if (!response.ok) {
+          throw new Error(
+            "Error happend!: " + response.status.toLocaleString()
+          );
+        }
         return (await response.json()) as SectionWithTasks;
       } catch (error) {
         console.log(error);
@@ -129,7 +143,11 @@ export const useDeleteSection = () => {
             "Content-Type": "application/json",
           },
         });
-
+        if (!response.ok) {
+          throw new Error(
+            "Error happend!: " + response.status.toLocaleString()
+          );
+        }
         return await response.json();
       } catch (error) {
         console.log(error);
@@ -162,7 +180,11 @@ export const useUpdateSection = () => {
             },
           }),
         });
-
+        if (!response.ok) {
+          throw new Error(
+            "Error happend!: " + response.status.toLocaleString()
+          );
+        }
         return (await response.json()) as Section;
       } catch (error) {
         console.log(error);

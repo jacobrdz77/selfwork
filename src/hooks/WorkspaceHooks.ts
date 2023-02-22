@@ -11,6 +11,11 @@ export const useOneWorkspace = () => {
     queryFn: async () => {
       try {
         const response = await fetch(`/api/workspaces/${workspaceId}`);
+        if (!response.ok) {
+          throw new Error(
+            "Error happend!: " + response.status.toLocaleString()
+          );
+        }
         return (await response.json()) as WorkspaceWithMembers;
       } catch (error) {
         throw error;
@@ -32,6 +37,11 @@ export const useWorkspaces = (enabled: boolean = true) => {
     queryFn: async () => {
       try {
         const response = await fetch(`/api/workspaces?ownerId=${ownerId}`);
+        if (!response.ok) {
+          throw new Error(
+            "Error happend!: " + response.status.toLocaleString()
+          );
+        }
         return (await response.json()) as Workspace[];
       } catch (error) {
         throw error;
@@ -54,6 +64,11 @@ export const useWorkspaceWithProjects = () => {
         const response = await fetch(
           `/api/workspaces/${workspaceId}?with_projects=true`
         );
+        if (!response.ok) {
+          throw new Error(
+            "Error happend!: " + response.status.toLocaleString()
+          );
+        }
         return (await response.json()) as WorkspaceWithProjects;
       } catch (error) {
         throw error;
@@ -74,6 +89,11 @@ export const useWorkspaceMembers = () => {
     queryFn: async () => {
       try {
         const response = await fetch(`/api/workspaces/${workspaceId}/members`);
+        if (!response.ok) {
+          throw new Error(
+            "Error happend!: " + response.status.toLocaleString()
+          );
+        }
         return (await response.json()) as User[];
       } catch (error) {
         throw error;
@@ -105,7 +125,11 @@ export const useUpdateWorkspace = () => {
             },
           }),
         });
-
+        if (!response.ok) {
+          throw new Error(
+            "Error happend!: " + response.status.toLocaleString()
+          );
+        }
         return (await response.json()) as Workspace;
       } catch (error) {
         console.log(error);

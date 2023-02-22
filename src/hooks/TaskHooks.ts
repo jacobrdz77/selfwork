@@ -33,7 +33,11 @@ export const useCreateTask = () => {
             task: { ...taskData },
           }),
         });
-
+        if (!response.ok) {
+          throw new Error(
+            "Error happend!: " + response.status.toLocaleString()
+          );
+        }
         return (await response.json()) as Task;
       } catch (error) {
         console.log(error);
