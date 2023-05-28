@@ -25,6 +25,11 @@ export default async function handler(
           tags: true,
         },
       });
+
+      if (!task) {
+        return res.status(404).json({ error: `Task ${taskId} not found.` });
+      }
+
       return res.status(200).json(task);
     } catch (error: Error | any) {
       return res.status(400).json({ error: error.message });
@@ -52,7 +57,8 @@ export default async function handler(
   else if (req.method === "PUT") {
     try {
       const { taskId } = req.query;
-      const { taskData } = req.body;
+      const body = JSON.parse(req.body);
+      const { taskData } = body;
       const task = await prisma.task.update({
         where: {
           id: taskId as string,

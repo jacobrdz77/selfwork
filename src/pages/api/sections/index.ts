@@ -54,11 +54,11 @@ export default async function handler(
           },
           select: {
             userSections: {
-              orderBy: [
-                {
-                  createdAt: "asc",
-                },
-              ],
+              // orderBy: [
+              //   {
+              //     name: "asc",
+              //   },
+              // ],
               include: {
                 tasks: {
                   include: {

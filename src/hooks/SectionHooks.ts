@@ -52,9 +52,6 @@ export const useSectionsOfUser = () => {
     onError: (error) => {
       console.log("Error: ", error);
     },
-    onSuccess: (sections) => {
-      console.log("Fetched sections of user: ", sections);
-    },
     enabled: userId == undefined ? false : true,
   });
   return {

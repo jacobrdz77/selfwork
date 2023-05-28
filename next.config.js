@@ -5,7 +5,13 @@ module.exports = {
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
   },
-  // async redirects() {
-  //   return [];
-  // },
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/my-tasks",
+        permanent: true,
+      },
+    ];
+  },
 };

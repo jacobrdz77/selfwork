@@ -20,9 +20,11 @@ const SectionListView = ({
   const [sectionInputName, setSectionInputName] = useState(section.name);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const inputRef = useRef(null);
+
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const { mutate: deleteSection } = useDeleteSection();
   const { mutate: updateSection } = useUpdateSection();
+
   const focusOnInput = () => {
     // @ts-ignore
     inputRef.current!.focus();
@@ -67,11 +69,11 @@ const SectionListView = ({
       <div className="section-container">
         <div className="section">
           {/* Todo: absolute position drag */}
-          {/* <div className="section__drag">
+          <div className="section__drag">
             <svg className="section__drag-icon" viewBox="0 0 24 24">
               <path d="M10,4A2,2,0,1,1,8,2,2,2,0,0,1,10,4ZM8,10a2,2,0,1,0,2,2A2,2,0,0,0,8,10Zm0,8a2,2,0,1,0,2,2A2,2,0,0,0,8,18ZM16,6a2,2,0,1,0-2-2A2,2,0,0,0,16,6Zm0,8a2,2,0,1,0-2-2A2,2,0,0,0,16,14Zm0,8a2,2,0,1,0-2-2A2,2,0,0,0,16,22Z" />
             </svg>
-          </div> */}
+          </div>
           {/* Toggle view tasks */}
           <div
             className={`section__toggle section__button ${

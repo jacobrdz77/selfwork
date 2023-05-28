@@ -1,4 +1,6 @@
 .tasks-page {
+  padding-left: 0;
+  // padding-right: 0;
 }
 
 .tasks-header {
@@ -8,6 +10,7 @@
   width: 100%;
   text-align: left;
   margin-bottom: 8px;
+  padding-left: 20px;
 
   .tr {
     display: flex;
@@ -56,6 +59,20 @@
 }
 
 // Each row of task
+// ! Add border to task-row
+.task-row {
+  display: flex;
+
+  &:hover {
+    cursor: pointer;
+    background-color: var(--color-gray--hover);
+
+    .task__drag {
+      visibility: visible;
+    }
+  }
+}
+
 .task {
   display: flex;
   font-size: 1.4rem;
@@ -69,20 +86,68 @@
 
   &:hover {
     cursor: pointer;
-    background-color: #f1f4fc;
+    // background-color: var(--color-gray--hover);
+
+    &__drag {
+      visibility: visible;
+    }
 
     .task__empty-icon {
       visibility: visible;
     }
+
+    .task__name-input {
+      border: 1px solid var(--color-border);
+    }
   }
 
-  &:hover &__drag {
-    visibility: visible;
+  &__name {
+    // display: "inline-grid";
+    // align-items: "center";
+    // justify-items: "center";
+    &-input {
+      width: auto;
+      min-width: 1em;
+      padding: unset;
+      border: 1px solid transparent;
+      border-radius: 2px;
+      padding-left: 6px;
+
+      &:hover {
+        border: 1px solid #000 !important;
+      }
+
+      &:focus {
+        border: 1px solid transparent !important;
+      }
+    }
+
+    padding-left: 4px;
+    border-right: 1px solid var(--color-border);
+    &:hover {
+      // border: 1px solid #999898;
+      // background-color: white;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 3px;
+    }
+
+    & > * {
+      align-self: center;
+    }
   }
+
+  &__input-placeholder {
+  }
+
+  // &:hover &__drag {
+  //   visibility: visible;
+  // }
+
   &--active {
     background-color: #f1f4fc;
-    // border-top: 1px solid var(--color-skyblue);
-    // border-bottom: 1px solid var(--color-skyblue);
+
+    &:hover {
+      background-color: #f1f4fc;
+    }
   }
 
   &__empty-icon {
@@ -96,6 +161,7 @@
   }
 
   &__drag {
+    flex: 0 0 20px;
     align-self: center;
     visibility: hidden;
     fill: #000;
@@ -124,12 +190,16 @@
     border-right: 1px solid var(--color-border);
     &:hover {
       // border: 1px solid #999898;
-      background-color: white;
+      // background-color: white;
       box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 3px;
     }
 
     & > * {
       align-self: center;
+    }
+
+    &:last-child {
+      border-right: unset;
     }
   }
 
@@ -160,7 +230,7 @@
   align-items: center;
   font-size: 1.4rem;
   text-align: left;
-  padding-left: 4px;
+  padding-left: 28px;
   height: 40px;
 
   &:hover {
