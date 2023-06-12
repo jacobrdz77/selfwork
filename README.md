@@ -20,9 +20,13 @@ A project management system for small teams and freelancers. Organize your proje
 
 # Features
 
-- Full CRUD functionality for projects, clients, sections, tasks, and workspaces.
-- View your project's tasks in different views.
-- Use intigrated [Excalidraw](https://excalidraw.com/) to create diagrams in the sketch view for each project.
+- CRUD functionality for projects, clients, sections, tasks, and workspaces.
+- Manage multiple workspaces that contain different projects, members, and tasks.
+- Invite members to your workspace.
+- View your project's tasks in different views such as:
+  - List
+  - Board (Kanban)
+- Use intigrated [Excalidraw](https://excalidraw.com/) to create whiteboards in the sketch view.
 - Allows you to log in and register using Google.
 
 # Setup
