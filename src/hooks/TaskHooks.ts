@@ -98,3 +98,30 @@ export const useUpdateTask = () => {
     },
   });
 };
+
+export const useDeleteTask = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (taskId: string) => {
+      try {
+        const response = await fetch(`/api/tasks/${taskId}`, {
+          method: "DELETE",
+        });
+        if (!response.ok) {
+          throw new Error(
+            "Error happend!: " + response.status.toLocaleString()
+          );
+        }
+        return (await response.json()) as Task;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    onSuccess: (deletedTask) => {
+      queryClient.invalidateQueries({ queryKey: ["sections"] });
+      console.log("Deleted task: ", deletedTask);
+    },
+  });
+};

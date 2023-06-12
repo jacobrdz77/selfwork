@@ -37,7 +37,7 @@ const ModalOverlay: React.FC<{
 const Modal: React.FC<{
   children: JSX.Element[] | JSX.Element;
   isOpen: boolean;
-  closeHandler: () => void;
+  closeHandler: () => any;
 }> = ({ children, isOpen, closeHandler }) => {
   return (
     <div className={`${isOpen ? "" : "modal--hidden"} modal-container `}>

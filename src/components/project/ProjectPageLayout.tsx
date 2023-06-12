@@ -4,6 +4,8 @@ import { useOneProject } from "../../hooks/ProjectHooks";
 import ProjectHeader from "../header/ProjectHeader";
 import LoadingSkeleton from "../UI/LoadingSkeleton";
 import EditProjectModal from "./EditProjectModal";
+import { useModalStore } from "store/user";
+import TaskDetailModal from "../task/TaskDetailModal";
 
 const ProjectPageLayout = ({
   children,
@@ -14,6 +16,10 @@ const ProjectPageLayout = ({
   const { project, status } = useOneProject(projectId as string);
 
   const [isEditProjectModalOpen, setIsEditProjectModalOpen] = useState(false);
+  const isTaskDetailOpen = useModalStore((state) => state.isTaskDetailOpen);
+  const setIsTaskDetailOpen = useModalStore(
+    (state) => state.setIsTaskDetailOpen
+  );
 
   return (
     <>
@@ -24,9 +30,13 @@ const ProjectPageLayout = ({
           setIsModalOpen={setIsEditProjectModalOpen}
         />
       )}
-      <ProjectHeader
-        title={status === "loading" ? <LoadingSkeleton /> : project?.name!}
-      />
+      {isTaskDetailOpen && (
+        <TaskDetailModal
+          isOpen={isTaskDetailOpen}
+          setIsModalOpen={setIsTaskDetailOpen}
+        />
+      )}
+      <ProjectHeader name={project?.name} status={status} />
       <div className="page project-page">{children}</div>
     </>
   );

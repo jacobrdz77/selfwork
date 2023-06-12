@@ -9,13 +9,11 @@ import LoadingSpinner from "@/components/UI/LoadingSpinner";
 
 const ProjectsPage: NextPage = () => {
   const { projects, status } = useProjects();
-  console.log("projects: ", projects);
-  console.log("status: ", status);
 
   return (
     <>
       {/* Wrapper */}
-      <PageHeader title="Projects"></PageHeader>
+      <PageHeader title="Projects" />
 
       <div className="page project-page">
         {status === "loading" && (

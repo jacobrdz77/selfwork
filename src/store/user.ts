@@ -27,6 +27,8 @@ type ModalStore = {
   setIsAddTaskOpen: (boolean: boolean) => void;
   isAddProjectModalOpen: boolean;
   setIsAddProjectModalOpen: (boolean: boolean) => void;
+  isTaskDetailOpen: boolean;
+  setIsTaskDetailOpen: (boolean: boolean) => void;
 };
 
 export const useModalStore = create<ModalStore>((set) => ({
@@ -34,5 +36,8 @@ export const useModalStore = create<ModalStore>((set) => ({
   setIsAddTaskOpen: (boolean: boolean) => set({ isAddTaskOpen: boolean }),
   isAddProjectModalOpen: false,
   setIsAddProjectModalOpen: (boolean: boolean) =>
+    set({ isAddProjectModalOpen: boolean }),
+  isTaskDetailOpen: false,
+  setIsTaskDetailOpen: (boolean: boolean) =>
     set({ isAddProjectModalOpen: boolean }),
 }));

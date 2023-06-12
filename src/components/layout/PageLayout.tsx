@@ -20,6 +20,7 @@ const PageLayout: React.FC<{
   const setIsAddProjectModalOpen = useModalStore(
     (state) => state.setIsAddProjectModalOpen
   );
+
   return (
     <div className="layout">
       <NavBar />

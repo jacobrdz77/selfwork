@@ -9,7 +9,7 @@ const formatDueDate = (taskDueDate: Date) => {
   return format(new Date(taskDueDate), "MMM dd");
 };
 
-const taskPriorityClassName = (priority: Priority) => {
+export const taskPriorityClassName = (priority: Priority) => {
   switch (priority) {
     case "None":
       return "task__priority--none";

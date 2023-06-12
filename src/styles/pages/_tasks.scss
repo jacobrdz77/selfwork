@@ -97,11 +97,11 @@
   font-size: 14px;
   text-align: left;
   height: 40px;
-  border-bottom: 1px solid var(--color-border);
+  // border-bottom: 1px solid var(--color-border);
 
-  &:nth-of-type(1) {
-    border-top: 1px solid var(--color-border);
-  }
+  // &:last-child {
+  //   border-bottom: 1px solid var(--color-border);
+  // }
 
   &:hover {
     cursor: pointer;
@@ -133,7 +133,7 @@
       padding-left: 6px;
 
       &:hover {
-        border: 1px solid #000 !important;
+        border: 1px solid #868e96 !important;
       }
 
       &:focus {
@@ -142,12 +142,7 @@
     }
 
     padding-left: 4px;
-    border-right: 1px solid var(--color-border);
-    &:hover {
-      // border: 1px solid #999898;
-      // background-color: white;
-      box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 3px;
-    }
+    // border-right: 1px solid var(--color-border);
 
     & > * {
       align-self: center;
@@ -204,13 +199,18 @@
   }
 
   &__cell {
+    font-size: 12px;
     display: flex;
     padding-left: 4px;
+    border-top: 1px solid var(--color-border);
     border-right: 1px solid var(--color-border);
+    border-left: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    // border: 1px solid var ;
     &:hover {
-      // border: 1px solid #999898;
-      // background-color: white;
-      box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 3px;
+      border: 1px solid #495057 !important;
+      border-top: 1px solid #495057 !important;
+      border-right: 1px solid #495057 !important;
     }
 
     & > * {
@@ -227,18 +227,32 @@
     //   width: 16px;
     //   height: 16px;
     // }
+    padding: 4px 6px;
 
-    &-icon--none {
+    &--none {
+      display: none;
+      padding: 4px 4px;
+      border-radius: 5px;
       background-color: #e8e8e8;
+      color: #343a40;
     }
-    &-icon--low {
+    &--low {
+      padding: 4px 4px;
+      border-radius: 5px;
       background-color: #3cac41;
+      color: #103012;
     }
-    &-icon--medium {
+    &--medium {
+      padding: 4px 4px;
+      border-radius: 5px;
       background-color: #ec8d71;
+      color: hsl(14, 32%, 24%);
     }
     &--high {
+      padding: 4px 4px;
+      border-radius: 5px;
       background-color: #f06a6a;
+      color: hsl(0, 37%, 12%);
     }
   }
 }
