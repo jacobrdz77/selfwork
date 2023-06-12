@@ -3,12 +3,12 @@
   // top: 50%;
   // left: 50%;
   // transform: translate(-50%, -50%);
-  margin: 10rem auto;
+  margin: 100px auto;
   background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   border-radius: 10px;
-  padding: 4rem 2rem;
-  max-width: 75rem;
+  padding: 40px 20px;
+  max-width: 750px;
   width: 95%;
   &--hidden {
     display: none;
@@ -25,10 +25,10 @@
   }
 
   &__content {
-    padding: 0 2rem;
+    padding: 0 20px;
     h1 {
       text-align: center;
-      font-size: 2.5rem;
+      font-size: 25px;
     }
   }
 

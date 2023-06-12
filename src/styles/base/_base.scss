@@ -17,7 +17,7 @@ body {
 
 html {
   // This defines what 1rem is
-  font-size: 62.5%; // 1rem = 10px; 10/16 = 62.5%
+  // font-size: 62.5%; // 1rem = 10px; 10/16 = 62.5%
 }
 
 img,
@@ -99,6 +99,14 @@ h6 {
   width: 100%;
   height: 100%;
 }
+
+/*
+SPACING SYSTEM (px)
+4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 96 / 128 / 192 / 256 / 384 / 512 / 640 / 768
+
+FONT SIZE SYSTEM (px)
+12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 48 / 60 / 72
+*/
 
 // Scrollbar
 // *::-webkit-scrollbar {

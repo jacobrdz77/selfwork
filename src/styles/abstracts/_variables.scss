@@ -4,7 +4,7 @@
   --color-primary--light: #6c528d;
   --color-primary--dark: #312540;
   --color-green--light: #6ea67a;
-  --color-green--dark: #358658;
+  --color-green--dark: hsl(133, 20%, 49%);
 
   --color-text: #000;
   --color-navigation-text: #f1f1f1;
@@ -38,8 +38,6 @@
   --color-customization-pink-background: #f6a0a3;
   --color-customization-oat-background: #e0dedc;
 
-  --default-font-size: 1.6rem;
-  --icon-size: 1.8rem;
-  --page-padding: 2.5rem;
+  --icon-size: 18px;
   --task-left-padding: 30px;
 }

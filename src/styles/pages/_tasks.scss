@@ -1,12 +1,27 @@
 .tasks-page {
   padding-left: 0;
-  // padding-right: 0;
+  padding-top: 12px;
+}
+
+.add-task-btn {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  background-color: var(--color-green--light);
+  color: white;
+  margin-left: 24px;
+  margin-bottom: 12px;
+  padding: 4px 10px;
+
+  &:hover {
+    background-color: var(--color-green--dark);
+  }
 }
 
 .tasks-header {
   border-top: 1px solid lightgray;
   border-bottom: 1px solid lightgray;
-  font-size: 1.4rem;
+  font-size: 12px;
   width: 100%;
   text-align: left;
   margin-bottom: 8px;
@@ -30,12 +45,16 @@
         visibility: visible;
       }
     }
+
+    .resizer:hover {
+      visibility: visible;
+    }
   }
 
   .resizer {
     visibility: hidden;
-    width: 6px;
-    background-color: #b8b8b8;
+    width: 8px;
+    background-color: #698ef7;
     position: absolute;
     right: 0;
     top: 0;
@@ -75,7 +94,7 @@
 
 .task {
   display: flex;
-  font-size: 1.4rem;
+  font-size: 14px;
   text-align: left;
   height: 40px;
   border-bottom: 1px solid var(--color-border);
@@ -228,7 +247,7 @@
   color: var(--color-gray-weak);
   display: flex;
   align-items: center;
-  font-size: 1.4rem;
+  font-size: 14px;
   text-align: left;
   padding-left: 28px;
   height: 40px;

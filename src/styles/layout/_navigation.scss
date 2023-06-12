@@ -5,8 +5,7 @@
   height: 100%;
   background-color: var(--color-navigation-background);
   color: var(--color-navigation-text);
-  font-size: 1.4rem;
-  // padding: 0 0.8rem;
+  font-size: 14px;
   z-index: 10;
 
   &--minimized {
@@ -38,7 +37,7 @@
     color: inherit;
     background-color: var(--color-navigation-background);
     border: 1px var(--color-navigation-button-hover) solid;
-    font-size: 1.4rem;
+    font-size: 14px;
     &:hover,
     &:active {
       background-color: var(--color-navigation-button-hover);
@@ -65,7 +64,7 @@
       padding: 4px 0;
       font-size: 14px;
       width: 184px;
-      border-radius: 0.6rem;
+      border-radius: 6px;
       background-color: var(--color-navigation-background);
       border: 1px solid var(--color-border);
       position: absolute;
@@ -105,7 +104,7 @@
     width: 30px;
     background-color: var(--color-navigation-background);
     border: none;
-    border-radius: 0.6rem;
+    border-radius: 6px;
     fill: var(--color-gray);
     display: flex;
     justify-content: center;
@@ -120,8 +119,8 @@
     //   left: 14.5px;
     // }
     &-icon {
-      width: 2.8rem;
-      height: 2.8rem;
+      width: 28px;
+      height: 28px;
     }
   }
 
@@ -132,11 +131,11 @@
   }
 
   &__logo {
-    font-size: 2.2rem;
+    font-size: 22px;
     font-weight: bolder;
-    letter-spacing: 0.2rem;
-    padding-left: 2rem;
-    margin-top: 1rem;
+    letter-spacing: 2px;
+    padding-left: 20px;
+    margin-top: 10px;
     user-select: none;
     &--dot {
       color: var(--color-green--light);
@@ -147,17 +146,17 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 4px;
 
     &-container {
-      padding: 0.8rem 0.8rem;
+      padding: 8px 8px;
       border-bottom: 1px solid var(--color-navigation-border);
     }
   }
 
   &__link {
     @include sidebar-btn;
-    font-size: 1.4rem;
+    font-size: 14px;
     position: relative;
 
     &-container {
@@ -197,7 +196,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-radius: 0.6rem;
+    border-radius: 6px;
     height: 28px;
     margin-bottom: 5px;
     &:hover {
@@ -212,8 +211,8 @@
       flex-shrink: 0;
       &-icon {
         fill: var(--color-gray);
-        width: 2rem;
-        height: 2rem;
+        width: 20px;
+        height: 20px;
         transition: all 0.1s ease-out;
         &:hover {
           fill: #f1f1f1;
@@ -225,7 +224,7 @@
         align-items: center;
         justify-content: space-between;
         padding: 0 12px;
-        border-radius: 0.6rem;
+        border-radius: 6px;
         height: 28px;
         &:hover {
           background-color: var(--color-navigation-button-hover);
@@ -283,7 +282,7 @@
     width: 226px;
     height: 28px;
     padding: 0 12px;
-    border-radius: 0.6rem;
+    border-radius: 6px;
     position: relative;
     &:hover {
       background-color: var(--color-navigation-button-hover);
@@ -349,7 +348,7 @@
 
   &__show-more-projects {
     color: var(--color-gray);
-    font-size: 1.2rem;
+    font-size: 12px;
     margin-left: 12px;
     display: inline-flex;
     align-items: center;
@@ -411,7 +410,7 @@
 
   &__no-projects {
     color: var(--color-gray);
-    font-size: 1.2rem;
+    font-size: 12px;
     margin-left: 12px;
     display: inline-flex;
     align-items: center;
@@ -425,9 +424,9 @@
   &__signout {
     display: flex;
     align-items: center;
-    gap: 1.2rem;
+    gap: 12px;
     cursor: pointer;
-    padding: 0.4rem 0.8rem;
+    padding: 4px 8px;
     &-icon {
       display: inline-block;
     }
@@ -479,7 +478,7 @@
     width: 100%;
     align-items: center;
     padding: 12px 12px;
-    border-radius: 0.6rem;
+    border-radius: 6px;
     user-select: none;
     &:hover {
       cursor: pointer;
@@ -507,7 +506,7 @@
       justify-content: center;
       width: 24px;
       height: 24px;
-      font-size: 1.2rem;
+      font-size: 12px;
       border-radius: 50%;
       padding: 10px;
       margin-right: 8px;
@@ -521,7 +520,7 @@
     padding: 4px 0;
     font-size: 14px;
     width: 340px;
-    border-radius: 0.6rem;
+    border-radius: 6px;
     background-color: var(--color-navigation-background);
     border: 1px solid var(--color-border);
     position: absolute;

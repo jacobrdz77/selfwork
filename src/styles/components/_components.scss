@@ -1,9 +1,9 @@
 .button {
   background-color: #d1d5db;
   color: #000;
-  font-size: 1.4rem;
-  padding: 0.8rem 1.4rem;
-  border-radius: 0.6rem;
+  font-size: 14px;
+  padding: 8px 14px;
+  border-radius: 6px;
 
   &,
   &:link,
@@ -48,19 +48,19 @@
 }
 
 .icon {
-  width: 1.8rem;
-  height: 1.8rem;
+  width: 18px;
+  height: 18px;
   fill: var(--color-gray);
   display: inline-block;
 }
 
 .no-data {
-  font-size: 1.4rem;
+  font-size: 14px;
   h1 {
-    font-size: 2rem;
+    font-size: 20px;
   }
   &__button {
-    margin-top: 0.6rem;
+    margin-top: 10px;
   }
 }
 
@@ -87,7 +87,7 @@
   }
 
   &__name {
-    font-size: 1.4rem;
+    font-size: 14px;
     @include showEllipsis;
   }
 }
@@ -212,7 +212,7 @@
     margin-right: 2px;
     &-input {
       width: 240px;
-      font-size: 1.6rem;
+      font-size: 16px;
       font-weight: 600;
       border: 2px solid transparent;
       border-radius: 8px;
@@ -227,7 +227,6 @@
   &__input-placeholder {
     @include showEllipsis;
     width: 240px;
-    font-size: 1.6rem;
     font-weight: 600;
     padding-left: 4px;
     &:hover {
@@ -249,7 +248,7 @@
       padding: 4px 0;
       font-size: 14px;
       width: 180px;
-      border-radius: 0.6rem;
+      border-radius: 6px;
       border: 1px solid var(--color-border);
       position: absolute;
       top: 105%;

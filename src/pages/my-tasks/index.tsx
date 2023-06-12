@@ -4,6 +4,7 @@ import { useSectionsOfUser } from "@/hooks/SectionHooks";
 import SectionListView from "@/components/sections/SectionListView";
 import TaskTableHead from "@/components/task/TaskTableHead";
 import AddSectionButton from "@/components/sections/AddSectionButton";
+import Button from "@/components/UI/Button";
 
 const MyTasksPage: NextPage = () => {
   const { userAssignedTasksSection, userSections, status } =
@@ -13,6 +14,16 @@ const MyTasksPage: NextPage = () => {
     <>
       <PageHeader title="My Tasks" />
       <div className="page tasks-page">
+        <Button className="add-task-btn">
+          <svg
+            fill="currentColor"
+            className="sidebar__add-icon"
+            viewBox="0 0 24 24"
+          >
+            <path d="m12 6a1 1 0 0 0 -1 1v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2h-4v-4a1 1 0 0 0 -1-1z" />
+          </svg>
+          Add Task
+        </Button>
         {status === "success" && (
           <>
             <TaskTableHead />
