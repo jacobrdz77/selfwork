@@ -1,10 +1,11 @@
 import { TaskWithAssignee } from "@/types/types";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { getInitials } from "../UI/UserCard";
 import useMenu from "@/hooks/useMenu";
-import { useDeleteSection } from "@/hooks/SectionHooks";
+import { useDeleteSection, useUpdateSection } from "@/hooks/SectionHooks";
 import BoardNewTask from "./BoardNewTask";
 import BoardTask from "./BoardTask";
+import { useCreateTask } from "@/hooks/TaskHooks";
 
 interface Board {
   title: string;
@@ -14,31 +15,100 @@ interface Board {
 
 const Board: React.FC<Board> = ({ title, sectionId, tasks }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
+
+  const { mutate: createTask } = useCreateTask();
   const {
     btnRef: newTaskBtnRef,
     isMenuOpen: isNewTaskOpen,
     menuRef: newTaskRef,
     setIsMenuOpen: setNewTaskOpen,
-  } = useMenu(() => {});
-
-  const { mutate: deleteSection } = useDeleteSection();
-  const newTask = useState({
-    id: "2",
-    name: "",
-    description: "",
-    status: "Open",
-    priority: "None",
-    assignee: null,
-    sectionId,
-    tags: null,
+  } = useMenu(async () => {
+    if (newTaskName.trim().length > 0) {
+      createTask({
+        name: newTaskName,
+        sectionId: sectionId,
+        description: "",
+        assignee: null,
+        priority: null,
+      });
+    }
   });
 
+  const { mutate: deleteSection } = useDeleteSection();
+
+  const [newTaskName, setNewTaskName] = useState("");
+
   console.log("IS OPEN: ", isNewTaskOpen);
+
+  const [oldName, setOldName] = useState(title);
+  const [sectionInputName, setSectionInputName] = useState(title);
+  const [isInputFocused, setIsInputFocused] = useState(false);
+  const inputRef = useRef(null);
+  const { mutate: updateSection } = useUpdateSection();
+
+  const focusOnInput = () => {
+    // @ts-ignore
+    inputRef.current!.focus();
+  };
+
+  useEffect(() => {
+    if (isInputFocused === true) {
+      focusOnInput();
+    }
+  }, [isInputFocused]);
+
+  const handleInputBlur = (e: FocusEvent<HTMLInputElement, Element>) => {
+    let trimmedName = e.currentTarget.value.trim();
+    if (trimmedName.length === 0) {
+      trimmedName = "Untitled Section";
+    }
+    if (oldName === trimmedName) {
+      setSectionInputName(trimmedName);
+      console.log("NOPE");
+      setIsInputFocused(false);
+      return;
+    } else {
+      updateSection({
+        sectionId,
+        sectionData: { name: trimmedName },
+      });
+      setSectionInputName(trimmedName);
+      setOldName(trimmedName);
+    }
+    // Switches to display button
+    setIsInputFocused(false);
+  };
 
   return (
     <div className="board">
       <div className="board-title">
-        <div className="name">{title}</div>
+        <div className="name">
+          {isInputFocused ? (
+            <input
+              ref={inputRef}
+              className="section__name-input"
+              autoComplete="off"
+              type="text"
+              name="name"
+              placeholder="New Section"
+              value={sectionInputName}
+              onChange={(e) => {
+                setSectionInputName(e.currentTarget.value);
+              }}
+              onBlur={handleInputBlur}
+            />
+          ) : (
+            <div
+              className="section__input-placeholder"
+              role="button"
+              onClick={() => {
+                setIsInputFocused(true);
+              }}
+            >
+              {sectionInputName}
+            </div>
+          )}
+        </div>
         <div className="board__more-btn-container">
           <div
             ref={btnRef}
@@ -82,15 +152,8 @@ const Board: React.FC<Board> = ({ title, sectionId, tasks }) => {
         {isNewTaskOpen && (
           <BoardNewTask
             forwardRef={newTaskRef}
-            task={{
-              id: "2",
-              sectionId,
-              name: "",
-              description: "",
-              status: "Open",
-              priority: "None",
-              assignee: null,
-            }}
+            name={newTaskName}
+            setName={setNewTaskName}
             setNewTaskOpen={setNewTaskOpen}
           />
         )}
@@ -100,6 +163,15 @@ const Board: React.FC<Board> = ({ title, sectionId, tasks }) => {
           role="button"
           className="board-add-task"
           onClick={() => {
+            if (newTaskName.trim().length > 0) {
+              createTask({
+                name: newTaskName,
+                sectionId: sectionId,
+                description: "",
+                assignee: null,
+                priority: null,
+              });
+            }
             setNewTaskOpen((state) => !state);
           }}
         >

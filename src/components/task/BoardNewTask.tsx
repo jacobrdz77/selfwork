@@ -4,37 +4,17 @@ import { getInitials } from "../UI/UserCard";
 import { useCreateTask } from "@/hooks/TaskHooks";
 
 const BoardNewTask = ({
-  task,
-  isNewTaskOpen,
+  name,
+  setName,
   setNewTaskOpen,
   forwardRef,
 }: {
   forwardRef: any;
-  task: TaskWithAssignee;
-  isNewTaskOpen: boolean;
+  name: string;
+  setName: any;
   setNewTaskOpen: (isOpen: boolean) => any;
 }) => {
-  const [name, setName] = useState("");
   const nameRef = useRef<HTMLInputElement>();
-  const { mutate: createTask } = useCreateTask();
-
-  const handleInputBlur = (e) => {
-    let trimmedName = e.currentTarget.value.trim();
-    if (trimmedName.length === 0) {
-      // Removes if empty space
-      setNewTaskOpen(false);
-    } else {
-      createTask({
-        name,
-        sectionId: task.sectionId,
-        description: "",
-        assignee: null,
-        priority: null,
-      });
-      setName("");
-      setNewTaskOpen(false);
-    }
-  };
 
   useEffect(() => {
     if (nameRef === null) return;
@@ -50,7 +30,6 @@ const BoardNewTask = ({
     <div
       ref={forwardRef}
       className={`board-task new-task-board new-task-board--active`}
-      key={task.id}
     >
       <div className="board-task__header">
         <svg
@@ -70,7 +49,7 @@ const BoardNewTask = ({
           className="board-task__name"
           placeholder="Write a task."
           onChange={(e) => setName(e.target.value)}
-          onBlur={handleInputBlur}
+          // onBlur={handleInputBlur}
         />
       </div>
 
@@ -100,7 +79,7 @@ const BoardNewTask = ({
           </div>
         </div>
 
-        {task.assignee === null ? null : (
+        {/* {task.assignee === null ? null : (
           <div className="board-task__assignee" role="button">
             <span>
               {getInitials(
@@ -108,7 +87,7 @@ const BoardNewTask = ({
               )}
             </span>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );

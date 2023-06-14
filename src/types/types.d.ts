@@ -1,5 +1,6 @@
 import type { DefaultUser } from "next-auth";
 import type {
+  Links,
   Note,
   Priority,
   Prisma,
@@ -61,6 +62,7 @@ export type ProjectWithAll = Project & {
   sections: SectionWithTasks[];
   members: User[];
   notes: Note[];
+  links: Links[];
 };
 
 export type NewClientData = {

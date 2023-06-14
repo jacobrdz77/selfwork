@@ -123,6 +123,14 @@ enum Color {
   Oat
 }
 
+model Link {
+  id          String    @id @default(cuid())
+  name        String
+  url         String  
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String
+}
+
 model Project {
   id          String    @id @default(cuid())
   name        String
@@ -145,6 +153,7 @@ model Project {
   clientName  String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
+  urlLinks    Link[]
 
   @@unique([id, name])
 }
