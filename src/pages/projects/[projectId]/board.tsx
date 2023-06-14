@@ -1,7 +1,8 @@
 import ProjectPageLayout from "@/components/project/ProjectPageLayout";
 import { NextPageWithLayout } from "../../_app";
 import { useSectionsOfUser } from "@/hooks/SectionHooks";
-import Board from "@/components/UI/Board";
+import Board from "@/components/task/Board";
+import AddSectionButton from "@/components/sections/AddSectionButton";
 
 const BoardPage: NextPageWithLayout = () => {
   const { userAssignedTasksSection, userSections, status } =
@@ -17,9 +18,12 @@ const BoardPage: NextPageWithLayout = () => {
               key={section.id}
               tasks={section.tasks}
               title={section.name}
-              id={section.id}
+              sectionId={section.id}
             />
           ))}
+          <div className="add-btn">
+            <AddSectionButton />
+          </div>
         </div>
       )}
     </div>

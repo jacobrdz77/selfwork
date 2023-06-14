@@ -46,6 +46,7 @@ export const useCreateTask = () => {
 
     onSuccess: (newTask) => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["sections"] });
       console.log("Created new task...\n", newTask);
     },
   });
