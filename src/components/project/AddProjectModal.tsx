@@ -96,7 +96,7 @@ const AddProjectModal: React.FC<{
         </div>
         <div className="form__input-container">
           <label className="form__input--label" htmlFor="lump-sum">
-            Lump Sum ($)
+            Payout
           </label>
           <input
             className="form__input"
