@@ -2,7 +2,6 @@
 
 ## High
 
-- Figure out how to focus on input when clicking Add Section
 - Figure out how to order after rearraning section.
 - Create task detail modal for list and board view.
 - Create project mutation for deleting.

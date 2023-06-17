@@ -7,11 +7,12 @@ import Image from "next/image";
 import { getInitials } from "@/components/UI/UserCard";
 import Link from "next/link";
 import useMenu from "@/hooks/useMenu";
+import AddLinkPopup from "@/components/project/AddLinkPopup";
 
 const ProjectOverviewPage: NextPageWithLayout = () => {
   const { projectId } = useRouter().query;
   const { project, status } = useOneProject(projectId as string);
-  const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
+  const { isMenuOpen, btnRef, menuRef, setIsMenuOpen } = useMenu();
   console.log("Project in overview: ", project);
 
   if (status === "loading") {
@@ -30,7 +31,11 @@ const ProjectOverviewPage: NextPageWithLayout = () => {
     <div className="project-page__overview">
       <div className="project-page__overview-description">
         <h2>Description</h2>
-        <p>{project?.description ?? "You're description would go here!"}</p>
+        <textarea
+          className="description-textarea"
+          name="description"
+          placeholder="You're description goes here!"
+        ></textarea>
       </div>
       <div className="project-members">
         <h2>Members</h2>
@@ -62,7 +67,7 @@ const ProjectOverviewPage: NextPageWithLayout = () => {
               ref={btnRef}
               onClick={(e) => {
                 e.preventDefault();
-                setIsMenuOpen(!isMenuOpen);
+                setIsMenuOpen((state) => !state);
               }}
               className="project-resources__add-btn"
               role="button"
@@ -76,7 +81,11 @@ const ProjectOverviewPage: NextPageWithLayout = () => {
                 <span>Add a link</span>
               </div>
             </div>
+            {isMenuOpen && (
+              <AddLinkPopup menuRef={menuRef} setIsOpen={setIsMenuOpen} />
+            )}
           </div>
+
           {project?.links &&
             project?.links.map((link) => (
               <Link href={link} key={link} className="one-member">

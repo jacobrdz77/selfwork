@@ -99,3 +99,9 @@ export type TaskWithAssignee = Task & {
   assignee: Pick<User, "id" | "name" | "email">;
   tags: Tag[];
 };
+
+// Link
+export type NewLink = {
+  name: string;
+  url: string;
+};

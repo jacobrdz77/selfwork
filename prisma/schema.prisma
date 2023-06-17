@@ -154,6 +154,7 @@ model Project {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
   urlLinks    Link[]
+  order Int? @default(autoincrement())
 
   @@unique([id, name])
 }
@@ -169,6 +170,7 @@ model Client {
   project         Project[]
   user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId          String
+  order Int? @default(autoincrement())
 
   @@unique([id, name])
 }
@@ -197,6 +199,7 @@ model Task {
   sectionId   String
   assignee    User?     @relation(fields: [assigneeId], references: [id], onDelete: Cascade)
   assigneeId  String?
+  order Int? @default(autoincrement())
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
 }
@@ -217,6 +220,6 @@ model Section {
   user         User?    @relation("UserSections", fields: [userId], references: [id], onDelete: Cascade)
   userId       String?
   userAssigned User?    @relation("UserNewTasksSection")
-  displaySequence Int? 
+  order Int?   
   createdAt   DateTime  @default(now())
 }

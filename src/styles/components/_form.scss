@@ -7,6 +7,12 @@
   &__submit {
     justify-self: left;
     width: 100px;
+    background-color: var(--color-primary--light);
+    color: #fff;
+
+    &:hover {
+      background-color: var(--color-primary);
+    }
   }
 
   &__input {

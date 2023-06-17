@@ -3,29 +3,18 @@ import { NextPageWithLayout } from "../../_app";
 import { useSectionsOfUser } from "@/hooks/SectionHooks";
 import Board from "@/components/task/Board";
 import AddSectionButton from "@/components/sections/AddSectionButton";
+import { useDrop } from "react-dnd";
+import Boards from "@/components/sections/Boards";
 
 const BoardPage: NextPageWithLayout = () => {
   const { userAssignedTasksSection, userSections, status } =
     useSectionsOfUser();
+
   return (
     <div className="project-page__board">
       {status === "loading" && <div>Loading...</div>}
 
-      {status === "success" && (
-        <div className="boards">
-          {userSections?.map((section) => (
-            <Board
-              key={section.id}
-              tasks={section.tasks}
-              title={section.name}
-              sectionId={section.id}
-            />
-          ))}
-          <div className="add-btn">
-            <AddSectionButton />
-          </div>
-        </div>
-      )}
+      {status === "success" && <Boards userSections={userSections} />}
     </div>
   );
 };

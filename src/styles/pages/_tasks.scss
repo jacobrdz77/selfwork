@@ -7,14 +7,14 @@
   display: flex;
   align-items: center;
   font-size: 12px;
-  background-color: var(--color-green--light);
+  background-color: var(--color-skyblue);
   color: white;
   margin-left: 24px;
   margin-bottom: 12px;
   padding: 4px 10px;
 
   &:hover {
-    background-color: var(--color-green--dark);
+    background-color: var(--color-skyblue);
   }
 }
 

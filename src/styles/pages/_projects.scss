@@ -3,6 +3,7 @@
   height: 100%;
   overflow-y: auto;
   font-size: 14px;
+  padding-right: 24px;
 
   &__overview {
     margin: 0 auto;
@@ -11,18 +12,40 @@
     &-description {
       min-height: 150px;
       h2 {
+        padding-left: 10px;
+
         font-size: 18px;
         font-weight: 600;
-        margin-bottom: 8px;
+        margin-bottom: 10px;
+      }
+
+      .description-textarea {
+        padding: 10px 10px;
+        border: 2px transparent solid;
+        width: 100%;
+        border-radius: 8px;
+        resize: vertical;
+        min-height: 125px;
+        color: #5b6064;
+
+        &:focus {
+          border: 2px solid var(--color-primary--light);
+          color: #343a40;
+        }
+
+        &:hover {
+          // border: 2px solid var(--color-green--light);
+        }
       }
     }
 
     .project-members {
       margin-top: 20px;
+      padding-left: 10px;
       h2 {
         font-size: 18px;
         font-weight: 600;
-        margin-bottom: 8px;
+        margin-bottom: 10px;
       }
 
       .members {
@@ -57,8 +80,8 @@
             border-radius: 50%;
             padding: 10px;
             margin-right: 6px;
-            background-color: var(--color-green--light);
-            color: hsl(132.86deg 23.93% 3%);
+            background-color: var(--color-primary--light);
+            color: hsl(0, 0%, 100%);
           }
         }
       }
@@ -66,14 +89,16 @@
 
     .project-resources {
       margin-top: 20px;
+      padding-left: 10px;
       h2 {
         font-size: 18px;
         font-weight: 600;
-        margin-bottom: 8px;
+        margin-bottom: 10px;
       }
 
       &__add-btn-container {
         position: relative;
+        z-index: 99999;
       }
 
       &__add-btn {
@@ -82,6 +107,8 @@
         padding: 10px;
         border-radius: 6px;
         transition: all 0.2s ease-in;
+        position: relative;
+        z-index: 99999;
 
         &:hover {
           .project-resource__tooltip {
@@ -96,6 +123,7 @@
         .project-resource__tooltip {
           // display: inline;
           // visibility: hidden;
+          user-select: none;
           color: #dee2e6;
           max-width: 180px;
           display: flex;
@@ -104,8 +132,8 @@
           border-radius: 6px;
           position: absolute;
           top: 106%;
-          left: -2.2%;
-          z-index: 1;
+          left: -35%;
+          z-index: 99;
           white-space: nowrap;
           transition: all 0.1s;
           // ! Remember to SCALE to see tooltip
@@ -132,6 +160,60 @@
           width: 30px;
           height: 30px;
         }
+      }
+
+      &__add-modal {
+        background-color: #fefefe;
+        position: absolute;
+        bottom: 110%;
+        width: 500px;
+        color: #63686d;
+        font-size: 14px;
+        // border: 1px solid var(--color-border);
+        border-radius: 8px;
+        padding: 25px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+        .label {
+          display: flex;
+          flex-direction: column;
+          margin-bottom: 12px;
+        }
+
+        .input {
+          font-weight: 500;
+          border: 1px solid var(--color-border);
+          border-radius: 6px;
+          padding: 6px 10px;
+        }
+        .submit-button {
+          border: 1px solid var(--color-border);
+          padding: 6px 8px;
+          border-radius: 6px;
+          display: inline-block;
+          width: 85px;
+          background-color: var(--color-primary--light);
+          color: white;
+          transition: background-color 0.1s ease-in;
+
+          &:hover {
+            cursor: pointer;
+            background-color: var(--color-primary);
+          }
+          &--disabled {
+            background-color: white;
+            color: #adb5bd;
+
+            &:hover {
+              background-color: unset;
+            }
+          }
+        }
+      }
+
+      &__add-form {
+        display: flex;
+        flex-direction: column;
       }
     }
   }
@@ -165,7 +247,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 
     &:hover {
       .board-card__more-icon {
@@ -219,6 +301,7 @@
     flex-direction: column;
     min-height: 300px;
     gap: 6px;
+
     .board-task {
       background-color: #495057;
       padding: 14px 12px;
@@ -444,7 +527,7 @@
     margin-top: 6px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    // gap: 16px;
     // padding-bottom: 120px;
   }
 
@@ -529,6 +612,102 @@
         margin-right: 6px;
       }
     }
+  }
+
+  .footer {
+    width: 100%;
+    justify-content: end;
+    margin-top: 8px;
+
+    .buttons {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .board-task__date {
+        padding: 4px 4px;
+        display: flex;
+        align-items: center;
+        border-radius: 6px;
+        &:hover {
+          background-color: #343a40;
+        }
+      }
+
+      .icon {
+        width: 24px;
+        fill: transparent;
+      }
+    }
+  }
+}
+
+.board-task__assignee--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px dashed var(--color-border);
+  width: 25px;
+  height: 25px;
+
+  &:hover {
+    background-color: #606a72;
+  }
+
+  .board-task__add-assignee {
+    width: 500px;
+    padding: 12px 24px;
+    background-color: #22272b;
+    z-index: 999999;
+
+    .content {
+      // display: flex;
+
+      .button {
+        // width: 150px;
+        display: inline;
+        padding: 4px 16px;
+      }
+    }
+
+    .close {
+      display: flex;
+      justify-content: end;
+
+      &-btn {
+        svg {
+          fill: white;
+          width: 14px;
+          height: 14px;
+        }
+
+        &-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 28px;
+          height: 28px;
+          border-radius: 6px;
+          &:hover {
+            background-color: #495057;
+          }
+        }
+      }
+    }
+  }
+}
+
+.board-task__date--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px dashed var(--color-border);
+  width: 25px;
+  height: 25px;
+  &:hover {
+    background-color: #606a72;
   }
 }
 

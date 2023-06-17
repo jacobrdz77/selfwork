@@ -8,6 +8,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  // GET all projects
+  if (req.method === "GET") {
+    const projects = await prisma.project.findMany();
+    res.status(200).json({ projects: projects });
+  }
+
   // Create a new project
   if (req.method === "POST") {
     try {

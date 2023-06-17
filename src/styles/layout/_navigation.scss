@@ -138,7 +138,7 @@
     margin-top: 10px;
     user-select: none;
     &--dot {
-      color: var(--color-green--light);
+      color: var(--color-primary--lightest);
     }
   }
 
@@ -510,7 +510,7 @@
       border-radius: 50%;
       padding: 10px;
       margin-right: 8px;
-      background-color: var(--color-green--light) !important;
+      background-color: var(--color-primary--light) !important;
     }
   }
 

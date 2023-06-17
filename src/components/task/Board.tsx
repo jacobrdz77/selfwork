@@ -6,6 +6,7 @@ import { useDeleteSection, useUpdateSection } from "@/hooks/SectionHooks";
 import BoardNewTask from "./BoardNewTask";
 import BoardTask from "./BoardTask";
 import { useCreateTask } from "@/hooks/TaskHooks";
+import { useDrag } from "react-dnd";
 
 interface Board {
   title: string;
@@ -14,6 +15,13 @@ interface Board {
 }
 
 const Board: React.FC<Board> = ({ title, sectionId, tasks }) => {
+  const [{ isDragging }, drag, dragPreview] = useDrag(() => ({
+    type: "Board",
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  }));
+
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
 
   const { mutate: createTask } = useCreateTask();
@@ -80,7 +88,7 @@ const Board: React.FC<Board> = ({ title, sectionId, tasks }) => {
   };
 
   return (
-    <div className="board">
+    <div className="board" ref={drag}>
       <div className="board-title">
         <div className="name">
           {isInputFocused ? (
