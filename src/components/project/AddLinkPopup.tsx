@@ -1,9 +1,16 @@
+import { useCreateLink } from "@/hooks/LinkHook";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
+import { z } from "zod";
 
-const AddLinkPopup = ({ menuRef, setIsOpen }) => {
+const checkURL = z.string().url();
+
+const AddLinkPopup = ({ menuRef, setIsOpen, projectId }) => {
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
+  const [urlError, setUrlError] = useState(false);
+  const { mutateAsync: createLink } = useCreateLink(projectId);
 
   useEffect(() => {
     // const currentURL = new URL(url);
@@ -12,9 +19,26 @@ const AddLinkPopup = ({ menuRef, setIsOpen }) => {
     }
   }, [name, url]);
 
-  function submitHandler(e) {
+  const submitHandler = async (e: any) => {
     e.preventDefault();
-  }
+    try {
+      if (checkURL.parse(url)) {
+        setUrlError(false);
+        await createLink({
+          name,
+          url,
+        });
+        toast.success(`Created new link: ${name}`);
+        setIsOpen(false);
+      } else {
+        setUrlError(true);
+        return;
+      }
+    } catch (error) {
+      console.log("ErRROR");
+      setUrlError(true);
+    }
+  };
 
   return (
     <div ref={menuRef} className="project-resources__add-modal">
@@ -33,27 +57,26 @@ const AddLinkPopup = ({ menuRef, setIsOpen }) => {
           />
         </label>
         <label className="label" htmlFor="link">
-          Add a link to a resource{" "}
+          Add a link to a resource
           <input
             value={url}
             onChange={(e) => {
               setUrl(e.target.value);
             }}
             autoComplete="off"
-            className="input"
             id="link"
             type="text"
-            placeholder="Paste URL "
+            placeholder="https://youtube.com"
+            className={`input ${urlError ? "input--error" : ""}`}
           />
         </label>
+        {urlError && <p className="error">Please provide a valid URL </p>}
         <button
           type="submit"
           className={`submit-button ${
             isDisabled ? "submit-button--disabled" : null
-          }`}
-          onClick={() => {
-            setIsOpen(false);
-          }}
+          } ${urlError ? "submit-button--error" : ""}`}
+          disabled={isDisabled}
         >
           Add link
         </button>

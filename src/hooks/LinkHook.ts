@@ -4,12 +4,12 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { type } from "os";
 import { useUserStore } from "store/user";
 
-const createLink = async (link: NewLink) => {
+const createLink = async (link: NewLink, projectId: string) => {
   try {
-    const response = await fetch("/api/projects", {
+    const response = await fetch(`/api/projects/${projectId}/links`, {
       method: "POST",
       body: JSON.stringify({
-        linkData: { ...link },
+        link: { ...link },
       }),
     });
 
@@ -49,13 +49,11 @@ export const useLinks = (projectId: string) => {
   };
 };
 
-export const useCreateLink = () => {
+export const useCreateLink = (projectId: string) => {
   const queryClient = useQueryClient();
-  const ownerId = useUserStore((state) => state.userId);
-  const workspaceId = useUserStore((state) => state.workspaceId);
 
   return useMutation({
-    mutationFn: (newLinkData: NewLink) => createLink({ ...newLinkData }),
+    mutationFn: (newLinkData: NewLink) => createLink(newLinkData, projectId),
 
     onSuccess: async () => {
       await queryClient.invalidateQueries({
@@ -65,7 +63,7 @@ export const useCreateLink = () => {
   });
 };
 
-export const useDeletelink = () => {
+export const useDeleteLink = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -100,7 +98,7 @@ export const useDeletelink = () => {
 
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({ queryKey: ["links"] });
-      console.log("Deleted links: ", data);
+      console.log("Deleted Task");
     },
   });
 };

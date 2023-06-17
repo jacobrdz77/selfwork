@@ -8,13 +8,14 @@ export default async function handler(
   // GET all links
   if (req.method === "GET") {
     const links = await prisma.link.findMany();
-    res.status(200).json({ links });
+    return res.status(200).json(links);
   }
 
   // Create a new link
   if (req.method === "POST") {
     try {
       // PARSE
+      console.log("REQ", req);
       const body = JSON.parse(req.body);
       const { projectId } = req.query;
       const { link } = body;
