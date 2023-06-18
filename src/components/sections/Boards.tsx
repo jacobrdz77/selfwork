@@ -45,7 +45,6 @@ const Boards = ({
           sectionId={section.id}
         />
       ))}
-      {canDrop ? "Release here" : "Drag a box here"}
       <div className="add-btn">
         <AddSectionButton />
       </div>

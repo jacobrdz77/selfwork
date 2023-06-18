@@ -139,20 +139,35 @@ const AssigneeButton = () => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
 
   return (
-    <div className="board-task__assignee--empty">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        className="icon"
+    <div className="board-task__assignee-container">
+      <div
+        ref={btnRef}
+        onClick={(e) => {
+          e.preventDefault();
+          setIsMenuOpen(!isMenuOpen);
+        }}
+        className="board-task__assignee--empty"
       >
-        <path d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-      </svg>
-      <div className="board-task__add-assignee">
-        <div className="close">
-          <div className="close-btn-container">
-            <button onClick={() => {}} className="close-btn">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          className="icon"
+        >
+          <path d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+        </svg>
+      </div>
+      {isMenuOpen && (
+        <div className="board-task__add-assignee" ref={menuRef}>
+          <div className="close">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setIsMenuOpen(!isMenuOpen);
+              }}
+              className="close-btn"
+            >
               <svg viewBox="0 0 320.591 320.591">
                 <g>
                   <g id="close_1_">
@@ -163,17 +178,25 @@ const AssigneeButton = () => {
               </svg>
             </button>
           </div>
+          <div className="content">
+            <div>Assignee</div>
+            <div className="assignee-form">
+              <label className="label">
+                <input
+                  className="input"
+                  type="text"
+                  placeholder="Name or email"
+                />
+              </label>
+              <span>or</span>
+
+              <button className="button" onClick={() => {}}>
+                Assign to Me
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="content">
-          <label className="label">
-            <span>Assignee</span>
-            <input className="input" type="text" placeholder="Name or email" />
-          </label>
-          <button className="button" onClick={() => {}}>
-            Assign to Me
-          </button>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

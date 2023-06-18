@@ -4,11 +4,24 @@
   gap: 10px;
   font-size: 16px;
 
+  .button--disabled {
+    background-color: #d6d6d6;
+    border: 1px solid var(--color-border);
+    color: #495057;
+
+    &:hover {
+      background-color: #d6d6d6;
+      border: 1px solid var(--color-border);
+      color: #8e9194;
+    }
+  }
+
   &__submit {
     justify-self: left;
     width: 100px;
     background-color: var(--color-primary--light);
     color: #fff;
+    font-size: 16px;
 
     &:hover {
       background-color: var(--color-primary);
@@ -43,14 +56,34 @@
 }
 
 .new-project {
-  &__dates {
-    &-list {
+  &__date {
+    &--empty {
+      width: 160px;
+      padding: 4px 10px;
+      border-radius: 6px;
       display: flex;
-      gap: 16px;
+      align-items: center;
+      font-size: 14px;
+      &:hover {
+        cursor: pointer;
+        background-color: var(--color-gray--hover);
+      }
     }
 
-    &-input {
-      margin-right: 4px;
+    &-icon {
+      display: flex;
+      width: 40px;
+      height: 40px;
+      align-items: center;
+      justify-content: center;
+      border: 1px dashed var(--color-form-border);
+      border-radius: 50%;
+      margin-right: 8px;
+
+      svg {
+        width: 24px;
+        height: 24px;
+      }
     }
   }
 }
@@ -74,10 +107,10 @@
 }
 
 .priority {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   &__list {
     display: flex;
-    gap: 25px;
+    gap: 18px;
     justify-content: space-between;
   }
 
@@ -94,16 +127,18 @@
     padding: 6px 0;
     border: 1px solid var(--color-form-border);
     border-radius: 5px;
+    font-size: 14px;
+
     &:hover {
       cursor: pointer;
-      background-color: var(--color-skyblue);
-      border-color: var(--color-skyblue);
+      background-color: var(--color-primary);
+      border-color: var(--color-primary--light);
       color: #fff;
     }
 
     &--active {
-      background-color: var(--color-skyblue);
-      border-color: var(--color-skyblue);
+      background-color: var(--color-primary--light);
+      border-color: var(--color-primary--light);
       color: #fff;
     }
   }

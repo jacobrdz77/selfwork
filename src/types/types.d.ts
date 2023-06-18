@@ -42,7 +42,7 @@ export type NewProject = {
 };
 
 export type UpdateProjectData = {
-  id: number;
+  id?: number;
   name?: string;
   lumpSum?: number;
   priority?: Priority;

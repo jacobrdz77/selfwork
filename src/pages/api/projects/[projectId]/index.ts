@@ -59,8 +59,11 @@ export default async function handler(
   // RETURN: the updated project
   else if (req.method === "PUT") {
     try {
+      const body = await JSON.parse(req.body);
       const { projectId } = req.query;
-      const { projectData } = req.body;
+      const { projectData } = body;
+      console.log("PROJECT ID: ", projectData);
+
       const project = await prisma.project.update({
         where: {
           id: projectId as string,
@@ -69,6 +72,7 @@ export default async function handler(
           ...projectData,
         },
       });
+
       return res.status(200).json(project);
     } catch (error: Error | any) {
       return res.status(400).json({ error: error.message });

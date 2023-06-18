@@ -57,12 +57,24 @@ export const updateProject = async (
   projectId: string,
   projectData: UpdateProjectData
 ) => {
-  const updatedproject = await axios.put(`/api/projects/${projectId}`, {
-    data: {
-      projectData,
-    },
-  });
-  return updatedproject.data as Project;
+  try {
+    const response = await fetch(`/api/projects/${projectId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        projectData: projectData,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error("Error happend!: " + response.status.toLocaleString());
+    }
+    return (await response.json()) as Project;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 };
 
 // DELETE

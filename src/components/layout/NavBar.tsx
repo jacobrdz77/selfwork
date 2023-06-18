@@ -144,37 +144,6 @@ const NavBar = () => {
                 className={`sidebar__link ${
                   isNavMinimized ? "sidebar__link--minimized" : ""
                 } ${
-                  router.pathname === "/projects" ? "sidebar__link--active" : ""
-                }`}
-                href="/projects"
-              >
-                <svg
-                  className="sidebar__link-icon"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <g id="Icon">
-                    <path d="m20 21.25c1.518 0 2.75-1.232 2.75-2.75v-8.5c0-1.518-1.232-2.75-2.75-2.75 0 0-3.9 0-5.412 0-.09 0-.174-.049-.218-.129-.481-.866-1.448-2.605-1.929-3.471-.308-.555-.894-.9-1.529-.9h-6.912c-1.518 0-2.75 1.232-2.75 2.75v13c0 1.518 1.232 2.75 2.75 2.75z" />
-                    <path d="m13.919 4.25 1.111 2h4.97c1.086 0 2.065.463 2.75 1.201v-.451c0-1.518-1.232-2.75-2.75-2.75z" />
-                  </g>
-                </svg>
-
-                <span>Projects</span>
-              </Link>
-              <div className="sidebar__tooltip">
-                <span>Projects</span>
-              </div>
-            </li>
-            <li
-              className={`sidebar__link-container ${
-                isNavMinimized ? "sidebar__link-container--minimized" : ""
-              }`}
-            >
-              <Link
-                className={`sidebar__link ${
-                  isNavMinimized ? "sidebar__link--minimized" : ""
-                } ${
                   router.pathname === "/clients" ? "sidebar__link--active" : ""
                 }`}
                 href="/clients"
@@ -202,6 +171,8 @@ const NavBar = () => {
             </li>
           </ul>
         </nav>
+
+        {/* PROJECTS */}
         <nav className="sidebar__nav-container sidebar__nav--workspace">
           {status === "loading" && (
             <div className="sidebar__workspace-loading">
@@ -225,30 +196,41 @@ const NavBar = () => {
                 </div>
               </div>
             ) : (
-              <Link
-                href="/workspace"
-                className={`sidebar__workspace ${
-                  isNavMinimized ? "sidebar__workspace--minimized" : ""
+              <div
+                className={`sidebar__link-container ${
+                  isNavMinimized ? "sidebar__link-container--minimized" : ""
                 }`}
               >
-                <span className="sidebar__workspace-name">
-                  {workspace?.name}
-                </span>
-                <div
-                  onClick={(e) => {
-                    setIsAddProjectModalOpen(true);
-                    e.preventDefault();
-                  }}
-                  className="sidebar__workspace-add"
+                <Link
+                  className={`sidebar__projects ${
+                    isNavMinimized ? "sidebar__projects--minimized" : ""
+                  } ${
+                    router.pathname === "/projects"
+                      ? "sidebar__link--active"
+                      : ""
+                  }`}
+                  href="/projects"
                 >
-                  <svg
-                    className="sidebar__workspace-add-icon"
-                    viewBox="0 0 24 24"
+                  <span>Projects</span>
+                  <div
+                    onClick={(e) => {
+                      setIsAddProjectModalOpen(true);
+                      e.preventDefault();
+                    }}
+                    className="sidebar__projects-add"
                   >
-                    <path d="m12 6a1 1 0 0 0 -1 1v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2h-4v-4a1 1 0 0 0 -1-1z" />
-                  </svg>
+                    <svg
+                      className="sidebar__projects-add-icon"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="m12 6a1 1 0 0 0 -1 1v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2h-4v-4a1 1 0 0 0 -1-1z" />
+                    </svg>
+                  </div>
+                </Link>
+                <div className="sidebar__tooltip">
+                  <span>Projects</span>
                 </div>
-              </Link>
+              </div>
             ))}
 
           <div
@@ -295,6 +277,33 @@ const NavBar = () => {
           </div>
         </nav>
 
+        {/* Workspace */}
+        <div
+          className={`sidebar__nav-container sidebar__workspace-container  ${
+            isNavMinimized ? "sibebar__workspace--minimized" : ""
+          }`}
+        >
+          <div className="sidebar__workspace-title">Team</div>
+          <Link href={"/workspace"} className="sidebar__workspace">
+            <div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="sidebar__workspace-icon"
+              >
+                <path d="M4.5 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM14.25 8.625a3.375 3.375 0 116.75 0 3.375 3.375 0 01-6.75 0zM1.5 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM17.25 19.128l-.001.144a2.25 2.25 0 01-.233.96 10.088 10.088 0 005.06-1.01.75.75 0 00.42-.643 4.875 4.875 0 00-6.957-4.611 8.586 8.586 0 011.71 5.157v.003z" />
+              </svg>
+            </div>
+            <span className="sidebar__workspace-name">
+              {workspace && workspace.name}
+            </span>
+          </Link>
+          <div className="sidebar__tooltip">
+            <span>{workspace && workspace.name}</span>
+          </div>
+        </div>
+
         <footer className="nav__footer">
           <button
             onClick={() => setIsNavMinimized(!isNavMinimized)}
@@ -307,7 +316,7 @@ const NavBar = () => {
             </svg>
           </button>
           {/* User Profile */}
-          {status === "loading" && (
+          {/* {status === "loading" && (
             <div className="sidebar__user-loading">
               <LoadingSkeleton isDark={true} />
             </div>
@@ -317,7 +326,7 @@ const NavBar = () => {
               name={workspace?.owner.name!}
               workspaceName={workspace?.name!}
             />
-          )}
+          )} */}
         </footer>
       </div>
     </>

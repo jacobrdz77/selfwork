@@ -1,11 +1,18 @@
 import { useUserStore } from "../store/user";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { NewProjectFormData, ProjectsWithSections } from "../types/types";
+import {
+  NewProjectFormData,
+  ProjectsWithSections,
+  UpdateProjectData,
+} from "../types/types";
 import {
   createProject,
   getOneProject,
   getProjects,
+  updateProject,
 } from "../utils/projectFunctions";
+import { useRouter } from "next/router";
+import { Project } from "@prisma/client";
 
 export const useProjects = () => {
   const workspaceId = useUserStore((state) => state.workspaceId);
@@ -124,6 +131,40 @@ export const useDeleteProject = () => {
         queryKey: ["workspace"],
       });
       console.log("Deleted project: ", data);
+    },
+  });
+};
+
+export const useUpdateProject = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      projectId,
+      projectData,
+    }: {
+      projectId: string;
+      projectData: UpdateProjectData;
+    }) => {
+      try {
+        const response = await fetch(`/api/projects/${projectId}`, {
+          method: "PUT",
+          body: JSON.stringify({
+            projectData: projectData,
+          }),
+        });
+
+        if (!response.ok) {
+          throw Error("Error happend!: " + response.status.toLocaleString());
+        }
+        return (await response.json()) as Project;
+      } catch (error) {
+        console.log(error);
+        throw error;
+      }
+    },
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries({ queryKey: ["project", data.id] });
     },
   });
 };

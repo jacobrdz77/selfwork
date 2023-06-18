@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import useMenu from "@/hooks/useMenu";
 import { useDeleteProject } from "@/hooks/ProjectHooks";
 import LoadingSkeleton from "../UI/LoadingSkeleton";
+import { useModalStore } from "store/user";
 
 type HeaderProps = {
   name: string | undefined;
@@ -16,6 +17,9 @@ const ProjectHeader: React.FC<HeaderProps> = ({ name, status }) => {
   const { projectId } = router.query;
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const { mutate } = useDeleteProject();
+  const setIsEditProjectModalOpen = useModalStore(
+    (state) => state.setIsEditProjectModalOpen
+  );
 
   return (
     <>
@@ -57,7 +61,7 @@ const ProjectHeader: React.FC<HeaderProps> = ({ name, status }) => {
                   className="project-card__edit-menu-item"
                   onClick={() => {
                     setIsMenuOpen(false);
-                    console.log("EDIT");
+                    setIsEditProjectModalOpen(true);
                   }}
                 >
                   <svg

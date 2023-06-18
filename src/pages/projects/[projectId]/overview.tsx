@@ -11,6 +11,7 @@ import { useLinks } from "@/hooks/LinkHook";
 import Links from "@/components/project/ProjectLinks";
 import ProjectLinks from "@/components/project/ProjectLinks";
 import { toast } from "react-hot-toast";
+import ProjectDescription from "@/components/project/ProjectDescription";
 
 const ProjectOverviewPage: NextPageWithLayout = () => {
   const { projectId } = useRouter().query;
@@ -36,11 +37,10 @@ const ProjectOverviewPage: NextPageWithLayout = () => {
     <div className="project-page__overview">
       <div className="project-page__overview-description">
         <h2>Description</h2>
-        <textarea
-          className="description-textarea"
-          name="description"
-          placeholder="You're description goes here!"
-        ></textarea>
+        <ProjectDescription
+          projectId={project!.id}
+          initialDescription={project?.description!}
+        />
       </div>
       <div className="project-members">
         <h2>Members</h2>

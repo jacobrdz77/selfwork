@@ -29,6 +29,28 @@
         display: none;
       }
     }
+
+    .sidebar__workspace-title {
+      display: none;
+    }
+
+    .sidebar__workspace {
+      padding: 6px 12px;
+      &-name {
+        display: none;
+      }
+
+      &-container {
+        position: relative;
+      }
+
+      &:hover {
+        .sidebar__tooltip {
+          visibility: visible;
+          scale: 100%;
+        }
+      }
+    }
   }
 
   &__add {
@@ -154,6 +176,58 @@
     }
   }
 
+  &__projects {
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    align-items: center;
+    height: 34px;
+    border: none;
+
+    &:hover,
+    &:active {
+      background-color: var(--color-navigation-button-hover);
+      cursor: pointer;
+    }
+
+    &--minimized {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      border-radius: 6px;
+      height: 28px;
+      &:hover {
+        background-color: var(--color-navigation-button-hover);
+        cursor: pointer;
+        .sidebar__workspace-add-icon {
+          fill: #f1f1f1;
+        }
+        // Only shows tooltip when navbar is minimized
+        .sidebar__tooltip {
+          visibility: visible;
+          scale: 100%;
+        }
+      }
+    }
+
+    &-add {
+      &-icon {
+        fill: var(--color-gray);
+        width: 20px;
+        height: 20px;
+        transition: all 0.1s ease-out;
+        &:hover {
+          fill: #f1f1f1;
+        }
+      }
+    }
+  }
+
   &__link {
     @include sidebar-btn;
     font-size: 14px;
@@ -192,16 +266,41 @@
   }
 
   &__workspace {
-    padding: 0 12px;
+    padding: 6px 20px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     border-radius: 6px;
     height: 28px;
-    margin-bottom: 5px;
+    gap: 10px;
+
+    &-container {
+      &:hover .sidebar__tooltip {
+        visibility: visible;
+        scale: 100%;
+        top: 15%;
+        left: 110%;
+      }
+      padding: 8px;
+    }
+
+    &-title {
+      padding: 6px 12px;
+    }
+
     &:hover {
       background-color: var(--color-navigation-button-hover);
       cursor: pointer;
+    }
+    &--minimized {
+      .sidebar__workspace-title {
+        display: none;
+      }
+    }
+
+    &-icon {
+      stroke-width: 1.5;
+      width: 18px;
+      height: 18px;
     }
 
     &-name {
@@ -237,14 +336,6 @@
             visibility: visible;
             scale: 100%;
           }
-        }
-      }
-    }
-
-    &--minimized {
-      .sidebar__workspace {
-        &-name {
-          display: none;
         }
       }
     }
@@ -307,9 +398,8 @@
   &__projects-list {
     display: grid;
     gap: 5px;
-    // height: 100%;
     max-height: 480px;
-    overflow-y: auto;
+    overflow-y: hidden;
     overflow-x: hidden;
 
     &::-webkit-scrollbar {

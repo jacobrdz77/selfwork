@@ -194,7 +194,6 @@
 
       &__add-btn-container {
         position: relative;
-        z-index: 99999;
       }
 
       &__add-btn {
@@ -206,7 +205,6 @@
         border-radius: 6px;
         transition: all 0.2s ease-in;
         position: relative;
-        z-index: 99999;
         width: 64px;
         height: 64px;
 
@@ -762,6 +760,10 @@
   }
 }
 
+.board-task__assignee-container {
+  position: relative;
+}
+
 .board-task__assignee--empty {
   display: flex;
   align-items: center;
@@ -774,45 +776,68 @@
   &:hover {
     background-color: #606a72;
   }
+}
+.board-task__add-assignee {
+  position: absolute;
+  left: -150%;
+  top: 110%;
+  z-index: 9999999;
+  background-color: #2b2b30;
+  width: 410px;
+  color: #f8f8f8;
+  font-size: 14px;
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
-  .board-task__add-assignee {
-    width: 500px;
-    padding: 12px 24px;
-    background-color: #22272b;
-    z-index: 999999;
+  .assignee-form {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
 
-    .content {
-      // display: flex;
+  .content {
+    position: relative;
+    font-size: 14px;
 
-      .button {
-        // width: 150px;
-        display: inline;
-        padding: 4px 16px;
-      }
+    .button {
+      // width: 150px;
+      display: inline;
+      padding: 8px 10px;
     }
 
-    .close {
+    .label {
       display: flex;
-      justify-content: end;
+      flex-direction: column;
 
-      &-btn {
-        svg {
-          fill: white;
-          width: 14px;
-          height: 14px;
-        }
+      .input {
+        height: 37px;
+        width: 210px;
+        border-radius: 6px;
+        border: 1px solid var(--color-border);
+        padding-left: 12px;
+      }
+    }
+  }
 
-        &-container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 28px;
-          height: 28px;
-          border-radius: 6px;
-          &:hover {
-            background-color: #495057;
-          }
-        }
+  .close {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    &:hover {
+      background-color: #495057;
+    }
+    &-btn {
+      svg {
+        fill: #fff;
+        width: 14px;
+        height: 14px;
       }
     }
   }

@@ -15,19 +15,25 @@ const ProjectPageLayout = ({
   const { projectId } = useRouter().query;
   const { project, status } = useOneProject(projectId as string);
 
-  const [isEditProjectModalOpen, setIsEditProjectModalOpen] = useState(false);
   const isTaskDetailOpen = useModalStore((state) => state.isTaskDetailOpen);
   const setIsTaskDetailOpen = useModalStore(
     (state) => state.setIsTaskDetailOpen
   );
 
+  const isEditProjectModalOpen = useModalStore(
+    (state) => state.isEditProjectModalOpen
+  );
+
+  const setIsEditProjectModalOpen = useModalStore(
+    (state) => state.setIsEditProjectModalOpen
+  );
+
   return (
     <>
-      {isEditProjectModalOpen && (
+      {isEditProjectModalOpen && status === "success" && (
         <EditProjectModal
-          currentProjectData={project!}
+          projectData={project!}
           isOpen={isEditProjectModalOpen}
-          setIsModalOpen={setIsEditProjectModalOpen}
         />
       )}
       {isTaskDetailOpen && (
@@ -36,6 +42,7 @@ const ProjectPageLayout = ({
           setIsModalOpen={setIsTaskDetailOpen}
         />
       )}
+
       <ProjectHeader name={project?.name} status={status} />
       <div className="page project-page">{children}</div>
     </>
