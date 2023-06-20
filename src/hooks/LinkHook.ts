@@ -1,8 +1,6 @@
 import { NewLink } from "@/types/types";
 import { Link } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { type } from "os";
-import { useUserStore } from "store/user";
 
 const createLink = async (link: NewLink, projectId: string) => {
   try {

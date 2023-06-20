@@ -8,6 +8,7 @@ import UserSidebarCard from "../user/UserSidebarCard";
 import useMenu from "@/hooks/useMenu";
 import { useWorkspaceWithProjects } from "@/hooks/WorkspaceHooks";
 import LoadingSkeleton from "../UI/LoadingSkeleton";
+import { useUserInfo } from "@/hooks/MemberHooks";
 
 const NavBar = () => {
   const [isNavMinimized, setIsNavMinimized] = useState(false);
@@ -316,17 +317,12 @@ const NavBar = () => {
             </svg>
           </button>
           {/* User Profile */}
-          {/* {status === "loading" && (
+          {status === "loading" && (
             <div className="sidebar__user-loading">
               <LoadingSkeleton isDark={true} />
             </div>
           )}
-          {status === "success" && (
-            <UserSidebarCard
-              name={workspace?.owner.name!}
-              workspaceName={workspace?.name!}
-            />
-          )} */}
+          <UserSidebarCard />
         </footer>
       </div>
     </>

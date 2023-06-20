@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import useMenu from "@/hooks/useMenu";
 import { useDeleteProject } from "@/hooks/ProjectHooks";
 import LoadingSkeleton from "../UI/LoadingSkeleton";
 import { useModalStore } from "store/user";
+import { ProjectWithAll } from "@/types/types";
 
 type HeaderProps = {
   name: string | undefined;
   status: "error" | "success" | "loading";
+  project: ProjectWithAll;
 };
 
-const ProjectHeader: React.FC<HeaderProps> = ({ name, status }) => {
+const ProjectHeader: React.FC<HeaderProps> = ({ name, status, project }) => {
   const router = useRouter();
   const currentPath = router.pathname.split("/")[3];
   const { projectId } = router.query;
@@ -20,6 +22,44 @@ const ProjectHeader: React.FC<HeaderProps> = ({ name, status }) => {
   const setIsEditProjectModalOpen = useModalStore(
     (state) => state.setIsEditProjectModalOpen
   );
+  const [projectColor, setProjectColor] = useState<string | null>(
+    project.iconColor
+  );
+  useEffect(() => {
+    switch (projectColor) {
+      case "OrangeYellow":
+        setProjectColor("orange-yellow");
+        break;
+      case "YellowGreen":
+        setProjectColor("yellow-green");
+        break;
+      case "Forest":
+        setProjectColor("forest");
+        break;
+      case "BlueGreen":
+        setProjectColor("blue-green");
+        break;
+      case "Aqua":
+        setProjectColor("aqua");
+        break;
+      case "Blue":
+        setProjectColor("blue");
+        break;
+      case "Purple":
+        setProjectColor("purple");
+        break;
+      case "PinkPurple":
+        setProjectColor("pink-purple");
+        break;
+      case "Pink":
+        setProjectColor("pink");
+        break;
+      case "Oat":
+        setProjectColor("oat");
+        break;
+    }
+  }, [projectColor]);
+  console.log("color: ", projectColor);
 
   return (
     <>
@@ -27,6 +67,12 @@ const ProjectHeader: React.FC<HeaderProps> = ({ name, status }) => {
       {status === "success" && (
         <header className="project-header">
           <div className="project-header__top">
+            <svg
+              className={`project-header__icon sidebar__color-icon--${projectColor}`}
+              viewBox="0 0 24 24"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
             <h1 className="project-header__title">{name}</h1>
             <div className="project-header__button-container">
               <button

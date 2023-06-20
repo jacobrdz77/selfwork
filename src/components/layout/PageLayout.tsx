@@ -7,6 +7,7 @@ import AddProjectModal from "../project/AddProjectModal";
 import AddTaskPopup from "../task/AddTaskPopup";
 import NavBar from "./NavBar";
 import { Toaster } from "react-hot-toast";
+import EditTaskModal from "../task/EditTaskModal";
 
 const PageLayout: React.FC<{
   children: ReactNode | ReactNode[];
@@ -19,6 +20,11 @@ const PageLayout: React.FC<{
   );
   const setIsAddProjectModalOpen = useModalStore(
     (state) => state.setIsAddProjectModalOpen
+  );
+
+  const isTaskDetailOpen = true;
+  const setIsTaskDetailOpen = useModalStore(
+    (state) => state.setIsTaskDetailOpen
   );
 
   return (
@@ -34,6 +40,10 @@ const PageLayout: React.FC<{
           setIsModalOpen={setIsAddProjectModalOpen}
         />
       )}
+      {/* <EditTaskModal
+        isOpen={isTaskDetailOpen!}
+        setIsModalOpen={setIsTaskDetailOpen}
+      /> */}
       <Toaster
         position="bottom-left"
         toastOptions={{

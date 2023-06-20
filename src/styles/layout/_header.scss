@@ -36,8 +36,14 @@
 
 .project-header {
   border-bottom: 1px solid #e7e6e9;
-  padding: 16px 24px 12px 24px;
+  padding: 8px 24px 12px 24px;
   font-size: 14px;
+
+  &__icon {
+    margin-right: 6px;
+    width: 46px;
+    height: 46px;
+  }
 
   &__top {
     display: flex;
@@ -46,13 +52,14 @@
 
   &__title {
     font-size: 20px;
-    margin-right: 10px;
+    font-weight: 600;
+    margin-right: 6px;
   }
 
   &__nav {
     display: flex;
     gap: 16px;
-    margin-top: 10px;
+    margin-top: 4px;
 
     &-link {
       padding: 2px 6px;

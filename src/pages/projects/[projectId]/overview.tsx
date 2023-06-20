@@ -12,11 +12,19 @@ import Links from "@/components/project/ProjectLinks";
 import ProjectLinks from "@/components/project/ProjectLinks";
 import { toast } from "react-hot-toast";
 import ProjectDescription from "@/components/project/ProjectDescription";
+import Link from "next/link";
+import InviteMemberPopup from "@/components/member/InviteMemberPopup";
 
 const ProjectOverviewPage: NextPageWithLayout = () => {
   const { projectId } = useRouter().query;
   const { project, status } = useOneProject(projectId as string);
   const { isMenuOpen, btnRef, menuRef, setIsMenuOpen } = useMenu();
+  const {
+    isMenuOpen: isMembersMenuOpen,
+    btnRef: memberBtnRef,
+    menuRef: memberMenuRef,
+    setIsMenuOpen: setMemberMenuOpen,
+  } = useMenu();
   console.log("Project in overview: ", project);
 
   const { links, status: linkStatus } = useLinks(projectId as string);
@@ -45,8 +53,53 @@ const ProjectOverviewPage: NextPageWithLayout = () => {
       <div className="project-members">
         <h2>Members</h2>
         <div className="members">
+          {/* ADD Button */}
+          <div className="project-resources__add-btn-container">
+            <div
+              ref={memberBtnRef}
+              onClick={(e) => {
+                e.preventDefault();
+                setMemberMenuOpen(true);
+              }}
+              className="project-resources__add-btn project-resources__add-btn--members"
+              role="button"
+            >
+              <div className="project-resources__add-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="m12 6a1 1 0 0 0 -1 1v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2h-4v-4a1 1 0 0 0 -1-1z"></path>
+                </svg>
+              </div>
+              <div
+                className={`project-resource__tooltip ${
+                  isMenuOpen ? "project-resource__tooltip--active" : ""
+                }`}
+              >
+                <span>Invite Member</span>
+              </div>
+            </div>
+            {isMembersMenuOpen && (
+              <InviteMemberPopup
+                isOpen={isMembersMenuOpen}
+                menuRef={memberMenuRef}
+                setIsOpen={setMemberMenuOpen}
+                projectId={projectId as string}
+                projectName={project?.name!}
+              />
+            )}
+
+            {/* <InviteMemberPopup
+              menuRef={memberMenuRef}
+              setIsOpen={setMemberMenuOpen}
+              projectId={projectId}
+            /> */}
+          </div>
+
           {project?.members.map((member) => (
-            <div key={member.id} className="one-member">
+            <Link
+              href={`/profile/${member.id}`}
+              key={member.id}
+              className="one-member"
+            >
               {member.image ? (
                 <Image
                   className="one-member__image"
@@ -60,7 +113,7 @@ const ProjectOverviewPage: NextPageWithLayout = () => {
               )}
 
               <span className="one-member__name">{member.name}</span>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

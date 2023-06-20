@@ -135,7 +135,7 @@ const DateButton = () => {
   );
 };
 
-const AssigneeButton = () => {
+export const AssigneeButton = () => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
 
   return (

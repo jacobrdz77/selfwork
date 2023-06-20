@@ -40,12 +40,142 @@
     }
 
     .project-members {
-      margin-top: 20px;
+      margin-top: 30px;
       padding-left: 10px;
       h2 {
         font-size: 18px;
         font-weight: 600;
         margin-bottom: 10px;
+      }
+
+      .modal {
+        max-width: 600px;
+
+        &__content {
+          padding: 0;
+        }
+      }
+
+      .members {
+        .project-resource__tooltip {
+          top: 110%;
+          left: -41%;
+        }
+      }
+
+      &__invite {
+        background-color: #fefefe;
+        width: 500px;
+        margin: 0 auto;
+        color: #63686d;
+        font-size: 14px;
+        // border: 1px solid var(--color-border);
+        border-radius: 8px;
+        padding: 4px;
+
+        &__title {
+          font-weight: 600;
+          font-size: 24px;
+          color: #000000;
+        }
+
+        .label {
+          display: flex;
+          flex-direction: column;
+          margin-bottom: 12px;
+        }
+
+        .input {
+          font-weight: 500;
+          border: 1px solid var(--color-border);
+          border-radius: 6px;
+          padding: 6px 10px;
+
+          &--error {
+            border: 1px solid #e03939;
+
+            &::placeholder {
+              color: #e03939;
+            }
+          }
+        }
+
+        .error {
+          font-size: 12px;
+          color: #e03939;
+          margin-top: -7px;
+        }
+
+        .submit-button {
+          border: 1px solid var(--color-border);
+          padding: 6px 8px;
+          border-radius: 6px;
+          display: inline-block;
+          width: 85px;
+          background-color: var(--color-primary--light);
+          color: white;
+          transition: background-color 0.1s ease-in;
+          margin-top: 12px;
+
+          &:hover {
+            cursor: pointer;
+            background-color: var(--color-primary);
+          }
+          &--disabled {
+            background-color: white;
+            color: #adb5bd;
+
+            &:hover {
+              background-color: unset;
+            }
+          }
+        }
+
+        .input:focus {
+          border: 1px solid var(--color-primary--light);
+        }
+
+        .submit-button {
+          width: 125px;
+        }
+
+        .message {
+          &:focus {
+            border: 1px solid var(--color-primary--light);
+          }
+          padding: 6px 10px;
+          border-radius: 6px;
+          font-weight: 500;
+          border: 1px solid var(--color-border);
+          height: 100px;
+          resize: none;
+        }
+      }
+
+      &__menu {
+        display: none;
+        padding: 4px;
+        font-size: 14px;
+        width: 184px;
+        border-radius: 6px;
+        background-color: #fff;
+        border: 1px solid var(--color-border);
+        position: absolute;
+        top: 110%;
+        left: 0;
+        z-index: 10;
+
+        &--active {
+          display: block;
+        }
+        &-item {
+          display: flex;
+          padding: 6px 12px;
+          &:hover {
+            cursor: pointer;
+            background-color: var(--color-gray--hover);
+          }
+        }
       }
 
       .members {
@@ -88,7 +218,7 @@
     }
 
     .project-resources {
-      margin-top: 20px;
+      margin-top: 30px;
       padding-left: 10px;
 
       .resources {
@@ -327,6 +457,30 @@
             }
           }
         }
+
+        &--members {
+          position: relative;
+
+          .input:focus {
+            border: 1px solid var(--color-primary--light);
+          }
+
+          .submit-button {
+            width: 125px;
+          }
+
+          .message {
+            &:focus {
+              border: 1px solid var(--color-primary--light);
+            }
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-weight: 500;
+            border: 1px solid var(--color-border);
+            height: 100px;
+            resize: none;
+          }
+        }
       }
 
       &__add-form {
@@ -342,10 +496,16 @@
   }
 }
 
+.projects {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .boards {
   display: flex;
-  flex-wrap: wrap;
   gap: 12px;
+  overflow-x: auto;
 
   .new-section {
     margin: unset;
@@ -464,6 +624,7 @@
           border-radius: 4px;
           &:hover {
             background-color: #63686d;
+            cursor: pointer;
           }
 
           &--active {
@@ -831,9 +992,14 @@
     height: 28px;
     border-radius: 6px;
     &:hover {
+      cursor: pointer;
+
       background-color: #495057;
     }
     &-btn {
+      &:hover {
+        cursor: pointer;
+      }
       svg {
         fill: #fff;
         width: 14px;

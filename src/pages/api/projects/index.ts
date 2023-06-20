@@ -46,6 +46,12 @@ export default async function handler(
               id: modifiedProject.ownerId,
             },
           },
+
+          members: {
+            connect: {
+              id: modifiedProject.ownerId,
+            },
+          },
           // Creates a new section on every new project
           sections: {
             create: {

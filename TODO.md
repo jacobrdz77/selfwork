@@ -2,36 +2,27 @@
 
 ## High
 
-- Figure out how to order after rearraning section.
-- Create task detail modal for list and board view.
-- Create project mutation for deleting.
-- Create project detail modal to edit name, description, due date.
-- Add Invite model to send to other users via email.
-- Create profile page.
+- Create task detail modal.
+- Create client page.
 - Create add client modal.
+- Figure out how to order after rearraning section.
+- Add Invite model to send to other users via email.
 
 ## Medium
 
-- Add users tab in workspace and project page.
-- move client link to project Header under Users.
-- add a Manage members in Workspace page that redirects to a admin panel.
-- add a max-width to projects.
-- show project iconColor in project detail page to edit
 - add loading skeleton component for:
-  - each page header
-  - workspace page
   - sections in my-tasks page
   - projects list page
 
 ## Low
 
+- move client link to project Header under Users.
 - add responsiveness to sidebar project-list if the number of projects overflow
 - make pagination in sidebar projects when projects.length > 5.
 - allow users to upload an image for their user icon.
 
 ## User Stories
 
-- as a user I want to access be able to access users like project members and clients in the project page.
 - as a user I want to be able to click on a task in the list view and it opens a popup that shows more details about the task.
 - in the list view, I would like to click and drag each task to rearrange the order and to add them to the tasklist when dropped.
 

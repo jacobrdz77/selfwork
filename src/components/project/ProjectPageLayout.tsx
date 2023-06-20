@@ -36,14 +36,21 @@ const ProjectPageLayout = ({
           isOpen={isEditProjectModalOpen}
         />
       )}
-      {isTaskDetailOpen && (
+      {/* {isTaskDetailOpen && (
         <TaskDetailModal
           isOpen={isTaskDetailOpen}
           setIsModalOpen={setIsTaskDetailOpen}
         />
+      )} */}
+
+      {status === "success" && (
+        <ProjectHeader
+          project={project!}
+          name={project?.name}
+          status={status}
+        />
       )}
 
-      <ProjectHeader name={project?.name} status={status} />
       <div className="page project-page">{children}</div>
     </>
   );

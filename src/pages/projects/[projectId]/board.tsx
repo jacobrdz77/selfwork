@@ -5,6 +5,8 @@ import Board from "@/components/task/Board";
 import AddSectionButton from "@/components/sections/AddSectionButton";
 import { useDrop } from "react-dnd";
 import Boards from "@/components/sections/Boards";
+import EditTaskModal from "@/components/task/EditTaskModal";
+import { useModalStore } from "store/user";
 
 const BoardPage: NextPageWithLayout = () => {
   const { userAssignedTasksSection, userSections, status } =

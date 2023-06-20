@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getTasks } from "../utils/taskFunctions";
+import { getOneTask, getTasks } from "../utils/taskFunctions";
 import { useUserStore } from "../store/user";
 import { Priority, Task, TaskStatus, User } from "@prisma/client";
 
@@ -13,6 +13,14 @@ export const useTasks = (onSuccess?: () => void) => {
     onSuccess: onSuccess,
   });
   return { tasks, isLoading, status };
+};
+export const useOneTask = (taskId: string) => {
+  const {
+    data: task,
+    isLoading,
+    status,
+  } = useQuery(["task", taskId], () => getOneTask(taskId!));
+  return { task, isLoading, status };
 };
 
 export const useCreateTask = () => {

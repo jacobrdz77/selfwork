@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Color } from "@prisma/client";
 import Link from "next/link";
+import { useColor } from "@/hooks/useColor";
 
 const SidebarProject = ({
   name,
@@ -11,41 +12,8 @@ const SidebarProject = ({
   color: Color;
   id: string;
 }) => {
-  const [projectColor, setProjectColor] = useState("");
-  useEffect(() => {
-    switch (color) {
-      case "OrangeYellow":
-        setProjectColor("orange-yellow");
-        break;
-      case "YellowGreen":
-        setProjectColor("yellow-green");
-        break;
-      case "Forest":
-        setProjectColor("forest");
-        break;
-      case "BlueGreen":
-        setProjectColor("blue-green");
-        break;
-      case "Aqua":
-        setProjectColor("aqua");
-        break;
-      case "Blue":
-        setProjectColor("blue");
-        break;
-      case "Purple":
-        setProjectColor("purple");
-        break;
-      case "PinkPurple":
-        setProjectColor("pink-purple");
-        break;
-      case "Pink":
-        setProjectColor("pink");
-        break;
-      case "Oat":
-        setProjectColor("oat");
-        break;
-    }
-  }, [color]);
+  const projectColor = useColor(color);
+  console.log(projectColor);
 
   return (
     <Link href={`/projects/${id}/overview`} className="sidebar__project">

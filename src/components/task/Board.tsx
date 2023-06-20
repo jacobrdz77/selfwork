@@ -117,6 +117,7 @@ const Board: React.FC<Board> = ({ title, sectionId, tasks }) => {
             </div>
           )}
         </div>
+        {/* MORE BUTTON */}
         <div className="board__more-btn-container">
           <div
             ref={btnRef}
