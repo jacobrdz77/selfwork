@@ -514,7 +514,7 @@
 }
 
 .board {
-  min-width: 280px;
+  min-width: 300px;
   // height: 365px;
   padding: 8px 6px;
   background-color: #343a40;
@@ -524,7 +524,6 @@
   &-title {
     display: flex;
     align-items: center;
-    gap: 12px;
     margin-bottom: 10px;
 
     &:hover {
@@ -539,7 +538,7 @@
       cursor: grabbing;
     }
     .name {
-      flex: 1;
+      // flex: 1;
       font-size: 14px;
       font-weight: 500;
       letter-spacing: 0.2px;
@@ -874,14 +873,13 @@
       }
       &-item {
         display: flex;
-        padding: 6px 4px;
+        padding: 4px 8px;
         &:hover {
           cursor: pointer;
           background-color: var(--color-gray--hover);
         }
         &--delete {
-          color: #f80000;
-          fill: #f80000;
+          color: #f03e3e;
         }
       }
 

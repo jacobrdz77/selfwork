@@ -1,6 +1,3 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { SessionProvider } from "next-auth/react";
-import Head from "next/head";
 import React, { ReactNode, useState } from "react";
 import { useModalStore } from "store/user";
 import AddProjectModal from "../project/AddProjectModal";
@@ -8,6 +5,7 @@ import AddTaskPopup from "../task/AddTaskPopup";
 import NavBar from "./NavBar";
 import { Toaster } from "react-hot-toast";
 import EditTaskModal from "../task/EditTaskModal";
+import AddClientModal from "../client/AddClientModal";
 
 const PageLayout: React.FC<{
   children: ReactNode | ReactNode[];
@@ -21,11 +19,17 @@ const PageLayout: React.FC<{
   const setIsAddProjectModalOpen = useModalStore(
     (state) => state.setIsAddProjectModalOpen
   );
-
   const isTaskDetailOpen = true;
   const setIsTaskDetailOpen = useModalStore(
     (state) => state.setIsTaskDetailOpen
   );
+
+  const isClientModalOpen = useModalStore((state) => state.isClientModalOpen);
+  const setIsClientModalOpen = useModalStore(
+    (state) => state.setIsClientModalOpen
+  );
+
+  console.log("client modal: ", isClientModalOpen);
 
   return (
     <div className="layout">
@@ -40,10 +44,25 @@ const PageLayout: React.FC<{
           setIsModalOpen={setIsAddProjectModalOpen}
         />
       )}
-      {/* <EditTaskModal
-        isOpen={isTaskDetailOpen!}
-        setIsModalOpen={setIsTaskDetailOpen}
+      {isClientModalOpen && (
+        <AddClientModal
+          isOpen={isClientModalOpen}
+          setIsModalOpen={setIsClientModalOpen}
+        />
+      )}
+
+      {/* <AddClientModal
+        isOpen={isClientModalOpen}
+        setIsModalOpen={setIsClientModalOpen}
       /> */}
+      {/* {isTaskDetailOpen && (
+        <EditTaskModal
+        taskId={taskId}
+          isOpen={isTaskDetailOpen!}
+          setIsModalOpen={setIsTaskDetailOpen}
+        />
+      )} */}
+
       <Toaster
         position="bottom-left"
         toastOptions={{

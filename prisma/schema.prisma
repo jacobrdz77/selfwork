@@ -124,6 +124,12 @@ enum Color {
   Oat
 }
 
+enum Status {
+  Active
+  Pending
+  Closed
+}
+
 model Link {
   id          String    @id @default(cuid())
   name        String
@@ -137,6 +143,7 @@ model Project {
   name        String
   description String?
   lumpSum     Decimal?  @db.Money
+  monthlyPay  Decimal?  @db.Money
   priority    Priority? @default(None)
   status      ProjectStatus @default(Active)
   startDate   DateTime?
@@ -168,10 +175,13 @@ model Client {
   email           String?   @unique
   businessAddress String?
   contacts        Contact[]
-  project         Project[]
+  projects        Project[]
   user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId          String
   order Int? @default(autoincrement())
+  status          Status    @default(Pending)
+  totalMonthly    Decimal   @db.Money @default(0)
+  totalLumpSum    Decimal   @db.Money @default(0)
 
   @@unique([id, name])
 }

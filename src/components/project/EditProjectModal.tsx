@@ -176,15 +176,17 @@ const EditProjectModal: React.FC<{
           </ul>
         </fieldset>
 
-        <Button
-          type="submit"
-          className={`form__submit button--blue ${
-            !isFormValid ? "button--disabled" : ""
-          } `}
-          disabled={!isFormValid}
-        >
-          Save
-        </Button>
+        <div>
+          <Button
+            type="submit"
+            className={`form__submit button--blue ${
+              !isFormValid ? "button--disabled" : ""
+            } `}
+            disabled={!isFormValid}
+          >
+            Save
+          </Button>
+        </div>
       </form>
     </Modal>
   );

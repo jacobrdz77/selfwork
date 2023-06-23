@@ -9,7 +9,7 @@ const Button: React.FC<{
 }> = ({ buttonHandler, children, className, type, disabled }) => {
   return (
     <button
-      className={"button " + className}
+      className={`button ${className ? className : ""}`}
       onClick={buttonHandler}
       type={type}
       disabled={disabled}

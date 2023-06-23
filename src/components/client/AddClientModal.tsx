@@ -1,113 +1,162 @@
 import Modal from "../UI/Modal";
 import Button from "../UI/Button";
+import { useEffect, useState } from "react";
+import validateEmail from "@/utils/validateEmail";
+import validatePhone from "@/utils/validatePhone";
+import { createClient } from "@/utils/clientFunctions";
+import { useCreateClient } from "@/hooks/ClientHooks";
+import { useRouter } from "next/router";
 
 const AddClientModal: React.FC<{
   isOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
 }> = ({ isOpen, setIsModalOpen }) => {
-  const closeHandler = () => {
-    setIsModalOpen(false);
-    // resetForm();
-  };
-  // const {
-  //   name,
-  //   businessAddress,
-  //   description,
-  //   email,
-  //   handleBusinessAddressChange,
-  //   handleChangeEmail,
-  //   handleChangePhone,
-  //   handleChangeWebsite,
-  //   handleDescriptionChange,
-  //   handleNameChange,
-  //   isEmailError,
-  //   isNameError,
-  //   isPhoneError,
-  //   isFormValid,
-  //   nameBlurHandler,
-  //   page,
-  //   emailBlurHandler,
-  //   phone,
-  //   resetForm,
-  //   phoneBlurHandler,
-  //   setPage,
-  //   submitHandler,
-  //   validateSubmit,
-  // } = useClientForm("create", () => {});
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [businessAddress, setBusinessAddress] = useState("");
+  const [isNameError, setIsNameError] = useState(false);
+  const [isEmailError, setIsEmailError] = useState(false);
+  const [isPhoneError, setPhoneError] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
+  const router = useRouter();
+  const { mutateAsync: createClient } = useCreateClient();
 
-  const isNameError = false;
-  const isEmailError = false;
-  const isPhoneError = false;
+  const phoneBlurHandler = (e: any) => {
+    if (phone.trim().length === 0) {
+      return;
+    }
+    if (validatePhone(phone)) {
+      setPhoneError(false);
+    } else {
+      setPhoneError(true);
+    }
+  };
+
+  const emailBlurHandler = (e: any) => {
+    if (validateEmail(email)) {
+      setIsEmailError(false);
+    } else {
+      setIsEmailError(true);
+    }
+  };
+
+  const submitHandler = async (e: any) => {
+    e.preventDefault();
+    const client = await createClient({
+      name,
+      companyName,
+      businessAddress,
+      email,
+      phone,
+    });
+
+    setIsModalOpen(false);
+    // router.push(`/projects/${client}/overview`);
+  };
+
+  useEffect(() => {
+    if (name.trim().length > 0 && email.trim().length > 0) {
+      if (validateEmail(email)) {
+        return setIsFormValid(true);
+      }
+      return setIsFormValid(true);
+    } else {
+      return setIsFormValid(false);
+    }
+  }, [name, email, phone]);
 
   return (
-    <Modal isOpen={isOpen} closeHandler={closeHandler}>
+    <Modal
+      isOpen={true}
+      closeHandler={() => {
+        setIsModalOpen(false);
+      }}
+    >
       <h1>Create a Client</h1>
       {/* FORMS */}
-      {/* Page 1 */}
-      <form className="new-client form">
-        <div>
+      <form onSubmit={submitHandler} className="new-client form">
+        <div className="input-block">
           <label htmlFor="name">Name*</label>
           <input
             type="text"
             value={name!}
-            // onChange={handleNameChange}
-            // onBlur={nameBlurHandler}
-            placeholder="John Doe"
-            className={`${
-              isNameError
-                ? "border-[1px] border-red-600 focus:border-red-600"
-                : ""
-            }`}
+            onChange={(e) => {
+              setName(e.target.value);
+              setIsNameError(false);
+            }}
+            onBlur={() => {
+              if (name.trim().length === 0) {
+                setIsNameError(true);
+              } else {
+                setIsNameError(false);
+              }
+            }}
+            placeholder="John Baker"
+            className={`input ${isNameError ? "input--error" : ""}`}
             id="name"
           />
-          {isNameError && <p>Please enter a name</p>}
+          {isNameError && <p className="error-text">Please enter a name</p>}
         </div>
-
-        <div>
+        <div className="input-block">
+          <label htmlFor="client">Email*</label>
+          <input
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onBlur={emailBlurHandler}
+            placeholder="john@gmail.com"
+            className={`input ${isEmailError ? "input--error" : ""}`}
+          />
+          {isEmailError && <p className="error-text">Enter a valid email</p>}
+        </div>
+        <div className="input-block">
           <label htmlFor="name">Company Name</label>
           <input
             id="address"
             type="text"
-            // value={companyName}
-            // onChange={handlecompanyNameChange}
+            className="input"
+            value={companyName}
+            placeholder="Google LLC"
+            onChange={(e) => setCompanyName(e.target.value)}
           />
         </div>
 
-        <div>
+        <div className="input-block">
           <label>Business Address</label>
-          <textarea
-            placeholder="1234 Lakeview"
-            // value={businessAddress}
-            // onChange={handleBusinessAddressChange}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="client">Email*</label>
           <input
-            type="text"
-            // value={email}
-            // onChange={handleChangeEmail}
-            // onBlur={emailBlurHandler}
-            placeholder="john@gmail.com"
-            className={`${isEmailError ? "border-[1px] border-red-600" : ""}`}
+            className="input address"
+            placeholder="1234 Lakeview"
+            value={businessAddress}
+            onChange={(e) => setBusinessAddress(e.target.value)}
           />
-          {isEmailError && <p>Enter a valid email</p>}
         </div>
 
-        <div>
+        <div className="input-block">
           <label htmlFor="name">Phone Number</label>
           <input
             type="text"
             placeholder="123-123-1234"
-            // value={phone}
-            // onChange={handleChangePhone}
-            // onBlur={phoneBlurHandler}
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            onBlur={phoneBlurHandler}
+            className={`input ${isPhoneError ? "email--error" : ""}`}
           />
           {isPhoneError && <p>Enter a valid US phone number</p>}
         </div>
+        <div className="submit-button">
+          <button
+            type="submit"
+            disabled={!isFormValid}
+            className={`button ${
+              !isFormValid ? "submit-button--disabled" : ""
+            } `}
+          >
+            Create Client
+          </button>
+        </div>
       </form>
-      <Button type="submit">Create Client</Button>
     </Modal>
   );
 };

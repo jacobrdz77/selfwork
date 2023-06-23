@@ -1,9 +1,14 @@
 .button {
-  background-color: #d1d5db;
-  color: #000;
   font-size: 14px;
-  padding: 8px 14px;
+  padding: 6px 14px;
   border-radius: 6px;
+  background-color: #d7d1e0;
+  color: #403153;
+  padding: 4px 24px;
+
+  &:hover {
+    background-color: #cac1d5;
+  }
 
   &,
   &:link,
@@ -11,10 +16,6 @@
     position: relative;
     border: none;
     cursor: pointer;
-  }
-
-  &:hover {
-    background-color: darken(#d1d5db, 5);
   }
 
   // &:active,
@@ -33,7 +34,7 @@
   }
 
   &--disabled {
-    background-color: #d1d5db;
+    background-color: red;
     color: #000;
     &:hover {
       background-color: #e3e4e6;

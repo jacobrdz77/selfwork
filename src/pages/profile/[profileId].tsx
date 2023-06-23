@@ -3,18 +3,26 @@ import ProfileInfo from "@/components/profile/ProfileInfo";
 import { AssigneeButton } from "@/components/task/BoardTask";
 import { useUserInfo } from "@/hooks/MemberHooks";
 import { useColor } from "@/hooks/useColor";
-import { ProjectWithAll } from "@/types/types";
 import { Project, Task } from "@prisma/client";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useRouter } from "next/router";
+import React, { useState, useEffect } from "react";
 import { useModalStore } from "store/user";
 
 const ProfilePage = () => {
+  const router = useRouter();
   const { user, status } = useUserInfo("al814zcy86074hloymogrg1mv");
   console.log("USER: ", user);
   const [isEditUserOpen, setIsEditUserOpen] = useState(false);
   const isAddTaskOpen = useModalStore((state) => state.isAddTaskOpen);
   const setIsAddTaskOpen = useModalStore((state) => state.setIsAddTaskOpen);
+  const [isSelf, setIsSelf] = useState(false);
+
+  useEffect(() => {
+    if (router.query.profileId === user?.id) {
+      setIsSelf(true);
+    }
+  }, [user?.id, router.query.projectId]);
 
   return (
     <>
@@ -50,18 +58,37 @@ const ProfilePage = () => {
                 <UserProfileTask key={task.id} task={task} />
               ))}
 
-              {/* {user?.assignedTasks.length === 0 ? (
-                <div>
-                  <span>See {user.name + "'s"} tasks.</span>
-                  <button
-                    onClick={() => {
-                      setIsAddTaskOpen(true);
-                    }}
-                  >
-                    Assign task
-                  </button>
+              {isSelf && user?.assignedTasks.length === 0 ? (
+                <div className="no-tasks">
+                  <div>
+                    <p>You have no tasks. Create one!</p>
+                    <button
+                      className="button"
+                      onClick={() => {
+                        setIsAddTaskOpen(true);
+                      }}
+                    >
+                      Create task
+                    </button>
+                  </div>
                 </div>
-              ) : null} */}
+              ) : null}
+
+              {!isSelf && user?.assignedTasks.length === 0 ? (
+                <div className="no-tasks">
+                  <div>
+                    <p>See {user.name + "'s"} tasks.</p>
+                    <button
+                      className="button"
+                      onClick={() => {
+                        setIsAddTaskOpen(true);
+                      }}
+                    >
+                      Assign task
+                    </button>
+                  </div>
+                </div>
+              ) : null}
             </div>
           </div>
           <div className="card">

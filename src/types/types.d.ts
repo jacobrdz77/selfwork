@@ -1,16 +1,19 @@
 import type { DefaultUser } from "next-auth";
 import type {
+  Client,
   Links,
   Note,
   Priority,
   Prisma,
   Project,
   Section,
+  Status,
   Tag,
   Task,
   User,
   Workspace,
 } from "@prisma/client";
+import client from "../../prisma/client";
 
 declare module "next-auth" {
   interface Session {
@@ -28,6 +31,7 @@ export type NewProjectFormData = {
   startDate: string;
   dueDate: string;
   priority: Priority;
+  clientId?: string;
 };
 
 export type NewProject = {
@@ -67,12 +71,10 @@ export type ProjectWithAll = Project & {
 
 export type NewClientData = {
   name: string;
-  description: string;
-  userId: string;
+  email: string;
+  companyName?: string;
   businessAddress?: string;
-  email?: string;
   phone?: string;
-  website?: string;
 };
 
 // Section types
@@ -105,3 +107,8 @@ export type NewLink = {
   name: string;
   url: string;
 };
+export type ClientWithProjects = Client & {
+  projects: Project[];
+};
+
+export type ClientStatus = "active" | "pending" | "closed";

@@ -59,7 +59,7 @@
   &__nav {
     display: flex;
     gap: 16px;
-    margin-top: 4px;
+    margin-top: 8px;
 
     &-link {
       padding: 2px 6px;
@@ -119,14 +119,13 @@
     }
     &-item {
       display: flex;
-      padding: 6px 4px;
+      padding: 4px 8px;
       &:hover {
         cursor: pointer;
         background-color: var(--color-gray--hover);
       }
       &--delete {
-        color: #f80000;
-        fill: #f80000;
+        color: #f03e3e;
       }
     }
 

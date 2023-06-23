@@ -24,6 +24,25 @@ export default async function handler(
         return res.status(400).json({ error: "Provide project data." });
       }
 
+      if (project.clientId) {
+        const client = await prisma.client.findUnique({
+          where: {
+            id: project.clientId,
+          },
+        });
+
+        // Updates client's total lump sum money
+        await prisma.client.update({
+          where: {
+            id: project.clientId,
+          },
+          data: {
+            totalLumpSum:
+              Number(client?.totalLumpSum) + Number(project.lumpSum),
+          },
+        });
+      }
+
       // Transform the projects properties to valid datatypes
       const modifiedProject = transformProjectData(project);
 

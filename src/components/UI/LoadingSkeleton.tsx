@@ -1,7 +1,15 @@
-const LoadingSkeleton = ({ isDark }: { isDark?: boolean }) => {
+const LoadingSkeleton = ({
+  isDark,
+  className,
+}: {
+  isDark?: boolean;
+  className?: string;
+}) => {
   return (
     <div
-      className={`loading-skeleton ${isDark ? "loading-skeleton--dark" : ""}`}
+      className={`loading-skeleton ${isDark ? "loading-skeleton--dark" : ""} ${
+        className ? className : ""
+      }`}
     ></div>
   );
 };

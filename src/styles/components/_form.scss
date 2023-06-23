@@ -17,14 +17,17 @@
   }
 
   &__submit {
-    justify-self: left;
-    width: 100px;
-    background-color: var(--color-primary--light);
-    color: #fff;
-    font-size: 16px;
+    padding: 8px 24px;
 
-    &:hover {
-      background-color: var(--color-primary);
+    &--disabled {
+      background-color: #f1f3f5;
+      color: #868e96;
+
+      &:hover {
+        background-color: #f1f3f5;
+        color: #868e96;
+        cursor: not-allowed;
+      }
     }
   }
 
@@ -32,7 +35,7 @@
     font-size: 14px;
     padding: 6px 14px;
     border-radius: 5px;
-    border: 2px solid var(--color-form-border);
+    border: 1px solid var(--color-border);
 
     &::placeholder {
       color: #919394;
@@ -85,6 +88,9 @@
         height: 24px;
       }
     }
+  }
+
+  .form__submit {
   }
 }
 

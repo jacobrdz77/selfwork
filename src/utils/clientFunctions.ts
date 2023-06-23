@@ -1,3 +1,4 @@
+import { ClientWithProjects } from "@/types/types";
 import { Client } from "@prisma/client";
 import axios from "axios";
 
@@ -28,7 +29,7 @@ export const getClients = async (userId: string) => {
       userId,
     },
   });
-  return allClients.data as Client[];
+  return allClients.data as ClientWithProjects[];
 };
 
 // Get one client

@@ -48,6 +48,7 @@ async function main() {
       priority: "High",
       description: "A website based on a local law firm.",
       iconColor: projectIconColors[getRandomInt(0, 11)],
+      lumpSum: 2800,
       workspace: {
         connect: {
           id: "opdclt74u9913gpecetnyigta",
@@ -82,6 +83,28 @@ async function main() {
           },
         ],
       },
+    },
+  });
+
+  await prisma.client.upsert({
+    where: { id: "cldcljamz0001gpsobc3inw3n" },
+    update: {},
+    create: {
+      id: "cldcljamz0001gpsobc3inw3n",
+      name: "Bob Johnson",
+      user: {
+        connect: {
+          id: "al814zcy86074hloymogrg1mv",
+        },
+      },
+      email: "johnson@gmail.com",
+      phone: "1231231234",
+      projects: {
+        connect: {
+          id: "cldclt74u9600gpecetnyigta",
+        },
+      },
+      companyName: "Dallas's Law Firm",
     },
   });
 }

@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../prisma/client";
+import { Client } from "@prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,6 +14,9 @@ export default async function handler(
         where: {
           userId: userId as string,
         },
+        include: {
+          projects: true,
+        },
       });
       return res.status(200).json(clients);
     } catch (error: Error | any) {
@@ -23,14 +27,14 @@ export default async function handler(
   //Create a new client
   if (req.method === "POST") {
     try {
-      const { client } = req.body;
+      const { client }: { client: Client } = JSON.parse(req.body);
+      console.log("Client: ", client);
       const clientData = {
         name: client.name,
-        description: client.description,
         email: client.email,
         phone: client.phone,
-        businessAddress: client.address,
-        website: client.website,
+        companyName: client.companyName,
+        businessAddress: client.businessAddress,
         user: {
           connect: {
             id: client.userId,

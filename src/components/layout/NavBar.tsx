@@ -18,6 +18,10 @@ const NavBar = () => {
   const setIsAddProjectModalOpen = useModalStore(
     (state) => state.setIsAddProjectModalOpen
   );
+  const issClientModalOpen = useModalStore((state) => state.isClientModalOpen);
+  const setIsClientModalOpen = useModalStore(
+    (state) => state.setIsClientModalOpen
+  );
 
   const { workspace, projects, status } = useWorkspaceWithProjects();
 
@@ -89,7 +93,7 @@ const NavBar = () => {
               className="sidebar__add-menu-item"
               onClick={(e) => {
                 setIsMenuOpen(false);
-                console.log("EDIT");
+                setIsClientModalOpen(true);
                 e.stopPropagation();
               }}
             >

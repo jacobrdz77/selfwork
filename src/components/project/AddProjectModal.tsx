@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import Modal from "../UI/Modal";
-import Button from "../UI/Button";
 import { useCreateProject } from "../../hooks/ProjectHooks";
 import { Priority } from "@prisma/client";
 import { useRouter } from "next/router";
+import { useClients } from "@/hooks/ClientHooks";
 
 const AddProjectModal: React.FC<{
   isOpen: boolean;
@@ -21,10 +21,12 @@ const AddProjectModal: React.FC<{
   const [isPriority, setIsPriority] = useState(false);
   const [priority, setPriority] = useState<Priority>("None");
   const [isFormValid, setIsFormValid] = useState(false);
+  const { clients, status } = useClients();
+  const [clientSelected, setClientSelected] = useState("");
+  const [clientName, setClientName] = useState("");
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Waits until it creates newProject. Then it redirects
     const newProject = await mutateAsync({
       name,
       description,
@@ -78,7 +80,23 @@ const AddProjectModal: React.FC<{
             className="form__input"
             id="name"
             type="text"
-            placeholder="Project Name"
+            placeholder="Write your project's title"
+            autoComplete="off"
+          />
+        </div>
+        <div className="form__input-container">
+          <label className="form__input--label" htmlFor="name">
+            Client
+          </label>
+          <input
+            value={clientName}
+            onChange={(e) => {
+              setClientName(e.target.value);
+            }}
+            className="form__input"
+            id="name"
+            type="text"
+            placeholder="John Doe"
             autoComplete="off"
           />
         </div>
@@ -236,15 +254,17 @@ const AddProjectModal: React.FC<{
             </ul>
           ) : null}
         </fieldset>
-        <Button
-          type="submit"
-          className={`form__submit button--blue ${
-            !isFormValid || isLoading ? "button--disabled" : ""
-          }`}
-          disabled={!isFormValid || isLoading}
-        >
-          Create
-        </Button>
+        <div className="submit-container">
+          <button
+            type="submit"
+            className={`button form__submit ${
+              !isFormValid || isLoading ? "form__submit--disabled" : ""
+            }`}
+            disabled={!isFormValid || isLoading}
+          >
+            <span>Create Project</span>
+          </button>
+        </div>
       </form>
     </Modal>
   );
