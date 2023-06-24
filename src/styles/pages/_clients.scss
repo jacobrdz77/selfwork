@@ -1,7 +1,52 @@
 .clients-page {
-  max-width: 1000px;
+  max-width: 1250px;
   margin: 0 auto;
   height: 100%;
+
+  .clients__status {
+    width: 400px;
+    display: flex;
+    gap: 24px;
+    font-size: 14px;
+    border-bottom: 1px solid #e9ecef;
+
+    .active {
+      color: var(--color-primary);
+      span::after {
+        width: 100% !important;
+      }
+    }
+
+    .status {
+      font-weight: 600;
+      width: 75px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 16px;
+
+      &:hover {
+        cursor: pointer;
+        span::after {
+          width: 100%;
+        }
+        color: var(--color-primary);
+      }
+      span {
+        &::after {
+          content: "";
+          background-color: var(--color-primary);
+          width: 0%;
+          height: 2px;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          transition: width 0.1s ease-in;
+        }
+      }
+    }
+  }
 
   .filter-bar {
     display: flex;
@@ -23,51 +68,6 @@
         .loading-skeleton {
           width: 200px;
           height: 100%;
-        }
-      }
-    }
-
-    .clients__status {
-      width: 400px;
-      display: flex;
-      gap: 24px;
-      font-size: 14px;
-      border-bottom: 1px solid #e9ecef;
-
-      .active {
-        color: var(--color-primary);
-        span::after {
-          width: 100% !important;
-        }
-      }
-
-      .status {
-        font-weight: 600;
-        width: 75px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        padding: 16px;
-
-        &:hover {
-          cursor: pointer;
-          span::after {
-            width: 100%;
-          }
-          color: var(--color-primary);
-        }
-        span {
-          &::after {
-            content: "";
-            background-color: var(--color-primary);
-            width: 0%;
-            height: 2px;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            transition: width 0.1s ease-in;
-          }
         }
       }
     }
@@ -290,18 +290,34 @@
   gap: 24px;
 
   .card {
-    // border: 1px solid red;
     border-radius: 8px;
     padding: 16px 20px;
     width: 275px;
+    max-width: 275px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     .number {
-      font-size: 20px;
-      font-weight: 700;
+      letter-spacing: 1px;
+      font-size: 24px;
+      font-weight: 600;
     }
     .title {
       font-size: 14px;
       color: #868e96;
+    }
+  }
+
+  .total-paid {
+    background-image: linear-gradient(
+      to right,
+      #7b6597,
+      #776094,
+      #735b91,
+      #6f568d,
+      #6b518a
+    );
+    color: #fefefe;
+    .title {
+      color: #fefefe;
     }
   }
 

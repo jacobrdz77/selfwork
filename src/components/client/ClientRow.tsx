@@ -2,9 +2,12 @@ import { Client } from "@prisma/client";
 import React, { useState, useEffect } from "react";
 import LoadingSkeleton from "../UI/LoadingSkeleton";
 import { ClientWithProjects } from "@/types/types";
+import MenuWithButton from "../UI/MenuButton";
+import { useDeleteClient } from "@/hooks/ClientHooks";
 
 const ClientRow = ({ client }: { client: ClientWithProjects }) => {
   const [status, setStatus] = useState("");
+  const { mutate: deleteClient } = useDeleteClient();
 
   useEffect(() => {
     switch (client.status) {
@@ -19,8 +22,6 @@ const ClientRow = ({ client }: { client: ClientWithProjects }) => {
         break;
     }
   }, [client]);
-
-  // client.projects[0];
 
   return (
     <tr className="client-row">
@@ -39,17 +40,31 @@ const ClientRow = ({ client }: { client: ClientWithProjects }) => {
         <a href="#" className="button">
           View
         </a>
-        <div className="more-icon">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-          >
-            <path d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
-          </svg>
-        </div>
+        <MenuWithButton
+          menuContent={
+            <ul>
+              <li
+                onClick={() => {
+                  deleteClient(client.id);
+                }}
+              >
+                Delete
+              </li>
+            </ul>
+          }
+        >
+          <div className="more-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+            >
+              <path d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
+            </svg>
+          </div>
+        </MenuWithButton>
       </td>
     </tr>
   );

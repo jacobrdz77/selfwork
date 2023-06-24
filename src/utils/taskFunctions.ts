@@ -1,3 +1,4 @@
+import { TaskWithAssignee } from "@/types/types";
 import { Task } from "@prisma/client";
 import axios from "axios";
 type newTask = {
@@ -29,7 +30,7 @@ export const createTask = async (task: newTask) => {
 // Get one task
 export const getOneTask = async (taskId: string) => {
   const task = await axios.get(`/api/tasks/${taskId}`);
-  return task.data as Task;
+  return task.data as TaskWithAssignee;
 };
 
 // Update a task

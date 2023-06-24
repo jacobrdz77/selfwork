@@ -81,6 +81,7 @@ const AddClientModal: React.FC<{
           <label htmlFor="name">Name*</label>
           <input
             type="text"
+            name="name"
             value={name!}
             onChange={(e) => {
               setName(e.target.value);
@@ -102,6 +103,7 @@ const AddClientModal: React.FC<{
         <div className="input-block">
           <label htmlFor="client">Email*</label>
           <input
+            name="email"
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -136,6 +138,7 @@ const AddClientModal: React.FC<{
         <div className="input-block">
           <label htmlFor="name">Phone Number</label>
           <input
+            name="phone"
             type="text"
             placeholder="123-123-1234"
             value={phone}

@@ -258,24 +258,86 @@
   }
 }
 
+.edit-task-modal {
+  padding: 8px;
+}
+
 .task-detail {
-  label {
-    font-size: 12px;
+  color: #212529;
+
+  &__icon {
+    width: 24px;
+    height: 24px;
   }
 
+  .assignee {
+    .data-selected {
+      display: flex;
+    }
+  }
+
+  // .data-selected {
+  //   display: flex;
+
+  .menu-button {
+    display: flex;
+    align-items: center;
+
+    .data-selected__close {
+      margin-left: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 6px;
+      width: 28px;
+      height: 28px;
+
+      svg {
+        width: 10px;
+        height: 10px;
+      }
+
+      border-radius: 8px;
+      &:hover {
+        background-color: #ffffff;
+        cursor: pointer;
+      }
+    }
+  }
+
+  //   &__closed {
+  //     width: 24px;
+  //     height: 24px;
+  //   }
+  // }
+
   .form {
-    font-size: 14px;
+    // font-size: 14px;
+  }
+
+  .due-date {
+    .menu {
+      input {
+        background-color: #ffff;
+        border: 1px solid var(--color-border);
+        border-left: none;
+        border-right: none;
+        padding: 4px 8px;
+      }
+    }
   }
 
   &__header {
-    font-size: 12px;
+    font-size: 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 8px;
 
     .button {
       padding: 6px 18px;
-      font-size: 12px;
+      // font-size: 12px;
       background-color: #fefefe;
       border: 1px solid var(--color-border);
     }
@@ -290,28 +352,35 @@
       .delete {
         display: flex;
         align-items: center;
-        border: 1px solid var(--color-border);
-        padding: 6px 18px;
-        color: #130808;
+        justify-content: center;
+        padding: 8px;
+        width: 32px;
+        height: 32px;
         &:hover {
-          border: 1px solid #f06a6a;
-          background-color: #ed9898;
-          color: #571717;
+          background-color: var(--color-gray--hover);
+
           cursor: pointer;
         }
       }
 
       .close {
-        border: 1px solid var(--color-border);
-        padding: 12px 12px;
+        margin-left: 4px;
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 24px;
-        height: 24px;
+        padding: 8px;
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
 
         &:hover {
+          background-color: var(--color-gray--hover);
           cursor: pointer;
+        }
+
+        svg {
+          width: 12px;
+          height: 12px;
         }
       }
     }
@@ -327,7 +396,8 @@
       width: 100%;
       border-radius: 8px;
       resize: vertical;
-      min-height: 250px;
+      min-height: 180px;
+      margin-bottom: 12px;
       color: #5b6064;
 
       &:focus {

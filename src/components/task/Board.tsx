@@ -7,6 +7,7 @@ import BoardNewTask from "./BoardNewTask";
 import BoardTask from "./BoardTask";
 import { useCreateTask } from "@/hooks/TaskHooks";
 import { useDrag } from "react-dnd";
+import EditTaskModal from "./EditTaskModal";
 
 interface Board {
   title: string;

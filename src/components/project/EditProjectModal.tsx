@@ -75,7 +75,7 @@ const EditProjectModal: React.FC<{
   }, [name]);
 
   return (
-    <Modal isOpen={isOpen} closeHandler={closeHandler}>
+    <Modal closeBtn={true} isOpen={isOpen} closeHandler={closeHandler}>
       <h1>Edit Project Details</h1>
       <form className="new-project form" onSubmit={submitHandler}>
         <div className="form__input-container">

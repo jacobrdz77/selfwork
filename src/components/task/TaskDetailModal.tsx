@@ -6,7 +6,11 @@ const TaskDetailModal: React.FC<{
   setIsModalOpen: (isOpen: boolean) => void;
 }> = ({ isOpen, setIsModalOpen }) => {
   return (
-    <Modal isOpen={isOpen} closeHandler={() => setIsModalOpen(isOpen)}>
+    <Modal
+      closeBtn={false}
+      isOpen={isOpen}
+      closeHandler={() => setIsModalOpen(isOpen)}
+    >
       <h1>Create a Project</h1>
     </Modal>
   );

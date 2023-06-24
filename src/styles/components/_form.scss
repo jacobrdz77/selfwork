@@ -553,3 +553,117 @@
     }
   }
 }
+
+.task-detail {
+  label {
+    font-size: 14px;
+  }
+  .form {
+    gap: 0;
+    .name {
+      margin-top: 12px;
+      font-size: 20px;
+
+      &__input {
+        font-size: 18px;
+        padding: 4px 8px;
+        border-radius: 8px;
+        border: 1px solid transparent;
+
+        &:focus {
+          border: 1px solid var(--color-border);
+        }
+        &-placeholder {
+          font-weight: 600;
+          padding: 0 8px;
+        }
+      }
+    }
+
+    .section {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+      label {
+        flex-basis: 120px;
+      }
+
+      // .menu-button {
+      //   flex: 1;
+      // }
+    }
+
+    .data-selected {
+      display: flex;
+      align-items: center;
+      padding: 6px 12px;
+      border-radius: 8px;
+      &:hover {
+        cursor: pointer;
+        background-color: var(--color-gray--hover);
+      }
+      & * {
+        cursor: pointer;
+      }
+
+      &__close {
+        margin: 0 8px;
+        width: 12px;
+        height: 12px;
+      }
+
+      // &--projects {
+      //   .menu {
+      //     min-width: 200px;
+      //     max-width: 350px;
+      //     background-color: #fff;
+      //     border-radius: 6px;
+      //     position: absolute;
+      //     top: 105%;
+      //     border: 1px solid var(--color-border);
+      //     padding: 4px 0;
+      //     z-index: 99999;
+      //     color: #212529;
+      //     font-weight: 500;
+      //   }
+      // }
+    }
+  }
+
+  .assignee {
+    display: flex;
+
+    .menu {
+      min-width: 300px;
+      .item {
+        display: flex;
+        gap: 8px;
+
+        &__email {
+          color: #343a40;
+        }
+      }
+    }
+
+    .task__assignee-btn {
+      padding: 6px 12px;
+      border-radius: 6px;
+      .assignee-empty {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px dashed #868e96;
+
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        margin-right: 8px;
+
+        svg {
+          width: 24px;
+          height: 24px;
+        }
+      }
+    }
+  }
+}

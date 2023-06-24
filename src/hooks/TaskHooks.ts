@@ -19,7 +19,13 @@ export const useOneTask = (taskId: string) => {
     data: task,
     isLoading,
     status,
-  } = useQuery(["task", taskId], () => getOneTask(taskId!));
+  } = useQuery({
+    querykey: ["task", taskId],
+    queryFn: () => getOneTask(taskId!),
+    onSuccess: (data) => {
+      console.log("Task: ", data);
+    },
+  });
   return { task, isLoading, status };
 };
 

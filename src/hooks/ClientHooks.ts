@@ -112,7 +112,7 @@ export const useDeleteClient = () => {
 
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({ queryKey: ["clients"] });
-      toast.success("Deleted client: " + data);
+      toast.success("Deleted client: " + data.name);
     },
   });
 };

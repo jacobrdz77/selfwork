@@ -32,7 +32,7 @@ const ClientStatsCards = ({ clients }: { clients: ClientWithProjects[] }) => {
 
   return (
     <div className="client-stats">
-      <div className="card">
+      <div className="card total-paid">
         <div className="number">${totalLumpSum}</div>
         <div className="title">Total Paid</div>
       </div>
@@ -41,7 +41,11 @@ const ClientStatsCards = ({ clients }: { clients: ClientWithProjects[] }) => {
         <div className="title">Monthly Revenue</div>
       </div>
       <div className="card">
-        <div className="number">{clients ? clients.length : null}</div>
+        <div className="number">
+          {clients
+            ? clients.filter((client) => client.status === "Active").length
+            : 0}
+        </div>
         <div className="title">Active Clients</div>
       </div>
     </div>

@@ -2,25 +2,37 @@ import React from "react";
 import EditTaskDetails from "./EditTaskDetails";
 import Modal from "../UI/Modal";
 import { TaskWithAssignee } from "@/types/types";
+import { useModalStore } from "store/user";
+import { useOneTask } from "@/hooks/TaskHooks";
 
 const EditTaskModal = ({
   taskId,
-  isOpen,
-  setIsModalOpen,
+  isModalOpen,
 }: {
   taskId: string;
-  isOpen: boolean;
-  setIsModalOpen: (isOpen: boolean) => void;
+  isModalOpen: boolean;
 }) => {
+  const isTaskDetailOpen = useModalStore((state) => state.isTaskDetailOpen);
+  const setIsTaskDetailOpen = useModalStore(
+    (state) => state.setIsTaskDetailOpen
+  );
+  const { task, status } = useOneTask(taskId);
+
   return (
-    <Modal
-      isOpen={isOpen}
-      closeHandler={() => {
-        setIsModalOpen(false);
-      }}
-    >
-      <EditTaskDetails taskId={taskId} setIsModalOpen={setIsModalOpen} />
-    </Modal>
+    <>
+      {isTaskDetailOpen && (
+        <Modal
+          className="edit-task-modal"
+          closeBtn={false}
+          isOpen={isTaskDetailOpen}
+          closeHandler={() => {
+            setIsTaskDetailOpen(false);
+          }}
+        >
+          <EditTaskDetails task={task} setIsModalOpen={setIsTaskDetailOpen} />
+        </Modal>
+      )}
+    </>
   );
 };
 

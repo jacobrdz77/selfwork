@@ -65,7 +65,7 @@ const AddProjectModal: React.FC<{
   }, [name, isPriority, priority, dateType, dueDate, startDate]);
 
   return (
-    <Modal isOpen={isOpen} closeHandler={closeHandler}>
+    <Modal closeBtn={true} isOpen={isOpen} closeHandler={closeHandler}>
       <h1>Create a Project</h1>
       <form className="new-project form" onSubmit={submitHandler}>
         <div className="form__input-container">

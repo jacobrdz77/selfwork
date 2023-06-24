@@ -11,24 +11,45 @@ const ClientsTable = ({ clients }: { clients: ClientWithProjects[] }) => {
   const [clientStatus, setClientStatus] = useState("all");
 
   useEffect(() => {
-    setSortedClients(() =>
-      clients.filter((client) => {
-        if (clientStatus === "all") {
-          return client.name.includes(searchName);
-        } else {
-          return (
-            client.name.includes(searchName) &&
-            client.status.toLocaleLowerCase() === clientStatus
-          );
-        }
-      })
-    );
-
-    if (searchName.length === 0) {
-      setSortedClients(clients);
+    if (clientStatus === "all") {
+      setSortedClients(() =>
+        clients.filter((client) => {
+          return client.name
+            .toLocaleLowerCase()
+            .includes(searchName.trim().toLocaleLowerCase());
+        })
+      );
+    } else if (clientStatus === "active") {
+      setSortedClients(() =>
+        clients.filter(
+          (client) =>
+            client.status === "Active" &&
+            client.name
+              .toLocaleLowerCase()
+              .includes(searchName.trim().toLocaleLowerCase())
+        )
+      );
+    } else if (clientStatus === "pending") {
+      setSortedClients(() =>
+        clients.filter(
+          (client) =>
+            client.status === "Pending" &&
+            client.name
+              .toLocaleLowerCase()
+              .includes(searchName.trim().toLocaleLowerCase())
+        )
+      );
+    } else if (clientStatus === "closed") {
+      setSortedClients(() =>
+        clients.filter(
+          (client) =>
+            client.status === "Closed" &&
+            client.name
+              .toLocaleLowerCase()
+              .includes(searchName.trim().toLocaleLowerCase())
+        )
+      );
     }
-    console.log("name: ", searchName);
-    console.log("clientStatus: ", clientStatus);
   }, [searchName, clientStatus, clients]);
 
   return (

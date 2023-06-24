@@ -19,10 +19,6 @@ const PageLayout: React.FC<{
   const setIsAddProjectModalOpen = useModalStore(
     (state) => state.setIsAddProjectModalOpen
   );
-  const isTaskDetailOpen = true;
-  const setIsTaskDetailOpen = useModalStore(
-    (state) => state.setIsTaskDetailOpen
-  );
 
   const isClientModalOpen = useModalStore((state) => state.isClientModalOpen);
   const setIsClientModalOpen = useModalStore(
@@ -57,7 +53,7 @@ const PageLayout: React.FC<{
       /> */}
       {/* {isTaskDetailOpen && (
         <EditTaskModal
-        taskId={taskId}
+          taskId={taskId}
           isOpen={isTaskDetailOpen!}
           setIsModalOpen={setIsTaskDetailOpen}
         />
