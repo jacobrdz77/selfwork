@@ -517,8 +517,8 @@
   min-width: 300px;
   // height: 365px;
   padding: 8px 6px;
-  background-color: #343a40;
-  color: #ced4da;
+  background-color: #f9f8f8;
+  color: #212529;
   border-radius: 6px;
   user-select: none;
   &-title {
@@ -543,7 +543,7 @@
       font-weight: 500;
       letter-spacing: 0.2px;
       padding-left: 12px;
-      color: #ced4da;
+      color: #212529;
     }
 
     .section__input-placeholder {
@@ -553,13 +553,13 @@
 
     .section__name-input {
       // padding: 6px;
-      background-color: #343a40;
-      color: #ced4da;
+      background-color: #e9ecef;
+      color: #212529;
     }
   }
 
   &-add-task {
-    color: #ced4da;
+    color: #fffefd;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -569,7 +569,6 @@
     border-radius: 6px;
     &:hover {
       cursor: pointer;
-      background-color: #495057;
     }
   }
 
@@ -580,16 +579,16 @@
     gap: 6px;
 
     .board-task {
-      background-color: #495057;
+      background-color: #fffefd;
+      color: #2b2b30;
       padding: 14px 12px;
       border-radius: 6px;
 
       &:hover {
         cursor: pointer;
-        background-color: hsl(210, 9%, 33%);
         .board-task__header {
           .header__more-btn-container {
-            background-color: #5b6064;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
           }
           .board-task__more-btn {
             .board-task__more-icon {
@@ -606,7 +605,7 @@
         .board-task__name {
           display: flex;
           align-items: center;
-          color: #dee2e6;
+          color: #212529;
           flex: 1;
         }
 
@@ -617,23 +616,15 @@
 
         .header__more-btn-container {
           position: relative;
-          // background-color: green;
           padding: 4px;
           display: flex;
           border-radius: 4px;
           &:hover {
-            background-color: #63686d;
             cursor: pointer;
           }
 
           &--active {
-            background-color: var(--color-green--dark) !important;
-
-            .board-task__more-btn {
-              .board-task__more-icon {
-                visibility: visible;
-              }
-            }
+            fill: #212529;
           }
 
           .board-task__more-btn {
@@ -646,7 +637,7 @@
 
           .board-task__more-icon {
             visibility: hidden;
-            fill: #ced4da;
+            fill: #212529;
             width: 20px;
             height: 20px;
             flex: 0 0 auto;
@@ -739,7 +730,7 @@
     display: flex;
     border-radius: 4px;
     &:hover {
-      background-color: #4e5255;
+      background-color: #fffefd;
     }
 
     .board__more-btn {
@@ -751,12 +742,12 @@
 
       &:hover {
         cursor: pointer;
+        background-color: #fffefd;
       }
     }
 
     .board-card__more-icon {
-      visibility: hidden;
-      fill: #ced4da;
+      fill: #212529;
       width: 20px;
       height: 20px;
       flex: 0 0 auto;
@@ -933,7 +924,7 @@
   height: 25px;
 
   &:hover {
-    background-color: #606a72;
+    background-color: #f8f9fa;
   }
 }
 .board-task__add-assignee {
@@ -1016,7 +1007,7 @@
   width: 25px;
   height: 25px;
   &:hover {
-    background-color: #606a72;
+    background-color: #f8f9fa;
   }
 }
 

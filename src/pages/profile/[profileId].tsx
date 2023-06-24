@@ -17,6 +17,12 @@ const ProfilePage = () => {
   const [isEditUserOpen, setIsEditUserOpen] = useState(false);
   const isAddTaskOpen = useModalStore((state) => state.isAddTaskOpen);
   const setIsAddTaskOpen = useModalStore((state) => state.setIsAddTaskOpen);
+  const isAddProjectModalOpen = useModalStore(
+    (state) => state.isAddProjectModalOpen
+  );
+  const setIsAddProjectModalOpen = useModalStore(
+    (state) => state.setIsAddProjectModalOpen
+  );
   const [isSelf, setIsSelf] = useState(false);
 
   useEffect(() => {
@@ -98,6 +104,22 @@ const ProfilePage = () => {
               {user?.involvedProjects.map((project) => (
                 <UserProfileProject key={project.id} project={project} />
               ))}
+
+              {user?.involvedProjects.length === 0 ? (
+                <div className="no-tasks">
+                  <div>
+                    <p>You have no projects Create one!</p>
+                    <button
+                      className="button"
+                      onClick={() => {
+                        setIsAddProjectModalOpen(true);
+                      }}
+                    >
+                      Create project
+                    </button>
+                  </div>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>

@@ -5,13 +5,7 @@ import { TaskWithAssignee } from "@/types/types";
 import { useModalStore } from "store/user";
 import { useOneTask } from "@/hooks/TaskHooks";
 
-const EditTaskModal = ({
-  taskId,
-  isModalOpen,
-}: {
-  taskId: string;
-  isModalOpen: boolean;
-}) => {
+const EditTaskModal = ({ taskId }: { taskId: string }) => {
   const isTaskDetailOpen = useModalStore((state) => state.isTaskDetailOpen);
   const setIsTaskDetailOpen = useModalStore(
     (state) => state.setIsTaskDetailOpen

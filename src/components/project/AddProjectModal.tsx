@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import Modal from "../UI/Modal";
 import { useCreateProject } from "../../hooks/ProjectHooks";
-import { Priority } from "@prisma/client";
+import { Client, Priority } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useClients } from "@/hooks/ClientHooks";
+import useMenu from "@/hooks/useMenu";
 
 const AddProjectModal: React.FC<{
   isOpen: boolean;
@@ -271,3 +272,63 @@ const AddProjectModal: React.FC<{
 };
 
 export default AddProjectModal;
+
+const ClientMenu = () => {
+  const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
+  const [selectedClient, setSelectedClient] = useState<Client | null>(null);
+  const [searchClient, setSearchClient] = useState("");
+  const { clients } = useClients();
+  return (
+    <>
+      <div className="menu-container data-selected">
+        <button
+          ref={btnRef}
+          className="menu-button"
+          onClick={() => setIsMenuOpen((state) => !state)}
+        >
+          <input
+            value={searchClient}
+            onChange={(e) => {
+              setSearchClient(e.target.value);
+            }}
+            className="form__input"
+            id="name"
+            type="text"
+            placeholder="John Doe"
+            autoComplete="off"
+          />
+        </button>
+        {isMenuOpen && (
+          <div
+            className="menu"
+            ref={menuRef}
+            onClick={(e) => {
+              setIsMenuOpen(false);
+            }}
+          >
+            {/* Filters first using the input name */}
+            {clients
+              ?.filter((client) => {
+                return client.name
+                  .toLocaleLowerCase()
+                  .includes(searchClient.trim().toLocaleLowerCase());
+              })
+              .map((client) => (
+                <div
+                  className="item"
+                  key={client.id}
+                  onClick={() => {
+                    setSearchClient(client);
+                    setIsMenuOpen(false);
+                  }}
+                >
+                  <span className="item__name"> {client.name}</span>
+                  <span className="item__email"> {client.email}</span>
+                </div>
+              ))}
+          </div>
+        )}
+      </div>
+    </>
+  );
+};

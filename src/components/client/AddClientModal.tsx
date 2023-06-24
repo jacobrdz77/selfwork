@@ -69,6 +69,7 @@ const AddClientModal: React.FC<{
 
   return (
     <Modal
+      closeBtn={true}
       isOpen={true}
       closeHandler={() => {
         setIsModalOpen(false);

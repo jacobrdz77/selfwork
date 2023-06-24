@@ -1,12 +1,13 @@
 import useMenu from "@/hooks/useMenu";
 import { TaskWithAssignee } from "@/types/types";
-import React from "react";
+import React, { useState } from "react";
 import { getInitials } from "../UI/UserCard";
 import { useDeleteTask } from "@/hooks/TaskHooks";
 import { taskPriorityClassName } from "./OneTaskRow";
 import { format } from "date-fns";
 import EditTaskModal from "./EditTaskModal";
 import { useModalStore } from "store/user";
+import ReactDatePicker from "react-datepicker";
 
 const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
@@ -18,6 +19,7 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
   const setIsTaskDetailOpen = useModalStore(
     (state) => state.setIsTaskDetailOpen
   );
+  const [dueDate, setDueDate] = useState(task.dueDate);
 
   return (
     <>
@@ -106,7 +108,7 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
 
           <div className="buttons">
             {task.dueDate === null ? (
-              <DateButton />
+              <DateButton date={dueDate} setDate={setDueDate} />
             ) : (
               <div className="board-task__date">
                 <span>{formatDueDate(task.dueDate)}</span>
@@ -128,21 +130,30 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
 
 export default BoardTask;
 
-const DateButton = () => {
+const DateButton = ({ date, setDate }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
 
   return (
-    <div className="board-task__date--empty">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        className="icon"
-      >
-        <path d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
-      </svg>
-      <div className="board-task__add-date"></div>
+    <div className="menu-container">
+      <div className="board-task__date--empty">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          className="icon"
+        >
+          <path d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+        </svg>
+        <div className="board-task__add-date"></div>
+      </div>
+
+      <ReactDatePicker
+        selected={new Date(date)}
+        onChange={(dueDate) => {
+          setDueDate(new Date(dueDate!));
+        }}
+      />
     </div>
   );
 };

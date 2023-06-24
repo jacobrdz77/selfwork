@@ -2,9 +2,7 @@
 
 ## High
 
-- Create task detail modal.
-- Create client page.
-- Create add client modal.
+- Add clients in add project modal.
 - Figure out how to order after rearraning section.
 - Add Invite model to send to other users via email.
 
