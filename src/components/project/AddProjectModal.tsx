@@ -23,7 +23,7 @@ const AddProjectModal: React.FC<{
   const [priority, setPriority] = useState<Priority>("None");
   const [isFormValid, setIsFormValid] = useState(false);
   const { clients, status } = useClients();
-  const [clientSelected, setClientSelected] = useState("");
+  const [clientSelected, setClientSelected] = useState<Client | null>(null);
   const [clientName, setClientName] = useState("");
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {

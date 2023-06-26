@@ -20,11 +20,13 @@
     padding: 8px 24px;
 
     &--disabled {
-      background-color: #f1f3f5;
-      color: #868e96;
+      background-color: #f1f3f5 !important;
+      background: #f1f3f5 !important;
+      color: #868e96 !important;
 
       &:hover {
-        background-color: #f1f3f5;
+        background-color: #f1f3f5 !important;
+        background: #f1f3f5 !important;
         color: #868e96;
         cursor: not-allowed;
       }
@@ -137,15 +139,23 @@
 
     &:hover {
       cursor: pointer;
-      background-color: var(--color-primary);
+      background: linear-gradient(
+        90deg,
+        hsla(267, 26%, 43%, 1) 0%,
+        hsla(268, 21%, 49%, 1) 60%
+      );
       border-color: var(--color-primary--light);
-      color: #212529;
+      color: #ffffff;
     }
 
     &--active {
-      background-color: var(--color-primary--light);
+      background: linear-gradient(
+        90deg,
+        hsla(267, 26%, 43%, 1) 0%,
+        hsla(268, 21%, 49%, 1) 60%
+      );
       border-color: var(--color-primary--light);
-      color: #212529;
+      color: #ffffff;
     }
   }
 }
@@ -171,7 +181,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 8px 24px;
-    border-bottom: 1px solid var(--color-navigation-border);
+    border-bottom: 1px solid var(--color-border);
     background-color: #f9f8f8;
     color: #212529;
     border-radius: 8px 8px 0 0;
@@ -229,7 +239,7 @@
     display: flex;
     align-items: center;
     color: #212529;
-    background-color: #424244;
+    background-color: #e4e1e0;
     transition: background-color 0.1s ease-in;
     border: none;
     border-radius: 14px;
@@ -242,7 +252,7 @@
     .data-selected__close {
       padding: 4px;
       margin-left: 4px;
-      fill: var(--color-navigation-text);
+      fill: #212529;
       border-radius: 100%;
       transition: all 0.1s ease-in;
       &:hover {
@@ -278,11 +288,11 @@
         display: none;
         padding: 4px 0;
         font-size: 14px;
-        min-width: 325px;
+        min-width: 250px;
         border-radius: 6px;
         background-color: #fff;
         color: #212529;
-        border: 1px solid var(--color-navigation-border);
+        border: 1px solid var(--color-gray-weak);
         position: absolute;
         top: 105%;
         right: 0;
@@ -328,7 +338,7 @@
       border-radius: 6px;
       background-color: #fff;
       color: #212529;
-      border: 1px solid var(--color-navigation-border);
+      border: 1px solid var(--color-gray-weak);
       position: absolute;
       top: 105%;
       left: 0;
@@ -360,17 +370,17 @@
     display: flex;
     align-items: center;
     color: var(--color-gray-weak);
-    background-color: #424244;
-    transition: background-color 0.1s ease-out;
+    background-color: #e4e1e0;
+    transition: background-color 0.1s ease-out, color 0.1s ease-out;
     border: none;
     border-radius: 6px;
     padding: 0 4px 0 4px;
     &:hover {
-      background-color: #555557;
-      color: #000;
+      background-color: #e3dfde;
+      color: #212529;
       cursor: pointer;
       .section-select__icon {
-        fill: var(--color-navigation-text);
+        fill: #212529;
       }
     }
     span {
@@ -410,7 +420,7 @@
         border-radius: 6px;
         background-color: #fff;
         color: #212529;
-        border: 1px solid var(--color-navigation-border);
+        border: 1px solid var(--color-gray-weak);
         position: absolute;
         top: 105%;
         right: 0;
@@ -455,7 +465,7 @@
         cursor: pointer;
         background-color: #fff;
       }
-      border: 1px solid var(--color-navigation-border);
+      border: 1px solid var(--color-border);
       background-color: inherit;
       color: #212529;
       padding: 2px 16px;
@@ -476,7 +486,7 @@
       border-radius: 6px;
       background-color: #fff;
       color: #212529;
-      border: 1px solid var(--color-navigation-border);
+      border: 1px solid var(--color-border);
       position: absolute;
       top: 83%;
       left: 25px;
@@ -493,7 +503,7 @@
       padding: 2px 12px;
       &:hover {
         cursor: pointer;
-        background-color: #fff;
+        background-color: var(--color-gray--hover);
         .new-task__assignee-btn:hover {
           all: unset;
         }
@@ -530,7 +540,7 @@
   }
 
   &__footer {
-    border-top: 1px solid var(--color-navigation-border);
+    border-top: 1px solid var(--color-border);
     padding: 20px 24px;
   }
   &__submit {
@@ -538,17 +548,16 @@
     border: none;
     font-size: 14px;
     border-radius: 6px;
-    background-color: var(--color-primary--light);
+    background: var(--color-primary--light);
     color: #ffffff;
     transition: background-color 0.1s ease-in;
     border: 1px solid transparent;
     &:hover {
       cursor: pointer;
-      background-color: rgb(50, 123, 212);
     }
     &--disabled {
       color: #7a7a7a;
-      background-color: #fff;
+      background: #fff;
       border: 1px solid var(--color-border);
       &:hover {
         cursor: unset;

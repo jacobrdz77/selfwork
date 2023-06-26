@@ -5,6 +5,30 @@
   font-size: 14px;
   padding-right: 24px;
 
+  .inputs {
+    display: flex;
+    align-items: center;
+
+    .search {
+      width: 300px;
+      display: flex;
+      align-items: center;
+      padding: 8px 8px;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      margin-bottom: 8px;
+      .icon {
+        fill: #fff;
+      }
+
+      .input {
+        width: 300px;
+        margin-left: 8px;
+        border: none;
+      }
+    }
+  }
+
   &__overview {
     margin: 0 auto;
     max-width: 750px;
@@ -65,7 +89,7 @@
 
       &__invite {
         background-color: #fefefe;
-        width: 500px;
+        width: 550px;
         margin: 0 auto;
         color: #63686d;
         font-size: 14px;
@@ -506,6 +530,7 @@
   display: flex;
   gap: 12px;
   overflow-x: auto;
+  min-height: 75vh;
 
   .new-section {
     margin: unset;
@@ -515,7 +540,6 @@
 
 .board {
   min-width: 300px;
-  // height: 365px;
   padding: 8px 6px;
   background-color: #f9f8f8;
   color: #212529;
@@ -559,7 +583,7 @@
   }
 
   &-add-task {
-    color: #fffefd;
+    color: #343a40;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -569,6 +593,11 @@
     border-radius: 6px;
     &:hover {
       cursor: pointer;
+      background-color: #f0f0f0;
+    }
+
+    svg {
+      fill: #343a40;
     }
   }
 
@@ -707,6 +736,18 @@
 
         .task__priority--none {
           display: none;
+        }
+
+        .menu-button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .menu {
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
         &__priority {
@@ -884,7 +925,7 @@
 
   .footer {
     width: 100%;
-    justify-content: end;
+    justify-content: flex-end;
     margin-top: 8px;
 
     .buttons {
@@ -919,9 +960,11 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  border: 1px dashed var(--color-border);
-  width: 25px;
-  height: 25px;
+  border: 1px dashed #212529;
+  width: 24px;
+  height: 24px;
+  padding: 4px;
+  fill: #212529;
 
   &:hover {
     background-color: #f8f9fa;
@@ -929,16 +972,16 @@
 }
 .board-task__add-assignee {
   position: absolute;
-  left: -150%;
+  left: -100%;
   top: 110%;
   z-index: 9999999;
-  background-color: #2b2b30;
-  width: 410px;
-  color: #f8f8f8;
+  background-color: #f9f8f8;
+  width: 400px;
+  color: #212529;
   font-size: 14px;
   border-radius: 8px;
-  padding: 25px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  padding: 24px 20px;
+  border: 1px solid var(--color-border);
 
   .assignee-form {
     display: flex;
@@ -951,9 +994,8 @@
     font-size: 14px;
 
     .button {
-      // width: 150px;
       display: inline;
-      padding: 8px 10px;
+      padding: 4px 8px;
     }
 
     .label {
@@ -977,13 +1019,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     border-radius: 6px;
     &:hover {
       cursor: pointer;
-
-      background-color: #495057;
+      background-color: var(--color-gray--hover);
     }
     &-btn {
       &:hover {
@@ -991,8 +1032,8 @@
       }
       svg {
         fill: #fff;
-        width: 14px;
-        height: 14px;
+        width: 12px;
+        height: 12px;
       }
     }
   }
@@ -1003,12 +1044,19 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  border: 1px dashed var(--color-border);
-  width: 25px;
-  height: 25px;
+  border: 1px dashed #212529;
+  width: 24px;
+  height: 24px;
+  padding: 4px;
+  fill: #212529;
   &:hover {
     background-color: #f8f9fa;
   }
+
+  // svg {
+  //   width: 24px;
+  //   height: 24px;
+  // }
 }
 
 .new-task-board {
@@ -1026,7 +1074,7 @@
   }
   .footer {
     width: 100%;
-    justify-content: end;
+    justify-content: flex-end;
 
     .buttons {
       display: flex;
@@ -1044,12 +1092,14 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    border: 1px dashed var(--color-border);
-    width: 25px;
-    height: 25px;
+    border: 1px dashed #212529;
+    width: 24px;
+    height: 24px;
+    padding: 4px;
+    fill: #212529;
 
     &:hover {
-      background-color: #606a72;
+      background-color: #f8f9fa;
     }
   }
 
@@ -1058,12 +1108,38 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    border: 1px dashed var(--color-border);
-    width: 25px;
-    height: 25px;
+    border: 1px dashed #212529;
+    width: 24px;
+    height: 24px;
+    padding: 4px;
+    fill: #212529;
     &:hover {
-      background-color: #606a72;
+      background-color: #f8f9fa;
     }
+  }
+}
+
+.add-project-btn {
+  display: flex;
+  border: 1px dashed var(--color-border);
+  display: flex;
+  align-items: center;
+  padding: 10px 10px 10px 15px;
+  border-radius: 8px;
+  transition: all 0.2s ease-in;
+  position: relative;
+  width: 100%;
+  height: 54px;
+  font-size: 14px;
+  margin-bottom: 4px;
+
+  &:hover {
+    cursor: pointer;
+    background-color: var(--color-gray--hover);
+  }
+  svg {
+    width: 30px;
+    height: 30px;
   }
 }
 

@@ -1,24 +1,22 @@
 import { Priority, Project, Section, Task, User } from "@prisma/client";
 import React, { useState, useRef, useEffect } from "react";
-import NewTaskSectionButton from "./NewTaskSectionButton";
-import { useOneTask } from "@/hooks/TaskHooks";
 import MenuButton from "../UI/MenuButton";
 import { useWorkspaceMembers } from "@/hooks/WorkspaceHooks";
 import DatePicker from "react-datepicker";
-
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
-import { setPriority } from "os";
 import { useProjects } from "@/hooks/ProjectHooks";
 import useMenu from "@/hooks/useMenu";
+import { TaskWithAssignee } from "@/types/types";
 
 const EditTaskDetails = ({
   task,
   setIsModalOpen,
 }: {
-  task: Task;
+  task: TaskWithAssignee;
   setIsModalOpen: (bool: boolean) => void;
 }) => {
+  const { projects, status: projectsStatus } = useProjects();
   const [description, setDescription] = useState(task?.description);
   const [project, setProject] = useState<Project | null>(null);
   const [assignee, setAssignee] = useState(task?.assignee);
@@ -27,6 +25,7 @@ const EditTaskDetails = ({
   const [priority, setPriority] = useState<Priority | undefined>(
     task?.priority
   );
+  const [isFormValid, setIsFormValid] = useState(true);
   //   For Name
   const [oldName, setOldName] = useState(task?.name);
   const [inputName, setInputName] = useState(task?.name);
@@ -59,7 +58,9 @@ const EditTaskDetails = ({
     setIsInputFocused(false);
   };
 
-  const { projects, status: projectsStatus } = useProjects();
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
 
   useEffect(() => {
     if (isInputFocused === true) {
@@ -68,15 +69,23 @@ const EditTaskDetails = ({
   }, [isInputFocused]);
 
   useEffect(() => {
-    if (status === "success") {
-      setDescription(task?.description);
-      setDueDate(task?.dueDate);
-      setOldName(task?.name);
-      setInputName(task?.name);
-      setAssignee(task?.assignee);
-      setPriority(task?.priority);
+    if (inputName.length > 0) {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
     }
-  }, [status]);
+  }, [inputName]);
+
+  // useEffect(() => {
+  //   if (status === "success") {
+  //     setDescription(task?.description);
+  //     setDueDate(task?.dueDate);
+  //     setOldName(task?.name);
+  //     setInputName(task?.name);
+  //     setAssignee(task?.assignee);
+  //     setPriority(task?.priority);
+  //   }
+  // }, [status]);
 
   return (
     <div className="task-detail">
@@ -89,7 +98,7 @@ const EditTaskDetails = ({
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              stroke-width="1.5"
+              strokeWidth="1.5"
               stroke="currentColor"
             >
               <path d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
@@ -114,7 +123,7 @@ const EditTaskDetails = ({
         </div>
       </div>
 
-      <div className="form">
+      <form onSubmit={submitHandler} className="form">
         <div className="name">
           {/* <div
             className="name__input-placeholder"
@@ -189,7 +198,18 @@ const EditTaskDetails = ({
             }}
           ></textarea>
         </div>
-      </div>
+        <div>
+          <button
+            type="submit"
+            className={`form__submit button ${
+              !isFormValid ? "button--disabled" : ""
+            } `}
+            disabled={!isFormValid}
+          >
+            Save
+          </button>
+        </div>
+      </form>
     </div>
   );
 };
@@ -209,7 +229,8 @@ const AssigneeButton = ({
     <>
       {assignee ? (
         <div className="menu-container data-selected">
-          <button
+          <div
+            role="button"
             ref={btnRef}
             className="menu-button"
             onClick={() => setIsMenuOpen((state) => !state)}
@@ -230,7 +251,7 @@ const AssigneeButton = ({
                 </g>
               </svg>
             </div>
-          </button>
+          </div>
           {isMenuOpen && (
             <div
               className="menu"

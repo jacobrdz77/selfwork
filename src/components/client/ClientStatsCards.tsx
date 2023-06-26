@@ -7,12 +7,14 @@ const getRevenue = (clients: ClientWithProjects[]) => {
   let monthly = 0;
   clients.forEach((client) =>
     client.projects.forEach((project) => {
+      console.log(project.lumpSum);
+      console.log(project.monthlyPay);
       sum = sum + Number(project.lumpSum);
       monthly = monthly + Number(project.monthlyPay);
     })
   );
 
-  console.log(sum, monthly);
+  console.log("Sum: ", sum, "\nMonthly revenue: ", monthly);
 
   return {
     sum,
@@ -23,11 +25,11 @@ const getRevenue = (clients: ClientWithProjects[]) => {
 const ClientStatsCards = ({ clients }: { clients: ClientWithProjects[] }) => {
   const [totalLumpSum, setLumpSum] = useState(0);
   useEffect(() => {
-    if (clients) {
+    if (clients.length > 0) {
       setLumpSum(getRevenue(clients).sum);
     }
 
-    console.log("TOTAL: ", totalLumpSum);
+    // console.log("TOTAL: ", totalLumpSum);
   }, [totalLumpSum, clients]);
 
   return (

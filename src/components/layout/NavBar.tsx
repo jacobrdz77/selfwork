@@ -123,9 +123,11 @@ const NavBar = () => {
                 className={`sidebar__link ${
                   isNavMinimized ? "sidebar__link--minimized" : ""
                 } ${
-                  router.pathname === "/my-tasks" ? "sidebar__link--active" : ""
+                  router.pathname === "/my-tasks/list"
+                    ? "sidebar__link--active"
+                    : ""
                 }`}
-                href="/my-tasks"
+                href="/my-tasks/list"
               >
                 <svg
                   className="sidebar__link-icon"

@@ -60,6 +60,7 @@ const InviteMemberPopup = ({
 
   return (
     <Modal
+      closeBtn={true}
       isOpen={isOpen}
       closeHandler={() => {
         setIsOpen(false);

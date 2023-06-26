@@ -130,30 +130,44 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
 
 export default BoardTask;
 
-const DateButton = ({ date, setDate }) => {
+export const DateButton = ({ date, setDate }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
 
   return (
-    <div className="menu-container">
-      <div className="board-task__date--empty">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          className="icon"
+    <div className="date-button">
+      <div className="menu-button menu-button-container ">
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            setIsMenuOpen((state) => !state);
+          }}
+          ref={btnRef}
+          className="menu-button"
         >
-          <path d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
-        </svg>
-        <div className="board-task__add-date"></div>
-      </div>
+          <div className="board-task__date--empty">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+            </svg>
+            <div className="board-task__add-date"></div>
+          </div>
+        </button>
 
-      <ReactDatePicker
-        selected={new Date(date)}
-        onChange={(dueDate) => {
-          setDueDate(new Date(dueDate!));
-        }}
-      />
+        {isMenuOpen && (
+          <div className="menu" ref={menuRef}>
+            <ReactDatePicker
+              selected={new Date(date)}
+              onChange={(dueDate) => {
+                setDate(new Date(dueDate!));
+              }}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };
@@ -176,7 +190,6 @@ export const AssigneeButton = () => {
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
-          className="icon"
         >
           <path d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
         </svg>
@@ -214,7 +227,7 @@ export const AssigneeButton = () => {
               <span>or</span>
 
               <button className="button" onClick={() => {}}>
-                Assign to Me
+                Assign to me
               </button>
             </div>
           </div>

@@ -59,7 +59,6 @@ const ProjectHeader: React.FC<HeaderProps> = ({ name, status, project }) => {
         break;
     }
   }, [project.iconColor]);
-  console.log("color: ", projectColor);
 
   return (
     <>

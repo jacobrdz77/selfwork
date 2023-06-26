@@ -271,7 +271,7 @@ const AddTaskPopup: React.FC<{
         <footer className="new-task__footer">
           <button
             type="submit"
-            className={`new-task__submit ${
+            className={`button new-task__submit ${
               !isFormValid ? "new-task__submit--disabled" : ""
             }`}
             disabled={!isFormValid}

@@ -2,12 +2,17 @@
   font-size: 14px;
   padding: 6px 14px;
   border-radius: 6px;
-  background-color: #d7d1e0;
-  color: #403153;
+  background: linear-gradient(
+    90deg,
+    hsla(267, 26%, 43%, 1) 0%,
+    hsla(268, 21%, 49%, 1) 60%
+  );
+
+  color: var(--color-primary--lightest);
   padding: 4px 24px;
 
   &:hover {
-    background-color: #cac1d5;
+    background: #6b518a;
   }
 
   &,
@@ -34,12 +39,9 @@
   }
 
   &--disabled {
-    background-color: red;
-    color: #000;
-    &:hover {
-      background-color: #e3e4e6;
-      cursor: not-allowed;
-    }
+    background: #f1f3f5;
+    color: #868e96;
+    cursor: not-allowed;
   }
 
   &--animated {
@@ -66,6 +68,20 @@
   }
 
   // Position the menu relative to the button
+}
+
+.date-button {
+  .menu-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .menu {

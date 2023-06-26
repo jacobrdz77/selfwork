@@ -20,6 +20,7 @@ const MenuButton = ({
       <button
         onClick={(e) => {
           e.preventDefault();
+          e.stopPropagation();
           setIsMenuOpen((state) => !state);
         }}
         ref={btnRef}

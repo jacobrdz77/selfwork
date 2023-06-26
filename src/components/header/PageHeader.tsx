@@ -31,11 +31,11 @@ const PageHeader: React.FC<HeaderProps> = ({
             >
               {buttonText}
             </button>
-
-            {children}
           </div>
         </div>
       )}
+
+      {children}
     </header>
   );
 };

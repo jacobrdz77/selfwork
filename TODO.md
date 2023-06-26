@@ -2,8 +2,10 @@
 
 ## High
 
+- Figure out how to order after rearraning sections, tasks, and projects.
+- Figure out how to add new task to table.
 - Add clients in add project modal.
-- Figure out how to order after rearraning section.
+- Create sketch page and import Excalidraw.
 - Add Invite model to send to other users via email.
 
 ## Medium
@@ -11,6 +13,7 @@
 - add loading skeleton component for:
   - sections in my-tasks page
   - projects list page
+  - project pages
 
 ## Low
 

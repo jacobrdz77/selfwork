@@ -50,7 +50,7 @@ const ProjectLink = ({ link }: { link: LinkType }) => {
             }}
             className="link__menu-item"
           >
-            Delete project
+            Delete link
           </div>
         </div>
       </div>

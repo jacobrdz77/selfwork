@@ -81,6 +81,7 @@ const AddClientModal: React.FC<{
         <div className="input-block">
           <label htmlFor="name">Name*</label>
           <input
+            tabIndex={0}
             type="text"
             name="name"
             value={name!}

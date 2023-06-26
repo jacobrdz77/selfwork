@@ -9,9 +9,13 @@ import {
 } from "@/hooks/WorkspaceHooks";
 import LoadingSkeleton from "@/components/UI/LoadingSkeleton";
 import UserCard from "@/components/UI/UserCard";
+import { useModalStore } from "store/user";
 
 const WorkspacePage = () => {
   const { workspace, projects, status } = useWorkspaceWithProjects();
+  const setIsProjectModalOpen = useModalStore(
+    (state) => state.setIsAddProjectModalOpen
+  );
 
   console.log("projects: ", projects);
   console.log("workspace ", workspace);
@@ -71,7 +75,22 @@ const WorkspacePage = () => {
                   <LoadingSkeleton />
                 </div>
               )}
-              {status === "success" && <Projects projects={projects!} />}
+              {status === "success" && (
+                <>
+                  <div
+                    className="add-project-btn"
+                    onClick={() => {
+                      setIsProjectModalOpen(true);
+                    }}
+                  >
+                    <svg viewBox="0 0 24 24">
+                      <path d="m12 6a1 1 0 0 0 -1 1v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2h-4v-4a1 1 0 0 0 -1-1z"></path>
+                    </svg>
+                    New Project
+                  </div>
+                  <Projects projects={projects!} />
+                </>
+              )}
             </div>
           </div>
         </div>

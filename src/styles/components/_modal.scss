@@ -33,8 +33,26 @@
   }
 
   &__close {
+    margin-left: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+
+    &:hover {
+      background-color: var(--color-gray--hover);
+      cursor: pointer;
+    }
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+
     border: none;
-    width: 16px;
     fill: #000;
     background-color: white;
     &:hover {

@@ -1,20 +1,24 @@
 .tasks-page {
   padding-left: 0;
   padding-top: 12px;
+
+  &__board {
+    padding: 16px 24px 0px 24px;
+  }
 }
 
 .add-task-btn {
   display: flex;
   align-items: center;
   font-size: 12px;
-  background-color: var(--color-skyblue);
+  // background-color: var(--color-skyblue);
   color: white;
   margin-left: 24px;
   margin-bottom: 12px;
   padding: 4px 10px;
 
   &:hover {
-    background-color: var(--color-skyblue);
+    // background-color: var(--color-skyblue);
   }
 }
 
@@ -259,7 +263,7 @@
 }
 
 .edit-task-modal {
-  padding: 8px;
+  padding: 16px;
 }
 
 .task-detail {
@@ -316,6 +320,18 @@
     // font-size: 14px;
   }
 
+  .name__input-placeholder {
+    border: 1px solid transparent;
+    border-radius: 6px;
+    &:hover {
+      cursor: pointer;
+      border: 1px solid var(--color-border);
+    }
+  }
+  .name__input {
+    width: 100%;
+  }
+
   .due-date {
     .menu {
       input {
@@ -338,8 +354,14 @@
     .button {
       padding: 6px 18px;
       // font-size: 12px;
-      background-color: #fefefe;
+      color: #495057;
+      background: #fefefe;
       border: 1px solid var(--color-border);
+      transition: all 0.1s ease-out;
+      &:hover {
+        background: var(--color-primary--light);
+        color: #fff;
+      }
     }
 
     .actions {

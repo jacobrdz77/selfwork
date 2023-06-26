@@ -4,6 +4,7 @@ import ClientRow, { ClientRowLoading } from "./ClientRow";
 import LoadingSkeleton from "../UI/LoadingSkeleton";
 import ClientFilterBar from "./ClientFilterBar";
 import { ClientWithProjects } from "@/types/types";
+import { useModalStore } from "store/user";
 
 const ClientsTable = ({ clients }: { clients: ClientWithProjects[] }) => {
   const [sortedClients, setSortedClients] = useState(clients);
@@ -158,8 +159,31 @@ const ClientsTable = ({ clients }: { clients: ClientWithProjects[] }) => {
           </tbody>
         </table>
       </div>
+
+      {sortedClients.length === 0 && <NoClients />}
     </>
   );
 };
 
 export default ClientsTable;
+
+const NoClients = () => {
+  const setIsClientModalOpen = useModalStore(
+    (state) => state.setIsClientModalOpen
+  );
+  return (
+    <div className="clients-table__no-clients">
+      <div>
+        <h3>No Clients Found</h3>
+      </div>
+      <button
+        className="button no-data__button"
+        onClick={() => {
+          setIsClientModalOpen(true);
+        }}
+      >
+        Add Client
+      </button>
+    </div>
+  );
+};

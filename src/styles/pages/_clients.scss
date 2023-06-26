@@ -52,6 +52,8 @@
     display: flex;
     margin-top: 26px;
     justify-content: space-between;
+    flex-wrap: wrap;
+    row-gap: 16px;
 
     &--loading {
       .clients__status {
@@ -105,7 +107,7 @@
           background-color: #f1f3f5;
           margin-left: 8px;
           border: 1px solid transparent;
-          width: 216px;
+          width: 225px;
         }
       }
       .add-btn {
@@ -153,7 +155,7 @@
   .submit-button {
     margin-top: 16px;
     &--disabled {
-      background-color: #f1f3f5;
+      background: #f1f3f5;
       color: #868e96;
       cursor: not-allowed;
     }
@@ -176,6 +178,8 @@
   text-align: left;
   color: #212529;
   margin-top: 16px;
+  border-collapse: collapse;
+  border-radius: 8px;
 
   &--loading {
     display: grid;
@@ -187,16 +191,17 @@
   }
 
   &-container {
-    padding-bottom: 8px;
+    padding-bottom: 24px;
     position: relative;
     overflow-x: auto;
     border-radius: 6px;
   }
 
   .table-header {
+    border-radius: 8px;
     font-size: 14px;
     color: #495057;
-    background-color: #f1f3f5;
+    background-color: #f8f9fa;
 
     th {
       min-width: 125px;
@@ -207,14 +212,23 @@
     width: 100% !important;
     height: 53px;
   }
+
+  &__no-clients {
+    text-align: center;
+    margin-top: 12px;
+  }
+
   tbody {
     .client-row {
-      background-color: #ffffff;
-      border: 1px solid #f1f3f5;
+      font-size: 14px;
+      background-color: #fff;
       color: #212529;
+      z-index: 2;
+      border-radius: 6px;
 
       &:hover {
-        background-color: #f2f0f5;
+        cursor: pointer;
+        background-color: #f8f9fa;
 
         .client-row__data {
           background-color: #f8f9fa;
@@ -225,9 +239,32 @@
         padding: 12px 6px;
       }
       &__data {
-        font-weight: 600;
+        // font-weight: 600;
         padding: 16px 8px;
         background-color: #ffffff;
+      }
+      .name {
+        width: 250px;
+      }
+      .company-name {
+        width: 250px;
+      }
+      .email {
+        width: 250px;
+      }
+
+      .premium {
+        color: #0ca678;
+      }
+      .button {
+        background: var(--color-primary--lightest);
+        color: #7b6597;
+        padding: 4px 24px;
+        border-radius: 20px;
+        font-weight: 600;
+        &:hover {
+          background: var(--color-primary--lightest-hover);
+        }
       }
 
       .status {
@@ -241,6 +278,18 @@
         &--closed {
           color: #f03e3e;
         }
+      }
+
+      .menu-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .menu {
+        min-width: 75px !important;
+        right: 0;
+        left: unset;
       }
 
       .action {
@@ -265,24 +314,10 @@
           }
         }
       }
-
-      .premium {
-        color: #0ca678;
-      }
-
-      .button {
-        background-color: var(--color-primary--lightest);
-        color: #7b6597;
-        padding: 4px 24px;
-        border-radius: 20px;
-        font-weight: 600;
-        &:hover {
-          background-color: var(--color-primary--lightest-hover);
-        }
-      }
     }
   }
 }
+
 .client-stats {
   display: flex;
   align-items: center;
@@ -328,5 +363,11 @@
       width: 275px;
       height: 72px;
     }
+  }
+}
+
+.client-details {
+  &__header {
+    justify-content: flex-end !important;
   }
 }

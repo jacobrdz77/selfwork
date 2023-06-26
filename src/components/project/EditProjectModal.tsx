@@ -179,7 +179,7 @@ const EditProjectModal: React.FC<{
         <div>
           <Button
             type="submit"
-            className={`form__submit button--blue ${
+            className={`form__submit ${
               !isFormValid ? "button--disabled" : ""
             } `}
             disabled={!isFormValid}

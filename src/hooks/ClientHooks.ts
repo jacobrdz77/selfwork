@@ -15,6 +15,7 @@ import {
 import { Client } from "@prisma/client";
 import { getClients } from "@/utils/clientFunctions";
 import { toast } from "react-hot-toast";
+import { useUserInfo } from "./MemberHooks";
 
 export const useClients = (onSuccess?: () => void) => {
   const userId = useUserStore((state) => state.userId);
@@ -57,6 +58,7 @@ export const useOneClient = (clientId: string) => {
 
 export const useCreateClient = () => {
   const queryClient = useQueryClient();
+  const userId = useUserStore((state) => state.userId);
 
   return useMutation({
     mutationFn: async (clientData: NewClientData) => {
@@ -64,7 +66,10 @@ export const useCreateClient = () => {
         const response = await fetch(`/api/clients`, {
           method: "POST",
           body: JSON.stringify({
-            client: clientData,
+            client: {
+              ...clientData,
+              userId,
+            },
           }),
         });
 
@@ -81,7 +86,7 @@ export const useCreateClient = () => {
         queryKey: ["clients"],
       });
 
-      toast.success("Deleted client: " + data);
+      toast.success("Created client: " + data?.name);
     },
   });
 };
@@ -117,17 +122,11 @@ export const useDeleteClient = () => {
   });
 };
 
-export const useUpdateClient = () => {
+export const useUpdateClient = (clientId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({
-      clientId,
-      clientData,
-    }: {
-      clientId: string;
-      clientData: UpdateProjectData;
-    }) => {
+    mutationFn: async ({ clientData }: { clientData: Client }) => {
       try {
         const response = await fetch(`/api/clients/${clientId}`, {
           method: "PUT",

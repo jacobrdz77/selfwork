@@ -66,7 +66,7 @@ const Board: React.FC<Board> = ({ title, sectionId, tasks }) => {
     }
   }, [isInputFocused]);
 
-  const handleInputBlur = (e: FocusEvent<HTMLInputElement, Element>) => {
+  const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     let trimmedName = e.currentTarget.value.trim();
     if (trimmedName.length === 0) {
       trimmedName = "Untitled Section";
