@@ -29,7 +29,13 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
     <>
       {isTaskModalOpen && <EditTaskModal taskId={task.id} />}
 
-      <div className="board-task" key={task.id}>
+      <div
+        className="board-task"
+        key={task.id}
+        onClick={() => {
+          setIsTaskDetailOpen(true);
+        }}
+      >
         <div className="board-task__header">
           <div className="board-task__name">
             <svg
@@ -53,6 +59,7 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
               ref={btnRef}
               onClick={(e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 setIsMenuOpen(!isMenuOpen);
               }}
               className="board-task__more-btn"
@@ -69,6 +76,7 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
               ref={menuRef}
               onClick={(e) => {
                 e.preventDefault();
+                e.stopPropagation();
               }}
             >
               <div
@@ -82,7 +90,9 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
               </div>
               <div
                 className="board-task__edit-menu-item board-task__edit-menu-item--delete"
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
                   setIsMenuOpen(false);
                   deleteTask(task.id);
                 }}
@@ -149,6 +159,7 @@ export const DateButton = ({
         <button
           onClick={(e) => {
             e.preventDefault();
+            e.stopPropagation();
             setIsMenuOpen((state) => !state);
           }}
           ref={btnRef}
@@ -168,7 +179,14 @@ export const DateButton = ({
         </button>
 
         {isMenuOpen && (
-          <div className="menu" ref={menuRef}>
+          <div
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+            className="menu"
+            ref={menuRef}
+          >
             <ReactDatePicker
               selected={new Date(date)}
               onChange={(dueDate) => {
@@ -191,6 +209,7 @@ export const AssigneeButton = () => {
         ref={btnRef}
         onClick={(e) => {
           e.preventDefault();
+          e.stopPropagation();
           setIsMenuOpen(!isMenuOpen);
         }}
         className="board-task__assignee--empty"
@@ -205,10 +224,19 @@ export const AssigneeButton = () => {
         </svg>
       </div>
       {isMenuOpen && (
-        <div className="board-task__add-assignee" ref={menuRef}>
+        <div
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          className="board-task__add-assignee"
+          ref={menuRef}
+        >
           <div
             className="close"
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
               setIsMenuOpen(false);
             }}
           >

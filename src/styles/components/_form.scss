@@ -61,6 +61,33 @@
 }
 
 .new-project {
+  &__client {
+    .menu-button {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      .form__input {
+        width: 100%;
+      }
+    }
+
+    .menu {
+      min-height: 40px;
+      min-width: 200px;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    }
+
+    .client-placeholder {
+      display: flex;
+      width: 100%;
+      font-size: 14px;
+      padding: 6px 14px;
+      border-radius: 5px;
+      border: 1px solid var(--color-border);
+    }
+  }
+
   &__date {
     &--empty {
       width: 160px;

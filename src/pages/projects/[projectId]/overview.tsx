@@ -12,7 +12,6 @@ import ProjectLinks from "@/components/project/ProjectLinks";
 import ProjectDescription from "@/components/project/ProjectDescription";
 import Link from "next/link";
 import InviteMemberPopup from "@/components/member/InviteMemberPopup";
-import DatePicker from "react-datepicker";
 
 const ProjectOverviewPage: NextPageWithLayout = () => {
   const { projectId } = useRouter().query;

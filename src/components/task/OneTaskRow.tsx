@@ -59,14 +59,18 @@ const OneTaskRow = ({ task }: { task: TaskWithAssignee }) => {
     useTableWidthStore((state) => state);
 
   return (
-    <div className={`task-row  ${isDetailsOpen ? "task--active" : ""}`}>
+    <div className={`task-row ${isDetailsOpen ? "task--active" : ""}`}>
       <div className="task__drag">
         <svg className="" viewBox="0 0 24 24">
           <path d="M10,4A2,2,0,1,1,8,2,2,2,0,0,1,10,4ZM8,10a2,2,0,1,0,2,2A2,2,0,0,0,8,10Zm0,8a2,2,0,1,0,2,2A2,2,0,0,0,8,18ZM16,6a2,2,0,1,0-2-2A2,2,0,0,0,16,6Zm0,8a2,2,0,1,0-2-2A2,2,0,0,0,16,14Zm0,8a2,2,0,1,0-2-2A2,2,0,0,0,16,22Z" />
         </svg>
       </div>
-      <div className="task" onClick={() => setIsDetailsOpen(!isDetailsOpen)}>
-        <div className="task__name task__cell" style={{ width: nameWidth }}>
+      <div className="task">
+        <div
+          className="task__name task__cell"
+          onClick={() => setIsDetailsOpen(!isDetailsOpen)}
+          style={{ width: nameWidth }}
+        >
           <input
             ref={inputRef}
             className="task__name-input"
@@ -116,6 +120,7 @@ const OneTaskRow = ({ task }: { task: TaskWithAssignee }) => {
           </div>
         </div>
       </div>
+      <div className="task__cell task__cell--empty">{/* EMPTY */}</div>
     </div>
   );
 };
