@@ -76,35 +76,11 @@ const EditTaskDetails = ({
     }
   }, [inputName]);
 
-  // useEffect(() => {
-  //   if (status === "success") {
-  //     setDescription(task?.description);
-  //     setDueDate(task?.dueDate);
-  //     setOldName(task?.name);
-  //     setInputName(task?.name);
-  //     setAssignee(task?.assignee);
-  //     setPriority(task?.priority);
-  //   }
-  // }, [status]);
-
   return (
     <div className="task-detail">
       <div className="task-detail__header">
         <button className="button">Mark complete</button>
         <div className="actions">
-          <div className="delete">
-            <svg
-              className="task-detail__icon"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-            >
-              <path d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-            </svg>
-          </div>
-
           <div
             className="close"
             onClick={() => {
@@ -118,6 +94,18 @@ const EditTaskDetails = ({
                   <path d="m287.9 318.583c-7.966-.034-15.601-3.196-21.257-8.806l-257.813-257.814c-10.908-12.738-9.425-31.908 3.313-42.817 11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414-6.35 5.522-14.707 8.161-23.078 7.288z" />
                 </g>
               </g>
+            </svg>
+          </div>
+          <div className="delete">
+            <svg
+              className="task-detail__icon"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+            >
+              <path d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
             </svg>
           </div>
         </div>
@@ -168,22 +156,22 @@ const EditTaskDetails = ({
 
         <div className="due-date section">
           <label>Due date</label>
-          <DueDateButton dueDate={dueDate} setDueDate={setDueDate} />
+          <DueDateButton dueDate={dueDate!} setDueDate={setDueDate} />
         </div>
 
         <div className="task__project section">
           <label>Project</label>
 
           <ProjectsButton
-            inputProjects={projects}
-            selectedProject={project}
+            inputProjects={projects!}
+            selectedProject={project!}
             setProject={setProject}
           />
         </div>
 
         <div className="priority section">
           <label htmlFor="assignee">Priority</label>
-          <PriorityButton priority={priority} setPriority={setPriority} />
+          <PriorityButton priority={priority!} setPriority={setPriority} />
         </div>
 
         <div className="description">
@@ -226,102 +214,58 @@ const AssigneeButton = ({
   const { members, status } = useWorkspaceMembers();
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   return (
-    <>
-      {assignee ? (
-        <div className="menu-container data-selected">
-          <div
-            role="button"
-            ref={btnRef}
-            className="menu-button"
-            onClick={() => setIsMenuOpen((state) => !state)}
-          >
-            {assignee.name}
-            <div
-              className="data-selected__close"
-              onClick={(e) => {
-                setAssignee(null);
-              }}
-            >
-              <svg viewBox="0 0 320.591 320.591">
-                <g>
-                  <g>
-                    <path d="m30.391 318.583c-7.86.457-15.59-2.156-21.56-7.288-11.774-11.844-11.774-30.973 0-42.817l257.812-257.813c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875l-259.331 259.331c-5.893 5.058-13.499 7.666-21.256 7.288z" />
-                    <path d="m287.9 318.583c-7.966-.034-15.601-3.196-21.257-8.806l-257.813-257.814c-10.908-12.738-9.425-31.908 3.313-42.817 11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414-6.35 5.522-14.707 8.161-23.078 7.288z" />
-                  </g>
-                </g>
-              </svg>
-            </div>
-          </div>
-          {isMenuOpen && (
-            <div
-              className="menu"
-              ref={menuRef}
-              onClick={(e) => {
-                setIsMenuOpen(false);
-              }}
-            >
-              {members?.map((assignee) => (
-                <div
-                  className="item"
-                  key={assignee.id}
-                  onClick={() => {
-                    setAssignee(assignee);
-                    setIsMenuOpen(false);
-                  }}
-                >
-                  <span className="item__name"> {assignee.name}</span>
-                  <span className="item__email"> {assignee.email}</span>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      ) : (
-        <div className="menu-container data-selected">
-          <button
-            ref={btnRef}
-            className="menu-button"
-            onClick={() => setIsMenuOpen((state) => !state)}
-          >
-            <div className="assignee-empty">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-              >
-                <path d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-              </svg>
-            </div>
-            Who should do this?
-          </button>
-          {isMenuOpen && (
-            <div
-              className="menu"
-              ref={menuRef}
-              onClick={(e) => {
-                setIsMenuOpen(false);
-              }}
-            >
-              {members?.map((assignee) => (
-                <div
-                  className="item"
-                  key={assignee.id}
-                  onClick={() => {
-                    setAssignee(assignee);
-                    setIsMenuOpen(false);
-                  }}
-                >
-                  <span> {assignee.name}</span>
-                  <span> {assignee.email}</span>
-                </div>
-              ))}
-            </div>
-          )}
+    <div className="menu-button-container">
+      <button
+        type="button"
+        ref={btnRef}
+        className="menu-button data-selected"
+        onClick={() => setIsMenuOpen((state) => !state)}
+      >
+        {assignee ? assignee.name : "Who should do this?"}
+      </button>
+
+      {assignee && (
+        <div
+          className="data-selected__close"
+          onClick={(e) => {
+            setAssignee(null);
+          }}
+        >
+          <svg viewBox="0 0 320.591 320.591">
+            <g>
+              <g>
+                <path d="m30.391 318.583c-7.86.457-15.59-2.156-21.56-7.288-11.774-11.844-11.774-30.973 0-42.817l257.812-257.813c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875l-259.331 259.331c-5.893 5.058-13.499 7.666-21.256 7.288z" />
+                <path d="m287.9 318.583c-7.966-.034-15.601-3.196-21.257-8.806l-257.813-257.814c-10.908-12.738-9.425-31.908 3.313-42.817 11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414-6.35 5.522-14.707 8.161-23.078 7.288z" />
+              </g>
+            </g>
+          </svg>
         </div>
       )}
-    </>
+
+      {isMenuOpen && (
+        <div
+          className="menu"
+          ref={menuRef}
+          onClick={(e) => {
+            setIsMenuOpen(false);
+          }}
+        >
+          {members?.map((assignee) => (
+            <div
+              className="item"
+              key={assignee.id}
+              onClick={() => {
+                setAssignee(assignee);
+                setIsMenuOpen(false);
+              }}
+            >
+              <span className="item__name"> {assignee.name}</span>
+              <span className="item__email"> {assignee.email}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
 
@@ -332,53 +276,51 @@ const DueDateButton = ({
   dueDate: Date;
   setDueDate: (date: Date | null) => void;
 }) => {
+  const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
+
   return (
-    <>
-      {dueDate ? (
-        <MenuButton
-          className="data-selected data-selected--dueDate"
-          menuContent={
-            <DatePicker
-              selected={new Date(dueDate)}
-              onChange={(dueDate) => {
-                setDueDate(new Date(dueDate!));
-              }}
-            />
-          }
+    <div className="menu-button-container">
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setIsMenuOpen((state) => !state);
+        }}
+        ref={btnRef}
+        className="menu-button data-selected "
+      >
+        {dueDate ? format(new Date(dueDate), "MMM dd") : "When is it due?"}
+      </button>
+      {dueDate && (
+        <div
+          className="data-selected__close"
+          onClick={(e) => {
+            setDueDate(null);
+          }}
         >
-          {dueDate ? format(new Date(dueDate), "MMM dd") : null}
-          <div
-            className="data-selected__close"
-            onClick={(e) => {
-              setDueDate(null);
-            }}
-          >
-            <svg viewBox="0 0 320.591 320.591">
+          <svg viewBox="0 0 320.591 320.591">
+            <g>
               <g>
-                <g>
-                  <path d="m30.391 318.583c-7.86.457-15.59-2.156-21.56-7.288-11.774-11.844-11.774-30.973 0-42.817l257.812-257.813c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875l-259.331 259.331c-5.893 5.058-13.499 7.666-21.256 7.288z" />
-                  <path d="m287.9 318.583c-7.966-.034-15.601-3.196-21.257-8.806l-257.813-257.814c-10.908-12.738-9.425-31.908 3.313-42.817 11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414-6.35 5.522-14.707 8.161-23.078 7.288z" />
-                </g>
+                <path d="m30.391 318.583c-7.86.457-15.59-2.156-21.56-7.288-11.774-11.844-11.774-30.973 0-42.817l257.812-257.813c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875l-259.331 259.331c-5.893 5.058-13.499 7.666-21.256 7.288z" />
+                <path d="m287.9 318.583c-7.966-.034-15.601-3.196-21.257-8.806l-257.813-257.814c-10.908-12.738-9.425-31.908 3.313-42.817 11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414-6.35 5.522-14.707 8.161-23.078 7.288z" />
               </g>
-            </svg>
-          </div>
-        </MenuButton>
-      ) : (
-        <MenuButton
-          menuContent={
-            <DatePicker
-              selected={dueDate}
-              onChange={(dueDate) => {
-                setDueDate(dueDate!);
-              }}
-            />
-          }
-          className="data-selected data-selected--dueDate"
-        >
-          When is it due?
-        </MenuButton>
+            </g>
+          </svg>
+        </div>
       )}
-    </>
+
+      {isMenuOpen && (
+        <div className="menu" ref={menuRef}>
+          <DatePicker
+            className="data-selected--dueDate"
+            selected={new Date(dueDate)}
+            onChange={(dueDate) => {
+              setDueDate(new Date(dueDate!));
+            }}
+          />
+        </div>
+      )}
+    </div>
   );
 };
 
@@ -391,71 +333,61 @@ const ProjectsButton = ({
   selectedProject: Project;
   setProject: (project: Project | null) => void;
 }) => {
-  return (
-    <>
-      {selectedProject ? (
-        <MenuButton
-          menuContent={
-            <>
-              {inputProjects &&
-                inputProjects?.map((project) => (
-                  <div
-                    key={project.id}
-                    className="item"
-                    onClick={() => {
-                      setProject(project);
-                    }}
-                  >
-                    {project.name}
-                  </div>
-                ))}
-            </>
-          }
-          className="data-selected data-selected--projects"
-        >
-          <span> {selectedProject ? selectedProject.name : ""}</span>
+  const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
 
-          <div
-            className="data-selected__close"
-            onClick={(e) => {
-              setProject(null);
-              e.stopPropagation();
-            }}
-          >
-            <svg viewBox="0 0 320.591 320.591">
-              <g>
-                <g>
-                  <path d="m30.391 318.583c-7.86.457-15.59-2.156-21.56-7.288-11.774-11.844-11.774-30.973 0-42.817l257.812-257.813c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875l-259.331 259.331c-5.893 5.058-13.499 7.666-21.256 7.288z" />
-                  <path d="m287.9 318.583c-7.966-.034-15.601-3.196-21.257-8.806l-257.813-257.814c-10.908-12.738-9.425-31.908 3.313-42.817 11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414-6.35 5.522-14.707 8.161-23.078 7.288z" />
-                </g>
-              </g>
-            </svg>
-          </div>
-        </MenuButton>
-      ) : (
-        <MenuButton
-          menuContent={
-            <>
-              {inputProjects &&
-                inputProjects?.map((project) => (
-                  <div
-                    key={project.id}
-                    className="item"
-                    onClick={() => {
-                      setProject(project);
-                    }}
-                  >
-                    {project.name}
-                  </div>
-                ))}
-            </>
-          }
-          className="data-selected data-selected--projects"
+  return (
+    <div className="menu-button-container">
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setIsMenuOpen((state) => !state);
+        }}
+        ref={btnRef}
+        className="menu-button data-selected data-selected--projects"
+      >
+        <span>
+          {" "}
+          {selectedProject ? selectedProject.name : "Add to projects"}
+        </span>
+      </button>
+
+      {selectedProject ? (
+        <div
+          className="data-selected__close"
+          onClick={(e) => {
+            setProject(null);
+          }}
         >
-          Add to projects
-        </MenuButton>
+          <svg viewBox="0 0 320.591 320.591">
+            <g>
+              <g>
+                <path d="m30.391 318.583c-7.86.457-15.59-2.156-21.56-7.288-11.774-11.844-11.774-30.973 0-42.817l257.812-257.813c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875l-259.331 259.331c-5.893 5.058-13.499 7.666-21.256 7.288z" />
+                <path d="m287.9 318.583c-7.966-.034-15.601-3.196-21.257-8.806l-257.813-257.814c-10.908-12.738-9.425-31.908 3.313-42.817 11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414-6.35 5.522-14.707 8.161-23.078 7.288z" />
+              </g>
+            </g>
+          </svg>
+        </div>
+      ) : null}
+
+      {isMenuOpen && (
+        <div className="menu" ref={menuRef}>
+          {inputProjects &&
+            inputProjects?.map((project) => (
+              <div
+                key={project.id}
+                className="item"
+                onClick={() => {
+                  setProject(project);
+                  setIsMenuOpen(false);
+                }}
+              >
+                {project.name}
+              </div>
+            ))}
+        </div>
       )}
-    </>
+    </div>
   );
 };
 
@@ -466,107 +398,81 @@ const PriorityButton = ({
   priority: Priority;
   setPriority: (priority: Priority) => void;
 }) => {
+  const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   return (
-    <>
-      {priority ? (
-        <MenuButton
-          menuContent={
-            <div>
-              <div
-                className="item"
-                onClick={() => {
-                  setPriority("None");
-                }}
-              >
-                None
-              </div>
-              <div
-                className="item"
-                onClick={() => {
-                  setPriority("Low");
-                }}
-              >
-                Low
-              </div>
-              <div
-                className="item"
-                onClick={() => {
-                  setPriority("Medium");
-                }}
-              >
-                Medium
-              </div>
-              <div
-                className="item"
-                onClick={() => {
-                  setPriority("High");
-                }}
-              >
-                High
-              </div>
-            </div>
-          }
-          className="data-selected data-selected--priority"
-        >
-          <span>{priority}</span>
+    <div className="menu-button-container">
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setIsMenuOpen((state) => !state);
+        }}
+        ref={btnRef}
+        className="menu-button data-selected data-selected--projects"
+      >
+        <span>{priority ? priority : "None"}</span>
+      </button>
 
-          <div
-            className="data-selected__close"
-            onClick={() => setPriority(null)}
-          >
-            <svg viewBox="0 0 320.591 320.591">
-              <g>
-                <g>
-                  <path d="m30.391 318.583c-7.86.457-15.59-2.156-21.56-7.288-11.774-11.844-11.774-30.973 0-42.817l257.812-257.813c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875l-259.331 259.331c-5.893 5.058-13.499 7.666-21.256 7.288z" />
-                  <path d="m287.9 318.583c-7.966-.034-15.601-3.196-21.257-8.806l-257.813-257.814c-10.908-12.738-9.425-31.908 3.313-42.817 11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414-6.35 5.522-14.707 8.161-23.078 7.288z" />
-                </g>
-              </g>
-            </svg>
-          </div>
-        </MenuButton>
-      ) : (
-        <MenuButton
-          menuContent={
-            <div>
-              <div
-                className="item"
-                onClick={() => {
-                  setPriority("None");
-                }}
-              >
-                None
-              </div>
-              <div
-                className="item"
-                onClick={() => {
-                  setPriority("Low");
-                }}
-              >
-                Low
-              </div>
-              <div
-                className="item"
-                onClick={() => {
-                  setPriority("Medium");
-                }}
-              >
-                Medium
-              </div>
-              <div
-                className="item"
-                onClick={() => {
-                  setPriority("High");
-                }}
-              >
-                High
-              </div>
-            </div>
-          }
-          className="data-selected data-selected--assignee"
+      {priority !== "None" && (
+        <div
+          className="data-selected__close"
+          onClick={(e) => {
+            setPriority("None");
+          }}
         >
-          <div>Set priority</div>
-        </MenuButton>
+          <svg viewBox="0 0 320.591 320.591">
+            <g>
+              <g>
+                <path d="m30.391 318.583c-7.86.457-15.59-2.156-21.56-7.288-11.774-11.844-11.774-30.973 0-42.817l257.812-257.813c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875l-259.331 259.331c-5.893 5.058-13.499 7.666-21.256 7.288z" />
+                <path d="m287.9 318.583c-7.966-.034-15.601-3.196-21.257-8.806l-257.813-257.814c-10.908-12.738-9.425-31.908 3.313-42.817 11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414-6.35 5.522-14.707 8.161-23.078 7.288z" />
+              </g>
+            </g>
+          </svg>
+        </div>
       )}
-    </>
+
+      {isMenuOpen && (
+        <div className="menu" ref={menuRef}>
+          <div>
+            <div
+              className="item"
+              onClick={() => {
+                setPriority("None");
+                setIsMenuOpen(false);
+              }}
+            >
+              None
+            </div>
+            <div
+              className="item"
+              onClick={() => {
+                setPriority("Low");
+                setIsMenuOpen(false);
+              }}
+            >
+              Low
+            </div>
+            <div
+              className="item"
+              onClick={() => {
+                setPriority("Medium");
+                setIsMenuOpen(false);
+              }}
+            >
+              Medium
+            </div>
+            <div
+              className="item"
+              onClick={() => {
+                setPriority("High");
+                setIsMenuOpen(false);
+              }}
+            >
+              High
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };

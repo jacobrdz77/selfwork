@@ -12,7 +12,9 @@ const MyTasksPage: NextPage = () => {
 
   return (
     <>
-      <PageHeader title="My Tasks" />
+      <PageHeader title="My Tasks">
+        
+      </PageHeader>
       <div className="page tasks-page">
         <Button className="add-task-btn">
           <svg

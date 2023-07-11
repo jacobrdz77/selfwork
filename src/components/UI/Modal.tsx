@@ -21,8 +21,8 @@ const ModalOverlay: React.FC<{
 }> = ({ children, onClose, isOpen, closeBtn, className }) => {
   return (
     <div className={`${isOpen ? "" : "modal--hidden"} modal ` + className}>
-      <button onClick={onClose} className="modal__close">
-        {closeBtn && (
+      {closeBtn && (
+        <button onClick={onClose} className="modal__close">
           <svg viewBox="0 0 320.591 320.591">
             <g>
               <g id="close_1_">
@@ -31,8 +31,8 @@ const ModalOverlay: React.FC<{
               </g>
             </g>
           </svg>
-        )}
-      </button>
+        </button>
+      )}
 
       <div className="modal__content">{children}</div>
     </div>
@@ -40,7 +40,7 @@ const ModalOverlay: React.FC<{
 };
 
 const Modal: React.FC<{
-  children: JSX.Element[] | JSX.Element;
+  children: any;
   className?: string;
   isOpen: boolean;
   closeHandler: () => any;

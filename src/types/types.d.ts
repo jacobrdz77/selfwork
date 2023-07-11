@@ -98,7 +98,7 @@ export type UserSections = {
 };
 
 export type TaskWithAssignee = Task & {
-  assignee: Pick<User, "id" | "name" | "email">;
+  assignee: User;
   tags: Tag[];
 };
 

@@ -262,62 +262,61 @@
   }
 }
 
-.edit-task-modal {
-  padding: 16px;
-}
-
 .task-detail {
-  color: #212529;
+  .menu-button {
+    display: flex;
+    align-items: center;
+  }
+
+  .menu-button-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .data-selected__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 6px;
+    width: 28px;
+    height: 28px;
+
+    svg {
+      width: 10px;
+      height: 10px;
+    }
+
+    border-radius: 8px;
+    &:hover {
+      background-color: var(--color-gray--hover);
+      cursor: pointer;
+    }
+  }
 
   &__icon {
     width: 24px;
     height: 24px;
   }
 
-  .assignee {
-    .data-selected {
-      display: flex;
-    }
-  }
+  .name {
+    margin-top: 12px;
+    font-size: 20px;
 
-  // .data-selected {
-  //   display: flex;
-
-  .menu-button {
-    display: flex;
-    align-items: center;
-
-    .data-selected__close {
-      margin-left: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      padding: 6px;
-      width: 28px;
-      height: 28px;
-
-      svg {
-        width: 10px;
-        height: 10px;
-      }
-
+    &__input {
+      font-size: 18px;
+      padding: 4px 8px;
       border-radius: 8px;
-      &:hover {
-        background-color: #ffffff;
-        cursor: pointer;
+      border: 1px solid transparent;
+
+      &:focus {
+        border: 1px solid var(--color-border);
+      }
+      &-placeholder {
+        font-weight: 600;
+        padding: 0 8px;
       }
     }
-  }
-
-  //   &__closed {
-  //     width: 24px;
-  //     height: 24px;
-  //   }
-  // }
-
-  .form {
-    // font-size: 14px;
   }
 
   .name__input-placeholder {
@@ -334,21 +333,15 @@
 
   .due-date {
     .menu {
-      input {
-        background-color: #ffff;
-        border: 1px solid var(--color-border);
-        border-left: none;
-        border-right: none;
-        padding: 4px 8px;
-      }
+      padding: 8px 10px;
     }
   }
 
   &__header {
-    font-size: 16px;
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
     margin-bottom: 8px;
 
     .button {
@@ -358,6 +351,7 @@
       background: #fefefe;
       border: 1px solid var(--color-border);
       transition: all 0.1s ease-out;
+      margin-bottom: 8px;
       &:hover {
         background: var(--color-primary--light);
         color: #fff;
@@ -386,7 +380,6 @@
       }
 
       .close {
-        margin-left: 4px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -413,6 +406,7 @@
     flex-direction: column;
 
     textarea {
+      font-size: 16px;
       padding: 10px 10px;
       border: 1px transparent solid;
       width: 100%;
@@ -421,6 +415,8 @@
       min-height: 180px;
       margin-bottom: 12px;
       color: #5b6064;
+      margin-left: -10px;
+      resize: none;
 
       &:focus {
         border: 1px solid var(--color-primary--light);
@@ -436,6 +432,128 @@
   &__modal {
   }
   &__aside {
+  }
+
+  label {
+    font-size: 14px;
+  }
+
+  .form {
+    .section {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+      label {
+        flex-basis: 120px;
+      }
+
+      // .menu-button {
+      //   flex: 1;
+      // }
+    }
+
+    .data-selected {
+      display: flex;
+      align-items: center;
+      padding: 6px 10px 6px 12px;
+      border-radius: 8px;
+      &:hover {
+        cursor: pointer;
+        background-color: var(--color-gray--hover);
+      }
+      & * {
+        cursor: pointer;
+      }
+
+      &--dueDate {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        padding: 6px 10px 6px 12px;
+        border-radius: 8px;
+        border: 1px solid var(--color-border);
+      }
+
+      // &--projects {
+      //   .menu {
+      //     min-width: 200px;
+      //     max-width: 350px;
+      //     background-color:#212529;
+      //     border-radius: 6px;
+      //     position: absolute;
+      //     top: 105%;
+      //     border: 1px solid var(--color-border);
+      //     padding: 4px 0;
+      //     z-index: 99999;
+      //     color: #212529;
+      //     font-weight: 500;
+      //   }
+      // }
+    }
+  }
+
+  .assignee {
+    display: flex;
+
+    .menu {
+      min-width: 300px;
+
+      .item {
+        display: flex;
+        gap: 8px;
+        @include showEllipsis;
+
+        &__email {
+          color: #343a40;
+        }
+      }
+    }
+
+    .task__assignee-btn {
+      padding: 6px 12px;
+      border-radius: 6px;
+      .assignee-empty {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px dashed #868e96;
+
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        margin-right: 8px;
+
+        svg {
+          width: 24px;
+          height: 24px;
+        }
+      }
+    }
+  }
+}
+
+.change-date-menu {
+  // padding: 8px;
+  // height: 250px;
+  .date-picker {
+    border: 1px solid red !important;
+    border-radius: 6px;
+    padding: 4px 12px;
+  }
+
+  .react-datepicker {
+    font-family: "Poppins", sans-serif !important;
+    border: none !important;
+
+    &__current-month {
+      font-weight: 600;
+    }
+  }
+
+  .react-datepicker__month-container {
+    .react-datepicker__header {
+      background-color: white;
+    }
   }
 }
 

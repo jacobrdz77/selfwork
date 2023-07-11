@@ -11,6 +11,8 @@ const EditTaskModal = ({ taskId }: { taskId: string }) => {
     (state) => state.setIsTaskDetailOpen
   );
   const { task, status } = useOneTask(taskId);
+  console.log("Getting task...");
+  console.log("status: ", status);
 
   return (
     <>
@@ -23,7 +25,13 @@ const EditTaskModal = ({ taskId }: { taskId: string }) => {
             setIsTaskDetailOpen(false);
           }}
         >
-          <EditTaskDetails task={task} setIsModalOpen={setIsTaskDetailOpen} />
+          {status === "loading" && <div>Loading....</div>}
+          {status === "success" && (
+            <EditTaskDetails
+              task={task!}
+              setIsModalOpen={setIsTaskDetailOpen}
+            />
+          )}
         </Modal>
       )}
     </>

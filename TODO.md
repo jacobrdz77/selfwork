@@ -2,6 +2,7 @@
 
 ## High
 
+- Change EditTaskModal's MenuButton to the old way.
 - Figure out how to order after rearraning sections, tasks, and projects.
 - Figure out how to add new task to table.
 - Add clients in add project modal.
