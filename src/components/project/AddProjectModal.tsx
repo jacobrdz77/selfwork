@@ -37,6 +37,7 @@ const AddProjectModal: React.FC<{
       startDate,
       dueDate,
       priority,
+      clientId: clientSelected!.id,
     });
     setIsModalOpen(false);
     router.push(`/projects/${newProject?.id}/overview`);

@@ -31,6 +31,7 @@ export default async function handler(
           },
         });
 
+        // Todo Remind: IDK what this does
         // Updates client's total lump sum money
         await prisma.client.update({
           where: {
@@ -49,12 +50,18 @@ export default async function handler(
       const newProject = await prisma.project.create({
         data: {
           name: modifiedProject.name,
+
           description: modifiedProject.description,
           lumpSum: modifiedProject.lumpSum,
           priority: modifiedProject.priority,
           startDate: modifiedProject.startDate,
           dueDate: modifiedProject.dueDate,
           iconColor: projectIconColors[getRandomInt(0, 11)],
+          client: {
+            connect: {
+              id: modifiedProject.clientId,
+            },
+          },
           workspace: {
             connect: {
               id: modifiedProject.workspaceId,

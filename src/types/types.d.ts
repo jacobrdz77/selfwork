@@ -43,6 +43,7 @@ export type NewProject = {
   priority: Priority;
   workspaceId: string;
   ownerId: string;
+  clientId: string;
 };
 
 export type UpdateProjectData = {

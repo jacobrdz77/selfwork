@@ -4,7 +4,6 @@
 
 - Figure out how to order after rearraning sections, tasks, and projects.
 - Figure out how to add new task to table.
-- Add clients in add project modal.
 - Create sketch page and import Excalidraw.
 - Add Invite model to send to other users via email.
 

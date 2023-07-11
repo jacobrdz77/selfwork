@@ -95,6 +95,7 @@ export const transformProjectData = ({
   startDate,
   workspaceId,
   ownerId,
+  clientId,
 }: NewProject) => {
   return {
     name,
@@ -105,5 +106,6 @@ export const transformProjectData = ({
     lumpSum: lumpSum === 0 ? null : lumpSum,
     startDate: startDate.length === 0 ? null : new Date(startDate),
     dueDate: dueDate.length === 0 ? null : new Date(dueDate),
+    clientId,
   };
 };
