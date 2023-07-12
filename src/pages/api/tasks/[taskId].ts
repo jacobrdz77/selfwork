@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../prisma/client";
+import { TaskData } from "@/hooks/TaskHooks";
 
 export default async function handler(
   req: NextApiRequest,
@@ -59,12 +60,22 @@ export default async function handler(
       const { taskId } = req.query;
       const body = JSON.parse(req.body);
       const { taskData } = body;
+      console.log(taskData);
+
+      const newData = {
+        name: taskData.name,
+        description: taskData.description,
+        dueDate: taskData.dueDate,
+        priority: taskData.priority,
+        projectId: taskData.projectId ? taskData.projectId : undefined,
+      } as TaskData;
+
       const task = await prisma.task.update({
         where: {
           id: taskId as string,
         },
         data: {
-          ...taskData,
+          ...newData,
         },
       });
       return res.status(200).json(task);

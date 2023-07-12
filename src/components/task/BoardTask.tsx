@@ -17,17 +17,18 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
   const formatDueDate = (taskDueDate: Date) => {
     return format(new Date(taskDueDate), "MMM dd");
   };
-
-  const isTaskModalOpen = useModalStore((state) => state.isTaskDetailOpen);
-
-  const setIsTaskDetailOpen = useModalStore(
-    (state) => state.setIsTaskDetailOpen
-  );
+  const [isTaskDetailOpen, setIsTaskDetailOpen] = useState(false);
   const [dueDate, setDueDate] = useState(task.dueDate);
 
   return (
     <>
-      {isTaskModalOpen && <EditTaskModal taskId={task.id} />}
+      {isTaskDetailOpen && (
+        <EditTaskModal
+          task={task}
+          isOpen={isTaskDetailOpen}
+          setIsOpen={setIsTaskDetailOpen}
+        />
+      )}
 
       <div
         className="board-task"

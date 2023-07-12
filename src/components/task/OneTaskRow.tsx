@@ -1,9 +1,11 @@
-import React, { FocusEvent, useEffect, useRef, useState } from "react";
+import React, { FocusEvent, use, useEffect, useRef, useState } from "react";
 import { Priority, Task } from "@prisma/client";
 import { format } from "date-fns";
 import { TaskWithAssignee } from "@/types/types";
 import { useTableWidthStore } from "store/table-width";
 import { useUpdateTask } from "@/hooks/TaskHooks";
+import { useModalStore } from "store/user";
+import EditTaskModal from "./EditTaskModal";
 
 const formatDueDate = (taskDueDate: Date) => {
   return format(new Date(taskDueDate), "MMM dd");
@@ -32,6 +34,8 @@ const OneTaskRow = ({ task }: { task: TaskWithAssignee }) => {
   const [taskInputName, setTaskInputName] = useState(task.name);
   const inputRef = useRef(null);
   const { mutate: updateTask } = useUpdateTask();
+  const { assigneeWidth, dueDateWidth, nameWidth, priorityWidth, statusWidth } =
+    useTableWidthStore((state) => state);
 
   const handleInputBlur = (e: FocusEvent<HTMLInputElement, Element>) => {
     let trimmedName = e.currentTarget.value.trim();
@@ -55,73 +59,93 @@ const OneTaskRow = ({ task }: { task: TaskWithAssignee }) => {
     }
   };
 
-  const { assigneeWidth, dueDateWidth, nameWidth, priorityWidth, statusWidth } =
-    useTableWidthStore((state) => state);
+  const [isTaskDetailOpen, setIsTaskDetailOpen] = useState(false);
 
   return (
-    <div className={`task-row ${isDetailsOpen ? "task--active" : ""}`}>
-      <div className="task__drag">
-        <svg className="" viewBox="0 0 24 24">
-          <path d="M10,4A2,2,0,1,1,8,2,2,2,0,0,1,10,4ZM8,10a2,2,0,1,0,2,2A2,2,0,0,0,8,10Zm0,8a2,2,0,1,0,2,2A2,2,0,0,0,8,18ZM16,6a2,2,0,1,0-2-2A2,2,0,0,0,16,6Zm0,8a2,2,0,1,0-2-2A2,2,0,0,0,16,14Zm0,8a2,2,0,1,0-2-2A2,2,0,0,0,16,22Z" />
-        </svg>
-      </div>
-      <div className="task">
-        <div
-          className="task__name task__cell"
-          onClick={() => setIsDetailsOpen(!isDetailsOpen)}
-          style={{ width: nameWidth }}
-        >
-          <input
-            ref={inputRef}
-            className="task__name-input"
-            autoComplete="off"
-            type="text"
-            name="name"
-            placeholder="Write a task name!"
-            value={taskInputName}
-            onChange={(e) => {
-              setTaskInputName(e.currentTarget.value);
-            }}
-            onBlur={handleInputBlur}
-          />
+    <>
+      {isTaskDetailOpen && (
+        <EditTaskModal
+          task={task}
+          isOpen={isTaskDetailOpen}
+          setIsOpen={setIsTaskDetailOpen}
+        />
+      )}
+      <div
+        className={`task-row ${isDetailsOpen ? "task--active" : ""}`}
+        onClick={() => {
+          setIsDetailsOpen(true);
+          setIsTaskDetailOpen(true);
+        }}
+      >
+        <div className="task__drag">
+          <svg className="" viewBox="0 0 24 24">
+            <path d="M10,4A2,2,0,1,1,8,2,2,2,0,0,1,10,4ZM8,10a2,2,0,1,0,2,2A2,2,0,0,0,8,10Zm0,8a2,2,0,1,0,2,2A2,2,0,0,0,8,18ZM16,6a2,2,0,1,0-2-2A2,2,0,0,0,16,6Zm0,8a2,2,0,1,0-2-2A2,2,0,0,0,16,14Zm0,8a2,2,0,1,0-2-2A2,2,0,0,0,16,22Z" />
+          </svg>
         </div>
-        <div
-          className="task__assignee task__cell"
-          style={{ width: assigneeWidth }}
-        >
-          <div>
-            {task.assignee ? (
-              task.assignee.name
-            ) : (
-              <div className="task__empty-icon"></div>
-            )}
+        <div className="task">
+          <div
+            className="task__name task__cell"
+            onClick={() => setIsDetailsOpen(!isDetailsOpen)}
+            style={{ width: nameWidth }}
+          >
+            <input
+              ref={inputRef}
+              className="task__name-input"
+              autoComplete="off"
+              type="text"
+              name="name"
+              placeholder="Write a task name!"
+              value={taskInputName}
+              onChange={(e) => {
+                setTaskInputName(e.currentTarget.value);
+              }}
+              onBlur={handleInputBlur}
+            />
           </div>
-        </div>
-        <div className="task__date task__cell" style={{ width: dueDateWidth }}>
-          <div>
-            {task.dueDate ? (
-              formatDueDate(task.dueDate)
-            ) : (
-              <div className="task__empty-icon"></div>
-            )}
+          <div
+            className="task__assignee task__cell"
+            style={{ width: assigneeWidth }}
+          >
+            <div>
+              {task.assignee ? (
+                task.assignee.name
+              ) : (
+                <div className="task__empty-icon"></div>
+              )}
+            </div>
           </div>
-        </div>
-        <div className="task__status task__cell" style={{ width: statusWidth }}>
-          <div>{task.status}</div>
-        </div>
-        <div
-          className="task__priority task__cell"
-          style={{ width: priorityWidth }}
-        >
-          {/* <div> ICON HERE</div> */}
+          <div
+            className="task__date task__cell"
+            style={{ width: dueDateWidth }}
+          >
+            <div>
+              {task.dueDate ? (
+                formatDueDate(task.dueDate)
+              ) : (
+                <div className="task__empty-icon"></div>
+              )}
+            </div>
+          </div>
+          <div
+            className="task__status task__cell"
+            style={{ width: statusWidth }}
+          >
+            <div>{task.status}</div>
+          </div>
+          <div
+            className="task__priority task__cell"
+            style={{ width: priorityWidth }}
+          >
+            {/* <div> ICON HERE</div> */}
 
-          <div className={taskPriorityClassName(task.priority)}>
-            {task.priority}
+            <div className={taskPriorityClassName(task.priority)}>
+              {task.priority}
+            </div>
           </div>
         </div>
+        <div className="task__cell task__cell--empty">{/* EMPTY */}</div>
       </div>
-      <div className="task__cell task__cell--empty">{/* EMPTY */}</div>
-    </div>
+    </>
   );
 };
 

@@ -5,7 +5,7 @@ import ProjectHeader from "../header/ProjectHeader";
 import LoadingSkeleton from "../UI/LoadingSkeleton";
 import EditProjectModal from "./EditProjectModal";
 import { useModalStore } from "store/user";
-import TaskDetailModal from "../task/TaskDetailModal";
+// import TaskDetailModal from "../task/TaskDetailModal";
 
 const ProjectPageLayout = ({
   children,

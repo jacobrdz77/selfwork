@@ -66,7 +66,7 @@ export const useCreateTask = () => {
   });
 };
 
-type TaskData = {
+export type TaskData = {
   name?: string;
   description?: string;
   priority?: Priority;
@@ -74,6 +74,7 @@ type TaskData = {
   isComplete?: boolean;
   startDate?: Date | null;
   dueDate?: Date | null;
+  projectId?: string | null;
 };
 
 export const useUpdateTask = () => {
@@ -109,7 +110,7 @@ export const useUpdateTask = () => {
 
     onSuccess: (updatedTask) => {
       queryClient.invalidateQueries({ queryKey: ["sections"] });
-      console.log("Updated task: ", updatedTask);
+      console.log("Updated task: ", updatedTask.name);
     },
   });
 };

@@ -8,6 +8,7 @@ import { format } from "date-fns";
 import { useProjects } from "@/hooks/ProjectHooks";
 import useMenu from "@/hooks/useMenu";
 import { TaskWithAssignee } from "@/types/types";
+import { useUpdateTask } from "@/hooks/TaskHooks";
 
 const EditTaskDetails = ({
   task,
@@ -17,20 +18,22 @@ const EditTaskDetails = ({
   setIsModalOpen: (bool: boolean) => void;
 }) => {
   const { projects, status: projectsStatus } = useProjects();
-  const [description, setDescription] = useState(task?.description);
+  const [description, setDescription] = useState(task.description);
   const [project, setProject] = useState<Project | null>(null);
-  const [assignee, setAssignee] = useState(task?.assignee);
+  const [assignee, setAssignee] = useState<User | null>(task.assignee);
   const [selectedSection, setSelectedSection] = useState<Section | null>(null);
-  const [dueDate, setDueDate] = useState(task?.dueDate);
+  const [dueDate, setDueDate] = useState(task.dueDate);
   const [priority, setPriority] = useState<Priority | undefined>(
     task?.priority
   );
   const [isFormValid, setIsFormValid] = useState(true);
   //   For Name
-  const [oldName, setOldName] = useState(task?.name);
-  const [inputName, setInputName] = useState(task?.name);
+  const [oldName, setOldName] = useState(task.name);
+  const [inputName, setInputName] = useState(task.name);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const inputRef = useRef(null);
+
+  const { mutateAsync: updateTask } = useUpdateTask();
 
   const focusOnInput = () => {
     // @ts-ignore
@@ -47,10 +50,6 @@ const EditTaskDetails = ({
       setIsInputFocused(false);
       return;
     } else {
-      //   updateSection({
-      //     sectionId: section.id,
-      //     sectionData: { name: trimmedName },
-      //   });
       setInputName(trimmedName);
       setOldName(trimmedName);
     }
@@ -58,8 +57,19 @@ const EditTaskDetails = ({
     setIsInputFocused(false);
   };
 
-  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const newTask = await updateTask({
+      taskId: task.id,
+      taskData: {
+        name: inputName,
+        description: description!,
+        dueDate: dueDate,
+        priority,
+        projectId: project ? project.id : null,
+      },
+    });
+    setIsModalOpen(false);
   };
 
   useEffect(() => {
@@ -151,7 +161,7 @@ const EditTaskDetails = ({
 
         <div className="assignee section">
           <label>Assignee</label>
-          <AssigneeButton assignee={assignee} setAssignee={setAssignee} />
+          <AssigneeButton assignee={assignee!} setAssignee={setAssignee} />
         </div>
 
         <div className="due-date section">
