@@ -45,5 +45,11 @@ npm run seed
 # Starts the project's development server.
 npm run dev                               
 ```
+# Photos
 
+![board-project](https://github.com/jacobrdz77/selfwork/assets/70309225/20f465eb-49a5-4363-9b97-260a40bfe08e)
+![list-view](https://github.com/jacobrdz77/selfwork/assets/70309225/f94a93e3-6738-45bc-901e-9e4192fb7999)
+![clients-new](https://github.com/jacobrdz77/selfwork/assets/70309225/408b9923-c151-454c-8544-3eab11c9a2dd)
+![no-clients](https://github.com/jacobrdz77/selfwork/assets/70309225/ed1b58d9-c735-4111-98c2-e5062d89669d)
+![project-new](https://github.com/jacobrdz77/selfwork/assets/70309225/d2b19bcc-7b2b-40f1-b18b-5ed20b998fcc)
 
