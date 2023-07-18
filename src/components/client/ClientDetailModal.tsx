@@ -17,7 +17,6 @@ const ClientDetailModal = ({
   setIsModalOpen: (boolean: boolean) => void;
   isModalOpen: boolean;
 }) => {
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [companyName, setCompanyName] = useState("");
@@ -27,6 +26,7 @@ const ClientDetailModal = ({
   const [isPhoneError, setPhoneError] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
   const { mutateAsync: updateClient } = useUpdateClient(client.id);
+  const { projects, status: projectsStatus } = useProjects();
 
   //   For Name
   const [oldName, setOldName] = useState(client?.name);
@@ -59,14 +59,6 @@ const ClientDetailModal = ({
     setIsInputFocused(false);
   };
 
-  const { projects, status: projectsStatus } = useProjects();
-
-  useEffect(() => {
-    if (isInputFocused === true) {
-      focusOnInput();
-    }
-  }, [isInputFocused]);
-
   const phoneBlurHandler = (e: any) => {
     if (phone.trim().length === 0) {
       return;
@@ -90,7 +82,7 @@ const ClientDetailModal = ({
     e.preventDefault();
     updateClient({
       clientData: {
-        name,
+        name: inputName,
         companyName,
         businessAddress,
         email,
@@ -99,6 +91,12 @@ const ClientDetailModal = ({
     });
     setIsModalOpen(false);
   };
+
+  useEffect(() => {
+    if (isInputFocused === true) {
+      focusOnInput();
+    }
+  }, [isInputFocused]);
 
   const { mutate: deleteClient } = useDeleteClient();
   return (
@@ -181,7 +179,7 @@ const ClientDetailModal = ({
               type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              onBlur={phoneBlurHandler}
+              onBlur={emailBlurHandler}
               placeholder="john@gmail.com"
               className={`input ${isEmailError ? "input--error" : ""}`}
             />

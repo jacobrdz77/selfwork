@@ -22,10 +22,14 @@
   }
 }
 
+.list-sections {
+  overflow-y: scroll;
+}
+
 .tasks-header {
   border-top: 1px solid lightgray;
   border-bottom: 1px solid lightgray;
-  font-size: 12px;
+  font-size: 14px;
   width: 100%;
   text-align: left;
   margin-bottom: 8px;

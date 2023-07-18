@@ -4,6 +4,7 @@ import {
   NewClientData,
   NewProjectFormData,
   ProjectsWithSections,
+  UpdateClientData,
   UpdateProjectData,
 } from "../types/types";
 import {
@@ -126,7 +127,7 @@ export const useUpdateClient = (clientId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ clientData }: { clientData: Client }) => {
+    mutationFn: async ({ clientData }: { clientData: UpdateClientData }) => {
       try {
         const response = await fetch(`/api/clients/${clientId}`, {
           method: "PUT",

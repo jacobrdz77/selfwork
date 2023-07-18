@@ -1,9 +1,11 @@
-import { useCreateUserSection } from "@/hooks/SectionHooks";
+import {
+  useCreateProjectSection,
+  useCreateUserSection,
+} from "@/hooks/SectionHooks";
 
-const AddSectionButton = () => {
-  const { mutate } = useCreateUserSection();
+const AddProjectSectionButton = ({ projectId }: { projectId: string }) => {
+  const { mutate } = useCreateProjectSection(projectId);
   const addNewSectionHandler = () => {
-    console.log("BUTTON pressed");
     mutate({ name: "Untitled Section" });
   };
 
@@ -27,4 +29,4 @@ const AddSectionButton = () => {
   );
 };
 
-export default AddSectionButton;
+export default AddProjectSectionButton;

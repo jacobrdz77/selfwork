@@ -3,17 +3,14 @@ import { useRouter } from "next/router";
 import ProjectPageLayout from "@/components/project/ProjectPageLayout";
 import { useOneProject } from "@/hooks/ProjectHooks";
 import { NextPageWithLayout } from "../../_app";
-import { Task } from "@prisma/client";
-import Button from "@/components/UI/Button";
 import TaskTableHead from "@/components/task/TaskTableHead";
 import SectionListView from "@/components/sections/SectionListView";
-import { useSectionsOfUser } from "@/hooks/SectionHooks";
-import AddSectionButton from "@/components/sections/AddSectionButton";
+import { useSectionsOfProject } from "@/hooks/SectionHooks";
+import AddProjectSectionButton from "@/components/sections/AddProjectSectionButton";
 
 const List: NextPageWithLayout = () => {
-  const { userAssignedTasksSection, userSections, status } =
-    useSectionsOfUser();
   const { projectId } = useRouter().query;
+  const { projectSections, status } = useSectionsOfProject(projectId as string);
   const { project, status: projectStatus } = useOneProject(projectId as string);
   console.log("Project in list: ", project);
   console.log("Sections: ", project?.sections);
@@ -28,7 +25,8 @@ const List: NextPageWithLayout = () => {
 
       {projectStatus === "loading" && <div>Loading...</div>}
 
-      <Button className="add-task-btn">
+      {/* ADD button */}
+      {/* <Button className="add-task-btn">
         <svg
           fill="currentColor"
           className="sidebar__add-icon"
@@ -37,22 +35,17 @@ const List: NextPageWithLayout = () => {
           <path d="m12 6a1 1 0 0 0 -1 1v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2h-4v-4a1 1 0 0 0 -1-1z" />
         </svg>
         Add Task
-      </Button>
+      </Button> */}
       {status === "success" && (
         <>
           <TaskTableHead />
-
-          {/* User assigned section. This cannot be deleted because this is where assigned tasks go to. */}
-          <SectionListView
-            isUserAssignedSection={true}
-            section={userAssignedTasksSection!}
-          />
-
-          {/* The rest of user sections */}
-          {userSections?.map((section) => (
-            <SectionListView key={section.id} section={section} />
-          ))}
-          <AddSectionButton />
+          <div className="list-sections">
+            {/* The rest of user sections */}
+            {projectSections?.map((section) => (
+              <SectionListView key={section.id} section={section} />
+            ))}
+            <AddProjectSectionButton projectId={projectId as string} />
+          </div>
         </>
       )}
     </div>

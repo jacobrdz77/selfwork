@@ -268,6 +268,7 @@
         }
 
         &__icon {
+          flex-shrink: 0;
           width: 24px;
           height: 24px;
           fill: none;
@@ -541,6 +542,7 @@
 
 .board {
   min-width: 300px;
+  max-width: 300px;
   padding: 8px 6px;
   background-color: #f9f8f8;
   color: #212529;
@@ -722,10 +724,10 @@
         border-radius: 50%;
         padding: 10px;
         margin-right: 2px;
-        background-color: var(--color-green--light) !important;
+        background-color: var(--color-primary--light) !important;
 
         &:hover {
-          background-color: var(--color-green--dark) !important;
+          background-color: var(--color-primary) !important;
         }
       }
 
@@ -940,7 +942,7 @@
         align-items: center;
         border-radius: 6px;
         &:hover {
-          background-color: #343a40;
+          background-color: #c9c9c9;
         }
       }
 

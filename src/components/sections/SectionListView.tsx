@@ -5,6 +5,7 @@ import useMenu from "@/hooks/useMenu";
 import { SectionWithTasks } from "@/types/types";
 import OneTaskRow from "../task/OneTaskRow";
 import AddTaskRow from "../task/AddTaskRow";
+import { useCreateTask } from "@/hooks/TaskHooks";
 
 const SectionListView = ({
   section,
@@ -24,6 +25,25 @@ const SectionListView = ({
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const { mutate: deleteSection } = useDeleteSection();
   const { mutate: updateSection } = useUpdateSection();
+
+  const [newTaskName, setNewTaskName] = useState("");
+  const { mutate: createTask } = useCreateTask();
+  // const {
+  //   btnRef: newTaskBtnRef,
+  //   isMenuOpen: isNewTaskOpen,
+  //   menuRef: newTaskRef,
+  //   setIsMenuOpen: setNewTaskOpen,
+  // } = useMenu(async () => {
+  //   if (newTaskName.trim().length > 0) {
+  //     createTask({
+  //       name: newTaskName,
+  //       sectionId: section.id,
+  //       description: "",
+  //       assignee: null,
+  //       priority: null,
+  //     });
+  //   }
+  // });
 
   const focusOnInput = () => {
     // @ts-ignore
@@ -193,6 +213,14 @@ const SectionListView = ({
             {section.tasks.map((task) => (
               <OneTaskRow key={task.id} task={task} />
             ))}
+            {/* {isNewTaskOpen && (
+              <BoardNewTask
+                forwardRef={newTaskRef}
+                name={newTaskName}
+                setName={setNewTaskName}
+                setNewTaskOpen={setNewTaskOpen}
+              />
+            )} */}
             <AddTaskRow />
           </div>
         ))}

@@ -25,8 +25,6 @@ const ProjectOverviewPage: NextPageWithLayout = () => {
   } = useMenu();
   console.log("Project in overview: ", project);
 
-  const { links, status: linkStatus } = useLinks(projectId as string);
-
   if (status === "loading") {
     return <div>Loading...</div>;
   }
@@ -152,15 +150,15 @@ const ProjectOverviewPage: NextPageWithLayout = () => {
           </div>
 
           {/* Links */}
-          {linkStatus === "success" && <ProjectLinks links={links!} />}
 
-          {linkStatus === "loading" && (
+          {/* {status === "success" && (
             <div className="loading__links">
               <div className="link"></div>
               <div className="link"></div>
               <div className="link"></div>
             </div>
-          )}
+          )} */}
+          <ProjectLinks links={project?.urlLinks!} />
         </div>
       </div>
     </div>

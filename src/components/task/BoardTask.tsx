@@ -18,7 +18,9 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
     return format(new Date(taskDueDate), "MMM dd");
   };
   const [isTaskDetailOpen, setIsTaskDetailOpen] = useState(false);
-  const [dueDate, setDueDate] = useState(task.dueDate);
+  const [dueDate, setDueDate] = useState(
+    task.dueDate ? task.dueDate : new Date()
+  );
 
   return (
     <>
@@ -189,6 +191,7 @@ export const DateButton = ({
             ref={menuRef}
           >
             <ReactDatePicker
+              value={date}
               selected={new Date(date)}
               onChange={(dueDate) => {
                 setDate(new Date(dueDate!));

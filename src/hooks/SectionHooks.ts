@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Section, Task } from "@prisma/client";
 import { useUserStore } from "store/user";
-import { SectionWithTasks, UserSections } from "@/types/types";
+import { ProjectSections, SectionWithTasks, UserSections } from "@/types/types";
 
 export const useSectionsOfProject = (projectId: string) => {
   const { data: projectSections, status } = useQuery({
@@ -59,6 +59,43 @@ export const useSectionsOfUser = () => {
     userAssignedTasksSection: data?.userAssignedTasksSection,
     status,
   };
+};
+
+export const useCreateProjectSection = (projectId: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (sectionData: { name: string }) => {
+      try {
+        console.log("CLICKKK");
+        const response = await fetch(`/api/sections?projectId=${projectId}`, {
+          method: "POST",
+          body: JSON.stringify({
+            sectionData: {
+              name: sectionData.name,
+            },
+          }),
+        });
+        if (!response.ok) {
+          throw new Error(
+            "Error happend!: " + response.status.toLocaleString()
+          );
+        }
+
+        console.log("Response: ", response);
+        return (await response.json()) as SectionWithTasks;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    // Optimistically updates userSections
+
+    onSettled: (newSection) => {
+      console.log("Created new section! \n", newSection);
+      queryClient.invalidateQueries({ queryKey: ["sections", projectId] });
+    },
+  });
 };
 
 export const useCreateUserSection = () => {

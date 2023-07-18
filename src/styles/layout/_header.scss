@@ -65,12 +65,31 @@
       padding: 2px 6px;
       border-radius: 6px;
       transition: all 0.1s ease-out;
+      position: relative;
+      &::after {
+        content: "";
+        background-color: var(--color-primary);
+        width: 0%;
+        height: 2.6px;
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        transition: width 0.15s ease-out;
+      }
       &:active,
       &:hover {
-        background-color: var(--color-gray--active);
+        cursor: pointer;
+        &::after {
+          width: 100%;
+        }
+        color: var(--color-primary);
       }
+
       &--active {
-        background-color: var(--color-gray--active);
+        &::after {
+          width: 100%;
+        }
+        color: var(--color-primary);
       }
     }
   }

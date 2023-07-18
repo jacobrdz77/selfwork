@@ -22,7 +22,9 @@ const EditTaskDetails = ({
   const [project, setProject] = useState<Project | null>(null);
   const [assignee, setAssignee] = useState<User | null>(task.assignee);
   const [selectedSection, setSelectedSection] = useState<Section | null>(null);
-  const [dueDate, setDueDate] = useState(task.dueDate);
+  const [dueDate, setDueDate] = useState(
+    task.dueDate ? task.dueDate?.toLocaleDateString() : null
+  );
   const [priority, setPriority] = useState<Priority | undefined>(
     task?.priority
   );
@@ -64,7 +66,7 @@ const EditTaskDetails = ({
       taskData: {
         name: inputName,
         description: description!,
-        dueDate: dueDate,
+        dueDate: dueDate ? new Date(dueDate) : null,
         priority,
         projectId: project ? project.id : null,
       },
@@ -283,8 +285,8 @@ const DueDateButton = ({
   dueDate,
   setDueDate,
 }: {
-  dueDate: Date;
-  setDueDate: (date: Date | null) => void;
+  dueDate: string;
+  setDueDate: (date: string | null) => void;
 }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
 
@@ -323,9 +325,10 @@ const DueDateButton = ({
         <div className="menu" ref={menuRef}>
           <DatePicker
             className="data-selected--dueDate"
-            selected={new Date(dueDate)}
+            // selected={new Date(dueDate)}
+            value={dueDate ? dueDate : new Date().toLocaleDateString()}
             onChange={(dueDate) => {
-              setDueDate(new Date(dueDate!));
+              setDueDate(new Date(dueDate!).toLocaleDateString());
             }}
           />
         </div>

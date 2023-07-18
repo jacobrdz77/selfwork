@@ -17,9 +17,7 @@ const MyTaskBoardPage = () => {
         {status === "loading" && <div>Loading...</div>}
         {status === "success" && (
           <div className="flex">
-            <Boards
-              userSections={[userAssignedTasksSection!, ...userSections!]}
-            />
+            <Boards userSections={[...userSections!]} />
           </div>
         )}
       </div>

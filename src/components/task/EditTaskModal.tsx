@@ -14,13 +14,6 @@ const EditTaskModal = ({
   isOpen: boolean;
   setIsOpen: (boolean: boolean) => any;
 }) => {
-  // const isTaskDetailOpen = useModalStore((state) => state.isTaskDetailOpen);
-  // const setIsTaskDetailOpen = useModalStore(
-  //   (state) => state.setIsTaskDetailOpen
-  // );
-
-  console.log("Task: ", task.name);
-
   return (
     <>
       <Modal

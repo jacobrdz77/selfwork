@@ -4,7 +4,7 @@ import React from "react";
 export const getInitials = (name: string): string => {
   const fullName = name.split(" ");
   if (fullName.length === 0) return "";
-  if (fullName.length === 1) {
+  if (fullName.length > 1) {
     const firstName = fullName[0];
     return `${firstName[0].toUpperCase()}`;
   }

@@ -1,8 +1,11 @@
 .sidebar {
+  position: sticky;
+  top: 0;
+  bottom: 0;
+  left: 0;
   flex: 0 0 auto;
-  position: relative;
   width: 242px;
-  height: 100%;
+  // height: 100%;
   background-color: var(--color-navigation-background);
   color: var(--color-navigation-text);
   font-size: 14px;
@@ -164,7 +167,7 @@
     margin-top: 10px;
     user-select: none;
     &--dot {
-      color: var(--color-primary--lightest);
+      color: var(--color-primary);
     }
   }
 

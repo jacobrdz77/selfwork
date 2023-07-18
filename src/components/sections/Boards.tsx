@@ -1,13 +1,19 @@
 import React, { useCallback, useState } from "react";
 import { useDrop } from "react-dnd";
-import AddSectionButton from "./AddSectionButton";
+import AddSectionButton from "./AddUserSectionButton";
 import Board from "../task/Board";
 import { SectionWithTasks } from "@/types/types";
+import AddProjectSectionButton from "./AddProjectSectionButton";
+import AddUserSectionButton from "./AddUserSectionButton";
 
 const Boards = ({
   userSections,
+  isProject,
+  projectId,
 }: {
   userSections: SectionWithTasks[] | undefined;
+  isProject?: boolean;
+  projectId?: string;
 }) => {
   const [boards, setBoards] = useState(userSections);
 
@@ -22,18 +28,18 @@ const Boards = ({
   }));
 
   // ! Finish this function
-  const moveCard = useCallback((dragIndex: number, hoverIndex: number) => {
-    setBoards((prevBoards) => {
-      return [hoverIndex, 0, ...prevBoards];
-    });
+  // const moveCard = useCallback((dragIndex: number, hoverIndex: number) => {
+  //   setBoards((prevBoards) => {
+  //     return [hoverIndex, 0, ...prevBoards!];
+  //   });
 
-    //   update(prevCards, {
-    //     $splice: [
-    //       [dragIndex, 1],
-    //       [hoverIndex, 0, prevCards[dragIndex] as Item],
-    //     ],
-    //   })
-  }, []);
+  //   //   update(prevCards, {
+  //   //     $splice: [
+  //   //       [dragIndex, 1],
+  //   //       [hoverIndex, 0, prevCards[dragIndex] as Item],
+  //   //     ],
+  //   //   })
+  // }, []);
 
   return (
     <div className="boards" ref={drop}>
@@ -46,7 +52,11 @@ const Boards = ({
         />
       ))}
       <div className="add-btn">
-        <AddSectionButton />
+        {isProject ? (
+          <AddProjectSectionButton projectId={projectId!} />
+        ) : (
+          <AddUserSectionButton />
+        )}
       </div>
     </div>
   );

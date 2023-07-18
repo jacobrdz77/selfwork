@@ -61,13 +61,17 @@ type OneProjectWithSections = Project & {
   sections: Section[];
 };
 
+export type ProjectSections = {
+  sections: Section[];
+};
+
 export type ProjectsWithSections = [OneProjectWithSections];
 
 export type ProjectWithAll = Project & {
   sections: SectionWithTasks[];
   members: User[];
   notes: Note[];
-  links: Links[];
+  urlLinks: Links[];
 };
 
 export type NewClientData = {
@@ -108,8 +112,24 @@ export type NewLink = {
   name: string;
   url: string;
 };
+
+// Client
+export type ClientStatus = "active" | "pending" | "closed";
+
 export type ClientWithProjects = Client & {
   projects: Project[];
 };
 
-export type ClientStatus = "active" | "pending" | "closed";
+export type UpdateClientData = {
+  id?: number;
+  name?: string;
+  companyName?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  businessAddress?: string | null;
+  userId?: string;
+  order?: number | null;
+  status?: Status;
+  totalMonthly?: runtime.Decimal;
+  totalLumpSum?: runtime.Decimal;
+};
