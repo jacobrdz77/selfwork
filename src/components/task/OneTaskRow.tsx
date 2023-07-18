@@ -6,6 +6,7 @@ import { useTableWidthStore } from "store/table-width";
 import { useUpdateTask } from "@/hooks/TaskHooks";
 import { useModalStore } from "store/user";
 import EditTaskModal from "./EditTaskModal";
+import useMenu from "@/hooks/useMenu";
 
 const formatDueDate = (taskDueDate: Date) => {
   return format(new Date(taskDueDate), "MMM dd");
@@ -28,7 +29,7 @@ export const taskPriorityClassName = (priority: Priority) => {
 
 const OneTaskRow = ({ task }: { task: TaskWithAssignee }) => {
   // Todo: get Task detail modal state from store
-  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const { isMenuOpen, btnRef, setIsMenuOpen } = useMenu();
 
   const [oldName, setOldName] = useState(task.name);
   const [taskInputName, setTaskInputName] = useState(task.name);
@@ -71,10 +72,10 @@ const OneTaskRow = ({ task }: { task: TaskWithAssignee }) => {
         />
       )}
       <div
-        className={`task-row ${isDetailsOpen ? "task--active" : ""}`}
+        className={`task-row ${isMenuOpen ? "task--active" : ""}`}
         onClick={() => {
-          setIsDetailsOpen(true);
           setIsTaskDetailOpen(true);
+          setIsMenuOpen(!isMenuOpen);
         }}
       >
         <div className="task__drag">
@@ -84,8 +85,11 @@ const OneTaskRow = ({ task }: { task: TaskWithAssignee }) => {
         </div>
         <div className="task">
           <div
+            ref={btnRef}
             className="task__name task__cell"
-            onClick={() => setIsDetailsOpen(!isDetailsOpen)}
+            onClick={() => {
+              setIsMenuOpen(!isMenuOpen);
+            }}
             style={{ width: nameWidth }}
           >
             <input
@@ -100,6 +104,9 @@ const OneTaskRow = ({ task }: { task: TaskWithAssignee }) => {
                 setTaskInputName(e.currentTarget.value);
               }}
               onBlur={handleInputBlur}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
             />
           </div>
           <div

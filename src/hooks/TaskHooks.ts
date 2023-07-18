@@ -110,7 +110,7 @@ export const useUpdateTask = () => {
 
     onSuccess: (updatedTask) => {
       queryClient.invalidateQueries({ queryKey: ["sections"] });
-      console.log("Updated task: ", updatedTask.name);
+      // console.log("Updated task: ", updatedTask.name);
     },
   });
 };

@@ -128,7 +128,11 @@ export default async function handler(
             },
           },
           include: {
-            tasks: true,
+            tasks: {
+              include: {
+                tags: true,
+              },
+            },
           },
         });
         return res.status(200).json(newSection);

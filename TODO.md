@@ -2,7 +2,6 @@
 
 ### Do list:
 
-- Figure out why ProjectLayout gets the same sections that render for every project page.
 - Add new task row when clicking on the plus in LIST VIEW
 - Add functionality to EditTaskDetails.
   - Update task

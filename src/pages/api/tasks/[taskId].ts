@@ -68,6 +68,7 @@ export default async function handler(
         dueDate: taskData.dueDate,
         priority: taskData.priority,
         projectId: taskData.projectId ? taskData.projectId : undefined,
+        status: taskData.status,
       } as TaskData;
 
       const task = await prisma.task.update({

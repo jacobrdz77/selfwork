@@ -1,11 +1,10 @@
-import { Priority, Project, Section, Task, User } from "@prisma/client";
+import { Priority, Section, Tag, Task, TaskStatus, User } from "@prisma/client";
 import React, { useState, useRef, useEffect } from "react";
 import MenuButton from "../UI/MenuButton";
 import { useWorkspaceMembers } from "@/hooks/WorkspaceHooks";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
-import { useProjects } from "@/hooks/ProjectHooks";
 import useMenu from "@/hooks/useMenu";
 import { TaskWithAssignee } from "@/types/types";
 import { useUpdateTask } from "@/hooks/TaskHooks";
@@ -17,18 +16,17 @@ const EditTaskDetails = ({
   task: TaskWithAssignee;
   setIsModalOpen: (bool: boolean) => void;
 }) => {
-  const { projects, status: projectsStatus } = useProjects();
   const [description, setDescription] = useState(task.description);
-  const [project, setProject] = useState<Project | null>(null);
+  const [tags, setTags] = useState<Tag[] | []>(task.tags);
+  const [selectedTag, setSelectedTag] = useState<Tag | null>(null);
   const [assignee, setAssignee] = useState<User | null>(task.assignee);
   const [selectedSection, setSelectedSection] = useState<Section | null>(null);
-  const [dueDate, setDueDate] = useState(
-    task.dueDate ? task.dueDate?.toLocaleDateString() : null
-  );
+  const [dueDate, setDueDate] = useState(task.dueDate ? task.dueDate : null);
   const [priority, setPriority] = useState<Priority | undefined>(
     task?.priority
   );
   const [isFormValid, setIsFormValid] = useState(true);
+  const [taskStatus, setTaskStatus] = useState(task.status);
   //   For Name
   const [oldName, setOldName] = useState(task.name);
   const [inputName, setInputName] = useState(task.name);
@@ -68,9 +66,11 @@ const EditTaskDetails = ({
         description: description!,
         dueDate: dueDate ? new Date(dueDate) : null,
         priority,
-        projectId: project ? project.id : null,
+        status: taskStatus,
       },
     });
+
+    console.log("UPDATED: ", newTask);
     setIsModalOpen(false);
   };
 
@@ -91,7 +91,11 @@ const EditTaskDetails = ({
   return (
     <div className="task-detail">
       <div className="task-detail__header">
-        <button className="button">Mark complete</button>
+        <div className="task-detail__buttons">
+          <button className="button">Mark complete</button>
+          <StatusButton status={taskStatus!} setStatus={setTaskStatus} />
+        </div>
+
         <div className="actions">
           <div
             className="close"
@@ -171,19 +175,20 @@ const EditTaskDetails = ({
           <DueDateButton dueDate={dueDate!} setDueDate={setDueDate} />
         </div>
 
-        <div className="task__project section">
-          <label>Project</label>
-
-          <ProjectsButton
-            inputProjects={projects!}
-            selectedProject={project!}
-            setProject={setProject}
-          />
-        </div>
-
         <div className="priority section">
           <label htmlFor="assignee">Priority</label>
           <PriorityButton priority={priority!} setPriority={setPriority} />
+        </div>
+        <div className="tags section">
+          <label>Tags</label>
+          {/* Tags list */}
+
+          <TagsButton
+            inputTags={tags!}
+            tags={tags!}
+            setTags={setTags}
+            selectedTag={selectedTag}
+          />
         </div>
 
         <div className="description">
@@ -215,6 +220,199 @@ const EditTaskDetails = ({
 };
 
 export default EditTaskDetails;
+
+const StatusButton = ({
+  status,
+  setStatus,
+}: {
+  status: TaskStatus;
+  setStatus: (status: TaskStatus | null) => void;
+}) => {
+  const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
+  console.log("statsu: ", status);
+
+  return (
+    <div className="menu-button-container ">
+      <button
+        type="button"
+        ref={btnRef}
+        className={`menu-button data-selected status-button ${
+          status === "Done" ? "status-button--done" : ""
+        }`}
+        onClick={() => setIsMenuOpen((state) => !state)}
+      >
+        {status === "Open" && (
+          <div className="flex">
+            <svg
+              className={`sidebar__color-icon sidebar__color-icon--yellow-green status-icon`}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
+            Open
+          </div>
+        )}
+        {status === "InProgress" && (
+          <div className="flex">
+            <svg
+              className={`sidebar__color-icon sidebar__color-icon--blue`}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
+            In Progress
+          </div>
+        )}
+        {status === "InReview" && (
+          <div className="flex">
+            <svg
+              className={`sidebar__color-icon sidebar__color-icon--aqua`}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
+            In Review
+          </div>
+        )}
+        {status === "Delayed" && (
+          <div className="flex">
+            <svg
+              className={`sidebar__color-icon sidebar__color-icon--orange-yellow`}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
+            Delayed
+          </div>
+        )}
+        {status === "Done" && (
+          <div className="flex">
+            {/* <svg
+              className={`sidebar__color-icon sidebar__color-icon--forest`}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg> */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="done-icon"
+            >
+              <path
+                fillRule="evenodd"
+                d="M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z"
+                clipRule="evenodd"
+              />
+            </svg>
+            Done
+          </div>
+        )}
+        {/* {status ? status : "Set Status"} */}
+
+        <svg
+          className={`icon ${isMenuOpen ? "icon--active" : ""}`}
+          viewBox="0 0 6.3499999 6.3500002"
+        >
+          <g id="layer1" transform="translate(0 -290.65)">
+            <path d="m2.2580394 291.96502a.26460982.26460982 0 0 0 -.1741496.46871l1.6190225 1.38699-1.6190225 1.38648a.26460982.26460982 0 1 0 .3436483.40049l1.8536335-1.58595a.26460982.26460982 0 0 0 0-.40256l-1.8536335-1.5875a.26460982.26460982 0 0 0 -.1694987-.0667z" />
+          </g>
+        </svg>
+      </button>
+
+      {isMenuOpen && (
+        <div
+          className="menu"
+          ref={menuRef}
+          onClick={(e) => {
+            setIsMenuOpen(false);
+          }}
+        >
+          <div
+            className="item"
+            onClick={() => {
+              setStatus("Open");
+            }}
+          >
+            <svg
+              className={`sidebar__color-icon sidebar__color-icon--yellow-green`}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
+            Open
+          </div>
+          <div
+            className="item"
+            onClick={() => {
+              setStatus("InProgress");
+            }}
+          >
+            <svg
+              className={`sidebar__color-icon sidebar__color-icon--blue`}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
+            In Progress
+          </div>
+          <div
+            className="item"
+            onClick={() => {
+              setStatus("InReview");
+            }}
+          >
+            <svg
+              className={`sidebar__color-icon sidebar__color-icon--aqua`}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
+            In Review
+          </div>
+          <div
+            className="item"
+            onClick={() => {
+              setStatus("Delayed");
+            }}
+          >
+            <svg
+              className={`sidebar__color-icon sidebar__color-icon--orange-yellow`}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
+            Delayed
+          </div>
+          <div
+            className="item"
+            onClick={() => {
+              setStatus("Done");
+            }}
+          >
+            <svg
+              className={`sidebar__color-icon sidebar__color-icon--forest`}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
+            Done
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const AssigneeButton = ({
   assignee,
@@ -285,7 +483,7 @@ const DueDateButton = ({
   dueDate,
   setDueDate,
 }: {
-  dueDate: string;
+  dueDate: string | Date;
   setDueDate: (date: string | null) => void;
 }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
@@ -326,7 +524,11 @@ const DueDateButton = ({
           <DatePicker
             className="data-selected--dueDate"
             // selected={new Date(dueDate)}
-            value={dueDate ? dueDate : new Date().toLocaleDateString()}
+            value={
+              dueDate
+                ? new Date(dueDate).toLocaleDateString()
+                : new Date().toLocaleDateString()
+            }
             onChange={(dueDate) => {
               setDueDate(new Date(dueDate!).toLocaleDateString());
             }}
@@ -337,14 +539,14 @@ const DueDateButton = ({
   );
 };
 
-const ProjectsButton = ({
-  inputProjects,
-  selectedProject,
-  setProject,
+const TagsButton = ({
+  tags,
+  selectedTag,
+  setTags,
 }: {
-  inputProjects: Project[];
-  selectedProject: Project;
-  setProject: (project: Project | null) => void;
+  tags: Tag[];
+  selectedTag: Tag;
+  setTags: (tag: Tag[] | null) => void;
 }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
 
@@ -357,19 +559,16 @@ const ProjectsButton = ({
           setIsMenuOpen((state) => !state);
         }}
         ref={btnRef}
-        className="menu-button data-selected data-selected--projects"
+        className="menu-button data-selected data-selected--Tags"
       >
-        <span>
-          {" "}
-          {selectedProject ? selectedProject.name : "Add to projects"}
-        </span>
+        <span> {selectedTag ? selectedTag + "" : "Add Tags"}</span>
       </button>
 
-      {selectedProject ? (
+      {selectedTag ? (
         <div
           className="data-selected__close"
           onClick={(e) => {
-            setProject(null);
+            setTags(null);
           }}
         >
           <svg viewBox="0 0 320.591 320.591">
@@ -385,17 +584,17 @@ const ProjectsButton = ({
 
       {isMenuOpen && (
         <div className="menu" ref={menuRef}>
-          {inputProjects &&
-            inputProjects?.map((project) => (
+          {tags &&
+            tags?.map((tag) => (
               <div
-                key={project.id}
+                key={tag.id}
                 className="item"
                 onClick={() => {
-                  setProject(project);
                   setIsMenuOpen(false);
+                  // Add a way to append tags to the list of tags
                 }}
               >
-                {project.name}
+                {tag.name}
               </div>
             ))}
         </div>
@@ -421,7 +620,7 @@ const PriorityButton = ({
           setIsMenuOpen((state) => !state);
         }}
         ref={btnRef}
-        className="menu-button data-selected data-selected--projects"
+        className="menu-button data-selected data-selected--Tags"
       >
         <span>{priority ? priority : "None"}</span>
       </button>

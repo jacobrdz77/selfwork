@@ -52,6 +52,7 @@ export default async function handler(
                 id: task.assignee.id,
               },
             },
+            status: task.status,
           },
         });
 

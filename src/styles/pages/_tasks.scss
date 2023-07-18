@@ -347,6 +347,11 @@
     }
   }
 
+  &__buttons {
+    display: flex;
+    gap: 8px;
+  }
+
   &__header {
     display: flex;
     justify-content: space-between;
@@ -361,7 +366,7 @@
       background: #fefefe;
       border: 1px solid var(--color-border);
       transition: all 0.1s ease-out;
-      margin-bottom: 8px;
+      // margin-bottom: 8px;
       &:hover {
         background: var(--color-primary--light);
         color: #fff;
@@ -461,44 +466,100 @@
       //   flex: 1;
       // }
     }
+  }
 
-    .data-selected {
+  .data-selected {
+    display: flex;
+    align-items: center;
+    padding: 6px 10px 6px 12px;
+    border-radius: 8px;
+    &:hover {
+      cursor: pointer;
+      // background-color: var(--color-gray--hover-2);
+    }
+    & * {
+      cursor: pointer;
+    }
+
+    &--dueDate {
+      cursor: pointer;
       display: flex;
       align-items: center;
       padding: 6px 10px 6px 12px;
       border-radius: 8px;
+      border: 1px solid var(--color-border);
+    }
+
+    // &--projects {
+    //   .menu {
+    //     min-width: 200px;
+    //     max-width: 350px;
+    //     background-color:#212529;
+    //     border-radius: 6px;
+    //     position: absolute;
+    //     top: 105%;
+    //     border: 1px solid var(--color-border);
+    //     padding: 4px 0;
+    //     z-index: 99999;
+    //     color: #212529;
+    //     font-weight: 500;
+    //   }
+    // }
+  }
+
+  .item {
+    &:hover {
+      background-color: #dee2e6;
+    }
+
+    display: flex;
+    align-items: center;
+  }
+
+  .status-icon {
+  }
+
+  .status-button {
+    // background-color: #3cac41;
+    border: 1px solid var(--color-border);
+    font-size: 14px;
+    display: flex;
+    gap: 4px;
+    // color: #343a40;
+    transition: 0.2s color ease-in, 0.2s background-color ease-in;
+    padding: 6px 18px !important;
+    .icon {
+      flex-shrink: 0;
+      // visibility: hidden;
+      width: 14px;
+      // height: 14px;
+      rotate: 90deg;
+      stroke: #343a40;
+      stroke-width: 0.5px;
+    }
+
+    &--done {
+      background-color: var(--color-green--light);
+      color: #dee2e6;
+
+      .done-icon {
+        width: 16px;
+        height: 16px;
+        margin-right: 8px;
+      }
+
       &:hover {
-        cursor: pointer;
-        background-color: var(--color-gray--hover);
+        color: #fff !important;
       }
-      & * {
-        cursor: pointer;
-      }
+    }
 
-      &--dueDate {
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        padding: 6px 10px 6px 12px;
-        border-radius: 8px;
-        border: 1px solid var(--color-border);
-      }
+    .sidebar__color-icon {
+    }
 
-      // &--projects {
-      //   .menu {
-      //     min-width: 200px;
-      //     max-width: 350px;
-      //     background-color:#212529;
-      //     border-radius: 6px;
-      //     position: absolute;
-      //     top: 105%;
-      //     border: 1px solid var(--color-border);
-      //     padding: 4px 0;
-      //     z-index: 99999;
-      //     color: #212529;
-      //     font-weight: 500;
-      //   }
-      // }
+    &:hover {
+      visibility: visible;
+      color: #000;
+      border: 1px solid #a1a1a1;
     }
   }
 

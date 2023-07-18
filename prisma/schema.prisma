@@ -218,6 +218,7 @@ model Task {
 model Tag {
   id     String  @id @default(cuid())
   name   String
+  color   Color
   task   Task?   @relation(fields: [taskId], references: [id])
   taskId String?
 }
