@@ -5,7 +5,15 @@ import { z } from "zod";
 
 const checkURL = z.string().url();
 
-const AddLinkPopup = ({ menuRef, setIsOpen, projectId }) => {
+const AddLinkPopup = ({
+  menuRef,
+  setIsOpen,
+  projectId,
+}: {
+  menuRef: any;
+  setIsOpen: any;
+  projectId: any;
+}) => {
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
