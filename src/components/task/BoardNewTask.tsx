@@ -14,7 +14,7 @@ const BoardNewTask = ({
   setName: any;
   setNewTaskOpen: (isOpen: boolean) => any;
 }) => {
-  const nameRef = useRef<HTMLInputElement>();
+  const nameRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (nameRef === null) return;

@@ -1,5 +1,11 @@
 import { Priority, Section, Tag, Task, TaskStatus, User } from "@prisma/client";
-import React, { useState, useRef, useEffect } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import MenuButton from "../UI/MenuButton";
 import { useWorkspaceMembers } from "@/hooks/WorkspaceHooks";
 import DatePicker from "react-datepicker";
@@ -226,7 +232,9 @@ const StatusButton = ({
   setStatus,
 }: {
   status: TaskStatus;
-  setStatus: (status: TaskStatus | null) => void;
+  setStatus: Dispatch<
+    SetStateAction<"Open" | "InProgress" | "InReview" | "Delayed" | "Done">
+  >;
 }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   console.log("statsu: ", status);
@@ -484,7 +492,7 @@ const DueDateButton = ({
   setDueDate,
 }: {
   dueDate: string | Date;
-  setDueDate: (date: string | null) => void;
+  setDueDate: Dispatch<SetStateAction<Date | null>>;
 }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
 

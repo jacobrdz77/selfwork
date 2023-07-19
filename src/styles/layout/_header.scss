@@ -4,7 +4,11 @@
   // align-items: center;
   border-bottom: 1px solid #e7e6e9;
   padding: 16px 24px;
-
+  position: sticky;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  z-index: 2;
   &__title {
     font-size: 24px;
   }
@@ -36,13 +40,52 @@
 
 .project-header {
   border-bottom: 1px solid #e7e6e9;
+  background-color: #fff;
   padding: 8px 24px 12px 24px;
   font-size: 14px;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 2;
 
   &__icon {
     margin-right: 6px;
     width: 46px;
     height: 46px;
+    cursor: pointer;
+  }
+
+  .color-menu {
+    display: none;
+    .row {
+      padding: 0 8px;
+      display: flex;
+      justify-content: space-between;
+      gap: 2px;
+      .project-header__icon {
+        margin-right: unset;
+      }
+    }
+
+    &__item {
+      width: 34px;
+      height: 34px;
+
+      &--selected {
+        display: block;
+      }
+    }
+
+    &--active {
+      display: block;
+    }
+    &__button {
+      &-container {
+        position: relative;
+      }
+    }
+    &-icon {
+    }
   }
 
   &__top {

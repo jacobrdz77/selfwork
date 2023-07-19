@@ -105,7 +105,7 @@ const EditProjectModal: React.FC<{
             placeholder="1000.00"
             min="0"
             value={lumpSum}
-            onChange={(e) => setLumpSum(e.target.value)}
+            onChange={(e) => setLumpSum(Number(e.target.value))}
           />
         </div>
 

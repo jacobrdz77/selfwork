@@ -2,6 +2,7 @@
 
 ### Do list:
 
+- Fix updating issues for Task
 - Add new task row when clicking on the plus in LIST VIEW
 - Add functionality to EditTaskDetails.
   - Update task
@@ -12,6 +13,7 @@
 
 ## High
 
+- Fix overflow of tasks in MyTasks Board view
 - Figure out how to order after rearraning sections, tasks, and projects using react-dnd.
 - Figure out how to add new task to table.
 - Figure out how to invite members through Nodemailer.

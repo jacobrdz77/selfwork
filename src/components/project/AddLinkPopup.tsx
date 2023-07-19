@@ -10,9 +10,9 @@ const AddLinkPopup = ({
   setIsOpen,
   projectId,
 }: {
-  menuRef: any;
-  setIsOpen: any;
-  projectId: any;
+  menuRef: React.Ref<HTMLDivElement>;
+  setIsOpen: (isOpen: boolean) => void;
+  projectId: string;
 }) => {
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");

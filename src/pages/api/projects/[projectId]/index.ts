@@ -1,6 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../../prisma/client";
+import { transformColor } from "@/utils/TransformColor";
 
 export default async function handler(
   req: NextApiRequest,
@@ -63,7 +64,8 @@ export default async function handler(
       const body = await JSON.parse(req.body);
       const { projectId } = req.query;
       const { projectData } = body;
-      console.log("PROJECT ID: ", projectData);
+      console.log("PROJECT : ", projectData);
+      console.log("color: ", transformColor(projectData.iconColor));
 
       const project = await prisma.project.update({
         where: {
@@ -71,11 +73,13 @@ export default async function handler(
         },
         data: {
           ...projectData,
+          iconColor: transformColor(projectData.iconColor),
         },
       });
 
       return res.status(200).json(project);
     } catch (error: Error | any) {
+      console.log(error);
       return res.status(400).json({ error: error.message });
     }
   }

@@ -55,6 +55,7 @@ export type UpdateProjectData = {
   startDate?: Date;
   dueDate?: Date;
   clientId?: string;
+  iconColor?: Color;
 };
 
 type OneProjectWithSections = Project & {
