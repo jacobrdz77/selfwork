@@ -69,7 +69,22 @@ export default async function handler(
         priority: taskData.priority,
         projectId: taskData.projectId ? taskData.projectId : undefined,
         status: taskData.status,
-      } as TaskData;
+      };
+
+      if (!taskData.assigneeId) {
+        const task = await prisma.task.update({
+          where: {
+            id: taskId as string,
+          },
+          data: {
+            ...newData,
+            assignee: {
+              disconnect: true,
+            },
+          },
+        });
+        return res.status(200).json(task);
+      }
 
       const task = await prisma.task.update({
         where: {
@@ -77,6 +92,11 @@ export default async function handler(
         },
         data: {
           ...newData,
+          assignee: {
+            connect: {
+              id: taskData.assigneeId,
+            },
+          },
         },
       });
       return res.status(200).json(task);

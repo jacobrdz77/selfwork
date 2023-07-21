@@ -2,7 +2,7 @@ import useMenu from "@/hooks/useMenu";
 import { TaskWithAssignee } from "@/types/types";
 import React, { useState } from "react";
 import { getInitials } from "../UI/UserCard";
-import { useDeleteTask } from "@/hooks/TaskHooks";
+import { useDeleteTask, useUpdateTask } from "@/hooks/TaskHooks";
 import { taskPriorityClassName } from "./OneTaskRow";
 import { format } from "date-fns";
 import EditTaskModal from "./EditTaskModal";
@@ -125,7 +125,11 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
 
           <div className="buttons">
             {task.dueDate === null ? (
-              <DateButton date={dueDate} setDate={setDueDate} />
+              <DateButton
+                taskId={task.id}
+                date={dueDate}
+                setDate={setDueDate}
+              />
             ) : (
               <div className="board-task__date">
                 <span>{formatDueDate(task.dueDate)}</span>
@@ -148,13 +152,24 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
 export default BoardTask;
 
 export const DateButton = ({
+  taskId,
   date,
   setDate,
 }: {
+  taskId: string;
   date: any;
   setDate: (date: any) => void;
 }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
+  const { mutate: updateTask } = useUpdateTask();
+  const updateDate = () => {
+    updateTask({
+      taskId: taskId,
+      taskData: {
+        dueDate: date ? new Date(date) : null,
+      },
+    });
+  };
 
   return (
     <div className="date-button">
@@ -195,6 +210,7 @@ export const DateButton = ({
               selected={new Date(date)}
               onChange={(dueDate) => {
                 setDate(new Date(dueDate!));
+                updateDate();
               }}
             />
           </div>

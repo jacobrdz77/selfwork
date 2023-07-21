@@ -53,7 +53,7 @@ const BoardNewTask = ({
         />
       </div>
 
-      <div className="footer">
+      {/* <div className="footer">
         <div className="buttons">
           <div className="board-task__date--empty">
             <svg
@@ -79,7 +79,7 @@ const BoardNewTask = ({
           </div>
         </div>
 
-        {/* {task.assignee === null ? null : (
+        {task.assignee === null ? null : (
           <div className="board-task__assignee" role="button">
             <span>
               {getInitials(
@@ -87,8 +87,8 @@ const BoardNewTask = ({
               )}
             </span>
           </div>
-        )} */}
-      </div>
+        )}
+      </div> */}
     </div>
   );
 };

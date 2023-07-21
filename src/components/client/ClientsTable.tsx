@@ -82,9 +82,10 @@ const ClientsTable = ({ clients }: { clients: ClientWithProjects[] }) => {
                   </a>
                 </div>
               </th>
+
               <th scope="col" className="table-head">
                 <div className="flex">
-                  Company Name
+                  Email
                   <a href="#">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -100,7 +101,7 @@ const ClientsTable = ({ clients }: { clients: ClientWithProjects[] }) => {
               </th>
               <th scope="col" className="table-head">
                 <div className="flex">
-                  Email
+                  Phone
                   <a href="#">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

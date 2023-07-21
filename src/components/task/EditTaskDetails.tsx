@@ -13,7 +13,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
 import useMenu from "@/hooks/useMenu";
 import { TaskWithAssignee } from "@/types/types";
-import { useUpdateTask } from "@/hooks/TaskHooks";
+import { useDeleteTask, useUpdateTask } from "@/hooks/TaskHooks";
 
 const EditTaskDetails = ({
   task,
@@ -40,6 +40,7 @@ const EditTaskDetails = ({
   const inputRef = useRef(null);
 
   const { mutateAsync: updateTask } = useUpdateTask();
+  const { mutate: deleteTask } = useDeleteTask();
 
   const focusOnInput = () => {
     // @ts-ignore
@@ -73,6 +74,7 @@ const EditTaskDetails = ({
         dueDate: dueDate ? new Date(dueDate) : null,
         priority,
         status: taskStatus,
+        assigneeId: assignee ? assignee.id : null,
       },
     });
 
@@ -118,7 +120,12 @@ const EditTaskDetails = ({
               </g>
             </svg>
           </div>
-          <div className="delete">
+          <div
+            onClick={() => {
+              deleteTask(task.id);
+            }}
+            className="delete"
+          >
             <svg
               className="task-detail__icon"
               xmlns="http://www.w3.org/2000/svg"
@@ -492,7 +499,7 @@ const DueDateButton = ({
   setDueDate,
 }: {
   dueDate: string | Date;
-  setDueDate: Dispatch<SetStateAction<Date | null>>;
+  setDueDate: Dispatch<SetStateAction<Date | null | string>>;
 }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
 

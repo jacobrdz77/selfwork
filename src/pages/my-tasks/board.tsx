@@ -16,7 +16,7 @@ const MyTaskBoardPage = () => {
       <div className="page tasks-page tasks-page__board">
         {status === "loading" && <div>Loading...</div>}
         {status === "success" && (
-          <div className="flex">
+          <div className="boards-container">
             <Boards userSections={[...userSections!]} />
           </div>
         )}

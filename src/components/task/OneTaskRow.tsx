@@ -61,6 +61,15 @@ const OneTaskRow = ({ task }: { task: TaskWithAssignee }) => {
   };
 
   const [isTaskDetailOpen, setIsTaskDetailOpen] = useState(false);
+  const [status, setStatus] = useState(task.status);
+
+  useEffect(() => {
+    if (status === "InProgress") {
+      setStatus("In Progress");
+    } else if (status === "InReview") {
+      setStatus("In Review");
+    }
+  }, [task.status]);
 
   return (
     <>
@@ -137,7 +146,7 @@ const OneTaskRow = ({ task }: { task: TaskWithAssignee }) => {
             className="task__status task__cell"
             style={{ width: statusWidth }}
           >
-            <div>{task.status}</div>
+            <div>{status}</div>
           </div>
           <div
             className="task__priority task__cell"

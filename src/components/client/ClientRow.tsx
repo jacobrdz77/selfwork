@@ -40,8 +40,8 @@ const ClientRow = ({ client }: { client: ClientWithProjects }) => {
         }}
       >
         <td className="client-row__data name">{client.name}</td>
-        <td className="client-row__data company-name">{client.companyName}</td>
         <td className="client-row__data email">{client.email}</td>
+        <td className="client-row__data email">{client.phone}</td>
         <td className="client-row__data premium">
           ${Number(client.totalLumpSum)}
         </td>
