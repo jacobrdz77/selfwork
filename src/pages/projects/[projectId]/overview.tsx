@@ -144,7 +144,7 @@ const ProjectOverviewPage: NextPageWithLayout = () => {
               <AddLinkPopup
                 menuRef={menuRef}
                 setIsOpen={setIsMenuOpen}
-                projectId={projectId}
+                projectId={projectId as string}
               />
             )}
           </div>

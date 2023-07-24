@@ -12,7 +12,16 @@
   padding: 4px 24px;
 
   &:hover {
-    background: #6b518a;
+    background: var(--color-primary--light);
+  }
+
+  &.active {
+    background: linear-gradient(
+      90deg,
+      hsla(267, 26%, 43%, 1) 0%,
+      hsla(268, 21%, 49%, 1) 60%
+    ) !important;
+    color: #fff !important;
   }
 
   &,
@@ -238,6 +247,8 @@
 
   &__tasks {
     margin-bottom: 4px;
+
+    border-top: 1px solid var(--color-border);
   }
 
   &:hover {

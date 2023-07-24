@@ -26,25 +26,28 @@ const SectionListView = ({
   const { mutate: deleteSection } = useDeleteSection();
   const { mutate: updateSection } = useUpdateSection();
 
+  // For NEW TASK
   const [newTaskName, setNewTaskName] = useState("");
   const { mutate: createTask } = useCreateTask();
-  // const {
-  //   btnRef: newTaskBtnRef,
-  //   isMenuOpen: isNewTaskOpen,
-  //   menuRef: newTaskRef,
-  //   setIsMenuOpen: setNewTaskOpen,
-  // } = useMenu(async () => {
-  //   if (newTaskName.trim().length > 0) {
-  //     createTask({
-  //       name: newTaskName,
-  //       sectionId: section.id,
-  //       description: "",
-  //       assignee: null,
-  //       priority: null,
-  //     });
-  //   }
-  // });
+  const {
+    btnRef: newTaskBtnRef,
+    isMenuOpen: isNewTaskOpen,
+    menuRef: newTaskRef,
+    setIsMenuOpen: setNewTaskOpen,
+  } = useMenu(async () => {
+    if (newTaskName.trim().length > 0) {
+      createTask({
+        name: newTaskName,
+        sectionId: section.id,
+        description: "",
+        assignee: null,
+        priority: null,
+      });
+      setNewTaskName("");
+    }
+  });
 
+  // For Name
   const focusOnInput = () => {
     // @ts-ignore
     inputRef.current!.focus();
@@ -83,6 +86,8 @@ const SectionListView = ({
     // Switches to display button
     setIsInputFocused(false);
   };
+
+  console.log("IS NEW TasK open: ", isNewTaskOpen);
 
   return (
     <>
@@ -144,10 +149,12 @@ const SectionListView = ({
           </div>
           {/* Add new task */}
           <div
+            role="button"
+            ref={btnRef}
             className="section__add section__button"
             onClick={() => {
-              console.log("Toggle task view open");
-              console.log("Render a task row with name input highlighted");
+              setNewTaskOpen(!isNewTaskOpen);
+              setShowTasks(true);
             }}
           >
             <svg
@@ -207,23 +214,27 @@ const SectionListView = ({
           </div>
         </div>
       </div>
-      {showTasks &&
-        (section.tasks.length === 0 ? null : (
-          <div className="section__tasks">
-            {section.tasks.map((task) => (
-              <OneTaskRow key={task.id} task={task} />
-            ))}
-            {/* {isNewTaskOpen && (
-              <BoardNewTask
-                forwardRef={newTaskRef}
-                name={newTaskName}
-                setName={setNewTaskName}
-                setNewTaskOpen={setNewTaskOpen}
-              />
-            )} */}
-            <AddTaskRow />
-          </div>
-        ))}
+      {showTasks && (
+        <div className="section__tasks">
+          {section.tasks.map((task) => (
+            <OneTaskRow key={task.id} task={task} />
+          ))}
+          {isNewTaskOpen && (
+            <AddTaskRow
+              forwardRef={newTaskRef}
+              newTaskName={newTaskName}
+              setNewTaskName={setNewTaskName}
+              setNewTaskOpen={setNewTaskOpen}
+            />
+          )}
+          {/* <AddTaskRow
+            forwardRef={newTaskRef}
+            newTaskName={newTaskName}
+            setNewTaskName={setNewTaskName}
+            setNewTaskOpen={setNewTaskOpen}
+          /> */}
+        </div>
+      )}
     </>
   );
 };

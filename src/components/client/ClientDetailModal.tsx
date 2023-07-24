@@ -7,6 +7,7 @@ import Modal from "../UI/Modal";
 import validatePhone from "@/utils/validatePhone";
 import validateEmail from "@/utils/validateEmail";
 import { deleteClient } from "@/utils/clientFunctions";
+import Button from "../UI/Button";
 
 const ClientDetailModal = ({
   client,
@@ -17,10 +18,14 @@ const ClientDetailModal = ({
   setIsModalOpen: (boolean: boolean) => void;
   isModalOpen: boolean;
 }) => {
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [companyName, setCompanyName] = useState("");
-  const [businessAddress, setBusinessAddress] = useState("");
+  const [email, setEmail] = useState(client.email ? client.email : "");
+  const [phone, setPhone] = useState(client.phone ? client.phone : "");
+  const [companyName, setCompanyName] = useState(
+    client.companyName ? client.companyName : ""
+  );
+  const [businessAddress, setBusinessAddress] = useState(
+    client.businessAddress ? client.businessAddress : ""
+  );
   const [isNameError, setIsNameError] = useState(false);
   const [isEmailError, setIsEmailError] = useState(false);
   const [isPhoneError, setPhoneError] = useState(false);
@@ -60,6 +65,7 @@ const ClientDetailModal = ({
   };
 
   const phoneBlurHandler = (e: any) => {
+    if (!phone) return;
     if (phone.trim().length === 0) {
       return;
     }
@@ -71,6 +77,7 @@ const ClientDetailModal = ({
   };
 
   const emailBlurHandler = (e: any) => {
+    if (!email) return;
     if (validateEmail(email)) {
       setIsEmailError(false);
     } else {
@@ -143,7 +150,7 @@ const ClientDetailModal = ({
           </div>
         </div>
 
-        <div className="form">
+        <form onSubmit={submitHandler} className="form">
           <div className="name">
             {isInputFocused ? (
               <input
@@ -171,9 +178,8 @@ const ClientDetailModal = ({
               </div>
             )}
           </div>
-
-          <div className="email section">
-            <label htmlFor="client">Email*</label>
+          <div className=" form__input-container email">
+            <label className="form__input--label">Email*</label>
             <input
               name="email"
               type="text"
@@ -181,34 +187,34 @@ const ClientDetailModal = ({
               onChange={(e) => setEmail(e.target.value)}
               onBlur={emailBlurHandler}
               placeholder="john@gmail.com"
-              className={`input ${isEmailError ? "input--error" : ""}`}
+              className={`form__input ${isEmailError ? "input--error" : ""}`}
             />
           </div>
 
-          <div className="company-name section">
-            <label htmlFor="name">Company Name</label>
+          <div className="form__input-container company-name">
+            <label className="form__input--label">Company Name</label>
             <input
-              id="address"
               type="text"
-              className="input"
+              className="form__input"
               value={companyName}
               placeholder="Google LLC"
               onChange={(e) => setCompanyName(e.target.value)}
             />
           </div>
 
-          <div className="address section">
-            <label>Business Address</label>
+          <div className="form__input-container address">
+            <label className="form__input--label">Business Address</label>
             <input
-              className="input address"
-              placeholder="1234 Lakeview"
+              type="text"
+              className="form__input"
               value={businessAddress}
+              placeholder="1234 Lakeview"
               onChange={(e) => setBusinessAddress(e.target.value)}
             />
           </div>
 
-          <div className="phone section">
-            <label htmlFor="name">Phone Number</label>
+          <div className="form__input-container phone">
+            <label className="form__input--label">Phone Number</label>
             <input
               name="phone"
               type="text"
@@ -216,10 +222,22 @@ const ClientDetailModal = ({
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               onBlur={phoneBlurHandler}
-              className={`input ${isPhoneError ? "email--error" : ""}`}
+              className={`form__input ${isPhoneError ? "email--error" : ""}`}
             />
           </div>
-        </div>
+          <div>
+            <Button
+              type="submit"
+              className="form__submit client-submit"
+              // className={`form__submit ${
+              //   !isFormValid ? "button--disabled" : ""
+              // } `}
+              // disabled={!isFormValid}
+            >
+              Save
+            </Button>
+          </div>
+        </form>
       </div>
     </Modal>
   );

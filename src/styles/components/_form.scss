@@ -19,6 +19,10 @@
   &__submit {
     padding: 8px 24px;
 
+    &.client-submit {
+      margin-top: 12px;
+    }
+
     &--disabled {
       background-color: #f1f3f5 !important;
       background: #f1f3f5 !important;
@@ -79,12 +83,39 @@
     }
 
     .client-placeholder {
+      position: relative;
       display: flex;
-      width: 100%;
+      width: 201px;
       font-size: 14px;
       padding: 6px 14px;
       border-radius: 5px;
       border: 1px solid var(--color-border);
+
+      span {
+        @include showEllipsis;
+        max-width: 170px;
+      }
+
+      &:hover {
+        .remove-icon {
+          visibility: visible;
+        }
+      }
+
+      .remove-icon {
+        // visibility: hidden;
+        fill: var(--color-gray-500);
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        top: 50%;
+        right: 4px;
+        transform: translateY(-50%);
+
+        &:hover {
+          fill: #000;
+        }
+      }
     }
   }
 

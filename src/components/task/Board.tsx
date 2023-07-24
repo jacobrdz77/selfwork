@@ -6,7 +6,7 @@ import { useDeleteSection, useUpdateSection } from "@/hooks/SectionHooks";
 import BoardNewTask from "./BoardNewTask";
 import BoardTask from "./BoardTask";
 import { useCreateTask } from "@/hooks/TaskHooks";
-import { useDrag } from "react-dnd";
+import { useDrag, useDrop } from "react-dnd";
 
 interface Board {
   title: string;
@@ -15,16 +15,9 @@ interface Board {
 }
 
 const Board: React.FC<Board> = ({ title, sectionId, tasks }) => {
-  const [{ isDragging }, drag, dragPreview] = useDrag(() => ({
-    type: "Board",
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  }));
+  const { mutate: createTask } = useCreateTask();
 
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
-
-  const { mutate: createTask } = useCreateTask();
   const {
     btnRef: newTaskBtnRef,
     isMenuOpen: isNewTaskOpen,
@@ -45,8 +38,6 @@ const Board: React.FC<Board> = ({ title, sectionId, tasks }) => {
   const { mutate: deleteSection } = useDeleteSection();
 
   const [newTaskName, setNewTaskName] = useState("");
-
-  console.log("IS OPEN: ", isNewTaskOpen);
 
   const [oldName, setOldName] = useState(title);
   const [sectionInputName, setSectionInputName] = useState(title);
@@ -86,6 +77,28 @@ const Board: React.FC<Board> = ({ title, sectionId, tasks }) => {
     // Switches to display button
     setIsInputFocused(false);
   };
+  const [, drop] = useDrop(
+    () => ({
+      accept: "Board",
+      hover(item, monitor) {},
+    }),
+    []
+  );
+
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: "Board",
+    // item: { id, originalIndex },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+    end: (item, monitor) => {
+      // const { id: droppedId, originalIndex } = item;
+      const didDrop = monitor.didDrop();
+      // if (!didDrop) {
+      //   moveCard(droppedId, originalIndex);
+      // }
+    },
+  }));
 
   return (
     <div className="board" ref={drag}>

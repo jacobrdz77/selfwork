@@ -8,6 +8,7 @@ import useMenu from "@/hooks/useMenu";
 import Clients from "../client/Clients";
 import usePlaceHolder from "@/hooks/usePlaceHolder";
 import { useWorkspaceMembers } from "@/hooks/WorkspaceHooks";
+import { useUpdateTask } from "@/hooks/TaskHooks";
 
 const AddProjectModal: React.FC<{
   isOpen: boolean;
@@ -272,7 +273,7 @@ const AddProjectModal: React.FC<{
 
 export default AddProjectModal;
 
-const ClientMenu = ({
+export const ClientMenu = ({
   selectedClient,
   setSelectedClient,
 }: {

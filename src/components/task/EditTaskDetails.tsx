@@ -22,6 +22,7 @@ const EditTaskDetails = ({
   task: TaskWithAssignee;
   setIsModalOpen: (bool: boolean) => void;
 }) => {
+  console.log(task);
   const [description, setDescription] = useState(task.description);
   const [tags, setTags] = useState<Tag[] | []>(task.tags);
   const [selectedTag, setSelectedTag] = useState<Tag | null>(null);
@@ -31,6 +32,9 @@ const EditTaskDetails = ({
   const [priority, setPriority] = useState<Priority | undefined>(
     task?.priority
   );
+  const [isComplete, setIsComplete] = useState(
+    task.isComplete ? task.isComplete : false
+  );
   const [isFormValid, setIsFormValid] = useState(true);
   const [taskStatus, setTaskStatus] = useState(task.status);
   //   For Name
@@ -39,7 +43,7 @@ const EditTaskDetails = ({
   const [isInputFocused, setIsInputFocused] = useState(false);
   const inputRef = useRef(null);
 
-  const { mutateAsync: updateTask } = useUpdateTask();
+  const { mutate: updateTask } = useUpdateTask();
   const { mutate: deleteTask } = useDeleteTask();
 
   const focusOnInput = () => {
@@ -74,7 +78,7 @@ const EditTaskDetails = ({
         dueDate: dueDate ? new Date(dueDate) : null,
         priority,
         status: taskStatus,
-        assigneeId: assignee ? assignee.id : null,
+        assigneeId: assignee ? assignee.id : "remove",
       },
     });
 
@@ -100,7 +104,26 @@ const EditTaskDetails = ({
     <div className="task-detail">
       <div className="task-detail__header">
         <div className="task-detail__buttons">
-          <button className="button">Mark complete</button>
+          <button
+            onClick={() => {
+              updateTask({
+                taskId: task.id,
+                taskData: {
+                  name: inputName,
+                  description: description!,
+                  dueDate: dueDate ? new Date(dueDate) : null,
+                  priority,
+                  status: taskStatus,
+                  assigneeId: assignee ? assignee.id : "remove",
+                  isComplete: !isComplete,
+                },
+              });
+              setIsComplete(!isComplete);
+            }}
+            className={`button ${isComplete ? "active" : ""}`}
+          >
+            Mark complete
+          </button>
           <StatusButton status={taskStatus!} setStatus={setTaskStatus} />
         </div>
 
@@ -192,9 +215,8 @@ const EditTaskDetails = ({
           <label htmlFor="assignee">Priority</label>
           <PriorityButton priority={priority!} setPriority={setPriority} />
         </div>
-        <div className="tags section">
+        {/* <div className="tags section">
           <label>Tags</label>
-          {/* Tags list */}
 
           <TagsButton
             inputTags={tags!}
@@ -202,7 +224,7 @@ const EditTaskDetails = ({
             setTags={setTags}
             selectedTag={selectedTag}
           />
-        </div>
+        </div> */}
 
         <div className="description">
           <label htmlFor="description">Description</label>

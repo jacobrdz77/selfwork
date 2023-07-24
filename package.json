@@ -21,6 +21,7 @@
     "axios": "^1.2.1",
     "date-fns": "^2.29.2",
     "handlebars": "^4.7.7",
+    "immutability-helper": "^3.1.1",
     "next": "^13.4.5",
     "next-auth": "^4.10.2",
     "nodemailer": "^6.9.3",

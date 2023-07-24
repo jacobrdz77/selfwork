@@ -126,21 +126,22 @@
     // align-items: "center";
     // justify-items: "center";
     user-select: none;
+
+    &-placeholder {
+      font-size: 14px;
+      padding-right: 8px;
+    }
+
     &-input {
       font-size: 14px;
-      width: 90%;
-      min-width: 1em;
+      width: 100%;
+      padding-right: 24px;
       padding: unset;
       border: none;
       border-radius: 2px;
-      padding-left: 6px;
 
       &:hover {
         // border: 1px solid #868e96 !important;
-      }
-
-      &:focus {
-        border: 1px solid transparent !important;
       }
     }
 
@@ -205,10 +206,10 @@
     font-size: 12px;
     display: flex;
     padding-left: 4px;
-    border-top: 1px solid var(--color-border);
+    // border-top: 1px solid var(--color-border);
     border-right: 1px solid var(--color-border);
     border-left: 1px solid transparent;
-    border-bottom: 1px solid transparent;
+    border-bottom: 1px solid var(--color-border);
     user-select: none;
     // border: 1px solid var ;
     &:hover {
@@ -239,26 +240,26 @@
 
     &--none {
       display: none;
-      padding: 4px 4px;
-      border-radius: 5px;
+      padding: 4px 12px;
+      border-radius: 100px;
       background-color: #e8e8e8;
       color: #343a40;
     }
     &--low {
-      padding: 4px 4px;
-      border-radius: 5px;
+      padding: 4px 12px;
+      border-radius: 100px;
       background-color: #3cac41;
       color: #103012;
     }
     &--medium {
-      padding: 4px 4px;
-      border-radius: 5px;
+      padding: 4px 12px;
+      border-radius: 100px;
       background-color: #ec8d71;
       color: hsl(14, 32%, 24%);
     }
     &--high {
-      padding: 4px 4px;
-      border-radius: 5px;
+      padding: 4px 12px;
+      border-radius: 100px;
       background-color: #f06a6a;
       color: hsl(0, 37%, 12%);
     }
@@ -358,7 +359,7 @@
       color: #495057;
       background: #fefefe;
       border: 1px solid var(--color-border);
-      transition: all 0.1s ease-out;
+      transition: background 0.1s ease-out, background-color 0.1s ease-out;
       // margin-bottom: 8px;
       &:hover {
         background: var(--color-primary--light);

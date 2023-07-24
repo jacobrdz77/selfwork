@@ -69,9 +69,10 @@ export default async function handler(
         priority: taskData.priority,
         projectId: taskData.projectId ? taskData.projectId : undefined,
         status: taskData.status,
+        isComplete: taskData.isComplete ? taskData.isComplete : undefined,
       };
 
-      if (!taskData.assigneeId) {
+      if (taskData.assigneeId === "remove") {
         const task = await prisma.task.update({
           where: {
             id: taskId as string,
@@ -101,6 +102,7 @@ export default async function handler(
       });
       return res.status(200).json(task);
     } catch (error: Error | any) {
+      console.log(error);
       return res.status(400).json({ error: error.message });
     }
   }
