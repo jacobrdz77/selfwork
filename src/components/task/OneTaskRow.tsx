@@ -64,7 +64,7 @@ const OneTaskRow = ({ task }: { task: TaskWithAssignee }) => {
 
     if (oldName === trimmedName) {
       setTaskInputName(trimmedName);
-      console.log("NOPE");
+      // console.log("NOPE");
       return;
     } else {
       updateTask({

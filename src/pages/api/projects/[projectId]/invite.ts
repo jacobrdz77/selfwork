@@ -12,7 +12,7 @@ export default async function handler(
       const body = JSON.parse(req.body);
       const { message, newMemberEmail, senderEmail, projectName } = body;
       const { projectId } = req.query;
-      console.log("Invite body: ", body);
+      // console.log("Invite body: ", body);
 
       // Create projectLink
       const projectLink = `http://localhost:3000/projects/${projectId}/invite`;
@@ -25,7 +25,7 @@ export default async function handler(
         projectName,
       });
 
-      console.log(response);
+      // console.log(response);
 
       return res.status(200).json({
         message: "Invited member and added member.",

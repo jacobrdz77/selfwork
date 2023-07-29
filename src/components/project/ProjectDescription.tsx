@@ -19,7 +19,7 @@ const ProjectDescription = ({
 
   const blurHandler = () => {
     if (oldDescription.trim() === description.trim()) {
-      console.log("NOPE");
+      // console.log("NOPE");
       return;
     }
     updateProject({ projectId, projectData: { description } });

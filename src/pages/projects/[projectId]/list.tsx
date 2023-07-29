@@ -12,8 +12,8 @@ const List: NextPageWithLayout = () => {
   const { projectId } = useRouter().query;
   const { projectSections, status } = useSectionsOfProject(projectId as string);
   const { project, status: projectStatus } = useOneProject(projectId as string);
-  console.log("Project in list: ", project);
-  console.log("Sections: ", project?.sections);
+  // console.log("Project in list: ", project);
+  // console.log("Sections: ", project?.sections);
   return (
     <div className="project-page__list">
       {projectStatus === "error" && (

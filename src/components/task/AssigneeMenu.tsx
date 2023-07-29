@@ -25,7 +25,7 @@ const AssigneeMenu = ({
     >
       {status === "loading" && (
         <div className="assignee-menu__skeleton">
-          <LoadingSkeleton isDark={true} />
+          <LoadingSkeleton isDark={false} />
         </div>
       )}
       {status === "success" &&

@@ -23,7 +23,7 @@ export const useOneTask = (taskId: string) => {
     querykey: ["task", taskId],
     queryFn: () => getOneTask(taskId!),
     onSuccess: (data) => {
-      console.log("Task: ", data);
+      // console.log("Task: ", data);
     },
   });
   return { task, isLoading, status };

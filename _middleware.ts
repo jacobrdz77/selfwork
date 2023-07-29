@@ -5,18 +5,18 @@ import { getSession } from "next-auth/react";
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
   console.log("MIDDLEWARE");
-  const session = await getSession();
-  const { pathname } = request.nextUrl;
+  // const session = await getSession();
+  // const { pathname } = request.nextUrl;
 
-  //*****  Checks authentication *****//
-  if (session && pathname === "/login") {
-    return NextResponse.redirect(new URL("/", request.url));
-  }
+  // //*****  Checks authentication *****//
+  // if (session && pathname === "/login") {
+  //   return NextResponse.redirect(new URL("/", request.url));
+  // }
 
-  // Redirects to login if NOT authenticated
-  if (!session && pathname !== "/login") {
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
+  // // Redirects to login if NOT authenticated
+  // if (!session && pathname !== "/login") {
+  //   return NextResponse.redirect(new URL("/login", request.url));
+  // }
 
   return NextResponse.redirect(new URL("", request.url));
 }

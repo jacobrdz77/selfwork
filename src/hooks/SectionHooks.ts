@@ -189,7 +189,7 @@ export const useDeleteSection = () => {
 
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["sections"] });
-      console.log("Deleted section: ", data.deletedSection);
+      console.log("Deleted section: ", data.deletedSection.name);
     },
   });
 };

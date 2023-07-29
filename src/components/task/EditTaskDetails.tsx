@@ -22,7 +22,6 @@ const EditTaskDetails = ({
   task: TaskWithAssignee;
   setIsModalOpen: (bool: boolean) => void;
 }) => {
-  console.log(task);
   const [description, setDescription] = useState(task.description);
   const [tags, setTags] = useState<Tag[] | []>(task.tags);
   const [selectedTag, setSelectedTag] = useState<Tag | null>(null);
@@ -57,7 +56,7 @@ const EditTaskDetails = ({
     }
     if (oldName === trimmedName) {
       setInputName(trimmedName);
-      console.log("NOPE");
+      // console.log("NOPE");
       setIsInputFocused(false);
       return;
     } else {
@@ -82,7 +81,6 @@ const EditTaskDetails = ({
       },
     });
 
-    console.log("UPDATED: ", newTask);
     setIsModalOpen(false);
   };
 
@@ -266,7 +264,6 @@ const StatusButton = ({
   >;
 }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
-  console.log("statsu: ", status);
 
   return (
     <div className="menu-button-container ">

@@ -12,7 +12,7 @@ export default async function handler(
       const { sectionData } = JSON.parse(req.body);
       const { projectId } = req.query;
 
-      console.log("Making SECTION");
+      // console.log("Making SECTION");
 
       if (!sectionData) {
         return res.status(400).json({

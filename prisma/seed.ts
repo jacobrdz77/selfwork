@@ -47,7 +47,7 @@ async function main() {
       name: "Law Firm Website",
       priority: "High",
       description: "A website based on a local law firm.",
-      iconColor: projectIconColors[getRandomInt(0, 11)],
+      iconColor: projectIconColors[getRandomInt(1, 11)],
       lumpSum: 2800,
       workspace: {
         connect: {

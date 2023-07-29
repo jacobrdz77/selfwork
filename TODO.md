@@ -2,6 +2,11 @@
 
 ### Do list:
 
+- Add a limit to workspaces and projects
+- Add loading states to SERVER actions for example
+  - save buttons
+  - Create buttons
+
 ### Creating Board order
 
 - When creating a untitled section, get the total amount of items in the array and assign that to the index.

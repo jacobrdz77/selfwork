@@ -51,7 +51,7 @@ const ClientDetailModal = ({
     }
     if (oldName === trimmedName) {
       setInputName(trimmedName);
-      console.log("NOPE");
+      // console.log("NOPE");
       setIsInputFocused(false);
       return;
     } else {

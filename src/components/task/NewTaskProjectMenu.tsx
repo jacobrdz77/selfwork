@@ -32,7 +32,7 @@ const NewTaskProjectMenu = ({
     >
       {status === "loading" && (
         <div className="project-menu__skeleton">
-          <LoadingSkeleton isDark={true} />
+          <LoadingSkeleton isDark={false} />
         </div>
       )}
       {status === "success" &&

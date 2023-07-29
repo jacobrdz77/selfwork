@@ -10,7 +10,7 @@ export default async function handler(
   if (req.method === "GET") {
     try {
       const { linkId } = req.query;
-      console.log("link", linkId);
+      // console.log("link", linkId);
       const link = await prisma.link.findUnique({
         where: {
           id: linkId as string,

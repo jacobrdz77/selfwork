@@ -17,9 +17,9 @@ const WorkspacePage = () => {
     (state) => state.setIsAddProjectModalOpen
   );
 
-  console.log("projects: ", projects);
-  console.log("workspace ", workspace);
-  console.log("members ", workspace?.members);
+  // console.log("projects: ", projects);
+  // console.log("workspace ", workspace);
+  // console.log("members ", workspace?.members);
   return (
     <>
       <PageHeader title={workspace?.name ?? "Loading..."} />
@@ -117,7 +117,7 @@ const WorkspaceDescription = ({
 
     if (oldDescription === trimmedDescription) {
       setDescription(trimmedDescription);
-      console.log("NOPE");
+      // console.log("NOPE");
       return;
     } else {
       updateDescription({

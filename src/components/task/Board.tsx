@@ -73,7 +73,7 @@ const Board: React.FC<Board> = ({
     }
     if (oldName === trimmedName) {
       setSectionInputName(trimmedName);
-      console.log("NOPE");
+      // console.log("NOPE");
       setIsInputFocused(false);
       return;
     } else {
