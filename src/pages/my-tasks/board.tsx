@@ -17,7 +17,11 @@ const MyTaskBoardPage = () => {
         {status === "loading" && <div>Loading...</div>}
         {status === "success" && (
           <div className="boards-container">
-            <Boards userSections={[...userSections!]} />
+            <Boards
+              userAssignedSection={userAssignedTasksSection}
+              userSections={[...userSections!]}
+              isProject={false}
+            />
           </div>
         )}
       </div>

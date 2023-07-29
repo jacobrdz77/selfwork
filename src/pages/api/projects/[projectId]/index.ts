@@ -64,8 +64,8 @@ export default async function handler(
       const body = await JSON.parse(req.body);
       const { projectId } = req.query;
       const { projectData } = body;
-      console.log("PROJECT : ", projectData);
-      console.log("color: ", transformColor(projectData.iconColor));
+      // console.log("PROJECT : ", projectData);
+      // console.log("color: ", transformColor(projectData.iconColor));
 
       const project = await prisma.project.update({
         where: {

@@ -3,7 +3,7 @@ import PageHeader from "@/components/header/PageHeader";
 import { useSectionsOfUser } from "@/hooks/SectionHooks";
 import SectionListView from "@/components/sections/SectionListView";
 import TaskTableHead from "@/components/task/TaskTableHead";
-import AddSectionButton from "@/components/sections/AddUserSectionButton";
+import AddUserSectionButton from "@/components/sections/AddUserSectionButton";
 import Button from "@/components/UI/Button";
 import MyTaskNav from "@/components/header/MyTaskNav";
 
@@ -43,7 +43,9 @@ const MyTaskListPage = () => {
               {userSections?.map((section) => (
                 <SectionListView key={section.id} section={section} />
               ))}
-              <AddSectionButton />
+              <AddUserSectionButton
+                sectionsLength={Number(userSections?.length) + 1}
+              />
             </div>
           </>
         )}

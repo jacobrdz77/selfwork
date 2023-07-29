@@ -58,7 +58,7 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
           </div>
           <div
             className={`header__more-btn-container ${
-              isMenuOpen && "header__more-btn-container--active"
+              isMenuOpen ? "active" : ""
             }`}
           >
             <div
@@ -85,13 +85,13 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
                 }}
               >
                 <div
-                  className="board-task__edit-menu-item board-task__edit-menu-item--delete"
+                  className="board-task__edit-menu-item"
                   onClick={() => {
                     setIsTaskDetailOpen(true);
                     setIsMenuOpen(false);
                   }}
                 >
-                  Edit Task
+                  Edit task
                 </div>
                 <div
                   className="board-task__edit-menu-item board-task__edit-menu-item--delete"
@@ -102,7 +102,7 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
                     deleteTask(task.id);
                   }}
                 >
-                  Delete
+                  Delete task
                 </div>
               </div>
             </div>

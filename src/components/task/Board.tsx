@@ -1,20 +1,30 @@
-import { TaskWithAssignee } from "@/types/types";
-import React, { useEffect, useRef, useState } from "react";
+import { SectionWithTasks, TaskWithAssignee } from "@/types/types";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { getInitials } from "../UI/UserCard";
 import useMenu from "@/hooks/useMenu";
 import { useDeleteSection, useUpdateSection } from "@/hooks/SectionHooks";
 import BoardNewTask from "./BoardNewTask";
 import BoardTask from "./BoardTask";
 import { useCreateTask } from "@/hooks/TaskHooks";
-import { useDrag, useDrop } from "react-dnd";
+import { XYCoord, useDrag, useDrop } from "react-dnd";
 
 interface Board {
   title: string;
-  sectionId: string;
+  section: SectionWithTasks;
   tasks: TaskWithAssignee[];
+  moveBoard: (dragIndex: number, hoverIndex: number) => void;
+  isUserAssignedSection?: boolean;
+  // index: number;
 }
 
-const Board: React.FC<Board> = ({ title, sectionId, tasks }) => {
+const Board: React.FC<Board> = ({
+  title,
+  section,
+  tasks,
+  moveBoard,
+  isUserAssignedSection = false,
+  // index,
+}) => {
   const { mutate: createTask } = useCreateTask();
 
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
@@ -27,7 +37,7 @@ const Board: React.FC<Board> = ({ title, sectionId, tasks }) => {
     if (newTaskName.trim().length > 0) {
       createTask({
         name: newTaskName,
-        sectionId: sectionId,
+        sectionId: section.id,
         description: "",
         assignee: null,
         priority: null,
@@ -68,7 +78,7 @@ const Board: React.FC<Board> = ({ title, sectionId, tasks }) => {
       return;
     } else {
       updateSection({
-        sectionId,
+        sectionId: section.id,
         sectionData: { name: trimmedName },
       });
       setSectionInputName(trimmedName);
@@ -77,31 +87,76 @@ const Board: React.FC<Board> = ({ title, sectionId, tasks }) => {
     // Switches to display button
     setIsInputFocused(false);
   };
-  const [, drop] = useDrop(
-    () => ({
-      accept: "Board",
-      hover(item, monitor) {},
-    }),
-    []
-  );
 
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: "Board",
-    // item: { id, originalIndex },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-    end: (item, monitor) => {
-      // const { id: droppedId, originalIndex } = item;
-      const didDrop = monitor.didDrop();
-      // if (!didDrop) {
-      //   moveCard(droppedId, originalIndex);
-      // }
-    },
-  }));
+  //********* THIS IS FOR REORDERING BOARDS ********/
+  // Sorting Board
+  // const ref = useRef(null);
+  // const [{ isOver }, drop] = useDrop(() => ({
+  //   // The type (or types) to accept - strings or symbols
+  //   accept: "Board",
+  //   // Props to collect
+  //   collect: (monitor) => ({
+  //     isOver: monitor.isOver(),
+  //     handlerId: monitor.getHandlerId(),
+  //     highlighted: monitor.canDrop(),
+  //   }),
+  //   hover(item, monitor) {
+  //     if (!ref.current) {
+  //       return;
+  //     }
+  //     const dragIndex = item.index;
+  //     const hoverIndex = section.order;
+  //     // Don't replace items with themselves
+  //     if (dragIndex === hoverIndex) {
+  //       return;
+  //     }
+  //     // Determine rectangle on screen
+  //     const hoverBoundingRect = ref.current?.getBoundingClientRect();
+
+  //     console.log("hoverBoundingRect: ", hoverBoundingRect);
+  //     // Get vertical middle
+  //     const hoverMiddleX =
+  //       (hoverBoundingRect.left - hoverBoundingRect.right) / 2;
+  //     // Determine mouse position
+  //     const clientOffset = monitor.getClientOffset();
+  //     // Get pixels to the top
+  //     const hoverClientX = (clientOffset as XYCoord).x - hoverBoundingRect.left;
+  //     // Only perform the move when the mouse has crossed half of the items height
+  //     // When dragging downwards, only move when the cursor is below 50%
+  //     // When dragging upwards, only move when the cursor is above 50%
+  //     // Dragging downwards
+  //     if (dragIndex < hoverIndex && hoverClientX < hoverMiddleX) {
+  //       return;
+  //     }
+  //     // Dragging upwards
+  //     if (dragIndex > hoverIndex && hoverClientX > hoverMiddleX) {
+  //       return;
+  //     }
+  //     // Time to actually perform the action
+  //     moveBoard(dragIndex, hoverIndex!);
+  //     // Note: we're mutating the monitor item here!
+  //     // Generally it's better to avoid mutations,
+  //     // but it's good here for the sake of performance
+  //     // to avoid expensive index searches.
+  //     item.index = hoverIndex;
+  //   },
+  // }));
+
+  // const [{ isDragging }, drag] = useDrag(() => ({
+  //   type: "Board",
+  //   item: { boardId: section.id, index: section.order },
+  //   collect: (monitor) => ({
+  //     isDragging: monitor.isDragging(),
+  //   }),
+  // }));
+
+  // drag(drop(ref));
 
   return (
-    <div className="board" ref={drag}>
+    <div
+      className="board"
+      // ref={ref}
+    >
       <div className="board-title">
         <div className="name">
           {isInputFocused ? (
@@ -131,7 +186,9 @@ const Board: React.FC<Board> = ({ title, sectionId, tasks }) => {
           )}
         </div>
         {/* MORE BUTTON */}
-        <div className="board__more-btn-container">
+        <div
+          className={`board__more-btn-container ${isMenuOpen ? "active" : ""}`}
+        >
           <div
             ref={btnRef}
             onClick={(e) => {
@@ -145,28 +202,31 @@ const Board: React.FC<Board> = ({ title, sectionId, tasks }) => {
               <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
             </svg>
           </div>
-          <div
-            className={`board-card__edit-menu ${
-              isMenuOpen ? "board-card__edit-menu--active" : ""
-            }`}
-            ref={menuRef}
-            onClick={(e) => {
-              e.preventDefault();
-            }}
-          >
+          {isMenuOpen && (
             <div
-              className="board-card__edit-menu__item"
-              onClick={() => {
-                setIsMenuOpen(false);
-                deleteSection(sectionId);
+              className="menu"
+              ref={menuRef}
+              onClick={(e) => {
+                e.preventDefault();
               }}
             >
-              <svg className="board-card__edit-menu__icon" viewBox="0 0 24 24">
+              <button
+                className={`item ${
+                  isUserAssignedSection ? "item--disabled" : ""
+                }`}
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  deleteSection(section.id);
+                }}
+                disabled={isUserAssignedSection}
+              >
+                {/* <svg className="board-card__edit-menu__icon" viewBox="0 0 24 24">
                 <path d="M 10 2 L 9 3 L 4 3 L 4 5 L 5 5 L 5 20 C 5 20.522222 5.1913289 21.05461 5.5683594 21.431641 C 5.9453899 21.808671 6.4777778 22 7 22 L 17 22 C 17.522222 22 18.05461 21.808671 18.431641 21.431641 C 18.808671 21.05461 19 20.522222 19 20 L 19 5 L 20 5 L 20 3 L 15 3 L 14 2 L 10 2 z M 7 5 L 17 5 L 17 20 L 7 20 L 7 5 z M 9 7 L 9 18 L 11 18 L 11 7 L 9 7 z M 13 7 L 13 18 L 15 18 L 15 7 L 13 7 z" />
-              </svg>
-              Delete
+              </svg> */}
+                Delete section
+              </button>
             </div>
-          </div>
+          )}
         </div>
       </div>
       <div className="board-task-list">
@@ -188,7 +248,7 @@ const Board: React.FC<Board> = ({ title, sectionId, tasks }) => {
             if (newTaskName.trim().length > 0) {
               createTask({
                 name: newTaskName,
-                sectionId: sectionId,
+                sectionId: section.id,
                 description: "",
                 assignee: null,
                 priority: null,

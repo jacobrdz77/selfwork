@@ -28,11 +28,14 @@ const ClientRow = ({ client }: { client: ClientWithProjects }) => {
 
   return (
     <>
-      <ClientDetailModal
-        isModalOpen={isOpen}
-        client={client}
-        setIsModalOpen={(boolean) => setIsOpen(boolean)}
-      />
+      {isOpen && (
+        <ClientDetailModal
+          isModalOpen={isOpen}
+          client={client}
+          setIsModalOpen={(boolean) => setIsOpen(boolean)}
+        />
+      )}
+
       <tr
         className="client-row"
         onClick={() => {
@@ -63,10 +66,11 @@ const ClientRow = ({ client }: { client: ClientWithProjects }) => {
               <ul>
                 <li
                   onClick={(e) => {
+                    e.stopPropagation();
                     deleteClient(client.id);
                   }}
                 >
-                  Delete
+                  Delete client
                 </li>
               </ul>
             }

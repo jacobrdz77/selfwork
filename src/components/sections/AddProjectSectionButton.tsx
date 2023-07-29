@@ -3,10 +3,16 @@ import {
   useCreateUserSection,
 } from "@/hooks/SectionHooks";
 
-const AddProjectSectionButton = ({ projectId }: { projectId: string }) => {
+const AddProjectSectionButton = ({
+  projectId,
+  sectionsLength,
+}: {
+  projectId: string;
+  sectionsLength: number;
+}) => {
   const { mutate } = useCreateProjectSection(projectId);
   const addNewSectionHandler = () => {
-    mutate({ name: "Untitled Section" });
+    mutate({ name: "Untitled Section", order: sectionsLength });
   };
 
   return (

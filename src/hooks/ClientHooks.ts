@@ -132,7 +132,9 @@ export const useUpdateClient = (clientId: string) => {
         const response = await fetch(`/api/clients/${clientId}`, {
           method: "PUT",
           body: JSON.stringify({
-            clientData: clientData,
+            clientData: {
+              ...clientData,
+            },
           }),
         });
 
@@ -146,7 +148,7 @@ export const useUpdateClient = (clientId: string) => {
       }
     },
     onSuccess: async (data) => {
-      await queryClient.invalidateQueries({ queryKey: ["client", data.id] });
+      await queryClient.invalidateQueries({ queryKey: ["clients"] });
     },
   });
 };

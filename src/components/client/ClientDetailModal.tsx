@@ -6,7 +6,6 @@ import { useDeleteClient, useUpdateClient } from "@/hooks/ClientHooks";
 import Modal from "../UI/Modal";
 import validatePhone from "@/utils/validatePhone";
 import validateEmail from "@/utils/validateEmail";
-import { deleteClient } from "@/utils/clientFunctions";
 import Button from "../UI/Button";
 
 const ClientDetailModal = ({
@@ -30,8 +29,10 @@ const ClientDetailModal = ({
   const [isEmailError, setIsEmailError] = useState(false);
   const [isPhoneError, setPhoneError] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
-  const { mutateAsync: updateClient } = useUpdateClient(client.id);
   const { projects, status: projectsStatus } = useProjects();
+
+  const { mutate: updateClient } = useUpdateClient(client.id);
+  const { mutate: deleteClient } = useDeleteClient();
 
   //   For Name
   const [oldName, setOldName] = useState(client?.name);
@@ -96,6 +97,7 @@ const ClientDetailModal = ({
         phone,
       },
     });
+
     setIsModalOpen(false);
   };
 
@@ -105,7 +107,39 @@ const ClientDetailModal = ({
     }
   }, [isInputFocused]);
 
-  const { mutate: deleteClient } = useDeleteClient();
+  // useEffect(() => {
+  //   return () => {
+  //     setEmail(client.email ? client.email : "");
+  //     setPhone(client.phone ? client.phone : "");
+  //     setCompanyName(client.companyName ? client.companyName : "");
+  //     setPhone(client.phone ? client.phone : "");
+  //     setPhone(client.phone ? client.phone : "");
+  //     setPhone(client.phone ? client.phone : "");
+  //     setPhone(client.phone ? client.phone : "");
+  //     // const [email, setEmail] = useState(client.email ? client.email : "");
+  //     // const [phone, setPhone] = useState(client.phone ? client.phone : "");
+  //     // const [companyName, setCompanyName] = useState(
+  //     //   client.companyName ? client.companyName : ""
+  //     // );
+  //     // const [businessAddress, setBusinessAddress] = useState(
+  //     //   client.businessAddress ? client.businessAddress : ""
+  //     // );
+  //     // const [isNameError, setIsNameError] = useState(false);
+  //     // const [isEmailError, setIsEmailError] = useState(false);
+  //     // const [isPhoneError, setPhoneError] = useState(false);
+  //     // const [isFormValid, setIsFormValid] = useState(false);
+  //     // const { projects, status: projectsStatus } = useProjects();
+
+  //     // const { mutate: updateClient } = useUpdateClient(client.id);
+  //     // const { mutate: deleteClient } = useDeleteClient();
+
+  //     // //   For Name
+  //     // const [oldName, setOldName] = useState(client?.name);
+  //     // const [inputName, setInputName] = useState(client?.name);
+  //     // const [isInputFocused, setIsInputFocused] = useState(false);
+  //   };
+  // }, []);
+
   return (
     <Modal
       closeBtn={false}

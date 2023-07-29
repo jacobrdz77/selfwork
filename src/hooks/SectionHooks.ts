@@ -65,14 +65,14 @@ export const useCreateProjectSection = (projectId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (sectionData: { name: string }) => {
+    mutationFn: async (sectionData: { name: string; order: number }) => {
       try {
         console.log("CLICKKK");
         const response = await fetch(`/api/sections?projectId=${projectId}`, {
           method: "POST",
           body: JSON.stringify({
             sectionData: {
-              name: sectionData.name,
+              ...sectionData,
             },
           }),
         });
@@ -82,7 +82,6 @@ export const useCreateProjectSection = (projectId: string) => {
           );
         }
 
-        console.log("Response: ", response);
         return (await response.json()) as SectionWithTasks;
       } catch (error) {
         console.log(error);
@@ -103,7 +102,7 @@ export const useCreateUserSection = () => {
   const userId = useUserStore((state) => state.userId);
 
   return useMutation({
-    mutationFn: async (sectionData: { name: string }) => {
+    mutationFn: async (sectionData: { name: string; order: number }) => {
       try {
         const response = await fetch(`/api/sections?userId=${userId}`, {
           method: "POST",

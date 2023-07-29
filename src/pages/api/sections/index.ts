@@ -121,6 +121,7 @@ export default async function handler(
         const newSection = await prisma.section.create({
           data: {
             name: sectionData.name,
+            order: sectionData.order,
             project: {
               connect: {
                 id: projectId as string,
@@ -135,6 +136,8 @@ export default async function handler(
             },
           },
         });
+
+        console.log("ORDER: ", newSection.order);
         return res.status(200).json(newSection);
       }
 
@@ -153,6 +156,7 @@ export default async function handler(
             tasks: true,
           },
         });
+        console.log("ORDER: ", newSection.order);
         return res.status(200).json(newSection);
       }
     } catch (error: any) {

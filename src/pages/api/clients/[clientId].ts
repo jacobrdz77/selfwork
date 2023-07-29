@@ -38,7 +38,9 @@ export default async function handler(
   else if (req.method === "PUT") {
     try {
       const { clientId } = req.query;
-      const { clientData } = req.body;
+      const { clientData } = JSON.parse(req.body);
+      console.log("Updated client: ", clientData);
+
       const client = await prisma.client.update({
         where: {
           id: clientId as string,
@@ -47,6 +49,7 @@ export default async function handler(
           ...clientData,
         },
       });
+
       return res.status(200).json(client);
     } catch (error: Error | any) {
       return res.status(400).json({ error: error.message });

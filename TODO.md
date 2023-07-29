@@ -2,16 +2,14 @@
 
 ### Do list:
 
-- Add functionality to ClientDetailModal.
-  - Update client
-  - Delete client
-- Add new task row when clicking on the plus in LIST VIEW
+### Creating Board order
+
+- When creating a untitled section, get the total amount of items in the array and assign that to the index.
 
 ## High
 
 - Create settings page and add Profile.
 - Figure out how to order after rearraning sections, tasks, and projects using react-dnd.
-- Figure out how to add new task to table.
 - Figure out how to invite members through Nodemailer.
 - Add functionality to editing due date in EditProjectDetails modal.
 - Create sketch page and import Excalidraw.
@@ -21,6 +19,7 @@
 
 ## Medium
 
+- Make Members page
 - add loading skeleton component for:
   - sections in my-tasks page
   - projects list page

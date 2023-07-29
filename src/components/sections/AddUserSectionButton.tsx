@@ -1,10 +1,14 @@
 import { useCreateUserSection } from "@/hooks/SectionHooks";
 
-const AddUserSectionButton = () => {
+const AddUserSectionButton = ({
+  sectionsLength,
+}: {
+  sectionsLength: number;
+}) => {
   const { mutate } = useCreateUserSection();
   const addNewSectionHandler = () => {
-    console.log("BUTTON pressed");
-    mutate({ name: "Untitled Section" });
+    console.log("Sections length: ", sectionsLength);
+    mutate({ name: "Untitled Section", order: sectionsLength });
   };
 
   return (
