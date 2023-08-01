@@ -78,7 +78,7 @@ const ProjectHeader: React.FC<HeaderProps> = ({ name, status, project }) => {
                   onClick={() => {
                     setIsMenuOpen(false);
                     mutate(projectId as string);
-                    router.push("/my-tasks");
+                    router.push("/my-tasks/board");
                   }}
                 >
                   Delete project
@@ -181,7 +181,7 @@ const ColorMenu = ({
 }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const [projectColor, setProjectColor] = useState<string | null>(currColor);
-  console.log("CURRENT COLOR: ", projectColor);
+  // console.log("CURRENT COLOR: ", projectColor);
 
   const { mutate: updateProject } = useUpdateProject();
 
@@ -232,10 +232,9 @@ const ColorMenu = ({
     }
   }, [currColor]);
   return (
-    <div className="menu-button menu-button-container color-menu__button-container">
+    <div className="menu-button-container color-menu__button-container">
       <button
         ref={btnRef}
-        className="menu-button"
         onClick={(e) => {
           e.preventDefault();
           setIsMenuOpen((state) => !state);

@@ -60,7 +60,7 @@ export default async function handler(
       const { taskId } = req.query;
       const body = JSON.parse(req.body);
       const { taskData } = body;
-      console.log(taskData);
+      // console.log(taskData);
 
       const newData = {
         name: taskData.name,
@@ -93,11 +93,13 @@ export default async function handler(
         },
         data: {
           ...newData,
-          assignee: {
-            connect: {
-              id: taskData.assigneeId,
-            },
-          },
+          assignee: taskData.assigneeId
+            ? {
+                connect: {
+                  id: taskData.assigneeId,
+                },
+              }
+            : undefined,
         },
       });
       return res.status(200).json(task);

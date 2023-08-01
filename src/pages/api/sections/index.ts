@@ -108,7 +108,7 @@ export default async function handler(
       const body = JSON.parse(req.body);
       const { sectionData } = body;
       const { projectId, userId } = req.query;
-      console.log("Making User Section");
+      // console.log("Making User Section");
 
       if (!projectId && !userId) {
         return res
@@ -137,7 +137,7 @@ export default async function handler(
           },
         });
 
-        console.log("ORDER: ", newSection.order);
+        // console.log("ORDER: ", newSection.order);
         return res.status(200).json(newSection);
       }
 
@@ -156,7 +156,7 @@ export default async function handler(
             tasks: true,
           },
         });
-        console.log("ORDER: ", newSection.order);
+        // console.log("ORDER: ", newSection.order);
         return res.status(200).json(newSection);
       }
     } catch (error: any) {

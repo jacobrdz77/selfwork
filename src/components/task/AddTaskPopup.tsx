@@ -64,10 +64,18 @@ const AddTaskPopup: React.FC<{
     );
   };
 
+  // console.log("PROJCT ", project);
+
   // Form Validation
   useEffect(() => {
     if (name.length > 0) {
-      if (assignee === null) {
+      // if (assignee === null) {
+      //   return setIsFormValid(false);
+      // } else if (project === null) {
+      //   return setIsFormValid(false);
+      // }
+
+      if (project === null) {
         return setIsFormValid(false);
       }
 

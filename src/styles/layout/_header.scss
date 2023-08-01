@@ -74,17 +74,19 @@
       &--selected {
         display: block;
       }
+
+      &:hover {
+        background-color: var(--color-gray--hover);
+      }
     }
 
     &--active {
       display: block;
     }
-    &__button {
+    .color-menu__button {
       &-container {
         position: relative;
       }
-    }
-    &-icon {
     }
   }
 

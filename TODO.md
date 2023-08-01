@@ -6,6 +6,7 @@
 - Add loading states to SERVER actions for example
   - save buttons
   - Create buttons
+- Add a remove button in Addprojectmodal for clientmenu
 
 ### Creating Board order
 

@@ -13,7 +13,6 @@ const SidebarProject = ({
   id: string;
 }) => {
   const projectColor = useColor(color);
-  console.log(projectColor);
 
   return (
     <Link href={`/projects/${id}/overview`} className="sidebar__project">

@@ -1,14 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Modal from "../UI/Modal";
 import { useCreateProject } from "../../hooks/ProjectHooks";
 import { Client, Priority, User } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useClients } from "@/hooks/ClientHooks";
 import useMenu from "@/hooks/useMenu";
-import Clients from "../client/Clients";
 import usePlaceHolder from "@/hooks/usePlaceHolder";
-import { useWorkspaceMembers } from "@/hooks/WorkspaceHooks";
-import { useUpdateTask } from "@/hooks/TaskHooks";
 
 const AddProjectModal: React.FC<{
   isOpen: boolean;
@@ -39,7 +36,7 @@ const AddProjectModal: React.FC<{
       startDate,
       dueDate,
       priority,
-      clientId: clientSelected!.id,
+      clientId: clientSelected ? clientSelected.id : undefined,
     });
     setIsModalOpen(false);
     router.push(`/projects/${newProject?.id}/overview`);
@@ -96,7 +93,7 @@ const AddProjectModal: React.FC<{
             Choose a client
           </label>
 
-          <ClientMenu
+          <ClientsMenu
             selectedClient={clientSelected!}
             setSelectedClient={setClientSelected}
           />
@@ -273,7 +270,7 @@ const AddProjectModal: React.FC<{
 
 export default AddProjectModal;
 
-export const ClientMenu = ({
+export const ClientsMenu = ({
   selectedClient,
   setSelectedClient,
 }: {
@@ -286,8 +283,30 @@ export const ClientMenu = ({
   );
   const { clients, status } = useClients();
   const [filteredClients, setFilteredClients] = useState(clients);
-  const { isInputFocused, setIsInputFocused, handleInputBlur, inputRef } =
-    usePlaceHolder({ blurHandler: () => {} });
+  const [isInputFocused, setIsInputFocused] = useState(false);
+  const inputRef = useRef(null);
+  const focusOnInput = useCallback(() => {
+    if (inputRef.current) {
+      // @ts-ignore
+      inputRef.current!.focus();
+    }
+  }, []);
+  const handleInputBlur = (e: any) => {
+    // Switches to display button
+    setIsInputFocused(false);
+  };
+
+  // useEffect(() => {
+  //   if (inputRef) {
+  //     focusOnInput();
+  //   }
+  // }, [focusOnInput]);
+
+  useEffect(() => {
+    if (isInputFocused === true) {
+      focusOnInput();
+    }
+  }, [isInputFocused, focusOnInput]);
 
   useEffect(() => {
     setFilteredClients(() => {
@@ -303,12 +322,12 @@ export const ClientMenu = ({
     });
   }, [clients, searchClient]);
 
-  console.log(
-    "Selected Client: ",
-    selectedClient ? selectedClient.name : "",
-    "\nInput focused: ",
-    isInputFocused
-  );
+  // console.log(
+  //   "Selected Client: ",
+  //   selectedClient ? selectedClient.name : "",
+  //   "\nInput focused: ",
+  //   isInputFocused
+  // );
 
   return (
     <div className="new-project__client menu-container data-selected">
@@ -327,6 +346,27 @@ export const ClientMenu = ({
             }}
           >
             <span>{selectedClient.name}</span>
+            <div
+              className="remove-button"
+              aria-label="Remove assignee"
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedClient(null);
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="remove-icon"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
           </div>
         )}
 

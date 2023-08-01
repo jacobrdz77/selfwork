@@ -5,12 +5,14 @@ import { useWorkspaces } from "@/hooks/WorkspaceHooks";
 import Link from "next/link";
 import { useUserInfo } from "@/hooks/MemberHooks";
 import { useUserStore } from "store/user";
+import { useRouter } from "next/router";
 
 const UserSidebarCard = () => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const { workspaces, status } = useWorkspaces(isMenuOpen);
   const userId = useUserStore((state) => state.userId);
   const { user, status: userStatus } = useUserInfo(userId);
+  const router = useRouter();
 
   return (
     <>
@@ -38,8 +40,13 @@ const UserSidebarCard = () => {
           >
             <div className="sidebar__user-menu-section">
               {/* Opens model of user's editable data */}
-              <div className="sidebar__user-menu-item">
-                <Link href={`/profile/${userId}`}>My Profile</Link>
+              <div
+                onClick={() => {
+                  router.push(`/profile/${userId}`);
+                }}
+                className="sidebar__user-menu-item"
+              >
+                <span>My Profile</span>
               </div>
               <div
                 className="sidebar__user-menu-item"

@@ -25,8 +25,6 @@ const PageLayout: React.FC<{
     (state) => state.setIsClientModalOpen
   );
 
-  console.log("client modal: ", isClientModalOpen);
-
   return (
     <div className="layout">
       <NavBar />

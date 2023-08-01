@@ -19,6 +19,9 @@
   &__submit {
     padding: 8px 24px;
 
+    &.edit-project {
+      margin-top: 12px;
+    }
     &.client-submit {
       margin-top: 12px;
     }
@@ -102,6 +105,10 @@
         }
       }
 
+      // .remove-button {
+      //   width: 100%;
+      // }
+
       .remove-icon {
         // visibility: hidden;
         fill: var(--color-gray-500);
@@ -117,6 +124,10 @@
         }
       }
     }
+  }
+
+  &__dates-input {
+    margin-right: 8px;
   }
 
   &__date {

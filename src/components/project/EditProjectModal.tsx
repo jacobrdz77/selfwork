@@ -28,7 +28,7 @@ const EditProjectModal: React.FC<{
     projectData.description ? projectData.name : ""
   );
   const [lumpSum, setLumpSum] = useState(
-    Number(projectData.lumpSum) ? Number(projectData.lumpSum) : 0
+    projectData.lumpSum ? projectData.lumpSum + "" : ""
   );
   const [dueDate, setDueDate] = useState(
     projectData.dueDate + "" ? projectData.dueDate + "" : ""
@@ -96,7 +96,7 @@ const EditProjectModal: React.FC<{
         </div>
         <div className="form__input-container">
           <label className="form__input--label" htmlFor="lump-sum">
-            Lump Sum ($)
+            Payout
           </label>
           <input
             className="form__input"
@@ -179,7 +179,7 @@ const EditProjectModal: React.FC<{
         <div>
           <Button
             type="submit"
-            className={`form__submit ${
+            className={`form__submit edit-project ${
               !isFormValid ? "button--disabled" : ""
             } `}
             disabled={!isFormValid}

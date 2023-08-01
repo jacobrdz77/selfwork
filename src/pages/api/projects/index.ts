@@ -57,11 +57,14 @@ export default async function handler(
           startDate: modifiedProject.startDate,
           dueDate: modifiedProject.dueDate,
           iconColor: projectIconColors[getRandomInt(0, 11)],
-          client: {
-            connect: {
-              id: modifiedProject.clientId,
-            },
-          },
+          // If clientId is included, then it connects, if not, it doesn't
+          client: modifiedProject.clientId
+            ? {
+                connect: {
+                  id: modifiedProject.clientId,
+                },
+              }
+            : undefined,
           workspace: {
             connect: {
               id: modifiedProject.workspaceId,
@@ -89,6 +92,7 @@ export default async function handler(
 
       return res.status(200).json(newProject);
     } catch (error: any) {
+      console.log(error);
       return res.status(400).json({ error: error.message });
     }
   }

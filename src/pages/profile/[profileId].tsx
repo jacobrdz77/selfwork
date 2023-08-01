@@ -28,7 +28,7 @@ const ProfilePage = () => {
     if (router.query.profileId === user?.id) {
       setIsSelf(true);
     }
-  }, [user?.id, router.query.projectId]);
+  }, [user?.id, router.query.projectId, router.query.profileId]);
 
   return (
     <>
@@ -57,7 +57,7 @@ const ProfilePage = () => {
         )}
 
         <div className="data-layout">
-          <div className=" card">
+          {/* <div className=" card">
             <h3>Tasks</h3>
             <div className="tasks">
               {user?.assignedTasks.map((task) => (
@@ -96,7 +96,7 @@ const ProfilePage = () => {
                 </div>
               ) : null}
             </div>
-          </div>
+          </div> */}
           <div className="card">
             <h3>Projects</h3>
             <div className="projects">
@@ -161,7 +161,7 @@ const UserProfileTask = ({ task }: { task: Task }) => {
     >
       <div>{task.name}</div>
       <div>
-        <AssigneeButton />
+        <AssigneeButton task={task} />
       </div>
     </div>
   );

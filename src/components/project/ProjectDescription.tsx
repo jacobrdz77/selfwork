@@ -15,7 +15,6 @@ const ProjectDescription = ({
     initialDescription ? initialDescription : ""
   );
   const { mutate: updateProject } = useUpdateProject();
-  console.log("Projectid: ", projectId);
 
   const blurHandler = () => {
     if (oldDescription.trim() === description.trim()) {

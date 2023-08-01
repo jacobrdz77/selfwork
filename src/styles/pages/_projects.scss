@@ -49,7 +49,7 @@
         border-radius: 8px;
         resize: vertical;
         min-height: 125px;
-        color: #5b6064;
+        color: #1d1d1d;
 
         &:focus {
           border: 2px solid var(--color-primary--light);
@@ -547,13 +547,19 @@
   color: #212529;
   border-radius: 6px;
   user-select: none;
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+
   &-title {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
     justify-content: space-between;
     position: relative;
-    z-index: 100;
+    z-index: 9;
 
     &:hover {
       .board-card__more-icon {

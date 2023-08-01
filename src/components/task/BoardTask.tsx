@@ -204,7 +204,6 @@ export const DateButton = ({
                   taskId: task.id,
                   taskData: {
                     dueDate: dueDate,
-                    assigneeId: task.assignee.id,
                   },
                 });
                 setDate(new Date(dueDate!));
@@ -264,7 +263,6 @@ const DateFilledButton = ({
                   taskId: task.id,
                   taskData: {
                     dueDate: dueDate,
-                    assigneeId: task.assignee.id,
                   },
                 });
               }}
@@ -279,7 +277,7 @@ const DateFilledButton = ({
 export const AssigneeButton = ({ task }: { task: TaskWithAssignee }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const [selectedAssignee, setSelectedAssignee] = useState<User | null>(
-    task.assignee
+    task ? task.assignee : null
   );
 
   const { mutate: updateTask } = useUpdateTask();
@@ -502,8 +500,8 @@ export const AssigneeMenu = ({
 
   return (
     <div className="new-project__client menu-container data-selected">
-      <button
-        type="button"
+      <div
+        role="button"
         ref={btnRef}
         className="menu-button"
         onClick={() => setIsMenuOpen((state) => !state)}
@@ -576,7 +574,7 @@ export const AssigneeMenu = ({
             autoComplete="off"
           />
         )}
-      </button>
+      </div>
       {isMenuOpen && (
         <div
           className="menu"

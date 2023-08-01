@@ -1,6 +1,5 @@
 import { SectionWithTasks, TaskWithAssignee } from "@/types/types";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { getInitials } from "../UI/UserCard";
 import useMenu from "@/hooks/useMenu";
 import { useDeleteSection, useUpdateSection } from "@/hooks/SectionHooks";
 import BoardNewTask from "./BoardNewTask";
@@ -90,73 +89,75 @@ const Board: React.FC<Board> = ({
 
   //********* THIS IS FOR REORDERING BOARDS ********/
   // Sorting Board
-  // const ref = useRef(null);
-  // const [{ isOver }, drop] = useDrop(() => ({
-  //   // The type (or types) to accept - strings or symbols
-  //   accept: "Board",
-  //   // Props to collect
-  //   collect: (monitor) => ({
-  //     isOver: monitor.isOver(),
-  //     handlerId: monitor.getHandlerId(),
-  //     highlighted: monitor.canDrop(),
-  //   }),
-  //   hover(item, monitor) {
-  //     if (!ref.current) {
-  //       return;
-  //     }
-  //     const dragIndex = item.index;
-  //     const hoverIndex = section.order;
-  //     // Don't replace items with themselves
-  //     if (dragIndex === hoverIndex) {
-  //       return;
-  //     }
-  //     // Determine rectangle on screen
-  //     const hoverBoundingRect = ref.current?.getBoundingClientRect();
+  const ref = useRef(null);
+  const [{ handlerId }, drop] = useDrop(() => ({
+    // The type (or types) to accept - strings or symbols
+    accept: "Board",
+    // Props to collect
 
-  //     console.log("hoverBoundingRect: ", hoverBoundingRect);
-  //     // Get vertical middle
-  //     const hoverMiddleX =
-  //       (hoverBoundingRect.left - hoverBoundingRect.right) / 2;
-  //     // Determine mouse position
-  //     const clientOffset = monitor.getClientOffset();
-  //     // Get pixels to the top
-  //     const hoverClientX = (clientOffset as XYCoord).x - hoverBoundingRect.left;
-  //     // Only perform the move when the mouse has crossed half of the items height
-  //     // When dragging downwards, only move when the cursor is below 50%
-  //     // When dragging upwards, only move when the cursor is above 50%
-  //     // Dragging downwards
-  //     if (dragIndex < hoverIndex && hoverClientX < hoverMiddleX) {
-  //       return;
-  //     }
-  //     // Dragging upwards
-  //     if (dragIndex > hoverIndex && hoverClientX > hoverMiddleX) {
-  //       return;
-  //     }
-  //     // Time to actually perform the action
-  //     moveBoard(dragIndex, hoverIndex!);
-  //     // Note: we're mutating the monitor item here!
-  //     // Generally it's better to avoid mutations,
-  //     // but it's good here for the sake of performance
-  //     // to avoid expensive index searches.
-  //     item.index = hoverIndex;
-  //   },
-  // }));
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      handlerId: monitor.getHandlerId(),
+      highlighted: monitor.canDrop(),
+    }),
 
-  // const [{ isDragging }, drag] = useDrag(() => ({
-  //   type: "Board",
-  //   item: { boardId: section.id, index: section.order },
-  //   collect: (monitor) => ({
-  //     isDragging: monitor.isDragging(),
-  //   }),
-  // }));
+    hover(item: any, monitor) {
+      console.log("ITEM: ", item);
+      if (!ref.current) {
+        return;
+      }
+      const dragIndex = item.index;
+      const hoverIndex = section.order!;
 
-  // drag(drop(ref));
+      // Don't replace items with themselves
+      if (dragIndex === hoverIndex) {
+        return;
+      }
+
+      // Determine rectangle on screen
+      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+      // Get vertical middle
+      const hoverMiddleY =
+        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+
+      // Determine mouse position
+      const clientOffset = monitor.getClientOffset();
+
+      // Get pixels to the top
+      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
+
+      if (dragIndex < hoverIndex) {
+        moveBoard(dragIndex, hoverIndex);
+        item.index = hoverIndex;
+        console.log("CANCEL 1");
+        return;
+      }
+      // Moving LEFT
+      if (dragIndex > hoverIndex) {
+        moveBoard(dragIndex, hoverIndex);
+        item.index = hoverIndex;
+        console.log("CANCEL 2");
+        return;
+      }
+
+      return;
+    },
+  }));
+
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: "Board",
+    item: () => {
+      return { boardId: section.id, index: section.order };
+    },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  }));
+
+  drag(drop(ref));
 
   return (
-    <div
-      className="board"
-      // ref={ref}
-    >
+    <div className="board" ref={ref}>
       <div className="board-title">
         <div className="name">
           {isInputFocused ? (

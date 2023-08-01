@@ -30,7 +30,7 @@ export default async function handler(
       const body = JSON.parse(req.body);
       const { userId } = req.query;
       const { userData } = body;
-      console.log("userdata: ", userData);
+      // console.log("userdata: ", userData);
       const user = await prisma.user.update({
         where: {
           id: userId as string,

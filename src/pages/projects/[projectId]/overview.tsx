@@ -16,6 +16,7 @@ import InviteMemberPopup from "@/components/member/InviteMemberPopup";
 const ProjectOverviewPage: NextPageWithLayout = () => {
   const { projectId } = useRouter().query;
   const { project, status } = useOneProject(projectId as string);
+  const { links, status: linksStatus } = useLinks(projectId as string);
   const { isMenuOpen, btnRef, menuRef, setIsMenuOpen } = useMenu();
   const {
     isMenuOpen: isMembersMenuOpen,
@@ -23,7 +24,7 @@ const ProjectOverviewPage: NextPageWithLayout = () => {
     menuRef: memberMenuRef,
     setIsMenuOpen: setMemberMenuOpen,
   } = useMenu();
-  console.log("Project in overview: ", project);
+  console.log("Project in overview: ", project?.name);
 
   if (status === "loading") {
     return <div>Loading...</div>;
@@ -41,10 +42,12 @@ const ProjectOverviewPage: NextPageWithLayout = () => {
     <div className="project-page__overview">
       <div className="project-page__overview-description">
         <h2>Description</h2>
-        <ProjectDescription
-          projectId={project!.id}
-          initialDescription={project?.description!}
-        />
+        {status === "success" && (
+          <ProjectDescription
+            projectId={project?.id!}
+            initialDescription={project?.description!}
+          />
+        )}
       </div>
       <div className="project-members">
         <h2>Members</h2>
@@ -158,7 +161,8 @@ const ProjectOverviewPage: NextPageWithLayout = () => {
               <div className="link"></div>
             </div>
           )} */}
-          <ProjectLinks links={project?.urlLinks!} />
+
+          {linksStatus === "success" && <ProjectLinks links={links} />}
         </div>
       </div>
     </div>
