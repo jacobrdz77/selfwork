@@ -1,15 +1,11 @@
 import useMenu from "@/hooks/useMenu";
 import { getInitials } from "../UI/UserCard";
-import LoadingSkeleton from "../UI/LoadingSkeleton";
-import { useWorkspaces } from "@/hooks/WorkspaceHooks";
-import Link from "next/link";
 import { useUserInfo } from "@/hooks/MemberHooks";
 import { useUserStore } from "store/user";
 import { useRouter } from "next/router";
 
 const UserSidebarCard = () => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
-  const { workspaces, status } = useWorkspaces(isMenuOpen);
   const userId = useUserStore((state) => state.userId);
   const { user, status: userStatus } = useUserInfo(userId);
   const router = useRouter();
@@ -25,7 +21,7 @@ const UserSidebarCard = () => {
         >
           <div className="sidebar__user">
             <div className={`sidebar__user-icon`}>
-              {getInitials(user?.name!)}
+              {getInitials(user?.name as string)}
             </div>
             <span className="sidebar__user-name">{user?.name}</span>
           </div>

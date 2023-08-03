@@ -1,0 +1,80 @@
+.sketch-card {
+  padding: 0 8px;
+  border-radius: 8px;
+  border: 2px solid var(--color-stroke);
+  height: 57px;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 625px 320px 148px auto;
+  user-select: none;
+
+  cursor: pointer;
+
+  transition: background-color 0.1s ease-in;
+
+  &:hover {
+    background-color: var(--color-gray--hover);
+  }
+
+  .name {
+  }
+  .modified {
+  }
+  &__user {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  &__user-icon {
+    color: var(--color-navigation-text);
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    border-radius: 50%;
+    padding: 10px;
+    background-color: var(--color-primary--light) !important;
+  }
+  &__user-name {
+    min-width: 120px;
+  }
+
+  .name {
+    flex-basis: 625px;
+  }
+  .modified {
+    flex-basis: 320px;
+  }
+}
+
+.sketch-more-btn {
+  justify-self: flex-end;
+  .menu {
+    left: unset;
+    right: 0 !important;
+  }
+}
+
+.sketches {
+  margin-top: 24px;
+  display: grid;
+  gap: 4px;
+
+  &__header {
+    display: flex;
+    align-items: center;
+
+    .name {
+      flex-basis: 633px;
+    }
+    .modified {
+      flex-basis: 320px;
+    }
+    .assignee {
+      flex-basis: 148px;
+    }
+  }
+}

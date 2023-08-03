@@ -1,7 +1,8 @@
 .button {
   font-size: 14px;
-  padding: 6px 14px;
+  padding: 4px 24px;
   border-radius: 6px;
+
   background: linear-gradient(
     90deg,
     hsla(267, 26%, 43%, 1) 0%,
@@ -9,7 +10,6 @@
   );
 
   color: var(--color-primary--lightest);
-  padding: 4px 24px;
 
   &:hover {
     background: var(--color-primary--light);
@@ -47,6 +47,16 @@
     }
   }
 
+  &--outline {
+    background: #fff;
+    color: #000;
+    border: 1px solid var(--color-border);
+
+    &:hover {
+      background: var(--color-gray--hover);
+    }
+  }
+
   &--disabled {
     background: #f1f3f5;
     color: #868e96;
@@ -56,6 +66,26 @@
   &--animated {
     animation: moveInBottom 0.5s ease-out 0.75s;
     animation-fill-mode: backwards;
+  }
+}
+
+.sorting-button {
+  padding: 4px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  transition: background-color 0.1s ease-in;
+
+  &:hover {
+    background-color: var(--color-gray--hover);
+  }
+
+  .item {
+    &.active {
+      font-weight: 600;
+      background-color: var(--color-gray--hover);
+    }
   }
 }
 
@@ -105,6 +135,7 @@
 }
 
 .menu {
+  display: none;
   min-width: 200px;
   max-width: 350px;
   background-color: #fff;
@@ -115,8 +146,12 @@
   z-index: 99999;
   color: #212529;
   font-weight: 500;
-  top: 100%;
+  top: calc(100% + 2px);
   left: 0;
+
+  &.active {
+    display: block;
+  }
 
   &-container {
     position: relative;
