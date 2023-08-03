@@ -361,7 +361,7 @@ const StatusButton = ({
 
       {isMenuOpen && (
         <div
-          className="menu"
+          className={`menu ${isMenuOpen ? "active" : ""}`}
           ref={menuRef}
           onClick={(e) => {
             setIsMenuOpen(false);
@@ -488,7 +488,7 @@ const AssigneeButton = ({
 
       {isMenuOpen && (
         <div
-          className="menu"
+          className={`menu ${isMenuOpen ? "active" : ""}`}
           ref={menuRef}
           onClick={(e) => {
             setIsMenuOpen(false);
@@ -554,7 +554,7 @@ const DueDateButton = ({
       )}
 
       {isMenuOpen && (
-        <div className="menu" ref={menuRef}>
+        <div className={`menu ${isMenuOpen ? "active" : ""}`} ref={menuRef}>
           <DatePicker
             className="data-selected--dueDate"
             // selected={new Date(dueDate)}
@@ -617,7 +617,7 @@ const TagsButton = ({
       ) : null}
 
       {isMenuOpen && (
-        <div className="menu" ref={menuRef}>
+        <div className={`menu ${isMenuOpen ? "active" : ""}`} ref={menuRef}>
           {tags &&
             tags?.map((tag) => (
               <div
@@ -678,7 +678,7 @@ const PriorityButton = ({
       )}
 
       {isMenuOpen && (
-        <div className="menu" ref={menuRef}>
+        <div className={`menu ${isMenuOpen ? "active" : ""}`} ref={menuRef}>
           <div>
             <div
               className="item"
