@@ -1,5 +1,5 @@
 import { useUpdateProject } from "@/hooks/ProjectHooks";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const ProjectDescription = ({
   projectId,
@@ -8,12 +8,8 @@ const ProjectDescription = ({
   projectId: string;
   initialDescription: string;
 }) => {
-  const [description, setDescription] = useState(
-    initialDescription ? initialDescription : ""
-  );
-  const [oldDescription, setOldDescription] = useState(
-    initialDescription ? initialDescription : ""
-  );
+  const [description, setDescription] = useState(initialDescription);
+  const [oldDescription, setOldDescription] = useState(initialDescription);
   const { mutate: updateProject } = useUpdateProject();
 
   const blurHandler = () => {
@@ -24,17 +20,21 @@ const ProjectDescription = ({
     updateProject({ projectId, projectData: { description } });
   };
 
+  useEffect(() => {
+    setDescription(initialDescription);
+  }, [initialDescription]);
+
   return (
     <textarea
       onChange={(e) => {
         setDescription(e.target.value);
       }}
       onBlur={blurHandler}
-      value={description ? description : ""}
+      value={description}
       className="description-textarea"
       name="description"
       placeholder="You're description goes here!"
-    ></textarea>
+    />
   );
 };
 

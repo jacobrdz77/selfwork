@@ -87,8 +87,6 @@ const SectionListView = ({
     setIsInputFocused(false);
   };
 
-  console.log("IS NEW TasK open: ", isNewTaskOpen);
-
   return (
     <>
       <div className="section-container">

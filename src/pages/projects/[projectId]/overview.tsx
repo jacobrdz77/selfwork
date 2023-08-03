@@ -16,7 +16,6 @@ import InviteMemberPopup from "@/components/member/InviteMemberPopup";
 const ProjectOverviewPage: NextPageWithLayout = () => {
   const { projectId } = useRouter().query;
   const { project, status } = useOneProject(projectId as string);
-  const { links, status: linksStatus } = useLinks(projectId as string);
   const { isMenuOpen, btnRef, menuRef, setIsMenuOpen } = useMenu();
   const {
     isMenuOpen: isMembersMenuOpen,
@@ -162,7 +161,7 @@ const ProjectOverviewPage: NextPageWithLayout = () => {
             </div>
           )} */}
 
-          {linksStatus === "success" && <ProjectLinks links={links} />}
+          {status === "success" && <ProjectLinks links={project?.urlLinks} />}
         </div>
       </div>
     </div>
