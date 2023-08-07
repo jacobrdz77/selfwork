@@ -252,6 +252,10 @@
         width: 250px;
       }
 
+      .phone {
+        width: 175px;
+      }
+
       .premium {
         color: #0ca678;
       }
@@ -369,6 +373,21 @@
 
 .client-details {
   &__header {
-    justify-content: flex-end !important;
+  }
+
+  &__status {
+    .item {
+      align-items: center;
+    }
+
+    &--active {
+      fill: #0ca678;
+    }
+    &--pending {
+      fill: #e2a039;
+    }
+    &--closed {
+      fill: #ce2525;
+    }
   }
 }

@@ -7,21 +7,22 @@ import Button from "../UI/Button";
 import { z } from "zod";
 import { useUpdateProject } from "@/hooks/ProjectHooks";
 import { useRouter } from "next/router";
+import useMenu from "@/hooks/useMenu";
+import ReactDatePicker from "react-datepicker";
+import { formatDueDate } from "../task/BoardTask";
 
 const EditProjectModal: React.FC<{
   isOpen: boolean;
   projectData: Project;
 }> = ({ isOpen, projectData }) => {
+  const { projectId } = useRouter().query;
+
+  const { mutateAsync: updateProject } = useUpdateProject();
+  const userId = useUserStore((state) => state.userId as string);
   const setIsModalOpen = useModalStore(
     (state) => state.setIsEditProjectModalOpen
   );
-
-  const { projectId } = useRouter().query;
-
-  const closeHandler = () => {
-    setIsModalOpen(false);
-  };
-  const userId = useUserStore((state) => state.userId as string);
+  const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
 
   const [name, setName] = useState(projectData.name ? projectData.name : "");
   const [description, setDescription] = useState(
@@ -31,7 +32,9 @@ const EditProjectModal: React.FC<{
     projectData.lumpSum ? projectData.lumpSum + "" : ""
   );
   const [dueDate, setDueDate] = useState(
-    projectData.dueDate + "" ? projectData.dueDate + "" : ""
+    projectData.dueDate
+      ? new Date(projectData.dueDate).toLocaleDateString()
+      : ""
   );
   const [startDate, setStartDate] = useState(
     projectData.startDate + "" ? projectData.startDate + "" : ""
@@ -42,7 +45,9 @@ const EditProjectModal: React.FC<{
   const [isPriority, setIsPriority] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
 
-  const { mutateAsync: updateProject } = useUpdateProject();
+  const closeHandler = () => {
+    setIsModalOpen(false);
+  };
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -56,7 +61,7 @@ const EditProjectModal: React.FC<{
           priority,
           description:
             description.trim().length === 0 ? undefined : description,
-          lumpSum: lumpSum === 0 ? undefined : lumpSum,
+          lumpSum: Number(lumpSum) === 0 ? undefined : Number(lumpSum),
           startDate: startDate.length === 0 ? undefined : new Date(startDate),
           dueDate: dueDate.length === 0 ? undefined : new Date(dueDate),
         },
@@ -110,19 +115,66 @@ const EditProjectModal: React.FC<{
         </div>
 
         {/* Deadlines */}
-        <fieldset className="new-project__date">
+        <fieldset className="">
           <label>Due Date</label>
-          <div className="new-project__date--empty">
-            <div className="new-project__date-icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                stroke="currentColor"
+
+          <div className="date-button menu-button menu-button-container ">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsMenuOpen((state) => !state);
+              }}
+              ref={btnRef}
+              className="menu-button"
+            >
+              {dueDate === null ? (
+                <div className="new-project__date--empty">
+                  <div className="new-project__date-icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      stroke="currentColor"
+                    >
+                      <path d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                    </svg>
+                  </div>
+                  <span>No due date</span>
+                </div>
+              ) : (
+                <div className="new-project__date">
+                  <div className="new-project__date-icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      stroke="currentColor"
+                    >
+                      <path d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                    </svg>
+                  </div>
+                  <span>{formatDueDate(new Date(dueDate))}</span>
+                </div>
+              )}
+            </button>
+
+            {isMenuOpen && (
+              <div
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+                className="menu"
+                ref={menuRef}
               >
-                <path d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
-              </svg>
-            </div>
-            <span>No due date</span>
+                <ReactDatePicker
+                  value={dueDate}
+                  selected={new Date(dueDate)}
+                  onChange={(dueDate) => {
+                    setDueDate(new Date(dueDate));
+                  }}
+                />
+              </div>
+            )}
           </div>
         </fieldset>
 

@@ -212,11 +212,9 @@ const SectionListView = ({
           </div>
         </div>
       </div>
+      {/* CONTAINER OF TASKS */}
       {showTasks && (
         <div className="section__tasks">
-          {section.tasks.map((task) => (
-            <OneTaskRow key={task.id} task={task} />
-          ))}
           {isNewTaskOpen && (
             <AddTaskRow
               forwardRef={newTaskRef}
@@ -225,12 +223,9 @@ const SectionListView = ({
               setNewTaskOpen={setNewTaskOpen}
             />
           )}
-          {/* <AddTaskRow
-            forwardRef={newTaskRef}
-            newTaskName={newTaskName}
-            setNewTaskName={setNewTaskName}
-            setNewTaskOpen={setNewTaskOpen}
-          /> */}
+          {section.tasks.map((task) => (
+            <OneTaskRow key={task.id} task={task} />
+          ))}
         </div>
       )}
     </>

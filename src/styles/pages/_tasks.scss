@@ -88,7 +88,7 @@
   display: flex;
 
   &:hover {
-    cursor: pointer;
+    // cursor: pointer;
     background-color: var(--color-gray--hover);
 
     .task__drag {
@@ -206,16 +206,20 @@
     font-size: 12px;
     display: flex;
     padding-left: 4px;
-    // border-top: 1px solid var(--color-border);
+    border-top: 1px solid transparent;
     border-right: 1px solid var(--color-border);
     border-left: 1px solid transparent;
     border-bottom: 1px solid var(--color-border);
     user-select: none;
     // border: 1px solid var ;
     &:hover {
-      border: 1px solid #495057 !important;
-      border-top: 1px solid #495057 !important;
-      border-right: 1px solid #495057 !important;
+      border: 1px solid #6d6d6d !important;
+      border-top: 1px solid #6d6d6d !important;
+      border-right: 1px solid #6d6d6d !important;
+
+      border-right: 1px solid #6d6d6d !important;
+      border-left: 1px solid #6d6d6d !important;
+      border-bottom: 1px solid #6d6d6d !important;
     }
 
     & > * {
@@ -228,6 +232,7 @@
 
     &--empty {
       width: 100%;
+      cursor: unset !important;
     }
   }
 

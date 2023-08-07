@@ -12,7 +12,7 @@ import { Client, User } from "@prisma/client";
 import { useWorkspaceMembers } from "@/hooks/WorkspaceHooks";
 import usePlaceHolder from "@/hooks/usePlaceHolder";
 
-const formatDueDate = (taskDueDate: Date) => {
+export const formatDueDate = (taskDueDate: Date) => {
   return format(new Date(taskDueDate), "MMM dd");
 };
 

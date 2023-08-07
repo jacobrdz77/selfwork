@@ -14,6 +14,7 @@ import { format } from "date-fns";
 import useMenu from "@/hooks/useMenu";
 import { TaskWithAssignee } from "@/types/types";
 import { useDeleteTask, useUpdateTask } from "@/hooks/TaskHooks";
+import { taskPriorityClassName } from "./OneTaskRow";
 
 const EditTaskDetails = ({
   task,
@@ -528,7 +529,7 @@ const DueDateButton = ({
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          setIsMenuOpen((state) => !state);
+          setIsMenuOpen(!isMenuOpen);
         }}
         ref={btnRef}
         className="menu-button data-selected "
@@ -656,7 +657,10 @@ const PriorityButton = ({
         ref={btnRef}
         className="menu-button data-selected data-selected--Tags"
       >
-        <span>{priority ? priority : "None"}</span>
+        <span className={`${taskPriorityClassName(priority)} flex`}>
+          {priority}
+        </span>
+        {/* <span>{priority ? priority : "None"}</span> */}
       </button>
 
       {priority !== "None" && (

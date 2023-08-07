@@ -110,10 +110,15 @@
 }
 
 .date-button {
-  .menu-button {
+  .new-project__date {
     display: flex;
     align-items: center;
-    justify-content: center;
+    height: 56px;
+  }
+
+  .menu-button {
+    width: 100%;
+    // justify-content: center;
   }
 
   .menu {
@@ -251,6 +256,7 @@
   color: var(--color-gray);
   fill: var(--color-gray);
   transition: all 0.1s ease-in;
+  margin-top: 4px;
   &:hover {
     cursor: pointer;
     background-color: rgb(236, 234, 234);

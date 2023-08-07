@@ -116,6 +116,19 @@ const AddClientModal: React.FC<{
           {isEmailError && <p className="error-text">Enter a valid email</p>}
         </div>
         <div className="input-block">
+          <label htmlFor="name">Phone Number</label>
+          <input
+            name="phone"
+            type="text"
+            placeholder="123-123-1234"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            onBlur={phoneBlurHandler}
+            className={`input ${isPhoneError ? "email--error" : ""}`}
+          />
+          {isPhoneError && <p>Enter a valid US phone number</p>}
+        </div>
+        <div className="input-block">
           <label htmlFor="name">Company Name</label>
           <input
             id="address"
@@ -137,19 +150,6 @@ const AddClientModal: React.FC<{
           />
         </div>
 
-        <div className="input-block">
-          <label htmlFor="name">Phone Number</label>
-          <input
-            name="phone"
-            type="text"
-            placeholder="123-123-1234"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            onBlur={phoneBlurHandler}
-            className={`input ${isPhoneError ? "email--error" : ""}`}
-          />
-          {isPhoneError && <p>Enter a valid US phone number</p>}
-        </div>
         <div className="submit-button">
           <button
             type="submit"

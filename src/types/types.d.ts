@@ -122,7 +122,7 @@ export type ClientWithProjects = Client & {
 };
 
 export type UpdateClientData = {
-  id?: number;
+  id?: string;
   name?: string;
   companyName?: string | null;
   phone?: string | null;
