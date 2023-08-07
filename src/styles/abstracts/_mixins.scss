@@ -81,3 +81,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+@mixin iconColor($color) {
+  fill: $color;
+}

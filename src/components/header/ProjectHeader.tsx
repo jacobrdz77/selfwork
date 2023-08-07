@@ -6,7 +6,7 @@ import { useDeleteProject, useUpdateProject } from "@/hooks/ProjectHooks";
 import LoadingSkeleton from "../UI/LoadingSkeleton";
 import { useModalStore } from "store/user";
 import { ProjectWithAll } from "@/types/types";
-import { Color } from "@prisma/client";
+import { Color, Project, ProjectStatus } from "@prisma/client";
 
 type HeaderProps = {
   name: string | undefined;
@@ -18,11 +18,18 @@ const ProjectHeader: React.FC<HeaderProps> = ({ name, status, project }) => {
   const router = useRouter();
   const currentPath = router.pathname.split("/")[3];
   const { projectId } = router.query;
-  const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
-  const { mutate } = useDeleteProject();
+
   const setIsEditProjectModalOpen = useModalStore(
     (state) => state.setIsEditProjectModalOpen
   );
+
+  const { mutate } = useDeleteProject();
+  const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
+  const [projectStatus, setProjectStatus] = useState(project.status);
+
+  useEffect(() => {
+    setProjectStatus(project.status);
+  }, [project]);
 
   return (
     <>
@@ -85,6 +92,11 @@ const ProjectHeader: React.FC<HeaderProps> = ({ name, status, project }) => {
                 </div>
               </div>
             </div>
+            <StatusButton
+              status={projectStatus}
+              setStatus={setProjectStatus}
+              project={project}
+            />
           </div>
           <nav>
             <ul className="project-header__nav">
@@ -143,6 +155,7 @@ const ProjectHeader: React.FC<HeaderProps> = ({ name, status, project }) => {
     </>
   );
 };
+export default ProjectHeader;
 
 const LoadingProjectHeader = () => {
   return (
@@ -169,8 +182,6 @@ const LoadingProjectHeader = () => {
     </div>
   );
 };
-
-export default ProjectHeader;
 
 const ColorMenu = ({
   currColor,
@@ -369,6 +380,226 @@ const ColorMenu = ({
           </div>
         </div>
       </div>
+    </div>
+  );
+};
+
+const StatusButton = ({
+  status,
+  setStatus,
+  project,
+}: {
+  status: ProjectStatus;
+  setStatus: React.Dispatch<React.SetStateAction<ProjectStatus>>;
+  project: Project;
+}) => {
+  const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
+  const { mutate: updateProject } = useUpdateProject();
+
+  function updateStatus(status: ProjectStatus) {
+    setStatus(status);
+    updateProject({
+      projectId: project.id,
+      projectData: {
+        status,
+      },
+    });
+  }
+
+  return (
+    <div className="project-header__status menu-button-container ">
+      <button
+        type="button"
+        ref={btnRef}
+        className={`menu-button status-button ${isMenuOpen ? "active" : ""}`}
+        onClick={() => setIsMenuOpen((state) => !state)}
+      >
+        {status === "Active" && (
+          <div className="flex">
+            <svg
+              className={`sidebar__color-icon project-status--active status-icon`}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
+            Active
+          </div>
+        )}
+        {status === "OnTrack" && (
+          <div className="flex">
+            <svg
+              className={`sidebar__color-icon project-status--onTrack`}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
+            On Track
+          </div>
+        )}
+
+        {status === "OffTrack" && (
+          <div className="flex">
+            <svg
+              className={`sidebar__color-icon project-status--offTrack`}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
+            Off Track
+          </div>
+        )}
+        {status === "OnHold" && (
+          <div className="flex">
+            <svg
+              className={`sidebar__color-icon project-status--onHold`}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
+            On Hold
+          </div>
+        )}
+        {status === "InTesting" && (
+          <div className="flex">
+            <svg
+              className={`sidebar__color-icon project-status--inTesting`}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
+            In Testing
+          </div>
+        )}
+        {status === "Approved" && (
+          <div className="flex">
+            <svg
+              className={`sidebar__color-icon project-status--approved`}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
+            Approved
+          </div>
+        )}
+
+        {/* {status ? status : "Set Status"} */}
+
+        <svg
+          className={`icon ${isMenuOpen ? "icon--active" : ""}`}
+          viewBox="0 0 6.3499999 6.3500002"
+        >
+          <g id="layer1" transform="translate(0 -290.65)">
+            <path d="m2.2580394 291.96502a.26460982.26460982 0 0 0 -.1741496.46871l1.6190225 1.38699-1.6190225 1.38648a.26460982.26460982 0 1 0 .3436483.40049l1.8536335-1.58595a.26460982.26460982 0 0 0 0-.40256l-1.8536335-1.5875a.26460982.26460982 0 0 0 -.1694987-.0667z" />
+          </g>
+        </svg>
+      </button>
+
+      {isMenuOpen && (
+        <div
+          className={`menu ${isMenuOpen ? "active" : ""}`}
+          ref={menuRef}
+          onClick={(e) => {
+            setIsMenuOpen(false);
+          }}
+        >
+          <div
+            className="item"
+            onClick={() => {
+              updateStatus("Active");
+            }}
+          >
+            <svg
+              className={`sidebar__color-icon project-status--active`}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
+            Active
+          </div>
+          <div
+            className="item"
+            onClick={() => {
+              updateStatus("OnTrack");
+            }}
+          >
+            <svg
+              className={`sidebar__color-icon project-status--onTrack`}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
+            On Track
+          </div>
+          <div
+            className="item"
+            onClick={() => {
+              updateStatus("OffTrack");
+            }}
+          >
+            <svg
+              className={`sidebar__color-icon project-status--offTrack`}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
+            Off Track
+          </div>
+          <div
+            className="item"
+            onClick={() => {
+              updateStatus("OffTrack");
+            }}
+          >
+            <svg
+              className={`sidebar__color-icon project-status--onHold`}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
+            On Hold
+          </div>
+          <div
+            className="item"
+            onClick={() => {
+              updateStatus("InTesting");
+            }}
+          >
+            <svg
+              className={`sidebar__color-icon project-status--inTesting`}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
+            In Testing
+          </div>
+          <div
+            className="item"
+            onClick={() => {
+              updateStatus("Approved");
+            }}
+          >
+            <svg
+              className={`sidebar__color-icon project-status--approved`}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M10.4,4h3.2c2.2,0,3,0.2,3.9,0.7c0.8,0.4,1.5,1.1,1.9,1.9s0.7,1.6,0.7,3.9v3.2c0,2.2-0.2,3-0.7,3.9c-0.4,0.8-1.1,1.5-1.9,1.9s-1.6,0.7-3.9,0.7h-3.2c-2.2,0-3-0.2-3.9-0.7c-0.8-0.4-1.5-1.1-1.9-1.9c-0.4-1-0.6-1.8-0.6-4v-3.2c0-2.2,0.2-3,0.7-3.9C5.1,5.7,5.8,5,6.6,4.6C7.4,4.2,8.2,4,10.4,4z"></path>
+            </svg>
+            Approved
+          </div>
+        </div>
+      )}
     </div>
   );
 };

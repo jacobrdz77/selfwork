@@ -6,6 +6,7 @@ import type {
   Priority,
   Prisma,
   Project,
+  ProjectStatus,
   Section,
   Status,
   Tag,
@@ -56,6 +57,7 @@ export type UpdateProjectData = {
   dueDate?: Date;
   clientId?: string;
   iconColor?: Color;
+  status?: ProjectStatus;
 };
 
 type OneProjectWithSections = Project & {

@@ -435,7 +435,7 @@ const StatusButton = ({
             }}
           >
             <svg
-              className={`sidebar__color-icon sidebar__color-icon--forest`}
+              className={`sidebar__color-icon sidebar__color-icon--green`}
               viewBox="0 0 24 24"
               aria-hidden="true"
             >

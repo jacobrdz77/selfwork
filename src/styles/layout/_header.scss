@@ -46,7 +46,7 @@
   position: sticky;
   top: 0;
   left: 0;
-  z-index: 2;
+  z-index: 10;
 
   &__icon {
     margin-right: 6px;
@@ -198,5 +198,60 @@
       height: 20px;
       margin-right: 6px;
     }
+  }
+
+  &__status {
+    .status-button {
+      font-size: 14px;
+      padding: 6px 12px !important;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      border: 1px solid transparent;
+      margin-left: 8px;
+
+      transition: 0.1s color ease-in, 0.1s background-color ease-in,
+        0.1s border ease-in;
+
+      &:hover {
+        visibility: visible;
+        color: #000;
+        // border: 1px solid #a1a1a1;
+
+        .icon {
+          opacity: 100%;
+        }
+      }
+
+      .icon {
+        opacity: 0;
+      }
+    }
+
+    .menu {
+      left: 8px !important;
+    }
+  }
+
+  // For Project Status
+  .project-status--active {
+    fill: var(--project-status--active);
+    // @include iconColor(var(--project-status--active));
+  }
+  .project-status--onTrack {
+    fill: var(--project-status--onTrack);
+  }
+  .project-status--offTrack {
+    fill: var(--project-status--offTrack);
+  }
+  .project-status--onHold {
+    fill: var(--project-status--onHold);
+  }
+  .project-status--inTesting {
+    fill: var(--project-status--inTesting);
+  }
+  .project-status--approved {
+    fill: var(--project-status--approved);
   }
 }

@@ -9,7 +9,7 @@
   background-color: var(--color-navigation-background);
   color: var(--color-navigation-text);
   font-size: 14px;
-  z-index: 10;
+  z-index: 12;
 
   &--minimized {
     width: 60px;
@@ -95,7 +95,7 @@
       position: absolute;
       top: 10px;
       left: 100%;
-      z-index: 10;
+      z-index: 15;
 
       &--active {
         display: block;
@@ -504,6 +504,10 @@
     }
     &--oat {
       fill: var(--color-customization-oat-background);
+    }
+
+    &--green {
+      fill: var(--color-green--light);
     }
   }
 
