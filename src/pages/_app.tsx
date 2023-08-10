@@ -6,8 +6,6 @@ import { Query, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import { NextPage } from "next";
 import { ReactElement, ReactNode } from "react";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { DndProvider } from "react-dnd";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -42,9 +40,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           />
           <title>selfwork.</title>
         </Head>
-        <DndProvider backend={HTML5Backend}>
-          <PageLayout>{getLayout(<Component {...pageProps} />)}</PageLayout>
-        </DndProvider>
+        <PageLayout>{getLayout(<Component {...pageProps} />)}</PageLayout>
       </QueryClientProvider>
     </SessionProvider>
   );

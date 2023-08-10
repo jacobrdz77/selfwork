@@ -1,15 +1,22 @@
+import { useState, useEffect } from "react";
 import { NextPage } from "next";
 import PageHeader from "@/components/header/PageHeader";
 import { useSectionsOfUser } from "@/hooks/SectionHooks";
 import SectionListView from "@/components/sections/SectionListView";
 import TaskTableHead from "@/components/task/TaskTableHead";
-import AddUserSectionButton from "@/components/sections/AddUserSectionButton";
-import Button from "@/components/UI/Button";
 import MyTaskNav from "@/components/header/MyTaskNav";
+import SectionsList from "@/components/sections/SectionsList";
+import { SectionWithTasks } from "@/types/types";
 
-const MyTaskListPage = () => {
+const MyTaskListPage: NextPage = () => {
   const { userAssignedTasksSection, userSections, status } =
     useSectionsOfUser();
+
+  const [sections, setSections] = useState(userSections ? userSections : []);
+
+  useEffect(() => {
+    setSections(userSections!);
+  }, [userSections]);
 
   return (
     <>
@@ -17,35 +24,18 @@ const MyTaskListPage = () => {
         <MyTaskNav />
       </PageHeader>
       <div className="page tasks-page">
-        {/* ADD button */}
-        {/* <Button className="add-task-btn">
-          <svg
-            fill="currentColor"
-            className="sidebar__add-icon"
-            viewBox="0 0 24 24"
-          >
-            <path d="m12 6a1 1 0 0 0 -1 1v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2h-4v-4a1 1 0 0 0 -1-1z" />
-          </svg>
-          Add Task
-        </Button> */}
         {status === "success" && (
           <>
             <TaskTableHead />
-
             <div className="list-sections">
               {/* User assigned section. This cannot be deleted because this is where assigned tasks go to. */}
-              <SectionListView
+              {/* <SectionListView
                 isUserAssignedSection={true}
                 section={userAssignedTasksSection!}
-              />
+              /> */}
 
               {/* The rest of user sections */}
-              {userSections?.map((section) => (
-                <SectionListView key={section.id} section={section} />
-              ))}
-              <AddUserSectionButton
-                sectionsLength={Number(userSections?.length) + 1}
-              />
+              <SectionsList sections={sections!} setSections={setSections} />
             </div>
           </>
         )}

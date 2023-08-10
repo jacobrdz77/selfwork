@@ -1,45 +1,42 @@
-import React, { useCallback, useRef, useState } from "react";
-import update from "immutability-helper";
-import Board from "../task/Board";
+import React, { useCallback, useState } from "react";
 import { SectionWithTasks } from "@/types/types";
 import AddProjectSectionButton from "./AddProjectSectionButton";
 import AddUserSectionButton from "./AddUserSectionButton";
+import { SortableContext } from "@dnd-kit/sortable";
+import OneBoard from "./OneBoard";
+import { DndContext } from "@dnd-kit/core";
+import useDndContextForSections from "@/hooks/useDndContextForSections";
 
-interface DragItem {
-  index: number;
-  id: string;
-  type: string;
-}
-
-const Boards = ({
-  userSections,
-  userAssignedSection,
-  isProject,
-  projectId,
-}: {
-  userSections: SectionWithTasks[] | undefined;
+interface Props {
+  sections: SectionWithTasks[] | undefined;
+  setSections: React.Dispatch<React.SetStateAction<SectionWithTasks[]>>;
   userAssignedSection: SectionWithTasks | undefined;
   isProject?: boolean;
   projectId?: string;
-}) => {
-  const [boards, setBoards] = useState(userSections);
+}
 
-  const moveBoard = useCallback((dragIndex: number, hoverIndex: number) => {
-    console.log("MOOOVE");
-    setBoards((prevCards) =>
-      update(prevCards, {
-        $splice: [
-          [dragIndex, 1],
-          [hoverIndex, 0, prevCards[dragIndex]],
-        ],
-      })
-    );
-  }, []);
+const Boards = ({
+  sections,
+  setSections,
+  userAssignedSection,
+  isProject,
+  projectId,
+}: Props) => {
+  const [activeId, setActiveId] = useState<number | null>(null);
+  const { sensors, handleDragEnd, handleDragStart } = useDndContextForSections(
+    sections!,
+    setSections
+  );
 
   return (
-    <div className="boards">
-      {/* {userSections?.map((section, index) => renderBoard(section, index))} */}
-      {/* {userAssignedSection && (
+    <DndContext
+      sensors={sensors}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
+      <div className="boards">
+        {/* This is only for My Tasks page */}
+        {/* {userAssignedSection && (
         <Board
           isUserAssignedSection={true}
           key={userAssignedSection.id}
@@ -49,28 +46,43 @@ const Boards = ({
           moveBoard={moveBoard}
         />
       )} */}
-      {boards?.map((section, i) => (
-        <Board
-          key={section.id}
-          tasks={section.tasks}
-          title={section.name}
-          section={section}
-          moveBoard={moveBoard}
-        />
-      ))}
-      <div className="add-btn">
-        {isProject ? (
-          <AddProjectSectionButton
-            projectId={projectId!}
-            sectionsLength={Number(userSections?.length)}
-          />
-        ) : (
-          <AddUserSectionButton
-            sectionsLength={Number(userSections?.length) + 1}
-          />
-        )}
+        <SortableContext items={sections ? sections : []}>
+          {sections?.map((section) => (
+            <OneBoard
+              key={section.id}
+              tasks={section.tasks}
+              title={section.name}
+              section={section}
+            />
+          ))}
+        </SortableContext>
+
+        {/* This makes it when you start dragging a Board, it still stays at the same position but it creates a copy of it and you're able to move it around. */}
+        {/* <DragOverlay>
+          {activeId ? (
+            <OneBoard
+              key={activeId}
+              tasks={sections[activeId].tasks}
+              title={sections[activeId].name}
+              section={sections[activeId]}
+            />
+          ) : null}
+        </DragOverlay> */}
+
+        <div className="add-btn">
+          {isProject ? (
+            <AddProjectSectionButton
+              projectId={projectId!}
+              sectionsLength={Number(sections?.length)}
+            />
+          ) : (
+            <AddUserSectionButton
+              sectionsLength={Number(sections?.length) + 1}
+            />
+          )}
+        </div>
       </div>
-    </div>
+    </DndContext>
   );
 };
 

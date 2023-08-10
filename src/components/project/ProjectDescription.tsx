@@ -22,6 +22,7 @@ const ProjectDescription = ({
 
   useEffect(() => {
     setDescription(initialDescription);
+    setOldDescription(initialDescription);
   }, [initialDescription]);
 
   return (

@@ -1,29 +1,34 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import ProjectPageLayout from "@/components/project/ProjectPageLayout";
-import { useOneProject } from "@/hooks/ProjectHooks";
 import { NextPageWithLayout } from "../../_app";
 import TaskTableHead from "@/components/task/TaskTableHead";
-import SectionListView from "@/components/sections/SectionListView";
 import { useSectionsOfProject } from "@/hooks/SectionHooks";
-import AddProjectSectionButton from "@/components/sections/AddProjectSectionButton";
+import SectionsList from "@/components/sections/SectionsList";
+import { useEffect } from "react";
 
 const List: NextPageWithLayout = () => {
   const { projectId } = useRouter().query;
   const { projectSections, status } = useSectionsOfProject(projectId as string);
-  const { project, status: projectStatus } = useOneProject(projectId as string);
-  // console.log("Project in list: ", project);
-  // console.log("Sections: ", project?.sections);
+
+  const [sections, setSections] = useState(
+    projectSections ? projectSections : []
+  );
+
+  useEffect(() => {
+    setSections(projectSections ? projectSections : []);
+  }, [projectSections]);
+
   return (
     <div className="project-page__list">
-      {projectStatus === "error" && (
+      {status === "error" && (
         <div>
           <h1>Error</h1>
           <p>Try to refresh the page.</p>
         </div>
       )}
 
-      {projectStatus === "loading" && <div>Loading...</div>}
+      {status === "loading" && <div>Loading...</div>}
 
       {/* ADD button */}
       {/* <Button className="add-task-btn">
@@ -36,16 +41,15 @@ const List: NextPageWithLayout = () => {
         </svg>
         Add Task
       </Button> */}
+
       {status === "success" && (
         <>
           <TaskTableHead />
-          <div className="list-sections">
-            {/* The rest of user sections */}
-            {projectSections?.map((section) => (
-              <SectionListView key={section.id} section={section} />
-            ))}
-            <AddProjectSectionButton projectId={projectId as string} />
-          </div>
+          <SectionsList
+            sections={sections ? sections : []}
+            projectId={projectId as string}
+            setSections={setSections}
+          />
         </>
       )}
     </div>

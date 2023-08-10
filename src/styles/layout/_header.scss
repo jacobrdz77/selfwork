@@ -46,7 +46,7 @@
   position: sticky;
   top: 0;
   left: 0;
-  z-index: 10;
+  z-index: 0;
 
   &__icon {
     margin-right: 6px;
@@ -230,6 +230,9 @@
     }
 
     .menu {
+      &-container {
+        z-index: 999;
+      }
       left: 8px !important;
     }
   }

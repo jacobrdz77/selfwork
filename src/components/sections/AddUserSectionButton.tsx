@@ -8,7 +8,7 @@ const AddUserSectionButton = ({
   const { mutate } = useCreateUserSection();
   const addNewSectionHandler = () => {
     console.log("Sections length: ", sectionsLength);
-    mutate({ name: "Untitled Section", order: sectionsLength });
+    mutate({ name: "Untitled Section", order: sectionsLength + 1 });
   };
 
   return (

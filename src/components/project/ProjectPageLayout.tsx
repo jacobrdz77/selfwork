@@ -50,7 +50,6 @@ const ProjectPageLayout = ({
           status={status}
         />
       )}
-
       <div className="page project-page">{children}</div>
     </>
   );

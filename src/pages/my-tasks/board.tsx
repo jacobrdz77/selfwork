@@ -1,4 +1,4 @@
-import Button from "@/components/UI/Button";
+import { useEffect, useState } from "react";
 import MyTaskNav from "@/components/header/MyTaskNav";
 import PageHeader from "@/components/header/PageHeader";
 import Boards from "@/components/sections/Boards";
@@ -8,6 +8,12 @@ import React from "react";
 const MyTaskBoardPage = () => {
   const { userAssignedTasksSection, userSections, status } =
     useSectionsOfUser();
+
+  const [sections, setSections] = useState(userSections!);
+
+  useEffect(() => {
+    setSections(userSections!);
+  }, [userSections]);
   return (
     <>
       <PageHeader title="My Tasks">
@@ -19,7 +25,8 @@ const MyTaskBoardPage = () => {
           <div className="boards-container">
             <Boards
               userAssignedSection={userAssignedTasksSection}
-              userSections={[...userSections!]}
+              sections={sections}
+              setSections={setSections}
               isProject={false}
             />
           </div>

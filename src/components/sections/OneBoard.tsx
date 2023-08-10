@@ -1,30 +1,35 @@
 import { SectionWithTasks, TaskWithAssignee } from "@/types/types";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useMenu from "@/hooks/useMenu";
 import { useDeleteSection, useUpdateSection } from "@/hooks/SectionHooks";
-import BoardNewTask from "./BoardNewTask";
-import BoardTask from "./BoardTask";
+import BoardNewTask from "../task/BoardNewTask";
+import BoardTask from "../task/BoardTask";
 import { useCreateTask } from "@/hooks/TaskHooks";
-import { XYCoord, useDrag, useDrop } from "react-dnd";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 interface Board {
-  title: string;
   section: SectionWithTasks;
+  title: string;
   tasks: TaskWithAssignee[];
-  moveBoard: (dragIndex: number, hoverIndex: number) => void;
   isUserAssignedSection?: boolean;
-  // index: number;
 }
 
-const Board: React.FC<Board> = ({
-  title,
+const OneBoard: React.FC<Board> = ({
   section,
+  title,
   tasks,
-  moveBoard,
   isUserAssignedSection = false,
-  // index,
 }) => {
+  const [newTaskName, setNewTaskName] = useState("");
+  const [oldName, setOldName] = useState(title);
+  const [sectionInputName, setSectionInputName] = useState(title);
+  const [isInputFocused, setIsInputFocused] = useState(false);
+  const inputRef = useRef(null);
+
   const { mutate: createTask } = useCreateTask();
+  const { mutate: deleteSection } = useDeleteSection();
+  const { mutate: updateSection } = useUpdateSection();
 
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const {
@@ -44,20 +49,16 @@ const Board: React.FC<Board> = ({
     }
   });
 
-  const { mutate: deleteSection } = useDeleteSection();
+  // Makes it Draggable
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: section.id });
 
-  const [newTaskName, setNewTaskName] = useState("");
-
-  const [oldName, setOldName] = useState(title);
-  const [sectionInputName, setSectionInputName] = useState(title);
-  const [isInputFocused, setIsInputFocused] = useState(false);
-  const inputRef = useRef(null);
-  const { mutate: updateSection } = useUpdateSection();
-
-  const focusOnInput = () => {
-    // @ts-ignore
-    inputRef.current!.focus();
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
   };
+
+  // Name Input
 
   useEffect(() => {
     if (isInputFocused === true) {
@@ -65,6 +66,10 @@ const Board: React.FC<Board> = ({
     }
   }, [isInputFocused]);
 
+  const focusOnInput = () => {
+    // @ts-ignore
+    inputRef.current!.focus();
+  };
   const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     let trimmedName = e.currentTarget.value.trim();
     if (trimmedName.length === 0) {
@@ -87,77 +92,14 @@ const Board: React.FC<Board> = ({
     setIsInputFocused(false);
   };
 
-  //********* THIS IS FOR REORDERING BOARDS ********/
-  // Sorting Board
-  const ref = useRef(null);
-  const [{ handlerId }, drop] = useDrop(() => ({
-    // The type (or types) to accept - strings or symbols
-    accept: "Board",
-    // Props to collect
-
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-      handlerId: monitor.getHandlerId(),
-      highlighted: monitor.canDrop(),
-    }),
-
-    hover(item: any, monitor) {
-      console.log("ITEM: ", item);
-      if (!ref.current) {
-        return;
-      }
-      const dragIndex = item.index;
-      const hoverIndex = section.order!;
-
-      // Don't replace items with themselves
-      if (dragIndex === hoverIndex) {
-        return;
-      }
-
-      // Determine rectangle on screen
-      const hoverBoundingRect = ref.current?.getBoundingClientRect();
-      // Get vertical middle
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-
-      // Determine mouse position
-      const clientOffset = monitor.getClientOffset();
-
-      // Get pixels to the top
-      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
-
-      if (dragIndex < hoverIndex) {
-        moveBoard(dragIndex, hoverIndex);
-        item.index = hoverIndex;
-        console.log("CANCEL 1");
-        return;
-      }
-      // Moving LEFT
-      if (dragIndex > hoverIndex) {
-        moveBoard(dragIndex, hoverIndex);
-        item.index = hoverIndex;
-        console.log("CANCEL 2");
-        return;
-      }
-
-      return;
-    },
-  }));
-
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: "Board",
-    item: () => {
-      return { boardId: section.id, index: section.order };
-    },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  }));
-
-  drag(drop(ref));
-
   return (
-    <div className="board" ref={ref}>
+    <div
+      className="board"
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+    >
       <div className="board-title">
         <div className="name">
           {isInputFocused ? (
@@ -269,4 +211,4 @@ const Board: React.FC<Board> = ({
   );
 };
 
-export default Board;
+export default OneBoard;

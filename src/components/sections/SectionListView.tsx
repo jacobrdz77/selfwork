@@ -6,16 +6,20 @@ import { SectionWithTasks } from "@/types/types";
 import OneTaskRow from "../task/OneTaskRow";
 import AddTaskRow from "../task/AddTaskRow";
 import { useCreateTask } from "@/hooks/TaskHooks";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+
+interface Props {
+  section: SectionWithTasks;
+  isUserAssignedSection?: boolean;
+  focusOnNewInput?: (func: () => void) => void;
+}
 
 const SectionListView = ({
   section,
   focusOnNewInput,
   isUserAssignedSection = false,
-}: {
-  section: SectionWithTasks;
-  isUserAssignedSection?: boolean;
-  focusOnNewInput?: (func: () => void) => void;
-}) => {
+}: Props) => {
   const [showTasks, setShowTasks] = useState(true);
   const [oldName, setOldName] = useState(section.name);
   const [sectionInputName, setSectionInputName] = useState(section.name);
@@ -47,23 +51,26 @@ const SectionListView = ({
     }
   });
 
+  // Makes it draggable
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: section.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
   // For Name
   const focusOnInput = () => {
     // @ts-ignore
     inputRef.current!.focus();
   };
-
-  useEffect(() => {
-    if (focusOnNewInput) {
-      focusOnNewInput(focusOnInput);
-    }
-  }, [focusOnNewInput]);
-
-  useEffect(() => {
-    if (isInputFocused === true) {
-      focusOnInput();
-    }
-  }, [isInputFocused]);
 
   const handleInputBlur = (e: FocusEvent<HTMLInputElement, Element>) => {
     let trimmedName = e.currentTarget.value.trim();
@@ -87,8 +94,26 @@ const SectionListView = ({
     setIsInputFocused(false);
   };
 
+  useEffect(() => {
+    if (focusOnNewInput) {
+      focusOnNewInput(focusOnInput);
+    }
+  }, [focusOnNewInput]);
+
+  useEffect(() => {
+    if (isInputFocused === true) {
+      focusOnInput();
+    }
+  }, [isInputFocused]);
+
   return (
-    <>
+    <div
+      className="section-list-container"
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+    >
       <div className="section-container">
         <div className="section">
           {/* Todo: absolute position drag */}
@@ -102,7 +127,10 @@ const SectionListView = ({
             className={`section__toggle section__button ${
               showTasks ? "section__toggle--open" : ""
             }`}
-            onClick={() => setShowTasks(!showTasks)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowTasks(!showTasks);
+            }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -150,7 +178,7 @@ const SectionListView = ({
             role="button"
             ref={btnRef}
             className="section__add section__button"
-            onClick={() => {
+            onClick={(e) => {
               setNewTaskOpen(!isNewTaskOpen);
               setShowTasks(true);
             }}
@@ -173,6 +201,7 @@ const SectionListView = ({
             <div
               ref={btnRef}
               onClick={(e) => {
+                e.stopPropagation();
                 e.preventDefault();
                 setIsMenuOpen((state) => !state);
               }}
@@ -213,7 +242,7 @@ const SectionListView = ({
         </div>
       </div>
       {/* CONTAINER OF TASKS */}
-      {showTasks && (
+      {!isDragging && showTasks && (
         <div className="section__tasks">
           {isNewTaskOpen && (
             <AddTaskRow
@@ -228,8 +257,46 @@ const SectionListView = ({
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 };
 
 export default SectionListView;
+
+export const DraggingSectionListView = ({
+  sectionName,
+}: {
+  sectionName: string;
+}) => {
+  return (
+    <div className="section section--dragging">
+      {/* Todo: absolute position drag */}
+      <div className="section__drag">
+        <svg className="section__drag-icon" viewBox="0 0 24 24">
+          <path d="M10,4A2,2,0,1,1,8,2,2,2,0,0,1,10,4ZM8,10a2,2,0,1,0,2,2A2,2,0,0,0,8,10Zm0,8a2,2,0,1,0,2,2A2,2,0,0,0,8,18ZM16,6a2,2,0,1,0-2-2A2,2,0,0,0,16,6Zm0,8a2,2,0,1,0-2-2A2,2,0,0,0,16,14Zm0,8a2,2,0,1,0-2-2A2,2,0,0,0,16,22Z" />
+        </svg>
+      </div>
+      {/* Toggle view tasks */}
+      <div className={`section__toggle section__button`}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          className="section__icon"
+        >
+          <path
+            fillRule="evenodd"
+            d="M16.28 11.47a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 011.06-1.06l7.5 7.5z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </div>
+
+      <div className="section__name">
+        <div className="section__input-placeholder" role="button">
+          {sectionName}
+        </div>
+      </div>
+    </div>
+  );
+};

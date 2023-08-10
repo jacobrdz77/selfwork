@@ -1,12 +1,8 @@
+import { useState, useEffect } from "react";
 import ProjectPageLayout from "@/components/project/ProjectPageLayout";
 import { NextPageWithLayout } from "../../_app";
 import { useSectionsOfProject, useSectionsOfUser } from "@/hooks/SectionHooks";
-import Board from "@/components/task/Board";
-import AddSectionButton from "@/components/sections/AddUserSectionButton";
-import { useDrop } from "react-dnd";
 import Boards from "@/components/sections/Boards";
-import EditTaskModal from "@/components/task/EditTaskModal";
-import { useModalStore } from "store/user";
 import { useRouter } from "next/router";
 
 const BoardPage: NextPageWithLayout = () => {
@@ -15,13 +11,19 @@ const BoardPage: NextPageWithLayout = () => {
   const { projectId } = router.query;
   const { projectSections, status } = useSectionsOfProject(projectId as string);
 
+  const [sections, setSections] = useState(projectSections);
+
+  useEffect(() => {
+    setSections(projectSections);
+  }, [projectSections]);
   return (
     <div className="project-page__board">
       {status === "loading" && <div>Loading...</div>}
-
       {status === "success" && (
         <Boards
-          userSections={projectSections}
+          sections={sections}
+          // @ts-ignore
+          setSections={setSections}
           isProject={true}
           projectId={projectId as string}
         />
