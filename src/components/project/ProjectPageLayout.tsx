@@ -5,6 +5,7 @@ import ProjectHeader from "../header/ProjectHeader";
 import LoadingSkeleton from "../UI/LoadingSkeleton";
 import EditProjectModal from "./EditProjectModal";
 import { useModalStore } from "store/user";
+import InviteMemberPopup from "../member/InviteMemberPopup";
 // import TaskDetailModal from "../task/TaskDetailModal";
 
 const ProjectPageLayout = ({
@@ -28,12 +29,29 @@ const ProjectPageLayout = ({
     (state) => state.setIsEditProjectModalOpen
   );
 
+  const isInviteMemberModalOpen = useModalStore(
+    (state) => state.isInviteMemberModalOpen
+  );
+
+  const setIsInviteMemberModalOpen = useModalStore(
+    (state) => state.setIsInviteMemberModalOpen
+  );
+
   return (
     <>
       {isEditProjectModalOpen && status === "success" && (
         <EditProjectModal
           projectData={project!}
           isOpen={isEditProjectModalOpen}
+        />
+      )}
+
+      {isInviteMemberModalOpen && (
+        <InviteMemberPopup
+          isOpen={isInviteMemberModalOpen}
+          setIsOpen={setIsInviteMemberModalOpen}
+          projectId={projectId as string}
+          projectName={project?.name!}
         />
       )}
       {/* {isTaskDetailOpen && (

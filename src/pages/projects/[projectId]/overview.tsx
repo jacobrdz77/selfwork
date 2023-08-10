@@ -12,6 +12,7 @@ import ProjectLinks from "@/components/project/ProjectLinks";
 import ProjectDescription from "@/components/project/ProjectDescription";
 import Link from "next/link";
 import InviteMemberPopup from "@/components/member/InviteMemberPopup";
+import { useModalStore } from "store/user";
 
 const ProjectOverviewPage: NextPageWithLayout = () => {
   const { projectId } = useRouter().query;
@@ -23,6 +24,14 @@ const ProjectOverviewPage: NextPageWithLayout = () => {
     menuRef: memberMenuRef,
     setIsMenuOpen: setMemberMenuOpen,
   } = useMenu();
+  const isInviteMemberModalOpen = useModalStore(
+    (state) => state.isInviteMemberModalOpen
+  );
+
+  const setIsInviteMemberModalOpen = useModalStore(
+    (state) => state.setIsInviteMemberModalOpen
+  );
+
   console.log("Project in overview: ", project?.name);
 
   if (status === "loading") {
@@ -37,6 +46,7 @@ const ProjectOverviewPage: NextPageWithLayout = () => {
       </div>
     );
   }
+
   return (
     <div className="project-page__overview">
       <div className="project-page__overview-description">
@@ -57,7 +67,7 @@ const ProjectOverviewPage: NextPageWithLayout = () => {
               ref={memberBtnRef}
               onClick={(e) => {
                 e.preventDefault();
-                setMemberMenuOpen(true);
+                setIsInviteMemberModalOpen(!isInviteMemberModalOpen);
               }}
               className="project-resources__add-btn project-resources__add-btn--members"
               role="button"
@@ -75,21 +85,6 @@ const ProjectOverviewPage: NextPageWithLayout = () => {
                 <span>Invite Member</span>
               </div>
             </div>
-            {isMembersMenuOpen && (
-              <InviteMemberPopup
-                isOpen={isMembersMenuOpen}
-                menuRef={memberMenuRef}
-                setIsOpen={setMemberMenuOpen}
-                projectId={projectId as string}
-                projectName={project?.name!}
-              />
-            )}
-
-            {/* <InviteMemberPopup
-              menuRef={memberMenuRef}
-              setIsOpen={setMemberMenuOpen}
-              projectId={projectId}
-            /> */}
           </div>
 
           {project?.members.map((member) => (

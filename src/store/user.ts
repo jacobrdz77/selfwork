@@ -33,6 +33,8 @@ type ModalStore = {
   setIsEditProjectModalOpen: (boolean: boolean) => void;
   isClientModalOpen: boolean;
   setIsClientModalOpen: (boolean: boolean) => void;
+  isInviteMemberModalOpen: boolean;
+  setIsInviteMemberModalOpen: (boolean: boolean) => void;
   taskId: string;
 };
 
@@ -51,4 +53,7 @@ export const useModalStore = create<ModalStore>((set) => ({
   isClientModalOpen: false,
   setIsClientModalOpen: (boolean: boolean) =>
     set({ isClientModalOpen: boolean }),
+  isInviteMemberModalOpen: false,
+  setIsInviteMemberModalOpen: (boolean: boolean) =>
+    set({ isInviteMemberModalOpen: boolean }),
 }));

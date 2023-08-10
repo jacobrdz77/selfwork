@@ -29,8 +29,8 @@ const useDndContextForSections = <T>(
       distance: 5,
     },
   });
-  const keyboardSensor = useSensor(KeyboardSensor);
-  const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
+
+  const sensors = useSensors(mouseSensor, touchSensor);
 
   function handleDragStart(e: any) {
     const activeIndex = items?.findIndex((items) => items.id === e.active.id);
