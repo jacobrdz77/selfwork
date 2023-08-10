@@ -10,7 +10,7 @@ import useDndContextForSections from "@/hooks/useDndContextForSections";
 interface Props {
   sections: SectionWithTasks[] | undefined;
   setSections: React.Dispatch<React.SetStateAction<SectionWithTasks[]>>;
-  userAssignedSection: SectionWithTasks | undefined;
+  userAssignedSection?: SectionWithTasks | undefined;
   isProject?: boolean;
   projectId?: string;
 }

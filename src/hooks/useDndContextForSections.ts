@@ -8,12 +8,16 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
+import { SectionWithTasks } from "@/types/types";
+import { useUpdateSection, useUpdateSectionOrder } from "./SectionHooks";
 
 const useDndContextForSections = <T>(
-  items: Array<T & { id: string }>,
-  setItems: Dispatch<SetStateAction<Array<T & { id: string }>>>
+  items: SectionWithTasks[],
+  setItems: Dispatch<SetStateAction<SectionWithTasks[]>>
 ) => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const { mutate } = useUpdateSectionOrder();
+
   // These senors is to be able to click on the buttons without starting a drag event.
   const mouseSensor = useSensor(MouseSensor, {
     activationConstraint: {
@@ -41,12 +45,27 @@ const useDndContextForSections = <T>(
       setItems((item) => {
         const oldIndex = item.findIndex((item) => item.id === active.id);
         const newIndex = item.findIndex((item) => item.id === over.id);
-
         const newitem = arrayMove(item!, oldIndex, newIndex);
-
-        // Todo: Send a request to API to update order of the two item that switched places.
-
         return newitem;
+      });
+
+      // Todo: Send a request to API to update order of the two item that switched places.
+      // Get both current orders to update them in the backend
+      const currentSectionOrder = items.findIndex(
+        (item) => item.id === active.id!
+      )!;
+      const secondSectionOrder = items.findIndex(
+        (item) => item.id === over.id
+      )!;
+
+      console.log("curr: ", currentSectionOrder);
+      console.log("second: ", secondSectionOrder);
+
+      mutate({
+        sectionData: [
+          { currentSectionId: active.id as string, currentSectionOrder },
+          { secondSectionId: over.id as string, secondSectionOrder },
+        ],
       });
     }
   }

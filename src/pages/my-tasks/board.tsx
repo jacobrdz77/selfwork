@@ -4,16 +4,14 @@ import PageHeader from "@/components/header/PageHeader";
 import Boards from "@/components/sections/Boards";
 import { useSectionsOfUser } from "@/hooks/SectionHooks";
 import React from "react";
+import useSortedSections from "@/hooks/useSortedSections";
 
 const MyTaskBoardPage = () => {
   const { userAssignedTasksSection, userSections, status } =
     useSectionsOfUser();
-
-  const [sections, setSections] = useState(userSections!);
-
-  useEffect(() => {
-    setSections(userSections!);
-  }, [userSections]);
+  const { sortedSections, setSortedSections } = useSortedSections(
+    userSections ? userSections : []
+  );
   return (
     <>
       <PageHeader title="My Tasks">
@@ -25,8 +23,8 @@ const MyTaskBoardPage = () => {
           <div className="boards-container">
             <Boards
               userAssignedSection={userAssignedTasksSection}
-              sections={sections}
-              setSections={setSections}
+              sections={sortedSections}
+              setSections={setSortedSections}
               isProject={false}
             />
           </div>

@@ -6,18 +6,15 @@ import TaskTableHead from "@/components/task/TaskTableHead";
 import { useSectionsOfProject } from "@/hooks/SectionHooks";
 import SectionsList from "@/components/sections/SectionsList";
 import { useEffect } from "react";
+import useSortedSections from "@/hooks/useSortedSections";
 
 const List: NextPageWithLayout = () => {
   const { projectId } = useRouter().query;
   const { projectSections, status } = useSectionsOfProject(projectId as string);
 
-  const [sections, setSections] = useState(
+  const { sortedSections, setSortedSections } = useSortedSections(
     projectSections ? projectSections : []
   );
-
-  useEffect(() => {
-    setSections(projectSections ? projectSections : []);
-  }, [projectSections]);
 
   return (
     <div className="project-page__list">
@@ -46,9 +43,9 @@ const List: NextPageWithLayout = () => {
         <>
           <TaskTableHead />
           <SectionsList
-            sections={sections ? sections : []}
+            sections={sortedSections}
             projectId={projectId as string}
-            setSections={setSections}
+            setSections={setSortedSections}
           />
         </>
       )}

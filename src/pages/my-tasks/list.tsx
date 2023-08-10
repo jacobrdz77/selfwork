@@ -1,22 +1,18 @@
-import { useState, useEffect } from "react";
 import { NextPage } from "next";
 import PageHeader from "@/components/header/PageHeader";
 import { useSectionsOfUser } from "@/hooks/SectionHooks";
-import SectionListView from "@/components/sections/SectionListView";
 import TaskTableHead from "@/components/task/TaskTableHead";
 import MyTaskNav from "@/components/header/MyTaskNav";
 import SectionsList from "@/components/sections/SectionsList";
-import { SectionWithTasks } from "@/types/types";
+import useSortedSections from "@/hooks/useSortedSections";
 
 const MyTaskListPage: NextPage = () => {
   const { userAssignedTasksSection, userSections, status } =
     useSectionsOfUser();
 
-  const [sections, setSections] = useState(userSections ? userSections : []);
-
-  useEffect(() => {
-    setSections(userSections!);
-  }, [userSections]);
+  const { sortedSections, setSortedSections } = useSortedSections(
+    userSections ? userSections : []
+  );
 
   return (
     <>
@@ -35,7 +31,10 @@ const MyTaskListPage: NextPage = () => {
               /> */}
 
               {/* The rest of user sections */}
-              <SectionsList sections={sections!} setSections={setSections} />
+              <SectionsList
+                sections={sortedSections!}
+                setSections={setSortedSections}
+              />
             </div>
           </>
         )}

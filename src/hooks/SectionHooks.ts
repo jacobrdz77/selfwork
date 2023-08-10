@@ -230,3 +230,44 @@ export const useUpdateSection = () => {
     },
   });
 };
+
+export const useUpdateSectionOrder = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      sectionData,
+    }: {
+      sectionData: [
+        { currentSectionId: string; currentSectionOrder: number },
+        { secondSectionId: string; secondSectionOrder: number }
+      ];
+    }) => {
+      try {
+        console.log("SECTION DATA: ", sectionData);
+        const response = await fetch(
+          `/api/sections/${sectionData[0].currentSectionId}?second=${sectionData[1].secondSectionId}`,
+          {
+            method: "PUT",
+            body: JSON.stringify({
+              sectionData,
+            }),
+          }
+        );
+        if (!response.ok) {
+          throw new Error(
+            "Error happend!: " + response.status.toLocaleString()
+          );
+        }
+        return (await response.json()) as Section;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    onSuccess: (twoUpdatedSections) => {
+      queryClient.invalidateQueries({ queryKey: ["sections"] });
+      console.log("Updated section: ", twoUpdatedSections);
+    },
+  });
+};

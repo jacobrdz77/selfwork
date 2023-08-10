@@ -52,6 +52,39 @@ export default async function handler(
       const { sectionId } = req.query;
       const body = JSON.parse(req.body);
       const { sectionData } = body;
+
+      // Switching two sections "order"
+      if (req.query.second) {
+        const firstSection = sectionData[0];
+        const secondSection = sectionData[1];
+
+        const updatedFirstSection = await prisma.section.update({
+          where: {
+            id: firstSection.currentSectionId,
+          },
+          data: {
+            //! Use the other section's ORDER
+            // order: secondSection.currentSectionOrder,
+            order: secondSection.secondSectionOrder,
+          },
+        });
+
+        const updatedSecondSection = await prisma.section.update({
+          where: {
+            id: secondSection.secondSectionId,
+          },
+          data: {
+            //! Use the other section's ORDER
+            order: firstSection.currentSectionOrder,
+          },
+        });
+
+        return res.status(200).json({
+          updatedFirstSection,
+          updatedSecondSection,
+        });
+      }
+
       const section = await prisma.section.update({
         where: {
           id: sectionId as string,
