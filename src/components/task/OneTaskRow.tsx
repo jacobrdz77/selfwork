@@ -6,6 +6,8 @@ import { useTableWidthStore } from "store/table-width";
 import { useUpdateTask } from "@/hooks/TaskHooks";
 import EditTaskModal from "./EditTaskModal";
 import useMenu from "@/hooks/useMenu";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 const formatDueDate = (taskDueDate: Date) => {
   return format(new Date(taskDueDate), "MMM dd");
@@ -51,6 +53,15 @@ const OneTaskRow = ({ task }: { task: TaskWithAssignee }) => {
   const { mutate: updateTask } = useUpdateTask();
   const { assigneeWidth, dueDateWidth, nameWidth, priorityWidth, statusWidth } =
     useTableWidthStore((state) => state);
+
+  // Makes it Draggable
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: task.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
 
   // Input
   const handleInputBlur = (e: FocusEvent<HTMLInputElement, Element>) => {
@@ -102,6 +113,10 @@ const OneTaskRow = ({ task }: { task: TaskWithAssignee }) => {
           setIsTaskDetailOpen(true);
           setIsMenuOpen(!isMenuOpen);
         }}
+        ref={setNodeRef}
+        style={style}
+        {...attributes}
+        {...listeners}
       >
         <div className="task__drag">
           <svg className="" viewBox="0 0 24 24">

@@ -6,8 +6,15 @@ import { SectionWithTasks } from "@/types/types";
 import OneTaskRow from "../task/OneTaskRow";
 import AddTaskRow from "../task/AddTaskRow";
 import { useCreateTask } from "@/hooks/TaskHooks";
-import { useSortable } from "@dnd-kit/sortable";
+import {
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import useSortedTasks from "@/hooks/useSortedTasks";
+import useDndContextForSorting from "@/hooks/useDndContextForSorting";
+import { DndContext } from "@dnd-kit/core";
 
 interface Props {
   section: SectionWithTasks;
@@ -30,6 +37,13 @@ const SectionListView = ({
   const { mutate: deleteSection } = useDeleteSection();
   const { mutate: updateSection } = useUpdateSection();
 
+  const { sortedtasks, setSortedtasks } = useSortedTasks(
+    section.tasks ? section.tasks : []
+  );
+
+  const { sensors, handleDragEnd, handleDragStart, activeIndex } =
+    useDndContextForSorting("tasks", sortedtasks, setSortedtasks);
+
   // For NEW TASK
   const [newTaskName, setNewTaskName] = useState("");
   const { mutate: createTask } = useCreateTask();
@@ -46,6 +60,7 @@ const SectionListView = ({
         description: "",
         assignee: null,
         priority: null,
+        order: section.tasks.length,
       });
       setNewTaskName("");
     }
@@ -243,19 +258,31 @@ const SectionListView = ({
       </div>
       {/* CONTAINER OF TASKS */}
       {!isDragging && showTasks && (
-        <div className="section__tasks">
-          {isNewTaskOpen && (
-            <AddTaskRow
-              forwardRef={newTaskRef}
-              newTaskName={newTaskName}
-              setNewTaskName={setNewTaskName}
-              setNewTaskOpen={setNewTaskOpen}
-            />
-          )}
-          {section.tasks.map((task) => (
-            <OneTaskRow key={task.id} task={task} />
-          ))}
-        </div>
+        <DndContext
+          sensors={sensors}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+        >
+          <div className="section__tasks">
+            {isNewTaskOpen && (
+              <AddTaskRow
+                forwardRef={newTaskRef}
+                newTaskName={newTaskName}
+                setNewTaskName={setNewTaskName}
+                setNewTaskOpen={setNewTaskOpen}
+              />
+            )}
+
+            <SortableContext
+              items={sortedtasks ? sortedtasks : []}
+              strategy={verticalListSortingStrategy}
+            >
+              {sortedtasks.map((task) => (
+                <OneTaskRow key={task.id} task={task} />
+              ))}
+            </SortableContext>
+          </div>
+        </DndContext>
       )}
     </div>
   );
