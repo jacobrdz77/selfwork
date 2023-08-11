@@ -238,15 +238,15 @@ export const useUpdateSectionOrder = () => {
     mutationFn: async ({
       sectionData,
     }: {
-      sectionData: [
-        { currentSectionId: string; currentSectionOrder: number },
-        { secondSectionId: string; secondSectionOrder: number }
-      ];
+      sectionData: {
+        one: { id: string; order: number };
+        two: { id: string; order: number };
+      };
     }) => {
       try {
         console.log("SECTION DATA: ", sectionData);
         const response = await fetch(
-          `/api/sections/${sectionData[0].currentSectionId}?second=${sectionData[1].secondSectionId}`,
+          `/api/sections/${sectionData.one.id}?second=${sectionData.two.id}`,
           {
             method: "PUT",
             body: JSON.stringify({

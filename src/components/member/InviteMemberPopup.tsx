@@ -6,7 +6,6 @@ import validateEmail from "@/utils/validateEmail";
 import { useSession } from "next-auth/react";
 
 interface InviteMemberPopupProps {
-  menuRef: any;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   projectId: string;
@@ -14,7 +13,6 @@ interface InviteMemberPopupProps {
 }
 
 const InviteMemberPopup = ({
-  menuRef,
   setIsOpen,
   projectId,
   isOpen,

@@ -52,30 +52,27 @@ export default async function handler(
       const { sectionId } = req.query;
       const body = JSON.parse(req.body);
       const { sectionData } = body;
+      console.log("DATAL: ", sectionData.one.order);
 
       // Switching two sections "order"
       if (req.query.second) {
-        const firstSection = sectionData[0];
-        const secondSection = sectionData[1];
-
         const updatedFirstSection = await prisma.section.update({
           where: {
-            id: firstSection.currentSectionId,
+            id: sectionData.one.id,
           },
           data: {
             //! Use the other section's ORDER
-            // order: secondSection.currentSectionOrder,
-            order: secondSection.secondSectionOrder,
+            order: sectionData.two.order,
           },
         });
 
         const updatedSecondSection = await prisma.section.update({
           where: {
-            id: secondSection.secondSectionId,
+            id: sectionData.two.id,
           },
           data: {
             //! Use the other section's ORDER
-            order: firstSection.currentSectionOrder,
+            order: sectionData.one.order,
           },
         });
 
@@ -95,6 +92,7 @@ export default async function handler(
       });
       return res.status(200).json(section);
     } catch (error: Error | any) {
+      console.log(error);
       return res.status(400).json({ error: error.message });
     }
   }

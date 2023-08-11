@@ -5,7 +5,7 @@ import AddUserSectionButton from "./AddUserSectionButton";
 import { SortableContext } from "@dnd-kit/sortable";
 import OneBoard from "./OneBoard";
 import { DndContext } from "@dnd-kit/core";
-import useDndContextForSections from "@/hooks/useDndContextForSections";
+import useDndContextForSorting from "@/hooks/useDndContextForSorting";
 
 interface Props {
   sections: SectionWithTasks[] | undefined;
@@ -23,7 +23,8 @@ const Boards = ({
   projectId,
 }: Props) => {
   const [activeId, setActiveId] = useState<number | null>(null);
-  const { sensors, handleDragEnd, handleDragStart } = useDndContextForSections(
+  const { sensors, handleDragEnd, handleDragStart } = useDndContextForSorting(
+    "sections",
     sections!,
     setSections
   );

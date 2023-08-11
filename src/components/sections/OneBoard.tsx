@@ -5,8 +5,15 @@ import { useDeleteSection, useUpdateSection } from "@/hooks/SectionHooks";
 import BoardNewTask from "../task/BoardNewTask";
 import BoardTask from "../task/BoardTask";
 import { useCreateTask } from "@/hooks/TaskHooks";
-import { useSortable } from "@dnd-kit/sortable";
+import {
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import useDndContextForSorting from "@/hooks/useDndContextForSorting";
+import useSortedTasks from "@/hooks/useSortedTasks";
+import { DndContext } from "@dnd-kit/core";
 
 interface Board {
   section: SectionWithTasks;
@@ -31,6 +38,8 @@ const OneBoard: React.FC<Board> = ({
   const { mutate: deleteSection } = useDeleteSection();
   const { mutate: updateSection } = useUpdateSection();
 
+  const { sortedtasks, setSortedtasks } = useSortedTasks(tasks ? tasks : []);
+
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const {
     btnRef: newTaskBtnRef,
@@ -45,6 +54,7 @@ const OneBoard: React.FC<Board> = ({
         description: "",
         assignee: null,
         priority: null,
+        order: tasks.length,
       });
     }
   });
@@ -57,6 +67,13 @@ const OneBoard: React.FC<Board> = ({
     transform: CSS.Transform.toString(transform),
     transition,
   };
+
+  // Make Tasks inside Section Sortable
+  const { sensors, handleDragEnd, handleDragStart } = useDndContextForSorting(
+    "tasks",
+    sortedtasks,
+    setSortedtasks
+  );
 
   // Name Input
 
@@ -169,44 +186,61 @@ const OneBoard: React.FC<Board> = ({
           )}
         </div>
       </div>
-      <div className="board-task-list">
-        {tasks && tasks.map((task) => <BoardTask key={task.id} task={task} />)}
-        {isNewTaskOpen && (
-          <BoardNewTask
-            forwardRef={newTaskRef}
-            name={newTaskName}
-            setName={setNewTaskName}
-            setNewTaskOpen={setNewTaskOpen}
-          />
-        )}
 
-        <div
-          ref={newTaskBtnRef}
-          role="button"
-          className="board-add-task"
-          onClick={() => {
-            if (newTaskName.trim().length > 0) {
-              createTask({
-                name: newTaskName,
-                sectionId: section.id,
-                description: "",
-                assignee: null,
-                priority: null,
-              });
-            }
-            setNewTaskOpen((state) => !state);
-          }}
-        >
-          <svg
-            fill="currentColor"
-            className="sidebar__add-icon"
-            viewBox="0 0 24 24"
+      <DndContext
+        sensors={sensors}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+      >
+        <div className="board-task-list">
+          <SortableContext
+            items={sortedtasks}
+            strategy={verticalListSortingStrategy}
           >
-            <path d="m12 6a1 1 0 0 0 -1 1v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2h-4v-4a1 1 0 0 0 -1-1z" />
-          </svg>
-          <span>Add Task</span>
+            {sortedtasks &&
+              sortedtasks.map((task) => (
+                <BoardTask key={task.id} task={task} />
+              ))}
+          </SortableContext>
+
+          {isNewTaskOpen && (
+            <BoardNewTask
+              forwardRef={newTaskRef}
+              name={newTaskName}
+              setName={setNewTaskName}
+              setNewTaskOpen={setNewTaskOpen}
+            />
+          )}
+
+          <div
+            ref={newTaskBtnRef}
+            role="button"
+            className="board-add-task"
+            onClick={() => {
+              if (newTaskName.trim().length > 0) {
+                createTask({
+                  name: newTaskName,
+                  sectionId: section.id,
+                  description: "",
+                  assignee: null,
+                  priority: null,
+                  order: tasks.length,
+                });
+              }
+              setNewTaskOpen((state) => !state);
+            }}
+          >
+            <svg
+              fill="currentColor"
+              className="sidebar__add-icon"
+              viewBox="0 0 24 24"
+            >
+              <path d="m12 6a1 1 0 0 0 -1 1v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2h-4v-4a1 1 0 0 0 -1-1z" />
+            </svg>
+            <span>Add Task</span>
+          </div>
         </div>
-      </div>
+      </DndContext>
     </div>
   );
 };

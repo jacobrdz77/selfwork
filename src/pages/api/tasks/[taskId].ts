@@ -87,6 +87,34 @@ export default async function handler(
         return res.status(200).json(task);
       }
 
+      // Switching two sections "order"
+      if (req.query.second) {
+        const updatedFirstTask = await prisma.task.update({
+          where: {
+            id: taskData.one.id,
+          },
+          data: {
+            //! Use the other task's ORDER
+            order: taskData.two.order,
+          },
+        });
+
+        const updatedSecondTask = await prisma.task.update({
+          where: {
+            id: taskData.two.id,
+          },
+          data: {
+            //! Use the other task's ORDER
+            order: taskData.one.order,
+          },
+        });
+
+        return res.status(200).json({
+          updatedFirstTask,
+          updatedSecondTask,
+        });
+      }
+
       const task = await prisma.task.update({
         where: {
           id: taskId as string,

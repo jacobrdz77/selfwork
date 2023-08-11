@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getOneTask, getTasks } from "../utils/taskFunctions";
 import { useUserStore } from "../store/user";
-import { Priority, Task, TaskStatus, User } from "@prisma/client";
+import { Priority, Section, Task, TaskStatus, User } from "@prisma/client";
 
 export const useTasks = (onSuccess?: () => void) => {
   const userId = useUserStore((state) => state.userId);
@@ -20,7 +20,7 @@ export const useOneTask = (taskId: string) => {
     isLoading,
     status,
   } = useQuery({
-    querykey: ["task", taskId],
+    queryKey: ["task", taskId],
     queryFn: () => getOneTask(taskId!),
     onSuccess: (data) => {
       // console.log("Task: ", data);
@@ -38,6 +38,7 @@ export const useCreateTask = () => {
       description: string;
       assignee: User | null;
       priority: Priority | null;
+      order: number;
       sectionId?: string;
     }) => {
       try {
@@ -142,6 +143,47 @@ export const useDeleteTask = () => {
     onSuccess: (deletedTask) => {
       queryClient.invalidateQueries({ queryKey: ["sections"] });
       console.log("Deleted task: ", deletedTask);
+    },
+  });
+};
+
+export const useUpdateTaskOrder = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      taskData,
+    }: {
+      taskData: {
+        one: { id: string; order: number };
+        two: { id: string; order: number };
+      };
+    }) => {
+      try {
+        console.log("SECTION DATA: ", taskData);
+        const response = await fetch(
+          `/api/tasks/${taskData.one.id}?second=${taskData.two.id}`,
+          {
+            method: "PUT",
+            body: JSON.stringify({
+              taskData,
+            }),
+          }
+        );
+        if (!response.ok) {
+          throw new Error(
+            "Error happend!: " + response.status.toLocaleString()
+          );
+        }
+        return (await response.json()) as Section;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    onSuccess: (twoUpdatedSections) => {
+      queryClient.invalidateQueries({ queryKey: ["sections"] });
+      console.log("Updated section: ", twoUpdatedSections);
     },
   });
 };

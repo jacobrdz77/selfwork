@@ -6,7 +6,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { DndContext, DragOverlay } from "@dnd-kit/core";
-import useDndContextForSections from "@/hooks/useDndContextForSections";
+import useDndContextForSorting from "@/hooks/useDndContextForSorting";
 import AddUserSectionButton from "./AddUserSectionButton";
 
 interface Props {
@@ -17,7 +17,7 @@ interface Props {
 
 const SectionsList = ({ sections, setSections, projectId }: Props) => {
   const { sensors, handleDragEnd, handleDragStart, activeIndex } =
-    useDndContextForSections(sections!, setSections);
+    useDndContextForSorting("sections", sections!, setSections);
 
   return (
     <DndContext

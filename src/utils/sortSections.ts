@@ -1,5 +1,5 @@
 import { SectionWithTasks } from "@/types/types";
 
-export default function sortSections(sections: SectionWithTasks[]) {
-  return sections.sort((a, b) => a.order! - b.order!);
+export default function sortArray(arr: any[]) {
+  return arr.sort((a, b) => a.order! - b.order!);
 }

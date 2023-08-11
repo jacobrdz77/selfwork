@@ -11,7 +11,6 @@ import { useLinks } from "@/hooks/LinkHook";
 import ProjectLinks from "@/components/project/ProjectLinks";
 import ProjectDescription from "@/components/project/ProjectDescription";
 import Link from "next/link";
-import InviteMemberPopup from "@/components/member/InviteMemberPopup";
 import { useModalStore } from "store/user";
 
 const ProjectOverviewPage: NextPageWithLayout = () => {
@@ -156,7 +155,7 @@ const ProjectOverviewPage: NextPageWithLayout = () => {
             </div>
           )} */}
 
-          {status === "success" && <ProjectLinks links={project?.urlLinks} />}
+          {status === "success" && <ProjectLinks links={project?.urlLinks!} />}
         </div>
       </div>
     </div>

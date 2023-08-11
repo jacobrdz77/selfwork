@@ -1,5 +1,7 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { arrayMove } from "@dnd-kit/sortable";
+import { useUpdateSectionOrder } from "./SectionHooks";
+import { useUpdateTaskOrder } from "./TaskHooks";
 import {
   DragEndEvent,
   KeyboardSensor,
@@ -8,15 +10,20 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { SectionWithTasks } from "@/types/types";
-import { useUpdateSection, useUpdateSectionOrder } from "./SectionHooks";
 
-const useDndContextForSections = <T>(
-  items: SectionWithTasks[],
-  setItems: Dispatch<SetStateAction<SectionWithTasks[]>>
+type SortItem = any[] &
+  {
+    id: string;
+  }[];
+
+const useDndContextForSorting = (
+  type: "tasks" | "sections",
+  items: SortItem,
+  setItems: Dispatch<SetStateAction<SortItem>>
 ) => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const { mutate } = useUpdateSectionOrder();
+  const { mutate: updateSections } = useUpdateSectionOrder();
+  const { mutate: updateTasks } = useUpdateTaskOrder();
 
   // These senors is to be able to click on the buttons without starting a drag event.
   const mouseSensor = useSensor(MouseSensor, {
@@ -37,7 +44,7 @@ const useDndContextForSections = <T>(
     setActiveIndex(activeIndex!);
   }
 
-  function handleDragEnd(e: DragEndEvent) {
+  async function handleDragEnd(e: DragEndEvent) {
     setActiveIndex(null);
     const { active, over } = e;
     if (!over) return;
@@ -60,13 +67,23 @@ const useDndContextForSections = <T>(
 
       console.log("curr: ", currentSectionOrder);
       console.log("second: ", secondSectionOrder);
-
-      mutate({
-        sectionData: [
-          { currentSectionId: active.id as string, currentSectionOrder },
-          { secondSectionId: over.id as string, secondSectionOrder },
-        ],
-      });
+      if (type === "sections") {
+        updateSections({
+          sectionData: {
+            one: { id: active.id as string, order: currentSectionOrder },
+            two: { id: over.id as string, order: secondSectionOrder },
+          },
+        });
+      }
+      if (type === "tasks") {
+        // Todo: Need to make backend endpoint to switch orders.
+        updateTasks({
+          taskData: {
+            one: { id: active.id as string, order: currentSectionOrder },
+            two: { id: over.id as string, order: secondSectionOrder },
+          },
+        });
+      }
     }
   }
 
@@ -78,4 +95,4 @@ const useDndContextForSections = <T>(
   };
 };
 
-export default useDndContextForSections;
+export default useDndContextForSorting;

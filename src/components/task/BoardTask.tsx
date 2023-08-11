@@ -11,6 +11,8 @@ import ReactDatePicker from "react-datepicker";
 import { Client, User } from "@prisma/client";
 import { useWorkspaceMembers } from "@/hooks/WorkspaceHooks";
 import usePlaceHolder from "@/hooks/usePlaceHolder";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 export const formatDueDate = (taskDueDate: Date) => {
   return format(new Date(taskDueDate), "MMM dd");
@@ -24,6 +26,15 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
   const [dueDate, setDueDate] = useState(
     task.dueDate ? new Date(task.dueDate).toLocaleDateString() : new Date()
   );
+
+  // Makes it Draggable
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: task.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
 
   return (
     <>
@@ -41,6 +52,10 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
         onClick={() => {
           setIsTaskDetailOpen(true);
         }}
+        ref={setNodeRef}
+        style={style}
+        {...attributes}
+        {...listeners}
       >
         <div className="board-task__header">
           <div className="board-task__name">

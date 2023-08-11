@@ -35,6 +35,8 @@ export default async function handler(
           - connect the project and section to the task. 
       */
 
+      console.log("ORDER: ", task.order);
+
       if (!task.hasOwnProperty("sectionId")) {
         const newTask = await prisma.task.create({
           data: {
@@ -53,6 +55,7 @@ export default async function handler(
               },
             },
             status: task.status,
+            order: task.order,
           },
         });
 
@@ -70,6 +73,7 @@ export default async function handler(
               id: task.sectionId,
             },
           },
+          order: task.order,
           // assignee: {
           //   connect: {
           //     id: task.assignee.id,
