@@ -6,6 +6,8 @@ import { Query, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import { NextPage } from "next";
 import { ReactElement, ReactNode } from "react";
+import { useRouter } from "next/router";
+import LoginLayout from "@/components/layout/LoginLayout";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -25,6 +27,8 @@ const client = new QueryClient({
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
+  const router = useRouter();
+  const currentPath = router.pathname;
 
   return (
     <SessionProvider>
@@ -40,7 +44,11 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           />
           <title>selfwork.</title>
         </Head>
-        <PageLayout>{getLayout(<Component {...pageProps} />)}</PageLayout>
+        {currentPath === "/login" ? (
+          <LoginLayout>{getLayout(<Component {...pageProps} />)}</LoginLayout>
+        ) : (
+          <PageLayout>{getLayout(<Component {...pageProps} />)}</PageLayout>
+        )}
       </QueryClientProvider>
     </SessionProvider>
   );

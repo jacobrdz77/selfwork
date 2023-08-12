@@ -59,19 +59,13 @@ const Sketch: NextPageWithLayout = () => {
 
         <SketchCard
           name="Wireframes for landing page"
-          lastModified={new Date()}
+          lastModified={2}
           // @ts-ignore
           user={{ name: "Jacob Rodriguez" }}
         />
         <SketchCard
-          name="Wireframes for landing page"
-          lastModified={new Date()}
-          // @ts-ignore
-          user={{ name: "Jacob Rodriguez" }}
-        />
-        <SketchCard
-          name="Wireframes for landing page"
-          lastModified={new Date()}
+          name="Brainstorming Ideas"
+          lastModified={1}
           // @ts-ignore
           user={{ name: "Jacob Rodriguez" }}
         />

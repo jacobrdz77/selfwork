@@ -9,8 +9,8 @@ module.exports = {
     return [
       {
         source: "/",
-        destination: "/my-tasks/board",
-        permanent: true,
+        destination: "/login",
+        permanent: false,
       },
     ];
   },

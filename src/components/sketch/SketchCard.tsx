@@ -9,7 +9,7 @@ const SketchCard = ({
   user,
 }: {
   name: string;
-  lastModified: Date;
+  lastModified: number;
   user: User;
 }) => {
   // Todo: Create function that counts the day since the lastModifiedDate
@@ -18,7 +18,7 @@ const SketchCard = ({
   return (
     <div className="sketch-card">
       <div className="name">{name}</div>
-      <div className="modified">2 days ago</div>
+      <div className="modified">{lastModified} days ago</div>
       <div className="sketch-card__user">
         <div className={`sketch-card__user-icon`}>
           {getInitials(user.name!)}

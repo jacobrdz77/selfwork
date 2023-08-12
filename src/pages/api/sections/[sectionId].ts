@@ -52,7 +52,6 @@ export default async function handler(
       const { sectionId } = req.query;
       const body = JSON.parse(req.body);
       const { sectionData } = body;
-      console.log("DATAL: ", sectionData.one.order);
 
       // Switching two sections "order"
       if (req.query.second) {

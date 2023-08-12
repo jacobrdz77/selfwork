@@ -46,7 +46,10 @@ const UserSidebarCard = () => {
               </div>
               <div
                 className="sidebar__user-menu-item"
-                onClick={() => console.log("LOG OUT")}
+                onClick={() => {
+                  console.log("LOG OUT");
+                  router.push("/push");
+                }}
               >
                 Log Out
               </div>
