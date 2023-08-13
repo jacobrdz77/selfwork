@@ -1,0 +1,334 @@
+// .login-layout {
+//   display: flex;
+//   flex-direction: row;
+//   height: 100vh;
+// }
+
+// .app-example {
+//   flex: 1 50%;
+//   background-color: #2b2b30;
+//   color: #fff;
+//   display: grid;
+//   padding: 24px 36px;
+
+//   .logo {
+//     font-size: 24px;
+//     letter-spacing: 2px;
+//     padding-left: 20px;
+//     margin-bottom: 24px;
+//     user-select: none;
+//     &--dot {
+//       color: var(--color-primary);
+//     }
+//   }
+
+//   .image {
+//     margin-top: 64px;
+//     display: grid;
+//     align-items: center;
+//     justify-content: center;
+//   }
+
+//   .headline {
+//     width: 100%;
+//     h1 {
+//       margin: 0 auto;
+//       line-height: 1.2;
+//       max-width: 800px;
+//       font-size: 36px;
+//       font-weight: 500;
+//       text-align: center;
+//     }
+//   }
+// }
+
+// .user-auth-container {
+//   flex: 1 50%;
+//   background-color: #0f0f11;
+//   display: grid;
+//   justify-content: center;
+//   align-items: center;
+// }
+
+// .user-auth-form {
+//   font-size: 16px;
+//   .title {
+//     text-align: center;
+//     color: #fff;
+//     font-size: 24px;
+//     font-weight: 700;
+//   }
+//   .sub-title {
+//     text-align: center;
+//     color: #fff;
+//     color: #8c8c94;
+//   }
+
+//   .email-signin {
+//     display: grid;
+//     gap: 12px;
+//     margin-top: 24px;
+//     .input-email {
+//       background-color: #09090b;
+//       padding: 8px 12px;
+//       border: 1px solid #4d4c4f;
+//       border-radius: 6px;
+//       color: #b1b2b2;
+
+//       &::placeholder {
+//         color: #b1b2b2;
+//       }
+//     }
+//   }
+
+//   .gray-text {
+//     color: #8c8c94;
+//   }
+
+//   .continue-with {
+//     margin-top: 16px;
+//     display: flex;
+//     align-items: center;
+//     .line {
+//       content: "";
+//       height: 0.5px;
+//       width: 100%;
+//       background-color: #4d4c4f;
+//     }
+
+//     .gray-text {
+//       flex-shrink: 0;
+//       margin: 0 8px;
+//       color: #8c8c94;
+//       font-size: 12px;
+//     }
+//   }
+
+//   .button {
+//     width: 100%;
+//     padding: 8px 12px;
+//     border-radius: 8px;
+//     text-align: center;
+//     height: 36px;
+//     font-size: 14px;
+//     transition: background-color 0.1s ease-in;
+
+//     &--email {
+//       background-color: #fff;
+//       color: #000;
+
+//       &:hover {
+//         background-color: #e2e2e2;
+//       }
+//     }
+//     &--google {
+//       margin-top: 16px;
+//       display: flex;
+//       align-items: center;
+//       justify-content: center;
+//       gap: 6px;
+//       background-color: #000;
+//       color: #fff;
+
+//       &:hover {
+//         background-color: #27272a;
+//       }
+//     }
+//     &--demo {
+//       margin-top: 16px;
+//       background-color: var(--color-primary);
+//       color: #fff;
+//       font-weight: 700;
+
+//       &:hover {
+//         background-color: var(--color-primary--hover);
+//       }
+//     }
+//   }
+// }
+
+// Mobile
+@media only screen and (min-width: 0em) {
+  .login-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  .app-example {
+    flex: 1 50%;
+    background-color: #2b2b30;
+    color: #fff;
+    display: grid;
+    padding: 24px 24px 64px 24px;
+
+    .logo {
+      font-size: 24px;
+      letter-spacing: 2px;
+      margin-bottom: 24px;
+      user-select: none;
+      &--dot {
+        color: var(--color-primary);
+      }
+    }
+
+    .image {
+      border: 1px solid #4d4c4f;
+      border-radius: 8px;
+      margin-top: 64px;
+      display: grid;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      height: fit-content;
+
+      image {
+        width: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .headline {
+      width: 100%;
+      h1 {
+        margin: 0 auto;
+        line-height: 1.2;
+        max-width: 800px;
+        font-size: 32px;
+        font-weight: 500;
+        text-align: center;
+      }
+    }
+  }
+
+  .user-auth-container {
+    padding: 120px 24px;
+    flex: 1 50%;
+    background-color: #0f0f11;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .user-auth-form {
+    max-width: 372px;
+    font-size: 16px;
+    .title {
+      text-align: center;
+      color: #fff;
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .sub-title {
+      text-align: center;
+      color: #fff;
+      color: #8c8c94;
+    }
+
+    .email-signin {
+      display: grid;
+      gap: 12px;
+      margin-top: 24px;
+      .input-email {
+        background-color: #09090b;
+        padding: 8px 12px;
+        border: 1px solid #4d4c4f;
+        border-radius: 6px;
+        color: #b1b2b2;
+
+        &::placeholder {
+          color: #b1b2b2;
+        }
+      }
+    }
+
+    .gray-text {
+      color: #8c8c94;
+    }
+
+    .continue-with {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      .line {
+        content: "";
+        height: 0.5px;
+        width: 100%;
+        background-color: #4d4c4f;
+      }
+
+      .gray-text {
+        flex-shrink: 0;
+        margin: 0 8px;
+        color: #8c8c94;
+        font-size: 12px;
+      }
+    }
+
+    .button {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 8px;
+      text-align: center;
+      height: 36px;
+      font-size: 14px;
+      transition: background-color 0.1s ease-in;
+
+      &--email {
+        background-color: #fff;
+        color: #000;
+
+        &:hover {
+          background-color: #e2e2e2;
+        }
+      }
+      &--google {
+        margin-top: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        background-color: #000;
+        color: #fff;
+
+        &:hover {
+          background-color: #27272a;
+        }
+      }
+      &--demo {
+        margin-top: 16px;
+        background-color: var(--color-primary);
+        color: #fff;
+        font-weight: 700;
+
+        &:hover {
+          background-color: var(--color-primary--hover);
+        }
+      }
+    }
+  }
+}
+
+// Desktop
+@media only screen and (min-width: 64rem) {
+  .login-layout {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+  }
+
+  .user-auth-container {
+    flex: 1 50%;
+    background-color: #0f0f11;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .app-example {
+    .image {
+      width: 100%;
+      border-radius: 24px;
+    }
+  }
+}

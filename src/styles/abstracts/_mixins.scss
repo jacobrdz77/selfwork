@@ -32,26 +32,26 @@
 
 @mixin respond($breakpoint) {
   // 600px
-  @if $breakpoint == phone {
-    @media (max-width: 37.5em) {
+  @if $breakpoint == mobile {
+    @media (min-width: 0rem) {
       @content;
     }
   }
-  // 900px
+  // 768px
   @if $breakpoint == tablet-portrait {
-    @media (max-width: 56.25em) {
+    @media (max-width: 48rem) {
       @content;
     }
   }
-  // 1200px
+  // 960px
   @if $breakpoint == tablet-landscape {
-    @media (max-width: 75em) {
+    @media (max-width: 60rem) {
       @content;
     }
   }
-  // 1800px
-  @if $breakpoint == large-desktop {
-    @media (min-width: 112.5em) {
+  // 1300px
+  @if $breakpoint == above-desktop {
+    @media (min-width: 81.25em) {
       @content;
     }
   }
@@ -84,4 +84,15 @@
 
 @mixin iconColor($color) {
   fill: $color;
+}
+
+// Media breakpoitns
+// Mobile
+@media only screen and (min-width: 0em) {
+}
+// Tablet
+@media only screen and (min-width: 48rem) {
+}
+// Desktop
+@media only screen and (min-width: 64rem) {
 }

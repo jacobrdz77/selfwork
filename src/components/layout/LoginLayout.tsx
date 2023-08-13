@@ -1,5 +1,7 @@
 import React from "react";
 
-export default function AuthenticationPage() {
-  return <></>;
-}
+const AuthenticationPage = ({ children }: { children: any }) => {
+  return <div className="login-layout">{children}</div>;
+};
+
+export default AuthenticationPage;

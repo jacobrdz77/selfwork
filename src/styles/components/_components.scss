@@ -3,7 +3,7 @@
   padding: 4px 24px;
   border-radius: 6px;
 
-  background: linear-gradient(
+  background-color: linear-gradient(
     90deg,
     hsla(267, 26%, 43%, 1) 0%,
     hsla(268, 21%, 49%, 1) 60%
@@ -16,11 +16,11 @@
   }
 
   &.active {
-    background: linear-gradient(
+    background-color: linear-gradient(
       90deg,
       hsla(267, 26%, 43%, 1) 0%,
       hsla(268, 21%, 49%, 1) 60%
-    ) !important;
+    );
     color: #fff !important;
   }
 
