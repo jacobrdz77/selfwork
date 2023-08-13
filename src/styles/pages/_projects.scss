@@ -331,8 +331,7 @@
       }
 
       &__add-form {
-        display: flex;
-        flex-direction: column;
+        display: grid;
       }
     }
   }
@@ -1163,7 +1162,7 @@
 
   &__invite {
     background-color: #fefefe;
-    width: 550px;
+    width: 500px;
     margin: 0 auto;
     color: #63686d;
     font-size: 14px;

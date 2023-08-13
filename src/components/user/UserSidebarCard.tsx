@@ -3,6 +3,7 @@ import { getInitials } from "../UI/UserCard";
 import { useUserInfo } from "@/hooks/MemberHooks";
 import { useUserStore } from "store/user";
 import { useRouter } from "next/router";
+import { userSignout } from "@/utils/auth";
 
 const UserSidebarCard = () => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
@@ -46,9 +47,10 @@ const UserSidebarCard = () => {
               </div>
               <div
                 className="sidebar__user-menu-item"
-                onClick={() => {
+                onClick={async () => {
                   console.log("LOG OUT");
-                  router.push("/push");
+                  router.push("/login");
+                  const response = await userSignout();
                 }}
               >
                 Log Out

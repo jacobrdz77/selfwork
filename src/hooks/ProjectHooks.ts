@@ -1,4 +1,4 @@
-import { useUserStore } from "../store/user";
+import { useUserStore, userStore } from "../store/user";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   NewProjectFormData,
@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 import { Project } from "@prisma/client";
 
 export const useProjects = () => {
-  const workspaceId = useUserStore((state) => state.workspaceId);
+  const workspaceId = userStore.getState().workspaceId;
   const { data: projects, status } = useQuery({
     queryKey: ["projects"],
     queryFn: () => getProjects(workspaceId),
@@ -28,7 +28,7 @@ export const useProjects = () => {
 };
 
 export const useProjectWithSections = () => {
-  const workspaceId = useUserStore((state) => state.workspaceId);
+  const workspaceId = userStore.getState().workspaceId;
   const { data: projects, status } = useQuery({
     queryKey: ["projects", "sections"],
     queryFn: async () => {
@@ -83,8 +83,8 @@ export const useOneProject = (projectId: string) => {
 
 export const useCreateProject = () => {
   const queryClient = useQueryClient();
-  const ownerId = useUserStore((state) => state.userId);
-  const workspaceId = useUserStore((state) => state.workspaceId);
+  const ownerId = userStore.getState().userId;
+  const workspaceId = userStore.getState().workspaceId;
 
   return useMutation({
     mutationFn: (projectData: NewProjectFormData) =>

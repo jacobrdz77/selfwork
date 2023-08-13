@@ -44,6 +44,14 @@ export default async function handler(
         });
       }
 
+      // Restrict the amount of projects
+      const projects = await prisma.project.findMany();
+      if (projects.length >= 3) {
+        return res
+          .status(400)
+          .json({ error: "Upgrade to premium to create more projects." });
+      }
+
       // Transform the projects properties to valid datatypes
       const modifiedProject = transformProjectData(project);
 

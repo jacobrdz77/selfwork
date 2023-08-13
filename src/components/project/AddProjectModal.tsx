@@ -13,7 +13,7 @@ const AddProjectModal: React.FC<{
 }> = ({ isOpen, setIsModalOpen }) => {
   const closeHandler = () => setIsModalOpen(false);
   const router = useRouter();
-  const { mutateAsync, isLoading } = useCreateProject();
+  const { mutateAsync, error, isLoading } = useCreateProject();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [lumpSum, setLumpSum] = useState("");
@@ -38,6 +38,11 @@ const AddProjectModal: React.FC<{
       priority,
       clientId: clientSelected ? clientSelected.id : undefined,
     });
+
+    if (!newProject) {
+      console.log("ERROR: ", error);
+      return;
+    }
     setIsModalOpen(false);
     router.push(`/projects/${newProject?.id}/overview`);
   };

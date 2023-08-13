@@ -16,8 +16,6 @@ const EditProjectModal: React.FC<{
   projectData: Project;
 }> = ({ isOpen, projectData }) => {
   const { projectId } = useRouter().query;
-
-  const { mutateAsync: updateProject } = useUpdateProject();
   const userId = useUserStore((state) => state.userId as string);
   const setIsModalOpen = useModalStore(
     (state) => state.setIsEditProjectModalOpen
@@ -45,6 +43,8 @@ const EditProjectModal: React.FC<{
   const [isPriority, setIsPriority] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
 
+  const { mutateAsync: updateProject, error } = useUpdateProject();
+
   const closeHandler = () => {
     setIsModalOpen(false);
   };
@@ -66,6 +66,10 @@ const EditProjectModal: React.FC<{
           dueDate: dueDate.length === 0 ? undefined : new Date(dueDate),
         },
       });
+
+      if (!response) {
+        console.log("Error: ", error);
+      }
 
       setIsModalOpen(false);
     }
@@ -97,6 +101,7 @@ const EditProjectModal: React.FC<{
             type="text"
             placeholder="Project Name"
             autoComplete="off"
+            maxLength={40}
           />
         </div>
         <div className="form__input-container">
@@ -110,7 +115,8 @@ const EditProjectModal: React.FC<{
             placeholder="1000.00"
             min="0"
             value={lumpSum}
-            onChange={(e) => setLumpSum(Number(e.target.value))}
+            onChange={(e) => setLumpSum(e.target.value)}
+            max={1000000}
           />
         </div>
 

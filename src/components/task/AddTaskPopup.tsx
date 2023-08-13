@@ -5,8 +5,9 @@ import { useUserStore } from "store/user";
 import AssigneeMenu from "./AssigneeMenu";
 import NewTaskProjectMenu from "./NewTaskProjectMenu";
 import NewTaskSectionButton from "./NewTaskSectionButton";
-import { useCreateTask } from "@/hooks/TaskHooks";
+import { useCreateTask, useTasks } from "@/hooks/TaskHooks";
 import { toast } from "react-hot-toast";
+import { SectionWithTasks } from "@/types/types";
 
 const AddTaskPopup: React.FC<{
   isOpen: boolean;
@@ -22,7 +23,8 @@ const AddTaskPopup: React.FC<{
     name: string;
     sections: Section[];
   } | null>(null);
-  const [selectedSection, setSelectedSection] = useState<Section | null>(null);
+  const [selectedSection, setSelectedSection] =
+    useState<SectionWithTasks | null>(null);
   const [priority, setPriority] = useState<Priority | null>(null);
   const [isFormValid, setIsFormValid] = useState(false);
   // const [startDate, setStartDate] = useState("");
@@ -54,6 +56,7 @@ const AddTaskPopup: React.FC<{
       priority,
       assignee,
       sectionId: selectedSection?.id,
+      order: selectedSection?.tasks.length!,
     });
     setIsOpen(false);
 
@@ -110,6 +113,7 @@ const AddTaskPopup: React.FC<{
           type="text"
           placeholder="Task Name"
           autoComplete="off"
+          maxLength={50}
         />
         <div className="new-task__assignee-project">
           <label id="for">For</label>
@@ -270,6 +274,7 @@ const AddTaskPopup: React.FC<{
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Description"
+            maxLength={600}
           />
         </div>
 

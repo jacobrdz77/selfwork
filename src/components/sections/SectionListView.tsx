@@ -175,6 +175,7 @@ const SectionListView = ({
                   setSectionInputName(e.currentTarget.value);
                 }}
                 onBlur={handleInputBlur}
+                maxLength={50}
               />
             ) : (
               <div

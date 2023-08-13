@@ -1,4 +1,5 @@
 import "../styles/main.scss";
+import { useState } from "react";
 import Head from "next/head";
 import PageLayout from "../components/layout/PageLayout";
 import type { AppProps } from "next/app";
@@ -8,6 +9,8 @@ import { NextPage } from "next";
 import { ReactElement, ReactNode } from "react";
 import { useRouter } from "next/router";
 import LoginLayout from "@/components/layout/LoginLayout";
+import { createPagesBrowserClient } from "@supabase/auth-helpers-nextjs";
+import { SessionContextProvider } from "@supabase/auth-helpers-react";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -30,8 +33,13 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const router = useRouter();
   const currentPath = router.pathname;
 
+  const [supabaseClient] = useState(() => createPagesBrowserClient());
+
   return (
-    <SessionProvider>
+    <SessionContextProvider
+      supabaseClient={supabaseClient}
+      initialSession={pageProps.initialSession}
+    >
       <QueryClientProvider client={client}>
         <Head>
           <meta
@@ -50,7 +58,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           <PageLayout>{getLayout(<Component {...pageProps} />)}</PageLayout>
         )}
       </QueryClientProvider>
-    </SessionProvider>
+    </SessionContextProvider>
   );
 }
 export default MyApp;

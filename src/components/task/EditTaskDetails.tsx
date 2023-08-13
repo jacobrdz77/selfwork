@@ -43,8 +43,8 @@ const EditTaskDetails = ({
   const [isInputFocused, setIsInputFocused] = useState(false);
   const inputRef = useRef(null);
 
-  const { mutate: updateTask } = useUpdateTask();
-  const { mutate: deleteTask } = useDeleteTask();
+  const { mutateAsync: updateTask } = useUpdateTask();
+  const { mutateAsync: deleteTask } = useDeleteTask();
 
   const focusOnInput = () => {
     // @ts-ignore
@@ -81,6 +81,10 @@ const EditTaskDetails = ({
         assigneeId: assignee ? assignee.id : "remove",
       },
     });
+
+    if (!newTask) {
+      console.log("Error: ", newTask);
+    }
 
     setIsModalOpen(false);
   };
@@ -186,6 +190,7 @@ const EditTaskDetails = ({
                 setInputName(e.currentTarget.value);
               }}
               onBlur={handleInputBlur}
+              maxLength={100}
             />
           ) : (
             <div
@@ -235,6 +240,7 @@ const EditTaskDetails = ({
             onChange={(e) => {
               setDescription(e.target.value);
             }}
+            maxLength={700}
           ></textarea>
         </div>
         <div>

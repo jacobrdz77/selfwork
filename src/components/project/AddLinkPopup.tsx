@@ -62,6 +62,7 @@ const AddLinkPopup = ({
             className="input"
             type="text"
             id="name"
+            maxLength={40}
           />
         </label>
         <label className="label" htmlFor="link">

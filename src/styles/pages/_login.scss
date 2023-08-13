@@ -204,7 +204,7 @@
   .user-auth-container {
     padding: 120px 24px;
     flex: 1 50%;
-    background-color: #0f0f11;
+    background-color: #141415;
     display: grid;
     justify-content: center;
     align-items: center;
@@ -278,7 +278,8 @@
         background-color: #fff;
         color: #000;
 
-        &:hover {
+        &:hover,
+        &:active {
           background-color: #e2e2e2;
         }
       }
@@ -291,7 +292,8 @@
         background-color: #000;
         color: #fff;
 
-        &:hover {
+        &:hover,
+        &:active {
           background-color: #27272a;
         }
       }
@@ -301,7 +303,8 @@
         color: #fff;
         font-weight: 700;
 
-        &:hover {
+        &:hover,
+        &:active {
           background-color: var(--color-primary--hover);
         }
       }
@@ -319,13 +322,13 @@
 
   .user-auth-container {
     flex: 1 50%;
-    background-color: #0f0f11;
     display: grid;
     justify-content: center;
     align-items: center;
   }
 
   .app-example {
+    padding: 24px 36px 64px 36px;
     .image {
       width: 100%;
       border-radius: 24px;

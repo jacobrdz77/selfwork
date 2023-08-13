@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create, createStore } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface UserState {
@@ -7,7 +7,8 @@ interface UserState {
 }
 
 interface Action {
-  setUserId: (id: UserState["userId"]) => void;
+  setUserId: (id: string) => void;
+  setWorkspaceId: (id: string) => void;
 }
 
 export const MOCK_USER = {
@@ -16,10 +17,22 @@ export const MOCK_USER = {
   email: "jacob@jacob.com",
 };
 
+// Todo: Get workspaceId from User.
+// Get user from session
+// Once session is fetched, the store is set and everything is updated.
+
+export const userStore = createStore<UserState & Action>((set) => ({
+  userId: MOCK_USER.id,
+  workspaceId: "opdclt74u9913gpecetnyigta",
+  setUserId: (id: string) => set(() => ({ userId: id })),
+  setWorkspaceId: (id: string) => set(() => ({ workspaceId: id })),
+}));
+
 export const useUserStore = create<UserState & Action>((set) => ({
   userId: MOCK_USER.id,
   workspaceId: "opdclt74u9913gpecetnyigta",
-  setUserId: (id) => set(() => ({ userId: id })),
+  setUserId: (id: string) => set(() => ({ userId: id })),
+  setWorkspaceId: (id: string) => set(() => ({ workspaceId: id })),
 }));
 
 type ModalStore = {

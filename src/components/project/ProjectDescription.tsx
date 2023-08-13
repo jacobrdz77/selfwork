@@ -35,6 +35,7 @@ const ProjectDescription = ({
       className="description-textarea"
       name="description"
       placeholder="You're description goes here!"
+      maxLength={300}
     />
   );
 };

@@ -44,6 +44,18 @@ export default async function handler(
       */
       const { workspaceData } = req.body;
 
+      // Restrict the amount of workspace
+      const workspaces = await prisma.workspace.findMany({
+        where: {
+          ownerId: workspaceData.ownerId,
+        },
+      });
+      if (workspaces.length >= 3) {
+        return res
+          .status(400)
+          .json({ error: "Upgrade to premium to create more workspaces." });
+      }
+
       // Create a new workspace and makes the owner a member.
       const newWorkspace = await prisma.workspace.create({
         data: {

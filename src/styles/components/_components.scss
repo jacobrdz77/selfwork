@@ -3,11 +3,7 @@
   padding: 4px 24px;
   border-radius: 6px;
 
-  background-color: linear-gradient(
-    90deg,
-    hsla(267, 26%, 43%, 1) 0%,
-    hsla(268, 21%, 49%, 1) 60%
-  );
+  background-color: hsla(267, 26%, 43%, 1);
 
   color: var(--color-primary--lightest);
 
@@ -16,11 +12,7 @@
   }
 
   &.active {
-    background-color: linear-gradient(
-      90deg,
-      hsla(267, 26%, 43%, 1) 0%,
-      hsla(268, 21%, 49%, 1) 60%
-    );
+    background-color: hsla(267, 26%, 43%, 1);
     color: #fff !important;
   }
 
@@ -495,5 +487,30 @@
   &-container {
     background-color: white;
     position: relative;
+  }
+}
+
+.magic-link-modal {
+  background-color: #212529 !important;
+  color: #fff;
+  text-align: center;
+  width: 675px !important;
+
+  .modal {
+    &__close {
+      fill: #ffffff;
+      background-color: #212529;
+
+      &:hover {
+        fill: #ffffff;
+        background-color: #1d2125;
+      }
+    }
+  }
+}
+
+.invite-member {
+  &.modal {
+    width: 575px;
   }
 }
