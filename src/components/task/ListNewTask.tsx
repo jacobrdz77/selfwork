@@ -21,7 +21,7 @@ const ListNewTask = ({
       setName("");
       setNewTaskOpen(false);
     };
-  }, []);
+  }, [setName, setNewTaskOpen]);
 
   return (
     <div

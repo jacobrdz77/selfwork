@@ -100,11 +100,8 @@ const ProfilePage = () => {
           <div className="card">
             <h3>Projects</h3>
             <div className="projects">
-              {user?.involvedProjects.map((project) => (
-                <UserProfileProject key={project.id} project={project} />
-              ))}
-
-              {user?.involvedProjects.length === 0 ? (
+              {userStatus === "success" &&
+              user?.involvedProjects.length === 0 ? (
                 <div className="no-tasks">
                   <div>
                     <p>You have no projects Create one!</p>
@@ -118,7 +115,11 @@ const ProfilePage = () => {
                     </button>
                   </div>
                 </div>
-              ) : null}
+              ) : (
+                user?.involvedProjects.map((project) => (
+                  <UserProfileProject key={project.id} project={project} />
+                ))
+              )}
             </div>
           </div>
         </div>

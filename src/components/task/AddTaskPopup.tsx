@@ -85,7 +85,7 @@ const AddTaskPopup: React.FC<{
       return setIsFormValid(true);
     }
     setIsFormValid(false);
-  }, [name, priority, assignee]);
+  }, [name, priority, assignee, project]);
 
   return (
     <div className={`new-task ${isOpen ? "" : "new-task--hidden"}`}>

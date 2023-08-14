@@ -24,7 +24,7 @@ const BoardNewTask = ({
       setName("");
       setNewTaskOpen(false);
     };
-  }, []);
+  }, [setName, setNewTaskOpen]);
 
   return (
     <div
