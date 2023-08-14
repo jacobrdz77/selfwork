@@ -1,5 +1,6 @@
 import { Project, Task, User } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 
 export const useInviteMember = () => {
   return useMutation({
@@ -104,14 +105,18 @@ export const useUpdateUser = () => {
 };
 
 export const useUserInfo = (userId: string) => {
+  const session = useSession();
+  console.log(session);
   const { data, status } = useQuery({
     queryKey: ["user", userId],
     queryFn: () => getUser(userId),
   });
 
   return {
-    user: data,
-    status,
+    user: { ...data },
+    session: { ...session.data?.user },
+    userStatus: status,
+    sessionStatus: session.status,
   };
 };
 

@@ -40,7 +40,9 @@ const UserAuthForm = () => {
               className="button button--google"
               type="button"
               onClick={async () => {
-                signIn("google");
+                signIn("google", {
+                  callbackUrl: "/my-tasks/board",
+                });
               }}
             >
               <svg

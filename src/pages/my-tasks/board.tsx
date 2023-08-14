@@ -14,8 +14,6 @@ const MyTaskBoardPage = () => {
     userSections ? userSections : []
   );
 
-  const session = useSession();
-  console.log("Session: ", session);
   return (
     <>
       <PageHeader title="My Tasks">

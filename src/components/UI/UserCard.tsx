@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 
 export const getInitials = (name: string): string => {
+  if (!name) return "";
   const fullName = name.split(" ");
   if (fullName.length === 0) return "";
   if (fullName.length <= 1) {

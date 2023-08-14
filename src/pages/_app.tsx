@@ -35,7 +35,7 @@ function MyApp({
   const currentPath = router.pathname;
 
   return (
-    <SessionProvider session={session}>
+    <SessionProvider session={session} refetchOnWindowFocus={false}>
       <QueryClientProvider client={client}>
         <Head>
           <meta

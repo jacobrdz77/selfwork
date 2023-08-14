@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { signOut, useSession } from "next-auth/react";
 import { useModalStore } from "../../store/user";
 import SidebarProject from "../project/SidebarProject";
 import UserSidebarCard from "../user/UserSidebarCard";
 import useMenu from "@/hooks/useMenu";
 import { useWorkspaceWithProjects } from "@/hooks/WorkspaceHooks";
 import LoadingSkeleton from "../UI/LoadingSkeleton";
-import { useUserInfo } from "@/hooks/MemberHooks";
 
 const NavBar = () => {
   const [isNavMinimized, setIsNavMinimized] = useState(false);
@@ -362,11 +360,7 @@ const NavBar = () => {
             </svg>
           </button>
           {/* User Profile */}
-          {status === "loading" && (
-            <div className="sidebar__user-loading">
-              <LoadingSkeleton isDark={true} />
-            </div>
-          )}
+
           <UserSidebarCard />
         </footer>
       </div>

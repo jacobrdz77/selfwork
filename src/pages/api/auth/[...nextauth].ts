@@ -18,11 +18,5 @@ export default NextAuth({
       session.user!.id = user.id;
       return session;
     },
-    signIn({ account, user }) {
-      if (user && account) {
-        return "/my-tasks/board";
-      }
-      return true;
-    },
   },
 });

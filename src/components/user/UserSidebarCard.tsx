@@ -3,12 +3,14 @@ import { getInitials } from "../UI/UserCard";
 import { useUserInfo } from "@/hooks/MemberHooks";
 import { useUserStore } from "store/user";
 import { useRouter } from "next/router";
-import { userSignout } from "@/utils/auth";
+import { signOut, useSession } from "next-auth/react";
 
 const UserSidebarCard = () => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
-  const userId = useUserStore((state) => state.userId);
-  const { user, status: userStatus } = useUserInfo(userId);
+  // const userId = useUserStore((state) => state.userId);
+  const { user, userStatus, session } = useUserInfo(
+    "al814zcy86074hloymogrg1mv"
+  );
   const router = useRouter();
 
   return (
@@ -22,9 +24,9 @@ const UserSidebarCard = () => {
         >
           <div className="sidebar__user">
             <div className={`sidebar__user-icon`}>
-              {getInitials(user?.name as string)}
+              {getInitials(session.name as string)}
             </div>
-            <span className="sidebar__user-name">{user?.name}</span>
+            <span className="sidebar__user-name">{session.name}</span>
           </div>
           <div
             className={`sidebar__user-menu ${
@@ -39,7 +41,7 @@ const UserSidebarCard = () => {
               {/* Opens model of user's editable data */}
               <div
                 onClick={() => {
-                  router.push(`/profile/${userId}`);
+                  router.push(`/profile/${user.id}`);
                 }}
                 className="sidebar__user-menu-item"
               >
@@ -49,8 +51,9 @@ const UserSidebarCard = () => {
                 className="sidebar__user-menu-item"
                 onClick={async () => {
                   console.log("LOG OUT");
-                  router.push("/login");
-                  const response = await userSignout();
+                  signOut({
+                    callbackUrl: "/login",
+                  });
                 }}
               >
                 Log Out
