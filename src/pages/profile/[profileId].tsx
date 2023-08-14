@@ -12,7 +12,7 @@ import { useModalStore } from "store/user";
 
 const ProfilePage = () => {
   const router = useRouter();
-  const { user, status } = useUserInfo("al814zcy86074hloymogrg1mv");
+  const { user, userStatus } = useUserInfo("al814zcy86074hloymogrg1mv");
   const [isEditUserOpen, setIsEditUserOpen] = useState(false);
   const isAddTaskOpen = useModalStore((state) => state.isAddTaskOpen);
   const setIsAddTaskOpen = useModalStore((state) => state.setIsAddTaskOpen);
