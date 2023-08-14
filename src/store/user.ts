@@ -15,6 +15,7 @@ export const MOCK_USER = {
   id: "al814zcy86074hloymogrg1mv",
   name: "Jacob",
   email: "jacob@jacob.com",
+  workspaceId: "opdclt74u9913gpecetnyigta",
 };
 
 // Todo: Get workspaceId from User.
@@ -22,8 +23,8 @@ export const MOCK_USER = {
 // Once session is fetched, the store is set and everything is updated.
 
 export const userStore = createStore<UserState & Action>((set) => ({
-  userId: MOCK_USER.id,
-  workspaceId: "opdclt74u9913gpecetnyigta",
+  userId: "",
+  workspaceId: "",
   setUserId: (id: string) => set(() => ({ userId: id })),
   setWorkspaceId: (id: string) => set(() => ({ workspaceId: id })),
 }));

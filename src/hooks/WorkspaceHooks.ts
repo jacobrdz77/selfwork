@@ -31,12 +31,12 @@ export const useOneWorkspace = () => {
 
 export const useWorkspaces = (enabled: boolean = true) => {
   // Future: get owner id from session
-  const ownerId = useUserStore((state) => state.userId);
+
   const { data: workspaces, status } = useQuery({
-    queryKey: ["workspaces", ownerId],
+    queryKey: ["workspaces", user?.id],
     queryFn: async () => {
       try {
-        const response = await fetch(`/api/workspaces?ownerId=${ownerId}`);
+        const response = await fetch(`/api/workspaces?ownerId=${user?.id}`);
         if (!response.ok) {
           throw new Error(
             "Error happend!: " + response.status.toLocaleString()

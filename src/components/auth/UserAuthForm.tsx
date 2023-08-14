@@ -1,40 +1,16 @@
-import { userGoogleSignIn, userOTPSignIn } from "@/utils/auth";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import MagicLinkSentModal from "./MagicLinkSentModal";
 
 const UserAuthForm = () => {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const [email, setEmail] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
-
-  async function onSubmit(event: React.SyntheticEvent) {
-    event.preventDefault();
-    // Send Request to endpoint that sends magic link to User
-    if (email.length === 0) {
-      return;
-    }
-    setIsOpen(true);
-    const { data } = await userOTPSignIn(email);
-    console.log("Data: ", data);
-  }
 
   return (
     <>
-      <MagicLinkSentModal
-        isOpen={isOpen}
-        email={email}
-        setEmail={setEmail}
-        setIsModalOpen={setIsOpen}
-      />
       <div className="user-auth-container">
         <div className="user-auth-form">
-          <h1 className="title">Sign in with email</h1>
-          <p className="sub-title">
-            Enter your email below to create your account
-          </p>
-          <form onSubmit={onSubmit}>
+          <h1 className="title">Sign in</h1>
+          <p className="sub-title">Use one of the providers to sign in</p>
+          {/* <form onSubmit={onSubmit}>
             <div className="email-signin">
               <input
                 value={email}
@@ -58,14 +34,13 @@ const UserAuthForm = () => {
             <div className="line"></div>
             <div className="gray-text">OR CONTINUE WITH</div>
             <div className="line"></div>
-          </div>
+          </div> */}
           <div>
             <button
               className="button button--google"
               type="button"
-              disabled={isLoading}
               onClick={async () => {
-                const { data } = await userGoogleSignIn();
+                signIn("google");
               }}
             >
               <svg

@@ -9,8 +9,6 @@ import { NextPage } from "next";
 import { ReactElement, ReactNode } from "react";
 import { useRouter } from "next/router";
 import LoginLayout from "@/components/layout/LoginLayout";
-import { createPagesBrowserClient } from "@supabase/auth-helpers-nextjs";
-import { SessionContextProvider } from "@supabase/auth-helpers-react";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -28,18 +26,16 @@ const client = new QueryClient({
   },
 });
 
-function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+function MyApp({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
   const router = useRouter();
   const currentPath = router.pathname;
 
-  const [supabaseClient] = useState(() => createPagesBrowserClient());
-
   return (
-    <SessionContextProvider
-      supabaseClient={supabaseClient}
-      initialSession={pageProps.initialSession}
-    >
+    <SessionProvider session={session}>
       <QueryClientProvider client={client}>
         <Head>
           <meta
@@ -58,7 +54,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           <PageLayout>{getLayout(<Component {...pageProps} />)}</PageLayout>
         )}
       </QueryClientProvider>
-    </SessionContextProvider>
+    </SessionProvider>
   );
 }
 export default MyApp;

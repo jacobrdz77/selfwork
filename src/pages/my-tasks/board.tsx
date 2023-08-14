@@ -5,6 +5,7 @@ import Boards from "@/components/sections/Boards";
 import { useSectionsOfUser } from "@/hooks/SectionHooks";
 import React from "react";
 import useSortedSections from "@/hooks/useSortedSections";
+import { useSession } from "next-auth/react";
 
 const MyTaskBoardPage = () => {
   const { userAssignedTasksSection, userSections, status } =
@@ -12,6 +13,9 @@ const MyTaskBoardPage = () => {
   const { sortedSections, setSortedSections } = useSortedSections(
     userSections ? userSections : []
   );
+
+  const session = useSession();
+  console.log("Session: ", session);
   return (
     <>
       <PageHeader title="My Tasks">

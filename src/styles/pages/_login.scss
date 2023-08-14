@@ -202,7 +202,7 @@
   }
 
   .user-auth-container {
-    padding: 120px 24px;
+    padding: 176px 24px;
     flex: 1 50%;
     background-color: #141415;
     display: grid;
@@ -212,6 +212,7 @@
 
   .user-auth-form {
     max-width: 372px;
+    width: 369px;
     font-size: 16px;
     .title {
       text-align: center;
