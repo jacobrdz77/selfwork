@@ -1,22 +1,14 @@
-<img src="https://user-images.githubusercontent.com/70309225/215390454-95f72343-f8b3-495e-bebf-7a42ab16c2a5.png" style="width:220px;"/>
-
+<img src="https://github.com/jacobrdz77/selfwork/assets/70309225/da0b6a11-3cab-4ca5-b2a4-f3b6fa69bdfe" style="width:475px; margin-bottom:36px;"/>
 
 A project management system for small teams and freelancers. Organize your projects and members in different workspaces you create. 
 
 # Tech Stack
 
 ## Front-end
-
-- TypeScript
-- React
-- Next.js
-- SCSS
+<img src="https://skillicons.dev/icons?i=react,ts,nextjs,scss" style="width:400px"/>
 
 ## Back-end
-
-- Next.js API Routes (Nodejs)
-- Prisma (TypeScript ORM)
-- PostgreSQL
+<img src="https://skillicons.dev/icons?i=nodejs,ts,prisma,postgres" style="width:400px"/>
 
 # Features
 
@@ -29,7 +21,7 @@ A project management system for small teams and freelancers. Organize your proje
 - Use intigrated [Excalidraw](https://excalidraw.com/) to create whiteboards in the sketch view.
 - Allows you to log in and register using Google.
 
-# Setup
+# Local Setup
 ```sh
 # Install project dependencies.
 npm install
