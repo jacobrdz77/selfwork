@@ -46,8 +46,8 @@ const ProfilePage = () => {
 
       {/* PAGE */}
       <div className="page profile-page">
-        {status === "loading" && "Loading..."}
-        {status === "success" && (
+        {userStatus === "loading" && "Loading..."}
+        {userStatus === "success" && (
           <ProfileInfo
             name={user?.name!}
             email={user?.email!}
