@@ -12,7 +12,7 @@ import { useModalStore } from "store/user";
 
 const ProfilePage = () => {
   const router = useRouter();
-  const { user, userStatus } = useUserInfo("al814zcy86074hloymogrg1mv");
+  const { user, status } = useUserInfo("al814zcy86074hloymogrg1mv");
   const [isEditUserOpen, setIsEditUserOpen] = useState(false);
   const isAddTaskOpen = useModalStore((state) => state.isAddTaskOpen);
   const setIsAddTaskOpen = useModalStore((state) => state.setIsAddTaskOpen);
@@ -46,8 +46,8 @@ const ProfilePage = () => {
 
       {/* PAGE */}
       <div className="page profile-page">
-        {userStatus === "loading" && "Loading..."}
-        {userStatus === "success" && (
+        {status === "loading" && "Loading..."}
+        {status === "success" && (
           <ProfileInfo
             name={user?.name!}
             email={user?.email!}
@@ -100,8 +100,9 @@ const ProfilePage = () => {
           <div className="card">
             <h3>Projects</h3>
             <div className="projects">
-              {userStatus === "success" &&
-              user?.involvedProjects.length === 0 ? (
+              {status === "success" &&
+              user?.involvedProjects &&
+              user.involvedProjects.length === 0 ? (
                 <div className="no-tasks">
                   <div>
                     <p>You have no projects Create one!</p>
@@ -116,6 +117,7 @@ const ProfilePage = () => {
                   </div>
                 </div>
               ) : (
+                user?.involvedProjects &&
                 user?.involvedProjects.map((project) => (
                   <UserProfileProject key={project.id} project={project} />
                 ))

@@ -115,7 +115,7 @@ export const useUserInfo = (userId: string) => {
   return {
     user: { ...data },
     session: { ...session.data?.user },
-    userStatus: status,
+    status,
     sessionStatus: session.status,
   };
 };

@@ -8,14 +8,12 @@ import { signOut, useSession } from "next-auth/react";
 const UserSidebarCard = () => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   // const userId = useUserStore((state) => state.userId);
-  const { user, userStatus, session } = useUserInfo(
-    "al814zcy86074hloymogrg1mv"
-  );
+  const { user, status, session } = useUserInfo("al814zcy86074hloymogrg1mv");
   const router = useRouter();
 
   return (
     <>
-      {userStatus === "success" ? (
+      {status === "success" ? (
         <div
           className="sidebar__user-container"
           role="button"

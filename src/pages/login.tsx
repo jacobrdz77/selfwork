@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import MagicLinkSentModal from "@/components/auth/MagicLinkSentModal";
 import UserAuthForm from "@/components/auth/UserAuthForm";
 import { NextPage } from "next";
 import React from "react";
