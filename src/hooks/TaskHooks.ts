@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getOneTask, getTasks } from "../utils/taskFunctions";
 import { useUserStore } from "../store/user";
 import { Priority, Section, Task, TaskStatus, User } from "@prisma/client";
+import { TaskWithAssignee } from "@/types/types";
 
 export const useTasks = (onSuccess?: () => void) => {
   const userId = useUserStore((state) => state.userId);
@@ -20,7 +21,7 @@ export const useOneTask = (taskId: string) => {
     isLoading,
     status,
   } = useQuery({
-    queryKey: ["task", taskId],
+    queryKey: ["tasks", taskId],
     queryFn: () => getOneTask(taskId!),
     onSuccess: (data) => {
       // console.log("Task: ", data);
@@ -109,13 +110,26 @@ export const useUpdateTask = () => {
         console.log(error);
       }
     },
+    onMutate: async (updatedTask: TaskWithAssignee) => {
+      await queryClient.cancelQueries({ queryKey: ["task"] });
 
-    onSuccess: (updatedTask) => {
-      queryClient.invalidateQueries({
-        queryKey: ["sections", updatedTask?.sectionId],
-      });
-      queryClient.invalidateQueries({ queryKey: ["sections"] });
-      // console.log("Updated task: ", updatedTask.name);
+      // Snapshot the previous value
+      const previousTask = await queryClient.getQueryData([
+        "tasks",
+        updatedTask.id,
+      ]);
+
+      // Optimistically update to the new value
+      await queryClient.setQueryData(["tasks", updatedTask.id], updatedTask);
+
+      return { previousTask, updatedTask };
+    },
+    onSuccess: (updatedTask: TaskWithAssignee) => {
+      // queryClient.invalidateQueries({
+      //   queryKey: ["sections", updatedTask?.sectionId],
+      // });
+      queryClient.invalidateQueries({ queryKey: ["tasks", updatedTask.id] });
+      console.log("SUCCESS");
     },
   });
 };

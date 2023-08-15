@@ -13,33 +13,38 @@ import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
 import useMenu from "@/hooks/useMenu";
 import { TaskWithAssignee } from "@/types/types";
-import { useDeleteTask, useUpdateTask } from "@/hooks/TaskHooks";
+import { useDeleteTask, useOneTask, useUpdateTask } from "@/hooks/TaskHooks";
 import { taskPriorityClassName } from "./OneTaskRow";
 
 const EditTaskDetails = ({
-  task,
+  taskId,
   setIsModalOpen,
 }: {
-  task: TaskWithAssignee;
+  taskId: string;
   setIsModalOpen: (bool: boolean) => void;
 }) => {
-  const [description, setDescription] = useState(task.description);
-  const [tags, setTags] = useState<Tag[] | []>(task.tags);
+  const { task, status } = useOneTask(taskId);
+  console.log("TAsk: ", task);
+
+  const [description, setDescription] = useState(task?.description);
+  const [tags, setTags] = useState<Tag[] | []>(task?.tags!);
   const [selectedTag, setSelectedTag] = useState<Tag | null>(null);
-  const [assignee, setAssignee] = useState<User | null>(task.assignee);
+  const [assignee, setAssignee] = useState<User | null>(task?.assignee!);
   const [selectedSection, setSelectedSection] = useState<Section | null>(null);
-  const [dueDate, setDueDate] = useState(task.dueDate ? task.dueDate : null);
+  const [dueDate, setDueDate] = useState(
+    task?.dueDate ? new Date(task?.dueDate).toLocaleDateString() : null
+  );
   const [priority, setPriority] = useState<Priority | undefined>(
     task?.priority
   );
   const [isComplete, setIsComplete] = useState(
-    task.isComplete ? task.isComplete : false
+    task?.isComplete ? task.isComplete : false
   );
   const [isFormValid, setIsFormValid] = useState(true);
-  const [taskStatus, setTaskStatus] = useState(task.status);
+  const [taskStatus, setTaskStatus] = useState(task?.status);
   //   For Name
-  const [oldName, setOldName] = useState(task.name);
-  const [inputName, setInputName] = useState(task.name);
+  const [oldName, setOldName] = useState(task?.name);
+  const [inputName, setInputName] = useState(task?.name);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const inputRef = useRef(null);
 
@@ -71,7 +76,7 @@ const EditTaskDetails = ({
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newTask = await updateTask({
-      taskId: task.id,
+      taskId: task?.id!,
       taskData: {
         name: inputName,
         description: description!,
@@ -96,7 +101,7 @@ const EditTaskDetails = ({
   }, [isInputFocused]);
 
   useEffect(() => {
-    if (inputName.length > 0) {
+    if (inputName?.length! > 0) {
       setIsFormValid(true);
     } else {
       setIsFormValid(false);
@@ -109,18 +114,18 @@ const EditTaskDetails = ({
         <div className="task-detail__buttons">
           <button
             onClick={() => {
-              updateTask({
-                taskId: task.id,
-                taskData: {
-                  name: inputName,
-                  description: description!,
-                  dueDate: dueDate ? new Date(dueDate) : null,
-                  priority,
-                  status: taskStatus,
-                  assigneeId: assignee ? assignee.id : "remove",
-                  isComplete: !isComplete,
-                },
-              });
+              // updateTask({
+              //   taskId: task?.id!,
+              //   taskData: {
+              //     // name: inputName,
+              //     // description: description!,
+              //     // dueDate: dueDate ? new Date(dueDate) : null,
+              //     // priority,
+              //     // status: taskStatus,
+              //     // assigneeId: assignee ? assignee.id : "remove",
+              //     isComplete: !isComplete,
+              //   },
+              // });
               setIsComplete(!isComplete);
             }}
             className={`button ${isComplete ? "active" : ""}`}

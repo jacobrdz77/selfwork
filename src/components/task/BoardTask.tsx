@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import useMenu from "@/hooks/useMenu";
 import { TaskWithAssignee } from "@/types/types";
 import { getInitials } from "../UI/UserCard";
-import { useDeleteTask, useUpdateTask } from "@/hooks/TaskHooks";
+import { useDeleteTask, useOneTask, useUpdateTask } from "@/hooks/TaskHooks";
 import { taskPriorityClassName } from "./OneTaskRow";
 import { format } from "date-fns";
 import EditTaskModal from "./EditTaskModal";
@@ -19,12 +19,15 @@ export const formatDueDate = (taskDueDate: Date) => {
 };
 
 const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
-  // Todo: Add updation mudations
+  const { task: oneTask, status } = useOneTask(task.id);
+
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const { mutate: deleteTask } = useDeleteTask();
   const [isTaskDetailOpen, setIsTaskDetailOpen] = useState(false);
   const [dueDate, setDueDate] = useState(
-    task.dueDate ? new Date(task.dueDate).toLocaleDateString() : new Date()
+    oneTask?.dueDate
+      ? new Date(oneTask?.dueDate).toLocaleDateString()
+      : new Date().toLocaleDateString()
   );
 
   // Makes it Draggable
@@ -40,125 +43,130 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
     <>
       {isTaskDetailOpen && (
         <EditTaskModal
-          task={task}
+          taskId={task.id}
           isOpen={isTaskDetailOpen}
           setIsOpen={setIsTaskDetailOpen}
         />
       )}
-
-      <div
-        className="board-task"
-        key={task.id}
-        onClick={() => {
-          setIsTaskDetailOpen(true);
-        }}
-        ref={setNodeRef}
-        style={style}
-        {...attributes}
-        {...listeners}
-      >
-        <div className="board-task__header">
-          <div className="board-task__name">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="check-icon"
-            >
-              <path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span>{task.name}</span>
-          </div>
-          <div
-            className={`header__more-btn-container ${
-              isMenuOpen ? "active" : ""
-            }`}
-          >
-            <div
-              ref={btnRef}
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setIsMenuOpen(!isMenuOpen);
-              }}
-              className="board-task__more-btn"
-              role="button"
-            >
-              <svg className="board-task__more-icon" viewBox="0 0 16 16">
-                <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
+      {status === "success" && (
+        <div
+          className="board-task"
+          key={task.id}
+          onClick={() => {
+            setIsTaskDetailOpen(true);
+          }}
+          ref={setNodeRef}
+          style={style}
+          {...attributes}
+          {...listeners}
+        >
+          <div className="board-task__header">
+            <div className="board-task__name">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="check-icon"
+              >
+                <path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
+              <span>{task.name}</span>
+            </div>
+            <div
+              className={`header__more-btn-container ${
+                isMenuOpen ? "active" : ""
+              }`}
+            >
               <div
-                className={`board-task__edit-menu ${
-                  isMenuOpen ? "board-task__edit-menu--active" : ""
-                }`}
-                ref={menuRef}
+                ref={btnRef}
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
+                  setIsMenuOpen(!isMenuOpen);
                 }}
+                className="board-task__more-btn"
+                role="button"
               >
+                <svg className="board-task__more-icon" viewBox="0 0 16 16">
+                  <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
+                </svg>
                 <div
-                  className="board-task__edit-menu-item"
-                  onClick={() => {
-                    setIsTaskDetailOpen(true);
-                    setIsMenuOpen(false);
-                  }}
-                >
-                  Edit task
-                </div>
-                <div
-                  className="board-task__edit-menu-item board-task__edit-menu-item--delete"
+                  className={`board-task__edit-menu ${
+                    isMenuOpen ? "board-task__edit-menu--active" : ""
+                  }`}
+                  ref={menuRef}
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    setIsMenuOpen(false);
-                    deleteTask(task.id);
                   }}
                 >
-                  Delete task
+                  <div
+                    className="board-task__edit-menu-item"
+                    onClick={() => {
+                      setIsTaskDetailOpen(true);
+                      setIsMenuOpen(false);
+                    }}
+                  >
+                    Edit task
+                  </div>
+                  <div
+                    className="board-task__edit-menu-item board-task__edit-menu-item--delete"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setIsMenuOpen(false);
+                      deleteTask(task.id);
+                    }}
+                  >
+                    Delete task
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <ul className="tag-list">
-          {task.tags
-            ? task.tags.map((tag) => (
-                <li className="tag" key={tag.id}>
-                  {tag.name}
-                </li>
-              ))
-            : null}
-        </ul>
+          <ul className="tag-list">
+            {oneTask?.tags
+              ? oneTask?.tags.map((tag) => (
+                  <li className="tag" key={tag.id}>
+                    {tag.name}
+                  </li>
+                ))
+              : null}
+          </ul>
 
-        <div className="footer">
-          <div className="footer__priority">
-            <span className={`${taskPriorityClassName(task.priority)}`}>
-              {task.priority}
-            </span>
+          <div className="footer">
+            <div className="footer__priority">
+              <span className={`${taskPriorityClassName(oneTask?.priority!)}`}>
+                {oneTask?.priority!}
+              </span>
+            </div>
+
+            <div className="buttons">
+              {oneTask?.dueDate === null ? (
+                <DateButton
+                  task={oneTask}
+                  date={dueDate}
+                  setDate={setDueDate}
+                />
+              ) : (
+                <DateFilledButton
+                  task={oneTask!}
+                  date={dueDate}
+                  setDate={setDueDate}
+                />
+              )}
+              {oneTask?.assignee === null ? (
+                <AssigneeButton task={oneTask} />
+              ) : (
+                <AssigneeFilledButton task={oneTask} />
+              )}
+            </div>
           </div>
-
-          <div className="buttons">
-            {task.dueDate === null ? (
-              <DateButton task={task} date={dueDate} setDate={setDueDate} />
-            ) : (
-              <DateFilledButton
-                task={task}
-                date={dueDate}
-                setDate={setDueDate}
-              />
-            )}
-            {task.assignee === null ? (
-              <AssigneeButton task={task} />
-            ) : (
-              <AssigneeFilledButton task={task} />
-            )}
-          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };
@@ -224,6 +232,31 @@ export const DateButton = ({
                 setDate(new Date(dueDate!));
               }}
             />
+            <button
+              aria-label="Remove assignee"
+              onClick={() => {
+                setDate(null);
+                updateTask({
+                  taskId: task.id,
+                  taskData: {
+                    dueDate: null,
+                  },
+                });
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="remove-icon"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
           </div>
         )}
       </div>
@@ -269,19 +302,46 @@ const DateFilledButton = ({
             className="menu"
             ref={menuRef}
           >
-            <ReactDatePicker
-              value={date}
-              selected={new Date(date)}
-              onChange={(dueDate) => {
-                setDate(new Date(dueDate!));
-                updateTask({
-                  taskId: task.id,
-                  taskData: {
-                    dueDate: dueDate,
-                  },
-                });
-              }}
-            />
+            <div className="react-date-input">
+              <ReactDatePicker
+                value={date}
+                selected={new Date(date)}
+                onChange={(dueDate) => {
+                  setDate(new Date(dueDate!));
+                  updateTask({
+                    taskId: task.id,
+                    taskData: {
+                      dueDate: dueDate,
+                    },
+                  });
+                }}
+              />
+              <div
+                className="remove-assignee-btn"
+                aria-label="Remove assignee"
+                onClick={() => {
+                  setDate(new Date(date));
+                  updateTask({
+                    taskId: task.id,
+                    taskData: {
+                      dueDate: null,
+                    },
+                  });
+                }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  className="w-6 h-6"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
           </div>
         )}
       </div>
@@ -417,7 +477,7 @@ export const AssigneeFilledButton = ({ task }: { task: TaskWithAssignee }) => {
         className="board-task__assignee"
       >
         <div className="board-task__assignee">
-          <span>{getInitials(task.assignee.name!)}</span>
+          <span>{getInitials(task.assignee ? task.assignee.name! : "")}</span>
         </div>
       </div>
       {isMenuOpen && (

@@ -6,11 +6,11 @@ import { useModalStore } from "store/user";
 import { useOneTask } from "@/hooks/TaskHooks";
 
 const EditTaskModal = ({
-  task,
+  taskId,
   isOpen,
   setIsOpen,
 }: {
-  task: TaskWithAssignee;
+  taskId: string;
   isOpen: boolean;
   setIsOpen: (boolean: boolean) => any;
 }) => {
@@ -24,7 +24,7 @@ const EditTaskModal = ({
           setIsOpen(false);
         }}
       >
-        <EditTaskDetails task={task!} setIsModalOpen={setIsOpen} />
+        <EditTaskDetails taskId={taskId!} setIsModalOpen={setIsOpen} />
       </Modal>
     </>
   );

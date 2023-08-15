@@ -12,8 +12,8 @@
   }
 
   &.active {
-    background-color: hsla(267, 26%, 43%, 1);
-    color: #fff;
+    background-color: hsla(267, 26%, 43%) 1 !important;
+    color: #fff !important;
   }
 
   &,
@@ -110,6 +110,28 @@
     display: flex;
     align-items: center;
     height: 56px;
+  }
+
+  .react-date-input {
+    width: 100%;
+    position: relative;
+
+    .react-datepicker-wrapper {
+    }
+
+    .remove-assignee-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 4px;
+      width: 20px;
+      height: 20px;
+      fill: var(--color-gray-500);
+
+      &:hover {
+        fill: #000;
+      }
+    }
   }
 
   .menu-button {
