@@ -24,7 +24,7 @@ export const MOCK_USER = {
 
 export const userStore = createStore<UserState & Action>((set) => ({
   userId: "",
-  workspaceId: "",
+  workspaceId: "opdclt74u9913gpecetnyigta",
   setUserId: (id: string) => set(() => ({ userId: id })),
   setWorkspaceId: (id: string) => set(() => ({ workspaceId: id })),
 }));

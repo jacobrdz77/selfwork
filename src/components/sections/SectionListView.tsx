@@ -5,7 +5,7 @@ import useMenu from "@/hooks/useMenu";
 import { SectionWithTasks } from "@/types/types";
 import OneTaskRow from "../task/OneTaskRow";
 import AddTaskRow from "../task/AddTaskRow";
-import { useCreateTask } from "@/hooks/TaskHooks";
+import { useCreateTask, useTasksSection } from "@/hooks/TaskHooks";
 import {
   SortableContext,
   useSortable,
@@ -34,12 +34,11 @@ const SectionListView = ({
   const inputRef = useRef(null);
 
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
-  const { mutate: deleteSection } = useDeleteSection();
+  const { mutate: deleteSection } = useDeleteSection(section.projectId!);
   const { mutate: updateSection } = useUpdateSection();
 
-  const { sortedtasks, setSortedtasks } = useSortedTasks(
-    section.tasks ? section.tasks : []
-  );
+  const { tasks } = useTasksSection(section.id);
+  const { sortedtasks, setSortedtasks } = useSortedTasks(tasks ? tasks : []);
 
   const { sensors, handleDragEnd, handleDragStart, activeIndex } =
     useDndContextForSorting("tasks", sortedtasks, setSortedtasks);

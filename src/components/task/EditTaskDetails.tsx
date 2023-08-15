@@ -6,13 +6,11 @@ import React, {
   Dispatch,
   SetStateAction,
 } from "react";
-import MenuButton from "../UI/MenuButton";
 import { useWorkspaceMembers } from "@/hooks/WorkspaceHooks";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
 import useMenu from "@/hooks/useMenu";
-import { TaskWithAssignee } from "@/types/types";
 import { useDeleteTask, useOneTask, useUpdateTask } from "@/hooks/TaskHooks";
 import { taskPriorityClassName } from "./OneTaskRow";
 
@@ -24,10 +22,9 @@ const EditTaskDetails = ({
   setIsModalOpen: (bool: boolean) => void;
 }) => {
   const { task, status } = useOneTask(taskId);
-  console.log("TAsk: ", task);
 
   const [description, setDescription] = useState(task?.description);
-  const [tags, setTags] = useState<Tag[] | []>(task?.tags!);
+  // const [tags, setTags] = useState<Tag[] | []>(task?.tags!);
   const [selectedTag, setSelectedTag] = useState<Tag | null>(null);
   const [assignee, setAssignee] = useState<User | null>(task?.assignee!);
   const [selectedSection, setSelectedSection] = useState<Section | null>(null);
@@ -49,7 +46,7 @@ const EditTaskDetails = ({
   const inputRef = useRef(null);
 
   const { mutateAsync: updateTask } = useUpdateTask();
-  const { mutateAsync: deleteTask } = useDeleteTask();
+  const { mutateAsync: deleteTask } = useDeleteTask(task?.sectionId!);
 
   const focusOnInput = () => {
     // @ts-ignore
@@ -153,7 +150,7 @@ const EditTaskDetails = ({
           </div>
           <div
             onClick={() => {
-              deleteTask(task.id);
+              deleteTask(task?.id!);
             }}
             className="delete"
           >

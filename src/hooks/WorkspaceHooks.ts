@@ -1,11 +1,12 @@
 import { WorkspaceWithMembers, WorkspaceWithProjects } from "@/types/types";
 import { User, Workspace } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useUserStore } from "store/user";
+import { useUserStore, userStore } from "store/user";
 
 const workspaceId = useUserStore.getState().workspaceId;
 
 export const useOneWorkspace = () => {
+  const workspaceId = userStore.getState().workspaceId;
   const { data: workspace, status } = useQuery({
     queryKey: ["workspace", workspaceId],
     queryFn: async () => {
@@ -31,12 +32,12 @@ export const useOneWorkspace = () => {
 
 export const useWorkspaces = (enabled: boolean = true) => {
   // Future: get owner id from session
-
+  const userId = userStore.getState().userId;
   const { data: workspaces, status } = useQuery({
-    queryKey: ["workspaces", user?.id],
+    queryKey: ["workspaces", userId],
     queryFn: async () => {
       try {
-        const response = await fetch(`/api/workspaces?ownerId=${user?.id}`);
+        const response = await fetch(`/api/workspaces?ownerId=${userId}`);
         if (!response.ok) {
           throw new Error(
             "Error happend!: " + response.status.toLocaleString()

@@ -25,7 +25,7 @@
     "axios": "^1.2.1",
     "date-fns": "^2.29.2",
     "handlebars": "^4.7.7",
-    "next": "^13.4.5",
+    "next": "^13.4.16",
     "next-auth": "^4.10.2",
     "nodemailer": "^6.9.4",
     "react": "^18.2.0",

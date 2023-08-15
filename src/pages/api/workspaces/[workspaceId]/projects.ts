@@ -20,7 +20,14 @@ export default async function handler(
           workspaceId: workspaceId as string,
         },
         include: {
-          sections: sections === "true" ? true : false,
+          sections:
+            sections === "true"
+              ? {
+                  include: {
+                    tasks: true,
+                  },
+                }
+              : false,
         },
         orderBy: {
           createdAt: "asc",

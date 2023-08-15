@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { SectionWithTasks, TaskWithAssignee } from "@/types/types";
+import { TaskWithAssignee } from "@/types/types";
 import sortArray from "@/utils/sortSections";
 
 const useSortedTasks = (tasks: TaskWithAssignee[]) => {

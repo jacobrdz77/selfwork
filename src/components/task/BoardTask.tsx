@@ -6,7 +6,7 @@ import { useDeleteTask, useOneTask, useUpdateTask } from "@/hooks/TaskHooks";
 import { taskPriorityClassName } from "./OneTaskRow";
 import { format } from "date-fns";
 import EditTaskModal from "./EditTaskModal";
-import { useModalStore, useUserStore } from "store/user";
+import { useUserStore } from "store/user";
 import ReactDatePicker from "react-datepicker";
 import { Client, User } from "@prisma/client";
 import { useWorkspaceMembers } from "@/hooks/WorkspaceHooks";
@@ -22,7 +22,7 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
   const { task: oneTask, status } = useOneTask(task.id);
 
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
-  const { mutate: deleteTask } = useDeleteTask();
+  const { mutate: deleteTask } = useDeleteTask(task.sectionId);
   const [isTaskDetailOpen, setIsTaskDetailOpen] = useState(false);
   const [dueDate, setDueDate] = useState(
     oneTask?.dueDate

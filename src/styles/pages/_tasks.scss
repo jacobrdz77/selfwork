@@ -369,6 +369,11 @@
         background: var(--color-primary--light);
         color: #fff;
       }
+
+      &.active {
+        background: var(--color-primary--light);
+        color: #fff;
+      }
     }
 
     .actions {

@@ -9,6 +9,18 @@ export default async function handler(
   // Get all tasks
   if (req.method === "GET") {
     try {
+      const { sectionId } = req.query;
+
+      // Endpoint - /tasks?sectionId=sampleId123
+      if (sectionId) {
+        const tasks = await prisma.task.findMany({
+          where: {
+            sectionId: sectionId as string,
+          },
+        });
+        return res.status(200).json(tasks);
+      }
+
       const tasks = await prisma.task.findMany();
       return res.status(200).json(tasks);
     } catch (error: Error | any) {

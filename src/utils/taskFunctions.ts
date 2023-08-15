@@ -10,14 +10,15 @@ type newTask = {
   projectId: string;
 };
 
-// Get all tasks
-export const getTasks = async (userId: string) => {
-  const allTasks = await axios.get("/api/tasks", {
-    data: {
-      userId,
-    },
-  });
-  return allTasks.data as Task[];
+// Get all user tasks
+export const getUserTasks = async (userId: string) => {
+  const allTasks = await axios.get(`/api/tasks?userId=${userId}`);
+  return allTasks.data as TaskWithAssignee[];
+};
+// Get all section tasks
+export const getSectionTasks = async (sectionId: string) => {
+  const allTasks = await axios.get(`/api/tasks?sectionId=${sectionId}`);
+  return allTasks.data as TaskWithAssignee[];
 };
 
 // Transform all fetches to axio calls

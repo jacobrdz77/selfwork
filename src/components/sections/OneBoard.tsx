@@ -4,7 +4,7 @@ import useMenu from "@/hooks/useMenu";
 import { useDeleteSection, useUpdateSection } from "@/hooks/SectionHooks";
 import BoardNewTask from "../task/BoardNewTask";
 import BoardTask from "../task/BoardTask";
-import { useCreateTask } from "@/hooks/TaskHooks";
+import { useCreateTask, useTasksSection } from "@/hooks/TaskHooks";
 import {
   SortableContext,
   useSortable,
@@ -25,9 +25,10 @@ interface Board {
 const OneBoard: React.FC<Board> = ({
   section,
   title,
-  tasks,
   isUserAssignedSection = false,
 }) => {
+  const { tasks } = useTasksSection(section.id);
+
   const [newTaskName, setNewTaskName] = useState("");
   const [oldName, setOldName] = useState(title);
   const [sectionInputName, setSectionInputName] = useState(title);
@@ -35,7 +36,7 @@ const OneBoard: React.FC<Board> = ({
   const inputRef = useRef(null);
 
   const { mutate: createTask } = useCreateTask();
-  const { mutate: deleteSection } = useDeleteSection();
+  const { mutate: deleteSection } = useDeleteSection(section.projectId!);
   const { mutate: updateSection } = useUpdateSection();
 
   const { sortedtasks, setSortedtasks } = useSortedTasks(tasks ? tasks : []);
@@ -54,7 +55,7 @@ const OneBoard: React.FC<Board> = ({
         description: "",
         assignee: null,
         priority: null,
-        order: tasks.length,
+        order: tasks?.length!,
       });
     }
   });
@@ -225,7 +226,7 @@ const OneBoard: React.FC<Board> = ({
                   description: "",
                   assignee: null,
                   priority: null,
-                  order: tasks.length,
+                  order: tasks?.length!,
                 });
               }
               setNewTaskOpen((state) => !state);

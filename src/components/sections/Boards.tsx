@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { SectionWithTasks } from "@/types/types";
 import AddProjectSectionButton from "./AddProjectSectionButton";
 import AddUserSectionButton from "./AddUserSectionButton";

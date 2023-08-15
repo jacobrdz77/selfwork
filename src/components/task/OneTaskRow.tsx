@@ -3,7 +3,7 @@ import { Priority } from "@prisma/client";
 import { format } from "date-fns";
 import { TaskWithAssignee } from "@/types/types";
 import { useTableWidthStore } from "store/table-width";
-import { useUpdateTask } from "@/hooks/TaskHooks";
+import { useOneTask, useUpdateTask } from "@/hooks/TaskHooks";
 import EditTaskModal from "./EditTaskModal";
 import useMenu from "@/hooks/useMenu";
 import { useSortable } from "@dnd-kit/sortable";
@@ -39,11 +39,16 @@ export const taskPriorityClassName = (priority: Priority) => {
 };
 
 const OneTaskRow = ({ task }: { task: TaskWithAssignee }) => {
-  // Todo: get Task detail modal state from store
+  const { task: oneTask, status } = useOneTask(task.id);
+
+  useEffect(() => {
+    setOldName(task.name);
+    setTaskInputName(task.name);
+  }, [task]);
+
   const { isMenuOpen, btnRef, setIsMenuOpen } = useMenu();
   const [isTaskDetailOpen, setIsTaskDetailOpen] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
-  const [status, setStatus] = useState(task.status);
 
   // Name
   const [oldName, setOldName] = useState(task.name);
@@ -56,7 +61,7 @@ const OneTaskRow = ({ task }: { task: TaskWithAssignee }) => {
 
   // Makes it Draggable
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: task.id });
+    useSortable({ id: task?.id! });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -100,9 +105,9 @@ const OneTaskRow = ({ task }: { task: TaskWithAssignee }) => {
 
   return (
     <>
-      {isTaskDetailOpen && (
+      {isTaskDetailOpen && status === "success" && (
         <EditTaskModal
-          task={task}
+          taskId={task?.id!}
           isOpen={isTaskDetailOpen}
           setIsOpen={setIsTaskDetailOpen}
         />
@@ -167,8 +172,8 @@ const OneTaskRow = ({ task }: { task: TaskWithAssignee }) => {
             style={{ width: assigneeWidth }}
           >
             <div>
-              {task.assignee ? (
-                task.assignee.name
+              {task?.assignee ? (
+                task?.assignee.name
               ) : (
                 <div className="task__empty-icon"></div>
               )}
@@ -179,8 +184,8 @@ const OneTaskRow = ({ task }: { task: TaskWithAssignee }) => {
             style={{ width: dueDateWidth }}
           >
             <div>
-              {task.dueDate ? (
-                formatDueDate(task.dueDate)
+              {task?.dueDate ? (
+                formatDueDate(task?.dueDate)
               ) : (
                 <div className="task__empty-icon"></div>
               )}

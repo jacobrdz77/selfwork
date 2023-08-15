@@ -5,7 +5,7 @@ import { useUserStore } from "store/user";
 import AssigneeMenu from "./AssigneeMenu";
 import NewTaskProjectMenu from "./NewTaskProjectMenu";
 import NewTaskSectionButton from "./NewTaskSectionButton";
-import { useCreateTask, useTasks } from "@/hooks/TaskHooks";
+import { useCreateTask } from "@/hooks/TaskHooks";
 import { toast } from "react-hot-toast";
 import { SectionWithTasks } from "@/types/types";
 

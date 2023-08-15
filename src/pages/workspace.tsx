@@ -2,17 +2,14 @@ import React, { FocusEvent, useState } from "react";
 import PageHeader from "@/components/header/PageHeader";
 import { useProjects } from "@/hooks/ProjectHooks";
 import Projects from "@/components/project/Projects";
-import LoadingSpinner from "@/components/UI/LoadingSpinner";
-import {
-  useUpdateWorkspace,
-  useWorkspaceWithProjects,
-} from "@/hooks/WorkspaceHooks";
+import { useOneWorkspace, useUpdateWorkspace } from "@/hooks/WorkspaceHooks";
 import LoadingSkeleton from "@/components/UI/LoadingSkeleton";
 import UserCard from "@/components/UI/UserCard";
 import { useModalStore } from "store/user";
 
 const WorkspacePage = () => {
-  const { workspace, projects, status } = useWorkspaceWithProjects();
+  const { workspace, status } = useOneWorkspace();
+  const { projects } = useProjects();
   const setIsProjectModalOpen = useModalStore(
     (state) => state.setIsAddProjectModalOpen
   );

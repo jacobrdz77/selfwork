@@ -5,8 +5,12 @@ import { useModalStore } from "../../store/user";
 import SidebarProject from "../project/SidebarProject";
 import UserSidebarCard from "../user/UserSidebarCard";
 import useMenu from "@/hooks/useMenu";
-import { useWorkspaceWithProjects } from "@/hooks/WorkspaceHooks";
+import {
+  useOneWorkspace,
+  useWorkspaceWithProjects,
+} from "@/hooks/WorkspaceHooks";
 import LoadingSkeleton from "../UI/LoadingSkeleton";
+import { useProjects } from "@/hooks/ProjectHooks";
 
 const NavBar = () => {
   const [isNavMinimized, setIsNavMinimized] = useState(false);
@@ -21,7 +25,8 @@ const NavBar = () => {
     (state) => state.setIsClientModalOpen
   );
 
-  const { workspace, projects, status } = useWorkspaceWithProjects();
+  const { projects, status } = useProjects();
+  const { workspace } = useOneWorkspace();
 
   return (
     <>

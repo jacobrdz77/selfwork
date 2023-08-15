@@ -1,20 +1,58 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getOneTask, getTasks } from "../utils/taskFunctions";
+import {
+  getOneTask,
+  getSectionTasks,
+  getUserTasks,
+} from "../utils/taskFunctions";
 import { useUserStore } from "../store/user";
 import { Priority, Section, Task, TaskStatus, User } from "@prisma/client";
 import { TaskWithAssignee } from "@/types/types";
 
-export const useTasks = (onSuccess?: () => void) => {
+export type TaskData = {
+  name?: string;
+  description?: string;
+  priority?: Priority;
+  status?: TaskStatus;
+  isComplete?: boolean;
+  startDate?: Date | null;
+  dueDate?: Date | null;
+  projectId?: string | null;
+  assigneeId?: string | null;
+};
+
+// QUERY KEYS
+// ONE task
+// ["tasks", taskId]
+// ALL tasks
+// ["tasks", userId]
+
+// Problem
+// I need to fetch tasks based on sectionId
+
+export const useTasksUser = () => {
   const userId = useUserStore((state) => state.userId);
   const {
     data: tasks,
     isLoading,
     status,
-  } = useQuery(["tasks", userId], () => getTasks(userId!), {
-    onSuccess: onSuccess,
+  } = useQuery({
+    queryKey: ["tasks", userId],
+    queryFn: () => getUserTasks(userId!),
   });
   return { tasks, isLoading, status };
 };
+export const useTasksSection = (sectionId: string) => {
+  const {
+    data: tasks,
+    isLoading,
+    status,
+  } = useQuery({
+    queryKey: ["tasks", sectionId],
+    queryFn: () => getSectionTasks(sectionId),
+  });
+  return { tasks, isLoading, status };
+};
+
 export const useOneTask = (taskId: string) => {
   const {
     data: task,
@@ -23,8 +61,9 @@ export const useOneTask = (taskId: string) => {
   } = useQuery({
     queryKey: ["tasks", taskId],
     queryFn: () => getOneTask(taskId!),
+    // enabled: taskId.length > 2 ? true : false,
     onSuccess: (data) => {
-      // console.log("Task: ", data);
+      // console.log("Fetched ONE Task: ", data);
     },
   });
   return { task, isLoading, status };
@@ -60,24 +99,33 @@ export const useCreateTask = () => {
       }
     },
 
+    onMutate: async (newTask) => {
+      await queryClient.cancelQueries({ queryKey: ["task"] });
+
+      // console.log("New Task: ", newTask);
+
+      // Snapshot the previous value
+      const previousTasks = await queryClient.getQueryData([
+        "tasks",
+        newTask.sectionId,
+      ]);
+      // console.log("Previous Tasks: ", previousTasks);
+
+      // Optimistically update
+      const newTasks = queryClient.setQueryData(
+        ["tasks", newTask.sectionId],
+        [...previousTasks, { ...newTask, id: Math.floor(Math.random() * 100) }]
+      );
+      // console.log("Updated Tasks: ", newTasks);
+      return { previousTasks, newTask };
+    },
+
     onSuccess: (newTask) => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       queryClient.invalidateQueries({ queryKey: ["sections"] });
       console.log("Created new task...\n", newTask);
     },
   });
-};
-
-export type TaskData = {
-  name?: string;
-  description?: string;
-  priority?: Priority;
-  status?: TaskStatus;
-  isComplete?: boolean;
-  startDate?: Date | null;
-  dueDate?: Date | null;
-  projectId?: string | null;
-  assigneeId?: string | null;
 };
 
 export const useUpdateTask = () => {
@@ -105,7 +153,7 @@ export const useUpdateTask = () => {
             "Error happend!: " + response.status.toLocaleString()
           );
         }
-        return (await response.json()) as Task;
+        return (await response.json()) as TaskWithAssignee;
       } catch (error) {
         console.log(error);
       }
@@ -120,7 +168,7 @@ export const useUpdateTask = () => {
       ]);
 
       // Optimistically update to the new value
-      await queryClient.setQueryData(["tasks", updatedTask.id], updatedTask);
+      queryClient.setQueryData(["tasks", updatedTask.id], updatedTask);
 
       return { previousTask, updatedTask };
     },
@@ -128,35 +176,9 @@ export const useUpdateTask = () => {
       // queryClient.invalidateQueries({
       //   queryKey: ["sections", updatedTask?.sectionId],
       // });
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
       queryClient.invalidateQueries({ queryKey: ["tasks", updatedTask.id] });
       console.log("SUCCESS");
-    },
-  });
-};
-
-export const useDeleteTask = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: async (taskId: string) => {
-      try {
-        const response = await fetch(`/api/tasks/${taskId}`, {
-          method: "DELETE",
-        });
-        if (!response.ok) {
-          throw new Error(
-            "Error happend!: " + response.status.toLocaleString()
-          );
-        }
-        return (await response.json()) as Task;
-      } catch (error) {
-        console.log(error);
-      }
-    },
-
-    onSuccess: (deletedTask) => {
-      queryClient.invalidateQueries({ queryKey: ["sections"] });
-      console.log("Deleted task: ", deletedTask);
     },
   });
 };
@@ -191,13 +213,62 @@ export const useUpdateTaskOrder = () => {
         }
         return (await response.json()) as Section;
       } catch (error) {
-        console.log(error);
+        return error;
       }
     },
 
     onSuccess: (twoUpdatedSections) => {
       queryClient.invalidateQueries({ queryKey: ["sections"] });
       console.log("Updated section: ", twoUpdatedSections);
+    },
+  });
+};
+
+export const useDeleteTask = (sectionId: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (taskId: string) => {
+      try {
+        const response = await fetch(`/api/tasks/${taskId}`, {
+          method: "DELETE",
+        });
+        if (!response.ok) {
+          throw new Error(
+            "Error happend!: " + response.status.toLocaleString()
+          );
+        }
+        return (await response.json()) as Task;
+      } catch (error) {
+        return error;
+      }
+    },
+
+    onMutate: async (deletedTaskId: string) => {
+      await queryClient.cancelQueries({ queryKey: ["task"] });
+
+      console.log("Deleted Task ID: ", deletedTaskId);
+
+      // Snapshot the previous value
+      const previousTasks = queryClient.getQueryData<TaskWithAssignee[]>([
+        "tasks",
+        sectionId,
+      ]);
+      console.log("Previous Tasks: ", previousTasks);
+
+      // Optimistically update
+      const deletedTask = queryClient.setQueryData(
+        ["tasks", deletedTaskId],
+        previousTasks?.filter((task) => task.id !== deletedTaskId)
+      );
+      console.log("Updated Tasks: ", deletedTask);
+      return { previousTasks, deletedTask };
+    },
+
+    onSuccess: (deletedTask) => {
+      queryClient.invalidateQueries({ queryKey: ["sections"] });
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      console.log("Deleted task: ", deletedTask);
     },
   });
 };

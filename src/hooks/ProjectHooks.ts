@@ -45,15 +45,15 @@ export const useProjectWithSections = () => {
         throw error;
       }
     },
-    select(data) {
-      if (!data) return;
-      const projects = data.map((project) => ({
-        id: project.id,
-        name: project.name,
-        sections: project.sections,
-      }));
-      return projects;
-    },
+    // select(data) {
+    //   if (!data) return;
+    //   const projects = data.map((project) => ({
+    //     id: project.id,
+    //     name: project.name,
+    //     sections: project.sections,
+    //   }));
+    //   return projects;
+    // },
   });
 
   return {

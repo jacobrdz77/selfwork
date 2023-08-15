@@ -67,7 +67,6 @@ export const useCreateProjectSection = (projectId: string) => {
   return useMutation({
     mutationFn: async (sectionData: { name: string; order: number }) => {
       try {
-        console.log("CLICKKK");
         const response = await fetch(`/api/sections?projectId=${projectId}`, {
           method: "POST",
           body: JSON.stringify({
@@ -89,6 +88,35 @@ export const useCreateProjectSection = (projectId: string) => {
     },
 
     // Optimistically updates userSections
+    onMutate: async (newSection) => {
+      await queryClient.cancelQueries(["sections", projectId]);
+      console.log("NEEEE ", newSection);
+
+      const previousSections = queryClient.getQueryData<ProjectSections[]>([
+        "sections",
+        projectId,
+      ]);
+      console.log("PREVIOUS sections", previousSections);
+
+      if (previousSections) {
+        const newSections = queryClient.setQueryData<ProjectSections[]>(
+          ["sections", projectId],
+          [
+            ...previousSections,
+            {
+              id: Math.floor(Math.random() * 100).toString(),
+              name: newSection.name,
+              tasks: [],
+            },
+          ]
+        );
+
+        console.log("NEWW: ", newSections);
+      }
+
+      // Adds to the context in onError function
+      return { previousSections };
+    },
 
     onSettled: (newSection) => {
       console.log("Created new section! \n", newSection);
@@ -164,7 +192,7 @@ export const useCreateUserSection = () => {
   });
 };
 
-export const useDeleteSection = () => {
+export const useDeleteSection = (projectId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -187,9 +215,30 @@ export const useDeleteSection = () => {
       }
     },
 
-    onSuccess: (data) => {
+    // Optimistically updates userSections
+    onMutate: async (deletedSectionId: string) => {
+      await queryClient.cancelQueries(["sections"]);
+
+      const previousSections = queryClient.getQueryData<Section[]>([
+        "sections",
+        projectId,
+      ]);
+
+      if (previousSections) {
+        // This filters out the deleted section
+        queryClient.setQueryData<ProjectSections>(
+          ["sections", projectId],
+          previousSections.filter((section) => section.id !== deletedSectionId)
+        );
+      }
+
+      // Adds to the context in the onError function
+      return { previousSections };
+    },
+
+    onSuccess: (data: { deletedSection: Section }) => {
       queryClient.invalidateQueries({ queryKey: ["sections"] });
-      console.log("Deleted section: ", data.deletedSection.name);
+      console.log("Deleted Section Name: ", data.deletedSection.name);
     },
   });
 };
