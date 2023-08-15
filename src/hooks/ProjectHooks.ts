@@ -11,7 +11,6 @@ import {
   getProjects,
   updateProject,
 } from "../utils/projectFunctions";
-import { useRouter } from "next/router";
 import { Project } from "@prisma/client";
 
 export const useProjects = () => {

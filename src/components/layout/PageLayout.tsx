@@ -6,6 +6,7 @@ import NavBar from "./NavBar";
 import { Toaster } from "react-hot-toast";
 import EditTaskModal from "../task/EditTaskModal";
 import AddClientModal from "../client/AddClientModal";
+import { useSession } from "next-auth/react";
 
 const PageLayout: React.FC<{
   children: ReactNode | ReactNode[];
@@ -24,6 +25,8 @@ const PageLayout: React.FC<{
   const setIsClientModalOpen = useModalStore(
     (state) => state.setIsClientModalOpen
   );
+
+  const session = useSession();
 
   return (
     <div className="layout">

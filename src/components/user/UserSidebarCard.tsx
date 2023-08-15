@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @next/next/no-img-element */
 import useMenu from "@/hooks/useMenu";
 import { getInitials } from "../UI/UserCard";
 import { useUserInfo } from "@/hooks/MemberHooks";
@@ -8,8 +10,9 @@ import { signOut, useSession } from "next-auth/react";
 const UserSidebarCard = () => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   // const userId = useUserStore((state) => state.userId);
-  const { user, status, session } = useUserInfo("al814zcy86074hloymogrg1mv");
+  const { user, status } = useUserInfo("al814zcy86074hloymogrg1mv");
   const router = useRouter();
+  const session = useSession();
 
   return (
     <>
@@ -21,10 +24,24 @@ const UserSidebarCard = () => {
           onClick={() => setIsMenuOpen((state) => !state)}
         >
           <div className="sidebar__user">
-            <div className={`sidebar__user-icon`}>
-              {getInitials(session.name as string)}
-            </div>
-            <span className="sidebar__user-name">{session.name}</span>
+            {session.data?.user?.image ? (
+              <img
+                className="sidebar__user-provider-image"
+                src={session.data?.user.image}
+              />
+            ) : (
+              <div className={`sidebar__user-icon`}>
+                {session.status === "authenticated"
+                  ? getInitials(session.data?.user?.name as string)
+                  : getInitials("Sample User")}
+              </div>
+            )}
+
+            <span className="sidebar__user-name">
+              {session.status === "authenticated"
+                ? session.data?.user?.name
+                : "Sample User"}
+            </span>
           </div>
           <div
             className={`sidebar__user-menu ${

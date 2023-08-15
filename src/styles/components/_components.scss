@@ -281,6 +281,13 @@
     background-color: var(--color-gray--hover);
   }
 
+  &__image {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    margin-right: 6px;
+  }
+
   &__icon {
     display: flex;
     align-items: center;

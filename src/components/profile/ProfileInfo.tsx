@@ -1,5 +1,6 @@
 import React from "react";
 import { getInitials } from "../UI/UserCard";
+import { useSession } from "next-auth/react";
 
 const ProfileInfo = ({
   email,
@@ -12,13 +13,20 @@ const ProfileInfo = ({
   phone: string;
   setIsModalOpen: (bool: boolean) => void;
 }) => {
+  const session = useSession();
+
   return (
     <div className="profile">
       <div className="profile__info">
         <div className="flex">
-          <div className="profile__avatar">
-            <span>{getInitials(name)}</span>
-          </div>
+          {session.data?.user?.image ? (
+            <img className="profile__image" src={session.data?.user?.image!} />
+          ) : (
+            <div className="profile__avatar">
+              <span>{getInitials(name)}</span>
+            </div>
+          )}
+
           <div className="text">
             <div className="profile__name">{name}</div>
             <div>

@@ -615,6 +615,12 @@
       margin-right: 8px;
       background-color: var(--color-primary--light) !important;
     }
+    &-provider-image {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
   }
 
   &__user-menu {
