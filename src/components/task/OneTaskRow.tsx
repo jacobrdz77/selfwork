@@ -103,7 +103,7 @@ const OneTaskRow = ({ task }: { task: TaskWithAssignee }) => {
 
   return (
     <>
-      {isTaskDetailOpen && status === "success" && (
+      {isTaskDetailOpen && (
         <EditTaskModal
           task={task}
           isOpen={isTaskDetailOpen}

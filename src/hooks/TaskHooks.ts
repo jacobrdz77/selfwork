@@ -171,7 +171,7 @@ export const useUpdateTask = (sectionId: string) => {
     onMutate: async (data: { taskId: string; taskData: TaskData }) => {
       const updatedTask = data.taskData;
       await queryClient.cancelQueries({ queryKey: ["tasks"] });
-      console.log("UIPPP: ", data);
+      // console.log("UIPPP: ", data);
 
       // Snapshot the previous value
       const previousTasks = queryClient
@@ -182,7 +182,7 @@ export const useUpdateTask = (sectionId: string) => {
       const oldTask = queryClient
         .getQueryData<SectionWithTasks[]>(["tasks", sectionId])
         ?.find((task) => task.id === data.taskId);
-      console.log("OldTask: ", oldTask);
+      // console.log("OldTask: ", oldTask);
 
       // Optimistically update to the new value
       if (previousTasks) {
@@ -190,7 +190,7 @@ export const useUpdateTask = (sectionId: string) => {
           ["tasks", sectionId],
           [...previousTasks!, { id: generateId(), ...oldTask, ...updatedTask }]
         );
-        console.log("new: ", newTasks);
+        // console.log("new: ", newTasks);
       }
 
       return { previousTasks, data };
@@ -272,21 +272,21 @@ export const useDeleteTask = (sectionId: string) => {
     onMutate: async (deletedTaskId: string) => {
       await queryClient.cancelQueries({ queryKey: ["task"] });
 
-      console.log("Deleted Task ID: ", deletedTaskId);
+      // console.log("Deleted Task ID: ", deletedTaskId);
 
       // Snapshot the previous value
       const previousTasks = queryClient.getQueryData<TaskWithAssignee[]>([
         "tasks",
         sectionId,
       ]);
-      console.log("Previous Tasks: ", previousTasks);
+      // console.log("Previous Tasks: ", previousTasks);
 
       // Optimistically update
       const deletedTask = queryClient.setQueryData(
         ["tasks", sectionId],
         previousTasks?.filter((task) => task.id !== deletedTaskId)
       );
-      console.log("Updated Tasks: ", deletedTask);
+      // console.log("Updated Tasks: ", deletedTask);
       return { previousTasks, deletedTask };
     },
 

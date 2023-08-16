@@ -9,8 +9,8 @@ const ProfileInfo = ({
   setIsModalOpen,
 }: {
   name: string;
-  email: string;
-  phone: string;
+  email?: string;
+  phone?: string;
   setIsModalOpen: (bool: boolean) => void;
 }) => {
   const session = useSession();
