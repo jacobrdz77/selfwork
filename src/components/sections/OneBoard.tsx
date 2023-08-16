@@ -28,6 +28,7 @@ const OneBoard: React.FC<Board> = ({
   isUserAssignedSection = false,
 }) => {
   const { tasks } = useTasksSection(section.id);
+  const { sortedtasks, setSortedtasks } = useSortedTasks(tasks ? tasks : []);
 
   const [newTaskName, setNewTaskName] = useState("");
   const [oldName, setOldName] = useState(title);
@@ -38,8 +39,6 @@ const OneBoard: React.FC<Board> = ({
   const { mutate: createTask } = useCreateTask();
   const { mutate: deleteSection } = useDeleteSection(section.projectId!);
   const { mutate: updateSection } = useUpdateSection();
-
-  const { sortedtasks, setSortedtasks } = useSortedTasks(tasks ? tasks : []);
 
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const {

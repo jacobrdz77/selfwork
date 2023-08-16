@@ -106,7 +106,6 @@ export const useUpdateUser = () => {
 
 export const useUserInfo = (userId: string) => {
   const session = useSession();
-  console.log(session);
   const { data, status } = useQuery({
     queryKey: ["user", userId],
     queryFn: () => getUser(userId),
@@ -114,7 +113,7 @@ export const useUserInfo = (userId: string) => {
 
   return {
     user: { ...data },
-    session: { ...session.data?.user },
+    userSession: session,
     status,
     sessionStatus: session.status,
   };

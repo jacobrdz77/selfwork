@@ -17,6 +17,9 @@ export default async function handler(
           where: {
             sectionId: sectionId as string,
           },
+          include: {
+            assignee: true,
+          },
         });
         return res.status(200).json(tasks);
       }

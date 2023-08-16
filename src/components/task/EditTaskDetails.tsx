@@ -13,20 +13,20 @@ import { format } from "date-fns";
 import useMenu from "@/hooks/useMenu";
 import { useDeleteTask, useOneTask, useUpdateTask } from "@/hooks/TaskHooks";
 import { taskPriorityClassName } from "./OneTaskRow";
+import { TaskWithAssignee } from "@/types/types";
 
 const EditTaskDetails = ({
-  taskId,
+  task,
   setIsModalOpen,
 }: {
-  taskId: string;
+  task: TaskWithAssignee;
   setIsModalOpen: (bool: boolean) => void;
 }) => {
-  const { task, status } = useOneTask(taskId);
-
   const [description, setDescription] = useState(task?.description);
   // const [tags, setTags] = useState<Tag[] | []>(task?.tags!);
   const [selectedTag, setSelectedTag] = useState<Tag | null>(null);
   const [assignee, setAssignee] = useState<User | null>(task?.assignee!);
+  console.log("Assignee: ", assignee);
   const [selectedSection, setSelectedSection] = useState<Section | null>(null);
   const [dueDate, setDueDate] = useState(
     task?.dueDate ? new Date(task?.dueDate).toLocaleDateString() : null
@@ -45,7 +45,7 @@ const EditTaskDetails = ({
   const [isInputFocused, setIsInputFocused] = useState(false);
   const inputRef = useRef(null);
 
-  const { mutateAsync: updateTask } = useUpdateTask();
+  const { mutate: updateTask } = useUpdateTask(task.sectionId);
   const { mutateAsync: deleteTask } = useDeleteTask(task?.sectionId!);
 
   const focusOnInput = () => {
@@ -72,7 +72,7 @@ const EditTaskDetails = ({
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const newTask = await updateTask({
+    updateTask({
       taskId: task?.id!,
       taskData: {
         name: inputName,
@@ -81,12 +81,14 @@ const EditTaskDetails = ({
         priority,
         status: taskStatus,
         assigneeId: assignee ? assignee.id : "remove",
+        assigneeName: assignee ? assignee.name : "",
+        sectionId: task.sectionId,
       },
     });
 
-    if (!newTask) {
-      console.log("Error: ", newTask);
-    }
+    // if (!newTask) {
+    //   console.log("Error: ", newTask);
+    // }
 
     setIsModalOpen(false);
   };

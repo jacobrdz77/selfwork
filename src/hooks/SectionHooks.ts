@@ -96,7 +96,7 @@ export const useCreateProjectSection = (projectId: string) => {
         "sections",
         projectId,
       ]);
-      console.log("PREVIOUS sections", previousSections);
+      // console.log("PREVIOUS sections", previousSections);
 
       if (previousSections) {
         const newSections = queryClient.setQueryData<ProjectSections[]>(
@@ -111,7 +111,7 @@ export const useCreateProjectSection = (projectId: string) => {
           ]
         );
 
-        console.log("NEWW: ", newSections);
+        // console.log("NEWW: ", newSections);
       }
 
       // Adds to the context in onError function
@@ -157,7 +157,7 @@ export const useCreateUserSection = () => {
         "sections",
         userId,
       ]);
-      console.log("PREVIOUS sections", previousSections);
+      // console.log("PREVIOUS sections", previousSections);
 
       if (previousSections) {
         queryClient.setQueryData<UserSections>(["sections", userId], {

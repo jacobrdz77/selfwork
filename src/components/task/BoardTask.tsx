@@ -13,20 +13,19 @@ import { useWorkspaceMembers } from "@/hooks/WorkspaceHooks";
 import usePlaceHolder from "@/hooks/usePlaceHolder";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { useUserInfo } from "@/hooks/MemberHooks";
 
 export const formatDueDate = (taskDueDate: Date) => {
   return format(new Date(taskDueDate), "MMM dd");
 };
 
 const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
-  const { task: oneTask, status } = useOneTask(task.id);
-
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const { mutate: deleteTask } = useDeleteTask(task.sectionId);
   const [isTaskDetailOpen, setIsTaskDetailOpen] = useState(false);
   const [dueDate, setDueDate] = useState(
-    oneTask?.dueDate
-      ? new Date(oneTask?.dueDate).toLocaleDateString()
+    task?.dueDate
+      ? new Date(task?.dueDate).toLocaleDateString()
       : new Date().toLocaleDateString()
   );
 
@@ -43,130 +42,124 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
     <>
       {isTaskDetailOpen && (
         <EditTaskModal
-          taskId={task.id}
+          task={task}
           isOpen={isTaskDetailOpen}
           setIsOpen={setIsTaskDetailOpen}
         />
       )}
-      {status === "success" && (
-        <div
-          className="board-task"
-          key={task.id}
-          onClick={() => {
-            setIsTaskDetailOpen(true);
-          }}
-          ref={setNodeRef}
-          style={style}
-          {...attributes}
-          {...listeners}
-        >
-          <div className="board-task__header">
-            <div className="board-task__name">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="check-icon"
-              >
-                <path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span>{task.name}</span>
-            </div>
-            <div
-              className={`header__more-btn-container ${
-                isMenuOpen ? "active" : ""
-              }`}
+      <div
+        className="board-task"
+        key={task.id}
+        onClick={() => {
+          setIsTaskDetailOpen(true);
+        }}
+        ref={setNodeRef}
+        style={style}
+        {...attributes}
+        {...listeners}
+      >
+        <div className="board-task__header">
+          <div className="board-task__name">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="check-icon"
             >
+              <path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>{task.name}</span>
+          </div>
+          <div
+            className={`header__more-btn-container ${
+              isMenuOpen ? "active" : ""
+            }`}
+          >
+            <div
+              ref={btnRef}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsMenuOpen(!isMenuOpen);
+              }}
+              className="board-task__more-btn"
+              role="button"
+            >
+              <svg className="board-task__more-icon" viewBox="0 0 16 16">
+                <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
+              </svg>
               <div
-                ref={btnRef}
+                className={`board-task__edit-menu ${
+                  isMenuOpen ? "board-task__edit-menu--active" : ""
+                }`}
+                ref={menuRef}
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  setIsMenuOpen(!isMenuOpen);
                 }}
-                className="board-task__more-btn"
-                role="button"
               >
-                <svg className="board-task__more-icon" viewBox="0 0 16 16">
-                  <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
-                </svg>
                 <div
-                  className={`board-task__edit-menu ${
-                    isMenuOpen ? "board-task__edit-menu--active" : ""
-                  }`}
-                  ref={menuRef}
+                  className="board-task__edit-menu-item"
+                  onClick={() => {
+                    setIsTaskDetailOpen(true);
+                    setIsMenuOpen(false);
+                  }}
+                >
+                  Edit task
+                </div>
+                <div
+                  className="board-task__edit-menu-item board-task__edit-menu-item--delete"
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
+                    setIsMenuOpen(false);
+                    deleteTask(task.id);
                   }}
                 >
-                  <div
-                    className="board-task__edit-menu-item"
-                    onClick={() => {
-                      setIsTaskDetailOpen(true);
-                      setIsMenuOpen(false);
-                    }}
-                  >
-                    Edit task
-                  </div>
-                  <div
-                    className="board-task__edit-menu-item board-task__edit-menu-item--delete"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setIsMenuOpen(false);
-                      deleteTask(task.id);
-                    }}
-                  >
-                    Delete task
-                  </div>
+                  Delete task
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-          <ul className="tag-list">
-            {oneTask?.tags
-              ? oneTask?.tags.map((tag) => (
-                  <li className="tag" key={tag.id}>
-                    {tag.name}
-                  </li>
-                ))
-              : null}
-          </ul>
+        <ul className="tag-list">
+          {task?.tags
+            ? task?.tags.map((tag) => (
+                <li className="tag" key={tag.id}>
+                  {tag.name}
+                </li>
+              ))
+            : null}
+        </ul>
 
-          <div className="footer">
-            <div className="footer__priority">
-              <span className={`${taskPriorityClassName(oneTask?.priority!)}`}>
-                {oneTask?.priority!}
-              </span>
-            </div>
+        <div className="footer">
+          <div className="footer__priority">
+            <span className={`${taskPriorityClassName(task?.priority!)}`}>
+              {task?.priority!}
+            </span>
+          </div>
 
-            <div className="buttons">
-              {oneTask?.dueDate === null ? (
-                <DateButton
-                  task={oneTask}
-                  date={dueDate}
-                  setDate={setDueDate}
-                />
-              ) : (
-                <DateFilledButton
-                  task={oneTask!}
-                  date={dueDate}
-                  setDate={setDueDate}
-                />
-              )}
-              {oneTask?.assignee === null ? (
-                <AssigneeButton task={oneTask} />
-              ) : (
-                <AssigneeFilledButton task={oneTask} />
-              )}
-            </div>
+          <div className="buttons">
+            {task?.dueDate === null ? (
+              <DateButton task={task} date={dueDate} setDate={setDueDate} />
+            ) : (
+              <DateFilledButton
+                task={task!}
+                date={dueDate}
+                setDate={setDueDate}
+              />
+            )}
+            {task?.assignee === null ? (
+              <AssigneeButton task={task} />
+            ) : (
+              <AssigneeFilledButton task={task} />
+            )}
           </div>
         </div>
-      )}
+      </div>
     </>
   );
 };
@@ -183,7 +176,7 @@ export const DateButton = ({
   setDate: (date: any) => void;
 }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
-  const { mutate: updateTask } = useUpdateTask();
+  const { mutate: updateTask } = useUpdateTask(task.sectionId);
 
   return (
     <div className="date-button">
@@ -274,7 +267,7 @@ const DateFilledButton = ({
   setDate: (date: any) => void;
 }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
-  const { mutate: updateTask } = useUpdateTask();
+  const { mutate: updateTask } = useUpdateTask(task.sectionId);
 
   return (
     <div className="date-button">
@@ -354,8 +347,7 @@ export const AssigneeButton = ({ task }: { task: TaskWithAssignee }) => {
   const [selectedAssignee, setSelectedAssignee] = useState<User | null>(
     task ? task.assignee : null
   );
-
-  const { mutate: updateTask } = useUpdateTask();
+  const { mutate: updateTask } = useUpdateTask(task.sectionId);
 
   const updateAssignee = () => {
     updateTask({
@@ -365,8 +357,8 @@ export const AssigneeButton = ({ task }: { task: TaskWithAssignee }) => {
       },
     });
   };
-
   const userId = useUserStore((state) => state.userId);
+  const { user } = useUserInfo(userId);
 
   return (
     <div className="board-task__assignee-container">
@@ -422,23 +414,27 @@ export const AssigneeButton = ({ task }: { task: TaskWithAssignee }) => {
                   selectedAssignee={selectedAssignee}
                   setSelectedAssignee={setSelectedAssignee}
                   taskId={task.id}
+                  task={task}
                 />
               </label>
               <span>or</span>
 
-              <button
+              <div
                 className="button"
                 onClick={() => {
                   updateTask({
                     taskId: task.id,
                     taskData: {
                       assigneeId: userId,
+                      assignee: {
+                        name: user.name ? user.name! : "Sample User",
+                      },
                     },
                   });
                 }}
               >
                 Assign to me
-              </button>
+              </div>
             </div>
           </div>
         </div>
@@ -452,7 +448,7 @@ export const AssigneeFilledButton = ({ task }: { task: TaskWithAssignee }) => {
     task.assignee
   );
 
-  const { mutate: updateTask } = useUpdateTask();
+  const { mutate: updateTask } = useUpdateTask(task.sectionId);
 
   const updateAssignee = () => {
     updateTask({
@@ -464,6 +460,7 @@ export const AssigneeFilledButton = ({ task }: { task: TaskWithAssignee }) => {
   };
 
   const userId = useUserStore((state) => state.userId);
+  const { user } = useUserInfo(userId);
 
   return (
     <div className="board-task__assignee-container">
@@ -480,6 +477,7 @@ export const AssigneeFilledButton = ({ task }: { task: TaskWithAssignee }) => {
           <span>{getInitials(task.assignee ? task.assignee.name! : "")}</span>
         </div>
       </div>
+      {/* MENU */}
       {isMenuOpen && (
         <div
           onClick={(e) => {
@@ -514,23 +512,27 @@ export const AssigneeFilledButton = ({ task }: { task: TaskWithAssignee }) => {
                   selectedAssignee={selectedAssignee}
                   setSelectedAssignee={setSelectedAssignee}
                   taskId={task.id}
+                  task={task}
                 />
               </label>
               <span>or</span>
 
-              <button
+              <div
                 className="button"
                 onClick={() => {
                   updateTask({
                     taskId: task.id,
                     taskData: {
                       assigneeId: userId,
+                      assignee: {
+                        name: user.name ? user.name! : "Sample User",
+                      },
                     },
                   });
                 }}
               >
                 Assign to me
-              </button>
+              </div>
             </div>
           </div>
         </div>
@@ -543,10 +545,12 @@ export const AssigneeMenu = ({
   selectedAssignee,
   setSelectedAssignee,
   taskId,
+  task,
 }: {
   selectedAssignee: User;
   setSelectedAssignee: any;
   taskId: string;
+  task: TaskWithAssignee;
 }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const [searchMember, setSearchMember] = useState(
@@ -571,7 +575,7 @@ export const AssigneeMenu = ({
     });
   }, [selectedAssignee, searchMember, members]);
 
-  const { mutateAsync: updateTask } = useUpdateTask();
+  const { mutate: updateTask } = useUpdateTask(task.sectionId);
 
   return (
     <div className="new-project__client menu-container data-selected">
@@ -597,6 +601,7 @@ export const AssigneeMenu = ({
                   taskId: taskId,
                   taskData: {
                     assigneeId: "remove",
+                    assignee: null,
                   },
                 });
               }}
@@ -659,24 +664,27 @@ export const AssigneeMenu = ({
           }}
         >
           {/* Filters first using the input name */}
-          {filteredMembers!.map((client) => (
-            <div
-              className="item"
-              key={client.id}
-              onClick={() => {
-                setSelectedAssignee(client);
-                updateTask({
-                  taskId: taskId,
-                  taskData: {
-                    assigneeId: client ? client.id : null,
-                  },
-                });
-                setIsMenuOpen(false);
-              }}
-            >
-              <span className="item__name"> {client.name}</span>
-            </div>
-          ))}
+          {status === "success" &&
+            filteredMembers?.length! > 0 &&
+            filteredMembers!.map((client) => (
+              <div
+                className="item"
+                key={client.id}
+                onClick={() => {
+                  setSelectedAssignee(client);
+                  updateTask({
+                    taskId: taskId,
+                    taskData: {
+                      assigneeId: client ? client.id : null,
+                      assignee: { name: client ? client.name : null },
+                    },
+                  });
+                  setIsMenuOpen(false);
+                }}
+              >
+                <span className="item__name"> {client.name}</span>
+              </div>
+            ))}
 
           {filteredMembers?.length === 0 && (
             <div className="item">

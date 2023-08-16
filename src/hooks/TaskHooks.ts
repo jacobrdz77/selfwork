@@ -6,7 +6,11 @@ import {
 } from "../utils/taskFunctions";
 import { useUserStore } from "../store/user";
 import { Priority, Section, Task, TaskStatus, User } from "@prisma/client";
-import { TaskWithAssignee } from "@/types/types";
+import {
+  ProjectSections,
+  SectionWithTasks,
+  TaskWithAssignee,
+} from "@/types/types";
 
 export type TaskData = {
   name?: string;
@@ -18,7 +22,13 @@ export type TaskData = {
   dueDate?: Date | null;
   projectId?: string | null;
   assigneeId?: string | null;
+  assignee?: { name: string };
+  sectionId?: string | null;
 };
+
+function generateId() {
+  return Math.floor(Math.random() * 100);
+}
 
 // QUERY KEYS
 // ONE task
@@ -100,7 +110,7 @@ export const useCreateTask = () => {
     },
 
     onMutate: async (newTask) => {
-      await queryClient.cancelQueries({ queryKey: ["task"] });
+      await queryClient.cancelQueries({ queryKey: ["tasks"] });
 
       // console.log("New Task: ", newTask);
 
@@ -114,7 +124,7 @@ export const useCreateTask = () => {
       // Optimistically update
       const newTasks = queryClient.setQueryData(
         ["tasks", newTask.sectionId],
-        [...previousTasks, { ...newTask, id: Math.floor(Math.random() * 100) }]
+        [...previousTasks, { ...newTask, id: generateId() }]
       );
       // console.log("Updated Tasks: ", newTasks);
       return { previousTasks, newTask };
@@ -128,7 +138,7 @@ export const useCreateTask = () => {
   });
 };
 
-export const useUpdateTask = () => {
+export const useUpdateTask = (sectionId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -158,26 +168,41 @@ export const useUpdateTask = () => {
         console.log(error);
       }
     },
-    onMutate: async (updatedTask: TaskWithAssignee) => {
-      await queryClient.cancelQueries({ queryKey: ["task"] });
+    onMutate: async (data: { taskId: string; taskData: TaskData }) => {
+      const updatedTask = data.taskData;
+      await queryClient.cancelQueries({ queryKey: ["tasks"] });
+      console.log("UIPPP: ", data);
 
       // Snapshot the previous value
-      const previousTask = await queryClient.getQueryData([
-        "tasks",
-        updatedTask.id,
-      ]);
+      const previousTasks = queryClient
+        .getQueryData<SectionWithTasks[]>(["tasks", sectionId])
+        ?.filter((task) => task.id !== data.taskId);
+
+      console.log("prev: ", previousTasks);
+      const oldTask = queryClient
+        .getQueryData<SectionWithTasks[]>(["tasks", sectionId])
+        ?.find((task) => task.id === data.taskId);
+      console.log("OldTask: ", oldTask);
 
       // Optimistically update to the new value
-      queryClient.setQueryData(["tasks", updatedTask.id], updatedTask);
+      if (previousTasks) {
+        const newTasks = queryClient.setQueryData(
+          ["tasks", sectionId],
+          [...previousTasks!, { id: generateId(), ...oldTask, ...updatedTask }]
+        );
+        console.log("new: ", newTasks);
+      }
 
-      return { previousTask, updatedTask };
+      return { previousTasks, data };
     },
     onSuccess: (updatedTask: TaskWithAssignee) => {
       // queryClient.invalidateQueries({
       //   queryKey: ["sections", updatedTask?.sectionId],
       // });
-      queryClient.invalidateQueries({ queryKey: ["tasks"] });
-      queryClient.invalidateQueries({ queryKey: ["tasks", updatedTask.id] });
+      // queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({
+        queryKey: ["tasks", updatedTask.sectionId],
+      });
       console.log("SUCCESS");
     },
   });
@@ -196,7 +221,7 @@ export const useUpdateTaskOrder = () => {
       };
     }) => {
       try {
-        console.log("SECTION DATA: ", taskData);
+        // console.log("SECTION DATA: ", taskData);
         const response = await fetch(
           `/api/tasks/${taskData.one.id}?second=${taskData.two.id}`,
           {
@@ -258,7 +283,7 @@ export const useDeleteTask = (sectionId: string) => {
 
       // Optimistically update
       const deletedTask = queryClient.setQueryData(
-        ["tasks", deletedTaskId],
+        ["tasks", sectionId],
         previousTasks?.filter((task) => task.id !== deletedTaskId)
       );
       console.log("Updated Tasks: ", deletedTask);

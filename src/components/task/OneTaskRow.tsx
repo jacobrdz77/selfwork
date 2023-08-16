@@ -39,8 +39,6 @@ export const taskPriorityClassName = (priority: Priority) => {
 };
 
 const OneTaskRow = ({ task }: { task: TaskWithAssignee }) => {
-  const { task: oneTask, status } = useOneTask(task.id);
-
   useEffect(() => {
     setOldName(task.name);
     setTaskInputName(task.name);
@@ -55,7 +53,7 @@ const OneTaskRow = ({ task }: { task: TaskWithAssignee }) => {
   const [taskInputName, setTaskInputName] = useState(task.name);
   const inputRef = useRef(null);
 
-  const { mutate: updateTask } = useUpdateTask();
+  const { mutate: updateTask } = useUpdateTask(task.sectionId);
   const { assigneeWidth, dueDateWidth, nameWidth, priorityWidth, statusWidth } =
     useTableWidthStore((state) => state);
 
@@ -107,7 +105,7 @@ const OneTaskRow = ({ task }: { task: TaskWithAssignee }) => {
     <>
       {isTaskDetailOpen && status === "success" && (
         <EditTaskModal
-          taskId={task?.id!}
+          task={task}
           isOpen={isTaskDetailOpen}
           setIsOpen={setIsTaskDetailOpen}
         />
