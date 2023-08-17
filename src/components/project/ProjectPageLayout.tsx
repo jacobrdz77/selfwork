@@ -29,14 +29,6 @@ const ProjectPageLayout = ({
     (state) => state.setIsEditProjectModalOpen
   );
 
-  const isInviteMemberModalOpen = useModalStore(
-    (state) => state.isInviteMemberModalOpen
-  );
-
-  const setIsInviteMemberModalOpen = useModalStore(
-    (state) => state.setIsInviteMemberModalOpen
-  );
-
   return (
     <>
       {isEditProjectModalOpen && status === "success" && (
@@ -46,14 +38,6 @@ const ProjectPageLayout = ({
         />
       )}
 
-      {isInviteMemberModalOpen && (
-        <InviteMemberPopup
-          isOpen={isInviteMemberModalOpen}
-          setIsOpen={setIsInviteMemberModalOpen}
-          projectId={projectId as string}
-          projectName={project?.name!}
-        />
-      )}
       {/* {isTaskDetailOpen && (
         <TaskDetailModal
           isOpen={isTaskDetailOpen}

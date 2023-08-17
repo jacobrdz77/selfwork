@@ -67,7 +67,7 @@ const WorkspaceList = ({ isNavMinimized }: { isNavMinimized: boolean }) => {
           {/* Workspaces */}
           <div className="text">Your workspaces</div>
           {workspaces?.map((workspace) => (
-            <div key={workspace.id} className="workspace-link">
+            <Link href={""} key={workspace.id} className="workspace-link">
               <div className="workspace-link__logo">
                 <div className="workspace-link__initial">
                   {getFirstLetter(workspace?.name ? workspace?.name : "")}
@@ -82,7 +82,7 @@ const WorkspaceList = ({ isNavMinimized }: { isNavMinimized: boolean }) => {
         </svg> */}
               </div>
               <div className="workspace-link__name">{workspace?.name!}</div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

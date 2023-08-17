@@ -8,15 +8,19 @@ import { useSession } from "next-auth/react";
 interface InviteMemberPopupProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  projectId: string;
-  projectName: string;
+  projectName?: string;
+  projectId?: string;
+  workspaceName?: string;
+  workspaceId?: string;
 }
 
 const InviteMemberPopup = ({
-  setIsOpen,
-  projectId,
   isOpen,
+  setIsOpen,
   projectName,
+  projectId,
+  workspaceName,
+  workspaceId,
 }: InviteMemberPopupProps) => {
   const [newMemberEmail, setEmail] = useState("");
   const [message, setMessage] = useState("");

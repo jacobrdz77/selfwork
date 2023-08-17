@@ -25,10 +25,10 @@ const UserSidebarCard = () => {
           onClick={() => setIsMenuOpen((state) => !state)}
         >
           <div className="sidebar__user">
-            {session.data?.user?.image ? (
+            {session.data?.user ? (
               <img
                 className="sidebar__user-provider-image"
-                src={session.data?.user.image}
+                src={session.data?.user.image!}
               />
             ) : (
               <div className={`sidebar__user-icon`}>

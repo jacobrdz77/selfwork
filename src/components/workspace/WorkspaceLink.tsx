@@ -2,14 +2,20 @@ import React from "react";
 import { getFirstLetter } from "../UI/UserCard";
 import { useOneWorkspace } from "@/hooks/WorkspaceHooks";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const WorkspaceLink = () => {
   const { workspace, status } = useOneWorkspace();
+  const router = useRouter();
 
   return (
     <Link href="/workspace">
-      <div className="sidebar__workspace-link-container">
-        <div className="sidebar__workspace-link">
+      <div className={`sidebar__workspace-link-container `}>
+        <div
+          className={`sidebar__workspace-link ${
+            router.pathname === "/workspace" ? "sidebar__link--active" : ""
+          }`}
+        >
           <div className="sidebar__workspace-link__logo">
             <div className="sidebar__workspace-link__initial">
               {getFirstLetter(workspace?.name ? workspace?.name : "")}

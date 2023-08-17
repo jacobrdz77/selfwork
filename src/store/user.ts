@@ -4,11 +4,12 @@ import { persist } from "zustand/middleware";
 interface UserState {
   userId: string;
   workspaceId: string;
+  workspaceName: string;
 }
 
 interface Action {
   setUserId: (id: string) => void;
-  setWorkspaceId: (id: string) => void;
+  setWorkspace: (id: string, name: string) => void;
 }
 
 export const MOCK_USER = {
@@ -16,6 +17,7 @@ export const MOCK_USER = {
   name: "Jacob",
   email: "jacob@jacob.com",
   workspaceId: "opdclt74u9913gpecetnyigta",
+  workspaceName: "Jacob's Workspace",
 };
 
 // Todo: Get workspaceId from User.
@@ -25,15 +27,19 @@ export const MOCK_USER = {
 export const userStore = createStore<UserState & Action>((set) => ({
   userId: "al814zcy86074hloymogrg1mv",
   workspaceId: "opdclt74u9913gpecetnyigta",
+  workspaceName: "Jacob's Workspace",
   setUserId: (id: string) => set(() => ({ userId: id })),
-  setWorkspaceId: (id: string) => set(() => ({ workspaceId: id })),
+  setWorkspace: (id, name) =>
+    set(() => ({ workspaceId: id, workspaceName: name })),
 }));
 
 export const useUserStore = create<UserState & Action>((set) => ({
   userId: MOCK_USER.id,
   workspaceId: "opdclt74u9913gpecetnyigta",
-  setUserId: (id: string) => set(() => ({ userId: id })),
-  setWorkspaceId: (id: string) => set(() => ({ workspaceId: id })),
+  workspaceName: "Jacob's Workspace",
+  setUserId: (id) => set(() => ({ userId: id })),
+  setWorkspace: (id, name) =>
+    set(() => ({ workspaceId: id, workspaceName: name })),
 }));
 
 type ModalStore = {

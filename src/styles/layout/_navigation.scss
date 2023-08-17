@@ -852,7 +852,7 @@
       &-container {
         display: flex;
         align-items: center;
-        margin-top: 12px;
+        margin-top: 16px;
         margin-bottom: 4px;
         padding: 0 8px;
         position: relative;
@@ -891,6 +891,13 @@
       .text {
         padding: 2px 12px;
       }
+
+      // .workspace-link {
+      //   &:hover {
+      //     background-color: unset;
+      //     cursor: unset;
+      //   }
+      // }
     }
   }
 }
