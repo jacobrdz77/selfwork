@@ -72,6 +72,7 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
             </svg>
             <span>{task.name}</span>
           </div>
+          {/* More Button Container */}
           <div
             className={`header__more-btn-container ${
               isMenuOpen ? "active" : ""
@@ -209,47 +210,49 @@ export const DateButton = ({
               e.preventDefault();
               e.stopPropagation();
             }}
-            className="menu"
+            className="menu date-menu"
             ref={menuRef}
           >
-            <ReactDatePicker
-              value={date}
-              selected={new Date(date)}
-              onChange={(dueDate) => {
-                updateTask({
-                  taskId: task.id,
-                  taskData: {
-                    dueDate: dueDate,
-                  },
-                });
-                setDate(new Date(dueDate!));
-              }}
-            />
-            <button
-              aria-label="Remove assignee"
-              onClick={() => {
-                setDate(null);
-                updateTask({
-                  taskId: task.id,
-                  taskData: {
-                    dueDate: null,
-                  },
-                });
-              }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="remove-icon"
+            <div className="react-date-input">
+              <ReactDatePicker
+                value={date}
+                selected={new Date(date)}
+                onChange={(dueDate) => {
+                  updateTask({
+                    taskId: task.id,
+                    taskData: {
+                      dueDate: dueDate,
+                    },
+                  });
+                  setDate(new Date(dueDate!));
+                }}
+              />
+              <button
+                aria-label="Remove assignee"
+                onClick={() => {
+                  setDate(null);
+                  updateTask({
+                    taskId: task.id,
+                    taskData: {
+                      dueDate: null,
+                    },
+                  });
+                }}
               >
-                <path
-                  fillRule="evenodd"
-                  d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="remove-icon"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
         )}
       </div>
@@ -292,7 +295,7 @@ const DateFilledButton = ({
               e.preventDefault();
               e.stopPropagation();
             }}
-            className="menu"
+            className="menu date-menu"
             ref={menuRef}
           >
             <div className="react-date-input">

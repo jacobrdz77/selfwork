@@ -25,7 +25,7 @@
   --color-stroke: #e9edf1;
   --color-border: #bfbfbf;
   --color-gray--hover: #f8f8f8;
-  --color-gray--hover-2: #dee2e6;
+  --color-gray--hover-2: #e4e4e4;
   --color-gray--active: #c7c7c7;
 
   --color-github: #333333;
@@ -44,6 +44,12 @@
   --color-customization-pink-purple-background: #ad7cc4;
   --color-customization-pink-background: #f6a0a3;
   --color-customization-oat-background: #bfbcbc;
+
+  --color-board: #252525;
+  --color-board-task: hsl(240, 13%, 18%);
+  --color-board-task: hsl(240, 0%, 20%);
+  --color-board-task--hover: hsl(240, 0%, 30%);
+  --color-board-text: #b5c0cc;
 
   --project-status--active: #08aeea;
   --project-status--onTrack: #74cb80;

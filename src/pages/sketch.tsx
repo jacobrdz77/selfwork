@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react";
-const Sketch = () => {
-  const [Excalidraw, setExcalidraw] = useState(null);
+import Sketch from "@/components/sketch/Sketch";
+import { useEffect, useState } from "react";
+
+const SketchPage = () => {
+  const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
-    import("@excalidraw/excalidraw").then((comp) =>
-      setExcalidraw(comp.Excalidraw)
-    );
+    setIsMounted(true);
   }, []);
-  return <>{Excalidraw && <Excalidraw />}</>;
+
+  return <>{isMounted && <Sketch />}</>;
 };
 
-export default Sketch;
+export default SketchPage;

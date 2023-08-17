@@ -81,30 +81,6 @@
   }
 }
 
-.menu-button {
-  &-container {
-    position: relative;
-  }
-
-  &.active {
-    background-color: var(--color-gray--hover);
-  }
-
-  &:hover {
-    cursor: pointer;
-    background-color: var(--color-gray--hover);
-  }
-
-  .button {
-    all: unset !important;
-    // background-color: unset;
-    // border: 1px solid var(--color-border);
-    // padding: 4px 8px;
-  }
-
-  // Position the menu relative to the button
-}
-
 .date-button {
   .new-project__date {
     display: flex;
@@ -116,9 +92,6 @@
     width: 100%;
     position: relative;
 
-    .react-datepicker-wrapper {
-    }
-
     .remove-assignee-btn {
       position: absolute;
       top: 50%;
@@ -129,7 +102,7 @@
       fill: var(--color-gray-500);
 
       &:hover {
-        fill: #000;
+        fill: hsl(0, 0%, 71%);
       }
     }
   }
@@ -154,6 +127,85 @@
       border-radius: 8px;
       border: 1px solid var(--color-border);
     }
+  }
+
+  .date-menu {
+    background-color: var(--color-board);
+    border: 1px solid var(--color-board-task);
+    .react-date-input {
+      input {
+        border: 1px solid var(--color-board-task);
+        background-color: var(--color-board-task);
+        color: var(--color-board-text);
+      }
+
+      .react-datepicker {
+        font-family: "Poppins", helvetica, arial, sans-serif;
+        font-size: 14px;
+        background-color: var(--color-board-task);
+        color: var(--color-board-text) !important;
+        border: 1px solid var(--color-board-task);
+        border-radius: 0.3rem;
+        display: inline-block;
+        position: relative;
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 15px;
+
+        &__header {
+          text-align: center;
+          background-color: var(--color-board);
+          border-bottom: 1px solid #aeaeae;
+          border-top-left-radius: 0.3rem;
+          padding: 8px 0;
+          position: relative;
+        }
+
+        // This Updates React date-picker
+        &__day,
+        &__day-name,
+        &__current-month {
+          color: var(--color-board-text) !important;
+        }
+        .react-datepicker__day--selected {
+        }
+
+        .react-datepicker__triangle::after {
+        }
+
+        .react-datepicker__day--today {
+          font-weight: unset;
+        }
+
+        &__day--selected {
+          font-weight: bold;
+        }
+
+        &__day:hover {
+          background-color: var(--color-board-task--hover);
+        }
+      }
+    }
+  }
+}
+
+.menu-button {
+  &-container {
+    position: relative;
+  }
+
+  &.active {
+    background-color: var(--color-gray--hover);
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: var(--color-gray--hover);
+  }
+
+  .button {
+    all: unset !important;
+    // background-color: unset;
+    // border: 1px solid var(--color-border);
+    // padding: 4px 8px;
   }
 }
 
@@ -318,17 +370,19 @@
 .new-section {
   display: flex;
   align-items: center;
-  padding: 6px 5px;
+  padding: 6px 8px;
   margin-left: 24px;
   border-radius: 6px;
   font-weight: 600;
-  color: var(--color-gray);
-  fill: var(--color-gray);
+  color: #000;
+  fill: #2c2c2c;
   transition: all 0.1s ease-in;
   margin-top: 4px;
+  background-color: var(--color-gray--hover-2);
+
   &:hover {
     cursor: pointer;
-    background-color: rgb(236, 234, 234);
+    background-color: #cdcdcd;
     color: #000;
     fill: #000;
   }

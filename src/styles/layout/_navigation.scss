@@ -17,6 +17,7 @@
     .sidebar__user {
       position: relative;
       justify-content: center;
+      padding: 12px 10px;
       &:hover .sidebar__tooltip {
         top: 20%;
         visibility: visible;
@@ -24,6 +25,10 @@
       }
       &-icon {
         margin: unset;
+      }
+
+      &-provider-image {
+        margin-right: 0;
       }
     }
     .sidebar__add {
@@ -272,79 +277,6 @@
     }
   }
 
-  &__workspace {
-    padding: 6px 20px;
-    display: flex;
-    align-items: center;
-    border-radius: 6px;
-    height: 28px;
-    gap: 10px;
-
-    &-container {
-      padding: 8px;
-
-      .sidebar__tooltip {
-        visibility: hidden;
-      }
-    }
-
-    &-title {
-      padding: 6px 12px;
-    }
-
-    &:hover {
-      background-color: var(--color-navigation-button-hover);
-      cursor: pointer;
-    }
-    &--minimized {
-      .sidebar__workspace-title {
-        display: none;
-      }
-    }
-
-    &-icon {
-      stroke-width: 1.5;
-      width: 18px;
-      height: 18px;
-    }
-
-    &-name {
-      @include showEllipsis;
-    }
-    &-add {
-      flex-shrink: 0;
-      &-icon {
-        fill: var(--color-gray);
-        width: 20px;
-        height: 20px;
-        transition: all 0.1s ease-out;
-        &:hover {
-          fill: #f1f1f1;
-        }
-      }
-      &--minimized {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 12px;
-        border-radius: 6px;
-        height: 28px;
-        &:hover {
-          background-color: var(--color-navigation-button-hover);
-          cursor: pointer;
-          .sidebar__workspace-add-icon {
-            fill: #f1f1f1;
-          }
-          // Only shows tooltip when navbar is minimized
-          .sidebar__tooltip {
-            visibility: visible;
-            scale: 100%;
-          }
-        }
-      }
-    }
-  }
   &__more-icon {
     width: 12px;
     height: 12px;
@@ -604,6 +536,7 @@
     &-icon {
       color: var(--color-navigation-text);
       flex: 0 0 auto;
+      flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -665,5 +598,78 @@
     &-skeleton {
       padding: 6px 16px;
     }
+  }
+
+  &__workspace {
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    border-radius: 6px;
+    height: 28px;
+    gap: 10px;
+
+    &-container {
+      padding: 8px;
+
+      // .sidebar__tooltip {
+      //   visibility: hidden;
+      // }
+    }
+
+    &:hover {
+      background-color: var(--color-navigation-button-hover);
+      cursor: pointer;
+    }
+    &--minimized {
+      .sidebar__workspace-title {
+        display: none;
+      }
+    }
+
+    &-icon {
+      stroke-width: 1.5;
+      width: 18px;
+      height: 18px;
+    }
+
+    &-name {
+      @include showEllipsis;
+    }
+    &-add {
+      flex-shrink: 0;
+      &-icon {
+        fill: var(--color-gray);
+        width: 20px;
+        height: 20px;
+        transition: all 0.1s ease-out;
+        &:hover {
+          fill: #f1f1f1;
+        }
+      }
+      &--minimized {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 12px;
+        border-radius: 6px;
+        height: 28px;
+        &:hover {
+          background-color: var(--color-navigation-button-hover);
+          cursor: pointer;
+          .sidebar__workspace-add-icon {
+            fill: #f1f1f1;
+          }
+          // Only shows tooltip when navbar is minimized
+          .sidebar__tooltip {
+            visibility: visible;
+            scale: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  &__workspaces {
   }
 }

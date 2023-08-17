@@ -1,7 +1,7 @@
 .sketch-card {
   padding: 0 8px;
   border-radius: 8px;
-  border: 2px solid var(--color-stroke);
+  border: 1px solid var(--color-border);
   height: 57px;
   display: grid;
   align-items: center;
@@ -76,5 +76,41 @@
     .assignee {
       flex-basis: 148px;
     }
+  }
+}
+
+.new-sketch-button {
+  cursor: pointer;
+  width: 268px;
+  height: 70px;
+  padding: 8px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+
+  transition: background-color 0.1s ease-in;
+
+  &:hover {
+    background-color: var(--color-gray--hover);
+  }
+
+  .text {
+    text-align: left;
+    &__title {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    &__sub-title {
+      font-size: 12px;
+      color: #606060;
+    }
+  }
+
+  &__icon {
+    width: 20px;
+    height: 20px;
   }
 }

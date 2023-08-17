@@ -164,26 +164,28 @@ const OneBoard: React.FC<Board> = ({
             </svg>
           </div>
           {isMenuOpen && (
-            <div
+            <ul
               className={`menu ${isMenuOpen ? "active" : ""}`}
               ref={menuRef}
               onClick={(e) => {
                 e.preventDefault();
               }}
             >
-              <button
-                className={`item ${
-                  isUserAssignedSection ? "item--disabled" : ""
-                }`}
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  deleteSection(section.id);
-                }}
-                disabled={isUserAssignedSection}
-              >
-                Delete section
-              </button>
-            </div>
+              <li className="item">
+                <button
+                  className={`item--delete ${
+                    isUserAssignedSection ? "item--disabled" : ""
+                  }`}
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    deleteSection(section.id);
+                  }}
+                  disabled={isUserAssignedSection}
+                >
+                  Delete section
+                </button>
+              </li>
+            </ul>
           )}
         </div>
       </div>

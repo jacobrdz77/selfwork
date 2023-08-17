@@ -42,7 +42,7 @@
 .project-header {
   border-bottom: 1px solid #e7e6e9;
   background-color: #fff;
-  padding: 8px 24px 12px 24px;
+  padding: 8px 12px 8px 24px;
   font-size: 14px;
   position: sticky;
   top: 0;
@@ -50,9 +50,9 @@
   z-index: 9;
 
   &__icon {
-    margin-right: 6px;
-    width: 46px;
-    height: 46px;
+    margin-right: 16px;
+    width: 28px;
+    height: 28px;
     cursor: pointer;
   }
 
@@ -108,7 +108,7 @@
     margin-top: 8px;
 
     &-link {
-      padding: 2px 6px;
+      padding: 0px 6px;
       border-radius: 6px;
       transition: all 0.1s ease-out;
       position: relative;
@@ -118,7 +118,7 @@
         width: 0%;
         height: 2.6px;
         position: absolute;
-        bottom: -8px;
+        bottom: -10px;
         left: 0;
         transition: width 0.15s ease-out;
       }

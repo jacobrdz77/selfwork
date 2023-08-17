@@ -25,7 +25,7 @@ async function main() {
     update: {},
     create: {
       id: "opdclt74u9913gpecetnyigta",
-      name: "My Workspace",
+      name: "Jacob's Workspace",
       owner: {
         connect: {
           id: "al814zcy86074hloymogrg1mv",
