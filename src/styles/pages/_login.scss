@@ -173,7 +173,7 @@
     }
 
     .image {
-      border: 1px solid #4d4c4f;
+      // border: 1px solid #4d4c4f;
       border-radius: 8px;
       margin-top: 64px;
       display: grid;
@@ -181,10 +181,11 @@
       justify-content: center;
       width: fit-content;
       height: fit-content;
+      border-radius: 12px;
 
-      image {
+      img {
         width: 100%;
-        object-fit: cover;
+        border-radius: 12px;
       }
     }
 
@@ -202,17 +203,13 @@
   }
 
   .user-auth-container {
-    padding: 176px 24px;
-    flex: 1 50%;
+    padding: 224px 24px;
     background-color: #141415;
-    display: grid;
-    justify-content: center;
-    align-items: center;
   }
 
   .user-auth-form {
     max-width: 372px;
-    width: 369px;
+    width: 100%;
     font-size: 16px;
     .title {
       text-align: center;
@@ -323,7 +320,7 @@
 
   .user-auth-container {
     flex: 1 50%;
-    display: grid;
+    display: flex;
     justify-content: center;
     align-items: center;
   }
@@ -333,6 +330,12 @@
     .image {
       width: 100%;
       border-radius: 24px;
+
+      img {
+        width: 100%;
+        border-radius: 24px;
+        height: 600px;
+      }
     }
   }
 }
