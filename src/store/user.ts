@@ -23,7 +23,7 @@ export const MOCK_USER = {
 // Once session is fetched, the store is set and everything is updated.
 
 export const userStore = createStore<UserState & Action>((set) => ({
-  userId: "",
+  userId: "al814zcy86074hloymogrg1mv",
   workspaceId: "opdclt74u9913gpecetnyigta",
   setUserId: (id: string) => set(() => ({ userId: id })),
   setWorkspaceId: (id: string) => set(() => ({ workspaceId: id })),

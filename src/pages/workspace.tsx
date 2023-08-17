@@ -85,7 +85,7 @@ const WorkspacePage = () => {
                     </svg>
                     New Project
                   </div>
-                  <Projects projects={projects!} />
+                  <Projects projects={projects ? projects : []} />
                 </>
               )}
             </div>

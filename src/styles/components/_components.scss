@@ -597,3 +597,47 @@
     width: 575px;
   }
 }
+
+// LINK TO Workspace
+.workspace-link,
+.sidebar__workspace-link {
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  gap: 10px;
+  padding: 6px 12px;
+
+  height: 57px;
+
+  &:hover,
+  &.active {
+    cursor: pointer;
+    background: #3e3f44;
+  }
+
+  &-container {
+    margin-top: 4px;
+    padding: 0 8px;
+  }
+
+  &__logo {
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, #938ce1 0%, #6a61d3 100%);
+    border-radius: 12px;
+  }
+  &__initial {
+    color: #242424;
+    font-size: 20px;
+  }
+
+  &__icon {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+  }
+}

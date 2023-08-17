@@ -4,6 +4,15 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 
+export const getFirstLetter = (name: string): string => {
+  if (!name) return "";
+
+  if (name.length <= 1) {
+    return `${name[0].toUpperCase()}`;
+  } else {
+    return "";
+  }
+};
 export const getInitials = (name: string): string => {
   if (!name) return "";
   const fullName = name.split(" ");

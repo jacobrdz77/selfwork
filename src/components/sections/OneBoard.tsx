@@ -37,8 +37,8 @@ const OneBoard: React.FC<Board> = ({
   const inputRef = useRef(null);
 
   const { mutate: createTask } = useCreateTask();
-  const { mutate: deleteSection } = useDeleteSection(section.projectId!);
   const { mutate: updateSection } = useUpdateSection();
+  const { mutate: deleteSection } = useDeleteSection(section.projectId!);
 
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const {

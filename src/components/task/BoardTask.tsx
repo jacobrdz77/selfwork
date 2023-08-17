@@ -555,11 +555,13 @@ export const AssigneeMenu = ({
   taskId: string;
   task: TaskWithAssignee;
 }) => {
+  const { mutate: updateTask } = useUpdateTask(task.sectionId);
+  const { members, status } = useWorkspaceMembers();
+
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const [searchMember, setSearchMember] = useState(
     selectedAssignee ? selectedAssignee.name : ""
   );
-  const { members, status } = useWorkspaceMembers();
   const [filteredMembers, setFilteredMembers] = useState<User[] | null>(null);
   const { isInputFocused, setIsInputFocused, handleInputBlur, inputRef } =
     usePlaceHolder({ blurHandler: () => {} });
@@ -576,9 +578,7 @@ export const AssigneeMenu = ({
         return newFilteredMembers as User[];
       }
     });
-  }, [selectedAssignee, searchMember, members]);
-
-  const { mutate: updateTask } = useUpdateTask(task.sectionId);
+  }, [selectedAssignee, searchMember]);
 
   return (
     <div className="new-project__client menu-container data-selected">

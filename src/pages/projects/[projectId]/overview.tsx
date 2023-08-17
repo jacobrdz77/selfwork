@@ -53,7 +53,9 @@ const ProjectOverviewPage: NextPageWithLayout = () => {
         {status === "success" && (
           <ProjectDescription
             projectId={project?.id!}
-            initialDescription={project?.description!}
+            initialDescription={
+              project?.description ? project?.description : ""
+            }
           />
         )}
       </div>

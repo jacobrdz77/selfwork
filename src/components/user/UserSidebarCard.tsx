@@ -6,6 +6,7 @@ import { useUserInfo } from "@/hooks/MemberHooks";
 import { useUserStore } from "store/user";
 import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
+import LoadingSkeleton from "../UI/LoadingSkeleton";
 
 const UserSidebarCard = () => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
@@ -76,7 +77,14 @@ const UserSidebarCard = () => {
             </div>
           </div>
         </div>
-      ) : null}
+      ) : (
+        <div className="sidebar__add-container">
+          <LoadingSkeleton
+            className="sidebar__nav-link-loading sidebar__nav-link-loading--user"
+            isDark={true}
+          />
+        </div>
+      )}
     </>
   );
 };
