@@ -31,35 +31,37 @@ const Sketch = () => {
   return (
     <>
       {Excalidraw && (
-        // @ts-ignore
-        <div suppressHydrationWarning={true}>
-          <Excalidraw
-            ref={(api) => setExcalidrawAPI(api)}
-            // initialData={initialStatePromiseRef.current.promise}
-            onChange={(elements: ExcalidrawElement, state) => {
-              console.info("Elements :", elements, "State : ", state);
-            }}
-            zenModeEnabled={true}
-            theme="dark"
-            name="Custom name of drawing"
-          >
-            <MainMenu>
-              <MainMenu.Item
-                onSelect={() => {
-                  makeJSON();
-                }}
-              >
-                custom item
-              </MainMenu.Item>
-              {/* <MainMenu.DefaultItems.LiveCollaborationTrigger
-              isCollaborating={isCollaborating}
-              onSelect={() => window.alert("You clicked on collab button")}
-            /> */}
-            </MainMenu>
-          </Excalidraw>
-        </div>
+        <Excalidraw
+          ref={(api) => setExcalidrawAPI(api)}
+          // initialData={initialStatePromiseRef.current.promise}
+          onChange={(elements: ExcalidrawElement, state) => {
+            console.info("Elements :", elements, "State : ", state);
+          }}
+          zenModeEnabled={true}
+          theme="dark"
+          name="Custom name of drawing"
+        />
       )}
     </>
+
+    // @ts-ignore
+    //     <div suppressHydrationWarning={true}>
+
+    //     <MainMenu>
+    //       <MainMenu.Item
+    //         onSelect={() => {
+    //           makeJSON();
+    //         }}
+    //       >
+    //         custom item
+    //       </MainMenu.Item>
+    //       {/* <MainMenu.DefaultItems.LiveCollaborationTrigger
+    //       isCollaborating={isCollaborating}
+    //       onSelect={() => window.alert("You clicked on collab button")}
+    //     /> */}
+    //     </MainMenu>
+    //   </Excalidraw>
+    // </div>
   );
 };
 
