@@ -9,6 +9,7 @@ import { ReactElement, ReactNode } from "react";
 import { useRouter } from "next/router";
 import LoginLayout from "@/components/layout/LoginLayout";
 import { Analytics } from "@vercel/analytics/react";
+import Script from "next/script";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -54,8 +55,32 @@ function MyApp({
           <PageLayout>{getLayout(<Component {...pageProps} />)}</PageLayout>
         )}
         <Analytics />
+        <GoogleAnalytics />
       </QueryClientProvider>
     </SessionProvider>
   );
 }
 export default MyApp;
+
+const GoogleAnalytics = () => {
+  return (
+    <>
+      <Script
+        strategy="afterInteractive"
+        async
+        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ID}`}
+      ></Script>
+      <Script
+        id="google-analytics"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: ` window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+      
+        gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ID}'); `,
+        }}
+      />
+    </>
+  );
+};

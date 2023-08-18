@@ -32,11 +32,11 @@ const Sketch = () => {
     <>
       {Excalidraw && (
         <Excalidraw
-          ref={(api) => setExcalidrawAPI(api)}
-          // initialData={initialStatePromiseRef.current.promise}
-          onChange={(elements: ExcalidrawElement, state) => {
-            console.info("Elements :", elements, "State : ", state);
-          }}
+          // ref={(api) => setExcalidrawAPI(api)}
+          // // initialData={initialStatePromiseRef.current.promise}
+          // onChange={(elements: ExcalidrawElement, state) => {
+          //   console.info("Elements :", elements, "State : ", state);
+          // }}
           zenModeEnabled={true}
           theme="dark"
           name="Custom name of drawing"
