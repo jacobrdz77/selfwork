@@ -47,9 +47,9 @@ npm run dev
 
 # Photos
 ### Board view of tasks
-![board-project](https://github.com/jacobrdz77/selfwork/assets/70309225/20f465eb-49a5-4363-9b97-260a40bfe08e)
+![board-tasks](https://github.com/jacobrdz77/selfwork/assets/70309225/8d2ed5ac-37ca-4aad-b6a6-86856fa38c3a)
 ### List view of tasks
-![list-view](https://github.com/jacobrdz77/selfwork/assets/70309225/f94a93e3-6738-45bc-901e-9e4192fb7999)
+![list-tasks](https://github.com/jacobrdz77/selfwork/assets/70309225/853e8d37-cfe8-4ad8-9a60-30c3721b3441)
 ### Excalidraw 
 ![sketch-example](https://github.com/jacobrdz77/selfwork/assets/70309225/d008b68c-1cc8-406c-ade0-13926f3c0c99)
 ### Adding New Client
