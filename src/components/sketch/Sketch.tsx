@@ -1,4 +1,8 @@
-import { serializeAsJSON, MainMenu } from "@excalidraw/excalidraw";
+import {
+  serializeAsJSON,
+  MainMenu,
+  exportToBlob,
+} from "@excalidraw/excalidraw";
 import { ExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
 import {
   AppState,
@@ -22,12 +26,12 @@ const Sketch = () => {
     console.log("JSON: ", json);
   };
 
-  const [Excalidraw, setExcalidraw] = useState(null);
-  useEffect(() => {
-    import("@excalidraw/excalidraw").then((comp) =>
-      setExcalidraw(comp.Excalidraw)
-    );
-  }, []);
+  // const [Excalidraw, setExcalidraw] = useState(null);
+  // useEffect(() => {
+  //   import("@excalidraw/excalidraw").then((comp) =>
+  //     setExcalidraw(comp.Excalidraw)
+  //   );
+  // }, []);
 
   return (
     <>

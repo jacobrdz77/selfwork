@@ -152,6 +152,7 @@ model Project {
   iconColor   Color     @default(Classic)
   sections    Section[]
   notes       Note[]
+  sketches    Sketch[]
   owner       User?     @relation("Owner", fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId     String?
   members     User[]    @relation("Members")
@@ -238,70 +239,12 @@ model Section {
 }
 
 
-// model Sketch {
-//   id           String   @id @default(cuid())
-
-//   createdAt   DateTime  @default(now())
-//   updatedAt   DateTime? @updatedAt
-// }
-
-// enum FillStyle {
-//   Hachure
-//   CrossHatch
-//   Solid
-//   ZigZag
-// }
-
-// enum StrokeStyle {
-//   Solid
-//   Dashed
-//   Dotted
-// }
-
-
-// model Element {
-//   id  String   @id @default(cuid())
-//   x   Int
-//   y   Int
-//   strokeColor String
-//   backgroundColor  String
-//   strokeWidth  Int
-//   roughness  Int
-//   opacity  Int
-//   width  Int
-//   height  Int
-//   angle  Int
-//   seed  Int
-//   version  Int
-//   versionNonce  Int
-//   isDeleted  Boolean
-//   updated  Int
-//   link  String?
-//   locked  Boolean
-//   roundness  Int?
-//   fillStyle  FillStyle
-//   strokeStyle  StrokeStyle
-//   groupIds  String[]
-//     // boundElements  readonly Readonly<{
-//     //     id  ExcalidrawLinearElement["id"]
-//     //     type  "arrow" | "text"
-//     // }>[] | null
-
-   
-   
-//     // /** Random integer used to seed shape generation so that the roughjs shape
-//     //     doesn't differ across renders. */
-//     // /** Integer that is sequentially incremented on each change. Used to reconcile
-//     //     elements during collaboration or when saving to server. */
-//     // /** Random integer that is regenerated on each change.
-//     //     Used for deterministic reconciliation of updates during collaboration,
-//     //     in case the versions (see above) are identical. */
-    
-//     // /** List of groups the element belongs to.
-//     //     Ordered from deepest to shallowest. */
-//     // /** other elements that are bound to this element */
-
-//     // /** epoch (ms) timestamp of last element update */
-   
-//     // customData?  Record<string, any>
-// }
+model Sketch {
+  id          String   @id @default(cuid())
+  name        String
+  elements    Json
+  project      Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId    String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+}
