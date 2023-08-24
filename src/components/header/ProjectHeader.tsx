@@ -18,14 +18,14 @@ const ProjectHeader: React.FC<HeaderProps> = ({ name, status, project }) => {
   const router = useRouter();
   const currentPath = router.pathname.split("/")[3];
   const { projectId } = router.query;
+  const [projectStatus, setProjectStatus] = useState(project.status);
+  const { mutate } = useDeleteProject();
 
   const setIsEditProjectModalOpen = useModalStore(
     (state) => state.setIsEditProjectModalOpen
   );
 
-  const { mutate } = useDeleteProject();
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
-  const [projectStatus, setProjectStatus] = useState(project.status);
 
   useEffect(() => {
     setProjectStatus(project.status);
@@ -33,155 +33,126 @@ const ProjectHeader: React.FC<HeaderProps> = ({ name, status, project }) => {
 
   return (
     <>
-      {status === "loading" && <LoadingProjectHeader />}
-      {status === "success" && (
-        <header className="project-header">
-          <div className="project-header__top">
-            <ColorMenu
-              currColor={project.iconColor}
-              projectId={projectId as string}
-            />
-            <h1 className="project-header__title">{name}</h1>
-            <div className="project-header__button-container">
-              <button
-                ref={btnRef}
-                className="project-header__button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsMenuOpen((state) => !state);
-                }}
-              >
-                <svg
-                  className={`project-header__button-icon ${
-                    isMenuOpen ? "project-header__button-icon--active" : ""
-                  }`}
-                  viewBox="0 0 6.3499999 6.3500002"
-                >
-                  <g id="layer1" transform="translate(0 -290.65)">
-                    <path d="m2.2580394 291.96502a.26460982.26460982 0 0 0 -.1741496.46871l1.6190225 1.38699-1.6190225 1.38648a.26460982.26460982 0 1 0 .3436483.40049l1.8536335-1.58595a.26460982.26460982 0 0 0 0-.40256l-1.8536335-1.5875a.26460982.26460982 0 0 0 -.1694987-.0667z" />
-                  </g>
-                </svg>
-              </button>
-              <div
-                className={`project-header__menu ${
-                  isMenuOpen ? "project-header__menu--active" : ""
+      <header className="project-header">
+        <div className="project-header__top">
+          <ColorMenu
+            currColor={project.iconColor}
+            projectId={projectId as string}
+          />
+          <h1 className="project-header__title">{name}</h1>
+          <div className="project-header__button-container">
+            <button
+              ref={btnRef}
+              className="project-header__button"
+              onClick={(e) => {
+                e.preventDefault();
+                setIsMenuOpen((state) => !state);
+              }}
+            >
+              <svg
+                className={`project-header__button-icon ${
+                  isMenuOpen ? "project-header__button-icon--active" : ""
                 }`}
-                ref={menuRef}
-                onClick={(e) => {
-                  e.preventDefault();
+                viewBox="0 0 6.3499999 6.3500002"
+              >
+                <g id="layer1" transform="translate(0 -290.65)">
+                  <path d="m2.2580394 291.96502a.26460982.26460982 0 0 0 -.1741496.46871l1.6190225 1.38699-1.6190225 1.38648a.26460982.26460982 0 1 0 .3436483.40049l1.8536335-1.58595a.26460982.26460982 0 0 0 0-.40256l-1.8536335-1.5875a.26460982.26460982 0 0 0 -.1694987-.0667z" />
+                </g>
+              </svg>
+            </button>
+            <div
+              className={`project-header__menu ${
+                isMenuOpen ? "project-header__menu--active" : ""
+              }`}
+              ref={menuRef}
+              onClick={(e) => {
+                e.preventDefault();
+              }}
+            >
+              <div
+                className="project-header__menu-item"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  setIsEditProjectModalOpen(true);
                 }}
               >
-                <div
-                  className="project-header__menu-item"
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    setIsEditProjectModalOpen(true);
-                  }}
-                >
-                  Edit project details
-                </div>
-                <div
-                  className="project-header__menu-item project-card__edit-menu-item--delete"
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    mutate(projectId as string);
-                    router.push("/my-tasks/board");
-                  }}
-                >
-                  Delete project
-                </div>
+                Edit project details
+              </div>
+              <div
+                className="project-header__menu-item project-card__edit-menu-item--delete"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  mutate(projectId as string);
+                  router.push("/my-tasks/board");
+                }}
+              >
+                Delete project
               </div>
             </div>
-            <StatusButton
-              status={projectStatus}
-              setStatus={setProjectStatus}
-              project={project}
-            />
           </div>
-          <nav>
-            <ul className="project-header__nav">
-              <li>
-                <Link
-                  href={`/projects/${projectId}/overview`}
-                  className={`project-header__nav-link ${
-                    currentPath === "overview"
-                      ? "project-header__nav-link--active"
-                      : ""
-                  }`}
-                >
-                  Overview
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={`/projects/${projectId}/list`}
-                  className={`project-header__nav-link ${
-                    currentPath === "list"
-                      ? "project-header__nav-link--active"
-                      : ""
-                  }`}
-                >
-                  List
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={`/projects/${projectId}/board`}
-                  className={`project-header__nav-link ${
-                    currentPath === "board"
-                      ? "project-header__nav-link--active"
-                      : ""
-                  }`}
-                >
-                  Board
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={`/projects/${projectId}/sketch`}
-                  className={`project-header__nav-link ${
-                    currentPath === "sketch"
-                      ? "project-header__nav-link--active"
-                      : ""
-                  }`}
-                >
-                  Sketch
-                </Link>
-              </li>
-            </ul>
-          </nav>
-        </header>
-      )}
+          <StatusButton
+            status={projectStatus}
+            setStatus={setProjectStatus}
+            project={project}
+          />
+        </div>
+        <nav>
+          <ul className="project-header__nav">
+            <li>
+              <Link
+                href={`/projects/${projectId}/overview`}
+                className={`project-header__nav-link ${
+                  currentPath === "overview"
+                    ? "project-header__nav-link--active"
+                    : ""
+                }`}
+              >
+                Overview
+              </Link>
+            </li>
+            <li>
+              <Link
+                href={`/projects/${projectId}/list`}
+                className={`project-header__nav-link ${
+                  currentPath === "list"
+                    ? "project-header__nav-link--active"
+                    : ""
+                }`}
+              >
+                List
+              </Link>
+            </li>
+            <li>
+              <Link
+                href={`/projects/${projectId}/board`}
+                className={`project-header__nav-link ${
+                  currentPath === "board"
+                    ? "project-header__nav-link--active"
+                    : ""
+                }`}
+              >
+                Board
+              </Link>
+            </li>
+            <li>
+              <Link
+                href={`/projects/${projectId}/sketch`}
+                className={`project-header__nav-link ${
+                  currentPath === "sketch"
+                    ? "project-header__nav-link--active"
+                    : ""
+                }`}
+              >
+                Sketch
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      </header>
     </>
   );
 };
 export default ProjectHeader;
-
-const LoadingProjectHeader = () => {
-  return (
-    <div className="project-loading">
-      <div className="project-header__name">
-        <LoadingSkeleton />
-      </div>
-      <nav>
-        <ul className="project-header__nav">
-          <li>
-            <LoadingSkeleton />
-          </li>
-          <li>
-            <LoadingSkeleton />
-          </li>
-          <li>
-            <LoadingSkeleton />
-          </li>
-          <li>
-            <LoadingSkeleton />
-          </li>
-        </ul>
-      </nav>
-    </div>
-  );
-};
 
 const ColorMenu = ({
   currColor,

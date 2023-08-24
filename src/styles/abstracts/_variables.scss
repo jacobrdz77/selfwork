@@ -1,9 +1,10 @@
 // COLORS
 :root {
-  --color-primary: #6b518a;
-  --color-primary--dark: #5a3e7d;
-  --color-primary--light: #7a6296;
-  --color-primary--hover: #60497c;
+  --color-primary: #938ce1;
+  --color-primary--dark: hsl(245, 52%, 66%);
+  --color-primary--darkest: hsl(245, 23%, 43%);
+  --color-primary--light: #9e98e4;
+  --color-primary--hover: #847ecb;
   --color-primary--lightest: #d7d1e0;
   --color-primary--lightest-hover: #cac1d5;
   --color-green--light: #6ea67a;
@@ -41,6 +42,7 @@
   --color-customization-aqua-background: #a9dcd9;
   --color-customization-blue-background: #4573d2;
   --color-customization-purple-background: #938ce1;
+  --color-customization-purple-background--dark: hsl(245, 52%, 66%);
   --color-customization-pink-purple-background: #ad7cc4;
   --color-customization-pink-background: #f6a0a3;
   --color-customization-oat-background: #bfbcbc;

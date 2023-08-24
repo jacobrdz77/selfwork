@@ -297,13 +297,13 @@
       }
       &--demo {
         margin-top: 16px;
-        background-color: var(--color-primary);
+        background-color: var(--color-primary--dark);
         color: #fff;
         font-weight: 700;
 
         &:hover,
         &:active {
-          background-color: var(--color-primary--hover);
+          background-color: hsl(245, 47%, 62%);
         }
       }
     }

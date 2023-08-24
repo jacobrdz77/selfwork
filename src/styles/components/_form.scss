@@ -17,7 +17,8 @@
   }
 
   &__submit {
-    padding: 8px 24px;
+    padding: 8px 12px;
+    min-width: 84px;
 
     &.edit-project {
       margin-top: 12px;
@@ -29,12 +30,12 @@
     &--disabled {
       background-color: #f1f3f5 !important;
       background: #f1f3f5 !important;
-      color: #868e96 !important;
+      color: #7a7a7a !important;
 
       &:hover {
         background-color: #f1f3f5 !important;
         background: #f1f3f5 !important;
-        color: #868e96;
+        color: #7a7a7a;
         cursor: not-allowed;
       }
     }
@@ -160,9 +161,6 @@
       }
     }
   }
-
-  .form__submit {
-  }
 }
 
 .date-input {
@@ -241,6 +239,8 @@
   right: 40px;
   z-index: 100;
   user-select: none;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 
   &__header {
     width: 100%;
@@ -616,12 +616,12 @@
     border: none;
     font-size: 14px;
     border-radius: 6px;
-    background: var(--color-primary--light);
-    color: #ffffff;
     transition: background-color 0.1s ease-in;
     border: 1px solid transparent;
+    background-color: var(--color-primary--light);
     &:hover {
       cursor: pointer;
+      background-color: var(--color-primary);
     }
     &--disabled {
       color: #7a7a7a;

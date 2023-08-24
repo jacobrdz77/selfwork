@@ -4,6 +4,7 @@ import { useSectionsOfProject, useSectionsOfUser } from "@/hooks/SectionHooks";
 import Boards from "@/components/sections/Boards";
 import { useRouter } from "next/router";
 import useSortedSections from "@/hooks/useSortedSections";
+import LoadingSkeleton from "@/components/UI/LoadingSkeleton";
 
 const BoardPage: NextPageWithLayout = () => {
   const router = useRouter();
@@ -14,10 +15,22 @@ const BoardPage: NextPageWithLayout = () => {
     projectSections ? projectSections : []
   );
 
+  if (status === "loading") {
+    return <LoadingBoardViewPage />;
+  }
+
+  if (status === "error") {
+    return (
+      <div>
+        <h1>Error</h1>
+        <p>Try to refresh the page.</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="project-page__board">
-      {status === "loading" && <div>Loading...</div>}
-      {status === "success" && (
+    <>
+      <div className="project-page__board">
         <Boards
           sections={sortedSections}
           // @ts-ignore
@@ -25,8 +38,8 @@ const BoardPage: NextPageWithLayout = () => {
           isProject={true}
           projectId={projectId as string}
         />
-      )}
-    </div>
+      </div>
+    </>
   );
 };
 
@@ -35,3 +48,18 @@ BoardPage.getLayout = function getLayout(page) {
 };
 
 export default BoardPage;
+
+const LoadingBoardViewPage = () => {
+  return (
+    <div className="project-page__board project-page__board--loading">
+      <div className="loading-boards">
+        <div className="board">
+          <LoadingSkeleton />
+        </div>
+        <div className="board">
+          <LoadingSkeleton />
+        </div>
+      </div>
+    </div>
+  );
+};

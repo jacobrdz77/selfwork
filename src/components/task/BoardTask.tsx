@@ -578,7 +578,7 @@ export const AssigneeMenu = ({
         return newFilteredMembers as User[];
       }
     });
-  }, [selectedAssignee, searchMember]);
+  }, [selectedAssignee, searchMember, members]);
 
   return (
     <div className="new-project__client menu-container data-selected">

@@ -16,17 +16,16 @@
     background-color: var(--color-gray--hover);
   }
 
-  .name {
-  }
-  .modified {
-  }
+  // .name {
+  // }
+  // .modified {
+  // }
   &__user {
     display: flex;
     align-items: center;
     gap: 6px;
   }
   &__user-icon {
-    color: var(--color-navigation-text);
     flex: 0 0 auto;
     display: flex;
     align-items: center;
@@ -36,7 +35,8 @@
     font-size: 12px;
     border-radius: 50%;
     padding: 10px;
-    background-color: var(--color-primary--light) !important;
+    background-color: var(--color-primary--dark) !important;
+    color: var(--color-navigation-text);
   }
   &__user-name {
     min-width: 120px;
@@ -113,4 +113,11 @@
     width: 20px;
     height: 20px;
   }
+}
+
+.json-btn {
+  position: absolute;
+  top: 10px;
+  left: 24px;
+  z-index: 5;
 }

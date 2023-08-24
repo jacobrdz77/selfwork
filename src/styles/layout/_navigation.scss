@@ -674,7 +674,6 @@
       flex-direction: column;
     }
     &-icon {
-      color: var(--color-navigation-text);
       flex: 0 0 auto;
       flex-shrink: 0;
       display: flex;
@@ -686,7 +685,10 @@
       border-radius: 50%;
       padding: 10px;
       margin-right: 8px;
-      background-color: var(--color-primary--light) !important;
+      color: var(--color-navigation-text);
+      background-color: var(
+        --color-customization-purple-background--dark
+      ) !important;
     }
     &-provider-image {
       width: 24px;

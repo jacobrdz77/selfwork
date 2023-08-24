@@ -5,8 +5,10 @@ const prisma = new PrismaClient();
 
 async function main() {
   // Creates a user with a workspace and in the workspace it creates a userSection
-  await prisma.user.create({
-    data: {
+  await prisma.user.upsert({
+    where: { id: "al814zcy86074hloymogrg1mv" },
+    update: {},
+    create: {
       id: "al814zcy86074hloymogrg1mv",
       name: "Jacob Rodriguez",
       userAssignedTasksSection: {

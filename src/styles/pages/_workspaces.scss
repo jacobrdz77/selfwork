@@ -36,11 +36,12 @@
           }
           cursor: pointer;
           background-color: #fefefe;
-          box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 2px;
+          box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 3px;
         }
 
         &-container {
           position: relative;
+          margin-bottom: 4px;
         }
       }
     }

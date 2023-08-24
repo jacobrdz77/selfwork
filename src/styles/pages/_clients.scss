@@ -110,7 +110,7 @@
         }
       }
       .add-btn {
-        background-color: var(--color-primary--light);
+        background-color: var(--color-primary--dark);
         color: #fefefe;
         width: 125px;
         font-weight: 500;
@@ -260,14 +260,10 @@
         color: #0ca678;
       }
       .button {
-        background: var(--color-primary--lightest);
-        color: #7b6597;
+        color: #fff;
         padding: 4px 24px;
         border-radius: 20px;
         font-weight: 600;
-        &:hover {
-          background: var(--color-primary--lightest-hover);
-        }
       }
 
       .status {
@@ -347,14 +343,7 @@
   }
 
   .total-paid {
-    background-image: linear-gradient(
-      to right,
-      #7b6597,
-      #776094,
-      #735b91,
-      #6f568d,
-      #6b518a
-    );
+    background-color: var(--color-primary--dark);
     color: #fefefe;
     .title {
       color: #fefefe;

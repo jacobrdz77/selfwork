@@ -263,7 +263,11 @@ const SectionListView = ({
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
         >
-          <div className="section__tasks">
+          <div
+            className={`section__tasks ${
+              tasks?.length === 0 ? "section__tasks--no-tasks" : ""
+            }`}
+          >
             {isNewTaskOpen && (
               <AddTaskRow
                 forwardRef={newTaskRef}

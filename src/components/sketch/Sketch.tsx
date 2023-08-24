@@ -1,4 +1,5 @@
 import { serializeAsJSON, MainMenu } from "@excalidraw/excalidraw";
+import { ExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
 import {
   AppState,
   BinaryFileData,
@@ -30,18 +31,25 @@ const Sketch = () => {
 
   return (
     <>
-      {Excalidraw && (
+      {/* {Excalidraw && (
         <Excalidraw
-          // ref={(api) => setExcalidrawAPI(api)}
-          // // initialData={initialStatePromiseRef.current.promise}
-          // onChange={(elements: ExcalidrawElement, state) => {
-          //   console.info("Elements :", elements, "State : ", state);
-          // }}
-          zenModeEnabled={true}
+          ref={(api) => setExcalidrawAPI(api)}
+          onChange={(elements: ExcalidrawElement, state) => {
+            // console.info("Elements :", elements, "State : ", state);
+          }}
           theme="dark"
           name="Custom name of drawing"
         />
-      )}
+      )} */}
+
+      <div
+        className="json-btn button"
+        onClick={() => {
+          makeJSON();
+        }}
+      >
+        Export to JSON
+      </div>
     </>
 
     // @ts-ignore
