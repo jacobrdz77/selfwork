@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../prisma/client";
+import { z } from "zod";
 
 export default async function handler(
   req: NextApiRequest,
@@ -17,7 +18,7 @@ export default async function handler(
       });
 
       if (!sketch) {
-        return res.status(404).json({ error: `sketch ${sketchId} not found.` });
+        return res.status(404).json({ error: `Sketch ${sketchId} not found.` });
       }
       return res.status(200).json(sketch);
     } catch (error: Error | any) {
@@ -35,7 +36,7 @@ export default async function handler(
           id: sketchId as string,
         },
       });
-      return res.status(200).json({ deletedSketch, message: "DELETED sketch" });
+      return res.status(200).json(deletedSketch);
     } catch (error: Error | any) {
       return res.status(400).json(error);
     }
@@ -46,18 +47,25 @@ export default async function handler(
   if (req.method === "PUT") {
     try {
       const { sketchId } = req.query;
-      const body = JSON.parse(req.body);
-      console.log(body);
+      const body = req.body;
       const { sketchData } = body;
+
+      const sketchDataSchema = z.object({
+        name: z.optional(z.string()),
+        elements: z.optional(z.any()),
+      });
+
+      const validSketchData = sketchDataSchema.parse(sketchData);
 
       const sketch = await prisma.sketch.update({
         where: {
           id: sketchId as string,
         },
         data: {
-          ...sketchData,
+          ...validSketchData,
         },
       });
+
       return res.status(200).json(sketch);
     } catch (error: Error | any) {
       console.log(error);

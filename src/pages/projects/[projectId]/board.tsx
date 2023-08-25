@@ -5,6 +5,7 @@ import Boards from "@/components/sections/Boards";
 import { useRouter } from "next/router";
 import useSortedSections from "@/hooks/useSortedSections";
 import LoadingSkeleton from "@/components/UI/LoadingSkeleton";
+import LoadingBoardViewPage from "@/components/loading/LoadingBoardViewPage";
 
 const BoardPage: NextPageWithLayout = () => {
   const router = useRouter();
@@ -48,18 +49,3 @@ BoardPage.getLayout = function getLayout(page) {
 };
 
 export default BoardPage;
-
-const LoadingBoardViewPage = () => {
-  return (
-    <div className="project-page__board project-page__board--loading">
-      <div className="loading-boards">
-        <div className="board">
-          <LoadingSkeleton />
-        </div>
-        <div className="board">
-          <LoadingSkeleton />
-        </div>
-      </div>
-    </div>
-  );
-};

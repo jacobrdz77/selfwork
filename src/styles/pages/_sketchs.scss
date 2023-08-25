@@ -5,7 +5,7 @@
   height: 57px;
   display: grid;
   align-items: center;
-  grid-template-columns: 625px 320px 148px auto;
+  grid-template-columns: 625px 320px auto;
   user-select: none;
 
   cursor: pointer;
@@ -20,6 +20,11 @@
   // }
   // .modified {
   // }
+
+  &__edit {
+    justify-self: end;
+    margin-right: 4px;
+  }
   &__user {
     display: flex;
     align-items: center;
@@ -116,8 +121,55 @@
 }
 
 .json-btn {
+  background-color: #4f4d6f;
+  padding: 8px 12px;
   position: absolute;
-  top: 10px;
-  left: 24px;
+  top: 16px;
+  left: 64px;
   z-index: 5;
+  color: #bfb1ff;
+
+  &:hover {
+    background-color: #3f3d5f;
+  }
+}
+
+.sketch {
+  &__more-btn {
+    &-container {
+      width: 32px;
+      height: 32px;
+      padding: 4px;
+      border-radius: 4px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .menu-button {
+        all: unset;
+      }
+
+      &:hover,
+      &.active {
+        background-color: var(--color-gray--hover-2);
+      }
+
+      .menu {
+        min-width: 150px;
+
+        .item {
+          color: var(--color-red-text);
+        }
+      }
+    }
+  }
+}
+
+.more-icon {
+  fill: #000;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  transition: fill 0.1s ease-out;
 }

@@ -10,10 +10,7 @@ export default async function handler(
   // Get all sketches
   if (req.method === "GET") {
     try {
-      const { projectId } = req.query;
-
       const projectSketches = await prisma.sketch.findMany();
-      console.log(projectSketches);
 
       return res.status(200).json(projectSketches);
     } catch (error: Error | any) {

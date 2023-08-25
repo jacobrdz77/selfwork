@@ -4,13 +4,31 @@ import { useState } from "react";
 import SketchCard from "@/components/sketch/SketchCard";
 import SketchFilterButton from "@/components/sketch/SketchFilterButton";
 import { useRouter } from "next/router";
+import { useProjectSketches } from "@/hooks/SketchHooks";
+import LoadingSkeleton from "@/components/UI/LoadingSkeleton";
 
 const Sketch: NextPageWithLayout = () => {
+  const router = useRouter();
+  const { projectId } = router.query;
+  const { sketches, status } = useProjectSketches(projectId as string);
+
   const [filter, setFilter] = useState<
     "alphabetical" | "lastViewed" | "dateCreated"
   >("lastViewed");
 
-  const router = useRouter();
+  if (status === "loading") {
+    return <LoadingSketchPage />;
+  }
+
+  if (status === "error") {
+    return (
+      <div className="project-page__sketch">
+        <h1>Error</h1>
+        <p>Try to refresh the page.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="project-page__sketch">
       {/* Buttons */}
@@ -20,7 +38,8 @@ const Sketch: NextPageWithLayout = () => {
           type="button"
           className="new-sketch-button"
           onClick={() => {
-            router.push("/sketch");
+            // Todo: Need to create and wait for it to create, then redirect to /sketches/[sketchId]
+            // router.push("/sketch");
           }}
         >
           <div className="text">
@@ -54,21 +73,16 @@ const Sketch: NextPageWithLayout = () => {
         <div className="sketches__header">
           <div className="name">Name</div>
           <div className="modified">Last modified</div>
-          <div className="assignee">Creator</div>
         </div>
 
-        <SketchCard
-          name="Wireframes for landing page"
-          lastModified={2}
-          // @ts-ignore
-          user={{ name: "Jacob Rodriguez" }}
-        />
-        <SketchCard
-          name="Brainstorming Ideas"
-          lastModified={1}
-          // @ts-ignore
-          user={{ name: "Jacob Rodriguez" }}
-        />
+        {sketches?.map((sketch) => (
+          <SketchCard
+            key={sketch.id}
+            id={sketch.id}
+            name="Wireframes for landing page"
+            lastModified={sketch.updatedAt}
+          />
+        ))}
       </div>
     </div>
   );
@@ -79,3 +93,40 @@ Sketch.getLayout = function getLayout(page) {
 };
 
 export default Sketch;
+
+const LoadingSketchPage = () => {
+  return (
+    <div className="project-page__sketch project-page__sketch--loading">
+      <div className="buttons">
+        <div className="loading-card">
+          <LoadingSkeleton />
+        </div>
+      </div>
+      <div className="filters">
+        <div className="loading-button">
+          <LoadingSkeleton />
+        </div>
+      </div>
+      <div className="sketches">
+        <div className="loading-title">
+          <LoadingSkeleton />
+        </div>
+        <div className="loading-sketch">
+          <LoadingSkeleton />
+        </div>
+        <div className="loading-sketch">
+          <LoadingSkeleton />
+        </div>
+        <div className="loading-sketch">
+          <LoadingSkeleton />
+        </div>
+        <div className="loading-sketch">
+          <LoadingSkeleton />
+        </div>
+        <div className="loading-sketch">
+          <LoadingSkeleton />
+        </div>
+      </div>
+    </div>
+  );
+};
