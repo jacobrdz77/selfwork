@@ -41,10 +41,6 @@ npm run dev
 ## Creating project
 <img id="creating-project" src="https://github.com/jacobrdz77/selfwork/assets/70309225/05bd4b80-57ad-4553-9b3b-8990432c7c5f" />
 
-## Creating task
-<img id="creating-task" src="https://github.com/jacobrdz77/selfwork/assets/70309225/3dad93cc-1e7b-451c-9b0b-3d0861543a44" />
-
-
 # Photos
 ### Board view of tasks
 ![board-tasks](https://github.com/jacobrdz77/selfwork/assets/70309225/8d2ed5ac-37ca-4aad-b6a6-86856fa38c3a)
