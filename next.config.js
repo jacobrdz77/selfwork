@@ -15,11 +15,12 @@ module.exports = {
     ];
   },
 
-  typescript: {
-    // !! WARN !!
-    // Dangerously allow production builds to successfully complete even if
-    // your project has type errors.
-    // !! WARN !!
-    ignoreBuildErrors: true,
-  },
+  // * HERE INTENTIONALLY COMMENTED TO MAKE SURE NO ERRORS AT BUILD
+  // typescript: {
+  //   // !! WARN !!
+  //   // Dangerously allow production builds to successfully complete even if
+  //   // your project has type errors.
+  //   // !! WARN !!
+  //   ignoreBuildErrors: true,
+  // },
 };

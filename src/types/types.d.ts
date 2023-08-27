@@ -1,10 +1,8 @@
-import type { DefaultUser } from "next-auth";
 import type {
   Client,
   Links,
   Note,
   Priority,
-  Prisma,
   Project,
   ProjectStatus,
   Section,
@@ -12,9 +10,9 @@ import type {
   Tag,
   Task,
   User,
-  Workspace,
+  Workspace
 } from "@prisma/client";
-import client from "../../prisma/client";
+import type { DefaultUser } from "next-auth";
 
 declare module "next-auth" {
   interface Session {

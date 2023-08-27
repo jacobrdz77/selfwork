@@ -1,8 +1,7 @@
-import React from "react";
 import ReactDatePicker from "react-datepicker";
 
 const DatePicker = ({
-  date,
+  // date,
   setDate,
 }: {
   date: Date;

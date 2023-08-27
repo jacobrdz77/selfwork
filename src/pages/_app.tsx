@@ -1,17 +1,17 @@
-import "../styles/main.scss";
-import Head from "next/head";
-import PageLayout from "../components/layout/PageLayout";
-import type { AppProps } from "next/app";
-import { Query, QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { SessionProvider } from "next-auth/react";
-import { NextPage } from "next";
-import { ReactElement, ReactNode } from "react";
-import { useRouter } from "next/router";
 import LoginLayout from "@/components/layout/LoginLayout";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Analytics } from "@vercel/analytics/react";
+import { NextPage } from "next";
+import { SessionProvider } from "next-auth/react";
+import type { AppProps } from "next/app";
+import Head from "next/head";
+import { useRouter } from "next/router";
 import Script from "next/script";
+import { ReactElement, ReactNode } from "react";
+import PageLayout from "../components/layout/PageLayout";
+import "../styles/main.scss";
 
-export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+export type NextPageWithLayout<P = Record<string, any>, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
 

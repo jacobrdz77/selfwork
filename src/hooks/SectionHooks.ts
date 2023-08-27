@@ -1,7 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Section, Task } from "@prisma/client";
-import { useUserStore } from "store/user";
 import { ProjectSections, SectionWithTasks, UserSections } from "@/types/types";
+import { Section } from "@prisma/client";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useUserStore } from "store/user";
 
 export const useSectionsOfProject = (projectId: string) => {
   const { data: projectSections, status } = useQuery({
@@ -99,17 +99,18 @@ export const useCreateProjectSection = (projectId: string) => {
       // console.log("PREVIOUS sections", previousSections);
 
       if (previousSections) {
-        const newSections = queryClient.setQueryData<ProjectSections[]>(
-          ["sections", projectId],
-          [
-            ...previousSections,
-            {
-              id: Math.floor(Math.random() * 100).toString(),
-              name: newSection.name,
-              tasks: [],
-            },
-          ]
-        );
+        // const newSections = queryClient.setQueryData<ProjectSections[]>(
+        //   ["sections", projectId],
+        //   [
+        //     ...previousSections,
+        //     {
+        //       // @ts-ignore
+        //       id: Math.floor(Math.random() * 100).toString(),
+        //       name: newSection.name,
+        //       tasks: [],
+        //     },
+        //   ]
+        // );
 
         // console.log("NEWW: ", newSections);
       }
@@ -228,6 +229,7 @@ export const useDeleteSection = (projectId: string) => {
         // This filters out the deleted section
         queryClient.setQueryData<ProjectSections>(
           ["sections", projectId],
+          // @ts-ignore
           previousSections.filter((section) => section.id !== deletedSectionId)
         );
       }

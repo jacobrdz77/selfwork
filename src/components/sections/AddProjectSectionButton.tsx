@@ -1,6 +1,5 @@
 import {
-  useCreateProjectSection,
-  useCreateUserSection,
+  useCreateProjectSection
 } from "@/hooks/SectionHooks";
 
 const AddProjectSectionButton = ({

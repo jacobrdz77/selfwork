@@ -1,7 +1,4 @@
-import { TaskWithAssignee } from "@/types/types";
-import { useState, useRef, useEffect } from "react";
-import { getInitials } from "../UI/UserCard";
-import { useCreateTask } from "@/hooks/TaskHooks";
+import { useEffect, useRef } from "react";
 
 const BoardNewTask = ({
   name,

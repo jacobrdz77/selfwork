@@ -1,4 +1,4 @@
-import { Priority, Project, Task } from "@prisma/client";
+import { Project } from "@prisma/client";
 import axios from "axios";
 import { NewProject, ProjectWithAll, UpdateProjectData } from "../types/types";
 

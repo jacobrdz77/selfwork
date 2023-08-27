@@ -1,25 +1,20 @@
+import { useDeleteClient, useUpdateClient } from "@/hooks/ClientHooks";
+import useMenu from "@/hooks/useMenu";
+import validateEmail from "@/utils/validateEmail";
+import validatePhone from "@/utils/validatePhone";
 import {
-  Priority,
-  Project,
-  Section,
   Client,
-  User,
-  Status,
+  Status
 } from "@prisma/client";
-import React, {
-  useState,
-  useRef,
-  useEffect,
+import {
   Dispatch,
   SetStateAction,
+  useEffect,
+  useRef,
+  useState,
 } from "react";
-import { useProjects } from "@/hooks/ProjectHooks";
-import { useDeleteClient, useUpdateClient } from "@/hooks/ClientHooks";
-import Modal from "../UI/Modal";
-import validatePhone from "@/utils/validatePhone";
-import validateEmail from "@/utils/validateEmail";
 import Button from "../UI/Button";
-import useMenu from "@/hooks/useMenu";
+import Modal from "../UI/Modal";
 
 const EditClientModal = ({
   client,
@@ -41,11 +36,11 @@ const EditClientModal = ({
   const [clientStatus, setClientStatus] = useState(
     client.status ? client.status : "Pending"
   );
-  const [isNameError, setIsNameError] = useState(false);
+  // const [isNameError, setIsNameError] = useState(false);
   const [isEmailError, setIsEmailError] = useState(false);
   const [isPhoneError, setPhoneError] = useState(false);
-  const [isFormValid, setIsFormValid] = useState(false);
-  const { projects, status: projectsStatus } = useProjects();
+  // const [isFormValid, setIsFormValid] = useState(false);
+  // const { projects, status: projectsStatus } = useProjects();
 
   const { mutate: updateClient } = useUpdateClient(client.id);
   const { mutate: deleteClient } = useDeleteClient();
@@ -81,7 +76,7 @@ const EditClientModal = ({
     setIsInputFocused(false);
   };
 
-  const phoneBlurHandler = (e: any) => {
+  const phoneBlurHandler = () => {
     if (!phone) return;
     if (phone.trim().length === 0) {
       return;
@@ -93,7 +88,7 @@ const EditClientModal = ({
     }
   };
 
-  const emailBlurHandler = (e: any) => {
+  const emailBlurHandler = () => {
     if (!email) return;
     if (validateEmail(email)) {
       setIsEmailError(false);
@@ -370,7 +365,7 @@ const StatusButton = ({
         <div
           className={`menu ${isMenuOpen ? "active" : ""}`}
           ref={menuRef}
-          onClick={(e) => {
+          onClick={() => {
             setIsMenuOpen(false);
           }}
         >

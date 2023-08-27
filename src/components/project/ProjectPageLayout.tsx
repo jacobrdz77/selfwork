@@ -1,12 +1,9 @@
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useModalStore } from "store/user";
 import { useOneProject } from "../../hooks/ProjectHooks";
 import ProjectHeader from "../header/ProjectHeader";
-import LoadingSkeleton from "../UI/LoadingSkeleton";
-import EditProjectModal from "./EditProjectModal";
-import { useModalStore } from "store/user";
-import InviteMemberPopup from "../member/InviteMemberPopup";
 import LoadingProjectHeader from "../loading/LoadingProjectHeader";
+import EditProjectModal from "./EditProjectModal";
 // import TaskDetailModal from "../task/TaskDetailModal";
 
 const ProjectPageLayout = ({
@@ -17,18 +14,18 @@ const ProjectPageLayout = ({
   const { projectId } = useRouter().query;
   const { project, status } = useOneProject(projectId as string);
 
-  const isTaskDetailOpen = useModalStore((state) => state.isTaskDetailOpen);
-  const setIsTaskDetailOpen = useModalStore(
-    (state) => state.setIsTaskDetailOpen
-  );
+  // const isTaskDetailOpen = useModalStore((state) => state.isTaskDetailOpen);
+  // const setIsTaskDetailOpen = useModalStore(
+  //   (state) => state.setIsTaskDetailOpen
+  // );
 
   const isEditProjectModalOpen = useModalStore(
     (state) => state.isEditProjectModalOpen
   );
 
-  const setIsEditProjectModalOpen = useModalStore(
-    (state) => state.setIsEditProjectModalOpen
-  );
+  // const setIsEditProjectModalOpen = useModalStore(
+  //   (state) => state.setIsEditProjectModalOpen
+  // );
 
   return (
     <>

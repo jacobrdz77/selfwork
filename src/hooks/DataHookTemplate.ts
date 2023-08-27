@@ -13,7 +13,7 @@ export const useStuff = () => {
   return { stuff, isLoading, status };
 };
 
-type StuffData = {};
+type StuffData = Record<string, any>;
 
 export const useCreateStuff = () => {
   const queryClient = useQueryClient();
@@ -38,6 +38,7 @@ export const useCreateStuff = () => {
         console.log(error);
       }
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({
         queryKey: ["stuffs"],
@@ -70,6 +71,7 @@ export const useDeleteStuff = () => {
       }
     },
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({ queryKey: ["stuffs"] });
     },
@@ -100,6 +102,7 @@ export const useUpdatestuff = (stuffId: string) => {
         throw error;
       }
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({ queryKey: ["stuffs"] });
     },

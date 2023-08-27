@@ -1,5 +1,4 @@
 import { create, createStore } from "zustand";
-import { persist } from "zustand/middleware";
 
 interface UserState {
   userId: string;

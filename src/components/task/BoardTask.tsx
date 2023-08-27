@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react";
-import useMenu from "@/hooks/useMenu";
-import { TaskWithAssignee } from "@/types/types";
-import { getInitials } from "../UI/UserCard";
-import { useDeleteTask, useOneTask, useUpdateTask } from "@/hooks/TaskHooks";
-import { taskPriorityClassName } from "./OneTaskRow";
-import { format } from "date-fns";
-import EditTaskModal from "./EditTaskModal";
-import { useUserStore } from "store/user";
-import ReactDatePicker from "react-datepicker";
-import { Client, User } from "@prisma/client";
+import { useUserInfo } from "@/hooks/MemberHooks";
+import { useDeleteTask, useUpdateTask } from "@/hooks/TaskHooks";
 import { useWorkspaceMembers } from "@/hooks/WorkspaceHooks";
+import useMenu from "@/hooks/useMenu";
 import usePlaceHolder from "@/hooks/usePlaceHolder";
+import { TaskWithAssignee } from "@/types/types";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useUserInfo } from "@/hooks/MemberHooks";
+import { User } from "@prisma/client";
+import { format } from "date-fns";
+import { useEffect, useState } from "react";
+import ReactDatePicker from "react-datepicker";
+import { useUserStore } from "store/user";
+import { getInitials } from "../UI/UserCard";
+import EditTaskModal from "./EditTaskModal";
+import { taskPriorityClassName } from "./OneTaskRow";
 
 export const formatDueDate = (taskDueDate: Date) => {
   return format(new Date(taskDueDate), "MMM dd");
@@ -352,14 +352,14 @@ export const AssigneeButton = ({ task }: { task: TaskWithAssignee }) => {
   );
   const { mutate: updateTask } = useUpdateTask(task.sectionId);
 
-  const updateAssignee = () => {
-    updateTask({
-      taskId: task.id,
-      taskData: {
-        assigneeId: selectedAssignee ? selectedAssignee.id : null,
-      },
-    });
-  };
+  // const updateAssignee = () => {
+  //   updateTask({
+  //     taskId: task.id,
+  //     taskData: {
+  //       assigneeId: selectedAssignee ? selectedAssignee.id : null,
+  //     },
+  //   });
+  // };
   const userId = useUserStore((state) => state.userId);
   const { user } = useUserInfo(userId);
 
@@ -414,6 +414,7 @@ export const AssigneeButton = ({ task }: { task: TaskWithAssignee }) => {
             <div className="assignee-form">
               <label className="label">
                 <AssigneeMenu
+                // @ts-ignore
                   selectedAssignee={selectedAssignee}
                   setSelectedAssignee={setSelectedAssignee}
                   taskId={task.id}
@@ -453,14 +454,14 @@ export const AssigneeFilledButton = ({ task }: { task: TaskWithAssignee }) => {
 
   const { mutate: updateTask } = useUpdateTask(task.sectionId);
 
-  const updateAssignee = () => {
-    updateTask({
-      taskId: task.id,
-      taskData: {
-        assigneeId: selectedAssignee ? selectedAssignee.id : null,
-      },
-    });
-  };
+  // const updateAssignee = () => {
+  //   updateTask({
+  //     taskId: task.id,
+  //     taskData: {
+  //       assigneeId: selectedAssignee ? selectedAssignee.id : null,
+  //     },
+  //   });
+  // };
 
   const userId = useUserStore((state) => state.userId);
   const { user } = useUserInfo(userId);
@@ -512,6 +513,7 @@ export const AssigneeFilledButton = ({ task }: { task: TaskWithAssignee }) => {
             <div className="assignee-form">
               <label className="label">
                 <AssigneeMenu
+                // @ts-ignore
                   selectedAssignee={selectedAssignee}
                   setSelectedAssignee={setSelectedAssignee}
                   taskId={task.id}
@@ -567,6 +569,7 @@ export const AssigneeMenu = ({
     usePlaceHolder({ blurHandler: () => {} });
 
   useEffect(() => {
+    // @ts-ignore
     setFilteredMembers(() => {
       if (members) {
         const newFilteredMembers = members.filter((member) => {
@@ -604,6 +607,7 @@ export const AssigneeMenu = ({
                   taskId: taskId,
                   taskData: {
                     assigneeId: "remove",
+                    // @ts-ignore
                     assignee: null,
                   },
                 });
@@ -662,7 +666,7 @@ export const AssigneeMenu = ({
         <div
           className="menu"
           ref={menuRef}
-          onClick={(e) => {
+          onClick={() => {
             setIsMenuOpen(false);
           }}
         >
@@ -679,6 +683,7 @@ export const AssigneeMenu = ({
                     taskId: taskId,
                     taskData: {
                       assigneeId: client ? client.id : null,
+                      // @ts-ignore
                       assignee: { name: client ? client.name : null },
                     },
                   });

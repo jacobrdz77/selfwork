@@ -1,9 +1,5 @@
-import { useInviteMember } from "@/hooks/MemberHooks";
-import React, { useState, useEffect } from "react";
-import { toast } from "react-hot-toast";
+import { useEffect, useState } from "react";
 import Modal from "../UI/Modal";
-import validateEmail from "@/utils/validateEmail";
-import { useSession } from "next-auth/react";
 
 interface InviteMemberPopupProps {
   isOpen: boolean;
@@ -17,16 +13,16 @@ interface InviteMemberPopupProps {
 const InviteMemberPopup = ({
   isOpen,
   setIsOpen,
-  projectName,
-  projectId,
-  workspaceName,
-  workspaceId,
+  // projectName,
+  // projectId,
+  // workspaceName,
+  // workspaceId,
 }: InviteMemberPopupProps) => {
   const [newMemberEmail, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [emailError, setEmailError] = useState(false);
+  const [emailError, ] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
-  const { mutateAsync: inviteMember } = useInviteMember();
+  // const { mutateAsync: inviteMember } = useInviteMember();
 
   useEffect(() => {
     if (newMemberEmail.length > 0) {

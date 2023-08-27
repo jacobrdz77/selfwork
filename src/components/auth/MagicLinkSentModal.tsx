@@ -1,11 +1,12 @@
 import React from "react";
 import Modal from "../UI/Modal";
-import { useRouter } from "next/router";
 
 const MagicLinkSentModal: React.FC<{
   email: string;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setEmail: (email: string) => void;
   isOpen: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setIsModalOpen: (isOpen: boolean) => void;
 }> = ({ isOpen, setIsModalOpen, email }) => {
   const closeHandler = () => {

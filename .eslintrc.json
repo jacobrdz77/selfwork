@@ -1,3 +1,22 @@
 {
-  "extends": "next/core-web-vitals"
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended",
+    "prettier"
+  ],
+  "rules": {
+    "no-var": "error",
+    "prefer-const": "error",
+    "@typescript-eslint/ban-types": "error",
+    "@typescript-eslint/no-unused-vars": "error",
+    "@next/next/no-img-element": "warn",
+    "jsx-a11y/alt-text": "warn",
+    "@typescript-eslint/no-explicit-any": "warn", // -> error
+    "@typescript-eslint/ban-ts-comment": "warn", // -> error
+    "@typescript-eslint/no-non-null-asserted-optional-chain": "warn", // -> error
+    "@typescript-eslint/no-var-requires": "off"
+  },
+  "ignorePatterns": ["*.config.js"]
 }

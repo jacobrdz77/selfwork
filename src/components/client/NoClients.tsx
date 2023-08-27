@@ -1,6 +1,7 @@
 import React from "react";
 
 const NoClients: React.FC<{
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setIsModalOpen: (isOpen: boolean) => any;
 }> = ({ setIsModalOpen }) => {
   return (

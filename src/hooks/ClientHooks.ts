@@ -1,22 +1,12 @@
+import { getClients } from "@/utils/clientFunctions";
+import { Client } from "@prisma/client";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-hot-toast";
 import { useUserStore } from "../store/user";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   NewClientData,
-  NewProjectFormData,
-  ProjectsWithSections,
-  UpdateClientData,
-  UpdateProjectData,
+  UpdateClientData
 } from "../types/types";
-import {
-  createProject,
-  getOneProject,
-  getProjects,
-  updateProject,
-} from "../utils/projectFunctions";
-import { Client } from "@prisma/client";
-import { getClients } from "@/utils/clientFunctions";
-import { toast } from "react-hot-toast";
-import { useUserInfo } from "./MemberHooks";
 
 export const useClients = (onSuccess?: () => void) => {
   const userId = useUserStore((state) => state.userId);
@@ -147,6 +137,7 @@ export const useUpdateClient = (clientId: string) => {
         throw error;
       }
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({ queryKey: ["clients"] });
     },

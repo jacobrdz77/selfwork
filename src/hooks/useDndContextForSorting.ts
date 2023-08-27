@@ -1,15 +1,14 @@
-import { Dispatch, SetStateAction, useState } from "react";
-import { arrayMove } from "@dnd-kit/sortable";
-import { useUpdateSectionOrder } from "./SectionHooks";
-import { useUpdateTaskOrder } from "./TaskHooks";
 import {
   DragEndEvent,
-  KeyboardSensor,
   MouseSensor,
   TouchSensor,
   useSensor,
-  useSensors,
+  useSensors
 } from "@dnd-kit/core";
+import { arrayMove } from "@dnd-kit/sortable";
+import { Dispatch, SetStateAction, useState } from "react";
+import { useUpdateSectionOrder } from "./SectionHooks";
+import { useUpdateTaskOrder } from "./TaskHooks";
 
 type SortItem = any[] &
   {

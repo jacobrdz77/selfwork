@@ -1,4 +1,3 @@
-import { Task } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../prisma/client";
 

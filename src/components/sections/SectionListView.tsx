@@ -40,14 +40,14 @@ const SectionListView = ({
   const { tasks } = useTasksSection(section.id);
   const { sortedtasks, setSortedtasks } = useSortedTasks(tasks ? tasks : []);
 
-  const { sensors, handleDragEnd, handleDragStart, activeIndex } =
+  const { sensors, handleDragEnd, handleDragStart, } =
     useDndContextForSorting("tasks", sortedtasks, setSortedtasks);
 
   // For NEW TASK
   const [newTaskName, setNewTaskName] = useState("");
   const { mutate: createTask } = useCreateTask();
   const {
-    btnRef: newTaskBtnRef,
+    // btnRef: newTaskBtnRef,
     isMenuOpen: isNewTaskOpen,
     menuRef: newTaskRef,
     setIsMenuOpen: setNewTaskOpen,
@@ -193,7 +193,7 @@ const SectionListView = ({
             role="button"
             ref={btnRef}
             className="section__add section__button"
-            onClick={(e) => {
+            onClick={() => {
               setNewTaskOpen(!isNewTaskOpen);
               setShowTasks(true);
             }}

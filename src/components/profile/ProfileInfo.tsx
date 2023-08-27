@@ -20,7 +20,7 @@ const ProfileInfo = ({
       <div className="profile__info">
         <div className="flex">
           {session.data?.user?.image ? (
-            <img className="profile__image" src={session.data?.user?.image!} />
+            <img className="profile__image" src={session.data?.user?.image!} alt="profile image" />
           ) : (
             <div className="profile__avatar">
               <span>{getInitials(name)}</span>

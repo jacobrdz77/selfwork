@@ -2,6 +2,7 @@ import React from "react";
 import Button from "../UI/Button";
 
 const NoTasks: React.FC<{
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setIsModalOpen: (isOpen: boolean) => any;
 }> = ({ setIsModalOpen }) => {
   return (

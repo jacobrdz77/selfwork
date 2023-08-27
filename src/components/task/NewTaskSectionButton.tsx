@@ -1,7 +1,6 @@
 import useMenu from "@/hooks/useMenu";
 import { Section } from "@prisma/client";
-import React, { Dispatch, SetStateAction, useEffect } from "react";
-import LoadingSkeleton from "../UI/LoadingSkeleton";
+import { Dispatch, SetStateAction, useEffect } from "react";
 
 const NewTaskSectionButton = ({
   selectedSection,

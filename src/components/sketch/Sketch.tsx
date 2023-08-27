@@ -1,3 +1,4 @@
+export { };
 // import { useState, useEffect } from "react";
 // import { useSketch, useUpdateSketch } from "@/hooks/SketchHooks";
 // import { serializeAsJSON } from "@excalidraw/excalidraw";

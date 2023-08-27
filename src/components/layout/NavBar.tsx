@@ -1,18 +1,14 @@
-import React, { useState } from "react";
+import { useProjects } from "@/hooks/ProjectHooks";
+import useMenu from "@/hooks/useMenu";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { useModalStore } from "../../store/user";
+import LoadingSkeleton from "../UI/LoadingSkeleton";
 import SidebarProject from "../project/SidebarProject";
 import UserSidebarCard from "../user/UserSidebarCard";
-import useMenu from "@/hooks/useMenu";
-import {
-  useOneWorkspace,
-  useWorkspaceWithProjects,
-} from "@/hooks/WorkspaceHooks";
-import LoadingSkeleton from "../UI/LoadingSkeleton";
-import { useProjects } from "@/hooks/ProjectHooks";
-import WorkspaceList from "../workspace/WorkspaceList";
 import WorkspaceLink from "../workspace/WorkspaceLink";
+import WorkspaceList from "../workspace/WorkspaceList";
 
 const NavBar = () => {
   const [isNavMinimized, setIsNavMinimized] = useState(false);
@@ -22,13 +18,13 @@ const NavBar = () => {
   const setIsAddProjectModalOpen = useModalStore(
     (state) => state.setIsAddProjectModalOpen
   );
-  const issClientModalOpen = useModalStore((state) => state.isClientModalOpen);
+  // const issClientModalOpen = useModalStore((state) => state.isClientModalOpen);
   const setIsClientModalOpen = useModalStore(
     (state) => state.setIsClientModalOpen
   );
 
   const { projects, status } = useProjects();
-  const { workspace } = useOneWorkspace();
+  // const { workspace } = useOneWorkspace();
 
   return (
     <>
@@ -99,7 +95,7 @@ const NavBar = () => {
                   isMenuOpen ? "project-card__edit-menu--active" : ""
                 }`}
                 ref={menuRef}
-                onClick={(e) => {
+                onClick={() => {
                   setIsMenuOpen(false);
                   setIsAddTaskOpen(true);
                 }}

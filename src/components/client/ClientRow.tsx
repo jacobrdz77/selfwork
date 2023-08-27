@@ -1,14 +1,11 @@
-import { Client } from "@prisma/client";
-import React, { useState, useEffect } from "react";
-import LoadingSkeleton from "../UI/LoadingSkeleton";
 import { ClientWithProjects } from "@/types/types";
-import MenuWithButton from "../UI/MenuButton";
-import { useDeleteClient } from "@/hooks/ClientHooks";
+import { useEffect, useState } from "react";
+import LoadingSkeleton from "../UI/LoadingSkeleton";
 import EditClientModal from "./EditClientModal";
 
 const ClientRow = ({ client }: { client: ClientWithProjects }) => {
   const [status, setStatus] = useState("");
-  const { mutate: deleteClient } = useDeleteClient();
+  // const { mutate: deleteClient } = useDeleteClient();
 
   useEffect(() => {
     switch (client.status) {

@@ -5,7 +5,7 @@ import { useTableWidthStore } from "store/table-width";
 const AddTaskRow = ({
   newTaskName,
   setNewTaskName,
-  setNewTaskOpen,
+  // setNewTaskOpen,
   forwardRef,
 }: {
   forwardRef: any;

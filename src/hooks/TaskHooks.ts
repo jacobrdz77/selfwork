@@ -1,16 +1,15 @@
+import {
+  SectionWithTasks,
+  TaskWithAssignee
+} from "@/types/types";
+import { Priority, Section, Task, TaskStatus, User } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useUserStore } from "../store/user";
 import {
   getOneTask,
   getSectionTasks,
   getUserTasks,
 } from "../utils/taskFunctions";
-import { useUserStore } from "../store/user";
-import { Priority, Section, Task, TaskStatus, User } from "@prisma/client";
-import {
-  ProjectSections,
-  SectionWithTasks,
-  TaskWithAssignee,
-} from "@/types/types";
 
 export type TaskData = {
   name?: string;
@@ -26,9 +25,9 @@ export type TaskData = {
   sectionId?: string | null;
 };
 
-function generateId() {
-  return Math.floor(Math.random() * 100);
-}
+// function generateId() {
+//   return Math.floor(Math.random() * 100);
+// }
 
 // QUERY KEYS
 // ONE task
@@ -72,9 +71,9 @@ export const useOneTask = (taskId: string) => {
     queryKey: ["tasks", taskId],
     queryFn: () => getOneTask(taskId!),
     // enabled: taskId.length > 2 ? true : false,
-    onSuccess: (data) => {
-      // console.log("Fetched ONE Task: ", data);
-    },
+    // onSuccess: (data) => {
+    //   // console.log("Fetched ONE Task: ", data);
+    // },
   });
   return { task, isLoading, status };
 };
@@ -122,10 +121,11 @@ export const useCreateTask = () => {
       // console.log("Previous Tasks: ", previousTasks);
 
       // Optimistically update
-      const newTasks = queryClient.setQueryData(
-        ["tasks", newTask.sectionId],
-        [...previousTasks, { ...newTask, id: generateId() }]
-      );
+      // const newTasks = queryClient.setQueryData(
+      //   ["tasks", newTask.sectionId],
+      //   // @ts-ignore
+      //   [...previousTasks, { ...newTask, id: generateId() }]
+      // );
       // console.log("Updated Tasks: ", newTasks);
       return { previousTasks, newTask };
     },
@@ -142,6 +142,7 @@ export const useUpdateTask = (sectionId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
+    // @ts-ignore
     mutationFn: async ({
       taskId,
       taskData,
@@ -169,7 +170,7 @@ export const useUpdateTask = (sectionId: string) => {
       }
     },
     onMutate: async (data: { taskId: string; taskData: TaskData }) => {
-      const updatedTask = data.taskData;
+      // const updatedTask = data.taskData;
       await queryClient.cancelQueries({ queryKey: ["tasks"] });
       // console.log("UIPPP: ", data);
 
@@ -179,17 +180,17 @@ export const useUpdateTask = (sectionId: string) => {
         ?.filter((task) => task.id !== data.taskId);
 
       console.log("prev: ", previousTasks);
-      const oldTask = queryClient
-        .getQueryData<SectionWithTasks[]>(["tasks", sectionId])
-        ?.find((task) => task.id === data.taskId);
+      // const oldTask = queryClient
+      //   .getQueryData<SectionWithTasks[]>(["tasks", sectionId])
+      //   ?.find((task) => task.id === data.taskId);
       // console.log("OldTask: ", oldTask);
 
       // Optimistically update to the new value
       if (previousTasks) {
-        const newTasks = queryClient.setQueryData(
-          ["tasks", sectionId],
-          [...previousTasks!, { id: generateId(), ...oldTask, ...updatedTask }]
-        );
+        // const newTasks = queryClient.setQueryData(
+        //   ["tasks", sectionId],
+        //   [...previousTasks!, { id: generateId(), ...oldTask, ...updatedTask }]
+        // );
         // console.log("new: ", newTasks);
       }
 

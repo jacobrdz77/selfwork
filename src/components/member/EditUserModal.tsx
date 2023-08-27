@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
-import Modal from "../UI/Modal";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { useUpdateUser } from "@/hooks/MemberHooks";
+import Modal from "../UI/Modal";
 
 const EditUserModal = ({
   isOpen,
@@ -9,7 +8,7 @@ const EditUserModal = ({
   initialName,
   initialEmail,
   initialPhone,
-  userId,
+  // userId,
 }: {
   isOpen: boolean;
   setIsOpen: (bool: boolean) => void;
@@ -23,7 +22,7 @@ const EditUserModal = ({
   const [phone, setPhone] = useState(initialPhone);
   const [emailError, setEmailError] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
-  const { mutateAsync: updateUser } = useUpdateUser();
+  // const { mutateAsync: updateUser } = useUpdateUser();
 
   useEffect(() => {
     if (name.length > 0) {
@@ -36,20 +35,18 @@ const EditUserModal = ({
     try {
       if (true) {
         setEmailError(false);
-        const user = await updateUser({
-          userData: {
-            name,
-            email,
-            phone,
-          },
-          userId,
-        });
+        // const user = await updateUser({
+        //   userData: {
+        //     name,
+        //     email,
+        //     phone,
+        //   },
+        //   userId,
+        // });
 
         toast.success(`Saved`);
         setIsOpen(false);
       } else {
-        setEmailError(true);
-        return;
       }
     } catch (error) {
       console.log("ErRROR");

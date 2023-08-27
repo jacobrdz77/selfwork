@@ -1,19 +1,19 @@
-import { Priority, Section, Tag, Task, TaskStatus, User } from "@prisma/client";
+import { useDeleteTask, useUpdateTask } from "@/hooks/TaskHooks";
+import { useWorkspaceMembers } from "@/hooks/WorkspaceHooks";
+import useMenu from "@/hooks/useMenu";
+import { TaskWithAssignee } from "@/types/types";
+import { Priority, TaskStatus, User } from "@prisma/client";
+import { format } from "date-fns";
 import React, {
-  useState,
-  useRef,
-  useEffect,
   Dispatch,
   SetStateAction,
+  useEffect,
+  useRef,
+  useState,
 } from "react";
-import { useWorkspaceMembers } from "@/hooks/WorkspaceHooks";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { format } from "date-fns";
-import useMenu from "@/hooks/useMenu";
-import { useDeleteTask, useOneTask, useUpdateTask } from "@/hooks/TaskHooks";
 import { taskPriorityClassName } from "./OneTaskRow";
-import { TaskWithAssignee } from "@/types/types";
 
 const EditTaskDetails = ({
   task,
@@ -24,10 +24,10 @@ const EditTaskDetails = ({
 }) => {
   const [description, setDescription] = useState(task?.description);
   // const [tags, setTags] = useState<Tag[] | []>(task?.tags!);
-  const [selectedTag, setSelectedTag] = useState<Tag | null>(null);
+  // const [selectedTag, setSelectedTag] = useState<Tag | null>(null);
   const [assignee, setAssignee] = useState<User | null>(task?.assignee!);
   console.log("Assignee: ", assignee);
-  const [selectedSection, setSelectedSection] = useState<Section | null>(null);
+  // const [selectedSection, setSelectedSection] = useState<Section | null>(null);
   const [dueDate, setDueDate] = useState(
     task?.dueDate ? new Date(task?.dueDate).toLocaleDateString() : null
   );
@@ -81,6 +81,7 @@ const EditTaskDetails = ({
         priority,
         status: taskStatus,
         assigneeId: assignee ? assignee.id : "remove",
+        // @ts-ignore
         assigneeName: assignee ? assignee.name : "",
         sectionId: task.sectionId,
       },
@@ -216,6 +217,7 @@ const EditTaskDetails = ({
 
         <div className="due-date section">
           <label>Due date</label>
+          {/* @ts-ignore */}
           <DueDateButton dueDate={dueDate!} setDueDate={setDueDate} />
         </div>
 
@@ -374,7 +376,7 @@ const StatusButton = ({
         <div
           className={`menu ${isMenuOpen ? "active" : ""}`}
           ref={menuRef}
-          onClick={(e) => {
+          onClick={() => {
             setIsMenuOpen(false);
           }}
         >
@@ -466,7 +468,7 @@ const AssigneeButton = ({
   assignee: User;
   setAssignee: (assignee: User | null) => void;
 }) => {
-  const { members, status } = useWorkspaceMembers();
+  const { members, } = useWorkspaceMembers();
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   return (
     <div className="menu-button-container">
@@ -482,7 +484,7 @@ const AssigneeButton = ({
       {assignee && (
         <div
           className="data-selected__close"
-          onClick={(e) => {
+          onClick={() => {
             setAssignee(null);
           }}
         >
@@ -501,7 +503,7 @@ const AssigneeButton = ({
         <div
           className={`menu ${isMenuOpen ? "active" : ""}`}
           ref={menuRef}
-          onClick={(e) => {
+          onClick={() => {
             setIsMenuOpen(false);
           }}
         >
@@ -549,7 +551,7 @@ const DueDateButton = ({
       {dueDate && (
         <div
           className="data-selected__close"
-          onClick={(e) => {
+          onClick={() => {
             setDueDate(null);
           }}
         >
@@ -584,69 +586,69 @@ const DueDateButton = ({
   );
 };
 
-const TagsButton = ({
-  tags,
-  selectedTag,
-  setTags,
-}: {
-  tags: Tag[];
-  selectedTag: Tag;
-  setTags: (tag: Tag[] | null) => void;
-}) => {
-  const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
+// const TagsButton = ({
+//   tags,
+//   selectedTag,
+//   setTags,
+// }: {
+//   tags: Tag[];
+//   selectedTag: Tag;
+//   setTags: (tag: Tag[] | null) => void;
+// }) => {
+//   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
 
-  return (
-    <div className="menu-button-container">
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setIsMenuOpen((state) => !state);
-        }}
-        ref={btnRef}
-        className="menu-button data-selected data-selected--Tags"
-      >
-        <span> {selectedTag ? selectedTag + "" : "Add Tags"}</span>
-      </button>
+//   return (
+//     <div className="menu-button-container">
+//       <button
+//         onClick={(e) => {
+//           e.preventDefault();
+//           e.stopPropagation();
+//           setIsMenuOpen((state) => !state);
+//         }}
+//         ref={btnRef}
+//         className="menu-button data-selected data-selected--Tags"
+//       >
+//         <span> {selectedTag ? selectedTag + "" : "Add Tags"}</span>
+//       </button>
 
-      {selectedTag ? (
-        <div
-          className="data-selected__close"
-          onClick={(e) => {
-            setTags(null);
-          }}
-        >
-          <svg viewBox="0 0 320.591 320.591">
-            <g>
-              <g>
-                <path d="m30.391 318.583c-7.86.457-15.59-2.156-21.56-7.288-11.774-11.844-11.774-30.973 0-42.817l257.812-257.813c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875l-259.331 259.331c-5.893 5.058-13.499 7.666-21.256 7.288z" />
-                <path d="m287.9 318.583c-7.966-.034-15.601-3.196-21.257-8.806l-257.813-257.814c-10.908-12.738-9.425-31.908 3.313-42.817 11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414-6.35 5.522-14.707 8.161-23.078 7.288z" />
-              </g>
-            </g>
-          </svg>
-        </div>
-      ) : null}
+//       {selectedTag ? (
+//         <div
+//           className="data-selected__close"
+//           onClick={(e) => {
+//             setTags(null);
+//           }}
+//         >
+//           <svg viewBox="0 0 320.591 320.591">
+//             <g>
+//               <g>
+//                 <path d="m30.391 318.583c-7.86.457-15.59-2.156-21.56-7.288-11.774-11.844-11.774-30.973 0-42.817l257.812-257.813c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875l-259.331 259.331c-5.893 5.058-13.499 7.666-21.256 7.288z" />
+//                 <path d="m287.9 318.583c-7.966-.034-15.601-3.196-21.257-8.806l-257.813-257.814c-10.908-12.738-9.425-31.908 3.313-42.817 11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414-6.35 5.522-14.707 8.161-23.078 7.288z" />
+//               </g>
+//             </g>
+//           </svg>
+//         </div>
+//       ) : null}
 
-      {isMenuOpen && (
-        <div className={`menu ${isMenuOpen ? "active" : ""}`} ref={menuRef}>
-          {tags &&
-            tags?.map((tag) => (
-              <div
-                key={tag.id}
-                className="item"
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  // Add a way to append tags to the list of tags
-                }}
-              >
-                {tag.name}
-              </div>
-            ))}
-        </div>
-      )}
-    </div>
-  );
-};
+//       {isMenuOpen && (
+//         <div className={`menu ${isMenuOpen ? "active" : ""}`} ref={menuRef}>
+//           {tags &&
+//             tags?.map((tag) => (
+//               <div
+//                 key={tag.id}
+//                 className="item"
+//                 onClick={() => {
+//                   setIsMenuOpen(false);
+//                   // Add a way to append tags to the list of tags
+//                 }}
+//               >
+//                 {tag.name}
+//               </div>
+//             ))}
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
 
 const PriorityButton = ({
   priority,
@@ -676,7 +678,7 @@ const PriorityButton = ({
       {priority !== "None" && (
         <div
           className="data-selected__close"
-          onClick={(e) => {
+          onClick={() => {
             setPriority("None");
           }}
         >

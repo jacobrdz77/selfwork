@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import useDndContextForSorting from "@/hooks/useDndContextForSorting";
 import { SectionWithTasks } from "@/types/types";
+import { DndContext } from "@dnd-kit/core";
+import { SortableContext } from "@dnd-kit/sortable";
+import React from "react";
 import AddProjectSectionButton from "./AddProjectSectionButton";
 import AddUserSectionButton from "./AddUserSectionButton";
-import { SortableContext } from "@dnd-kit/sortable";
 import OneBoard from "./OneBoard";
-import { DndContext } from "@dnd-kit/core";
-import useDndContextForSorting from "@/hooks/useDndContextForSorting";
 
 interface Props {
   sections: SectionWithTasks[] | undefined;
@@ -18,11 +18,11 @@ interface Props {
 const Boards = ({
   sections,
   setSections,
-  userAssignedSection,
+  // userAssignedSection,
   isProject,
   projectId,
 }: Props) => {
-  const [activeId, setActiveId] = useState<number | null>(null);
+  // const [activeId, setActiveId] = useState<number | null>(null);
   const { sensors, handleDragEnd, handleDragStart } = useDndContextForSorting(
     "sections",
     sections!,

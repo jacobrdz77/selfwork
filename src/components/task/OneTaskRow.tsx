@@ -1,13 +1,13 @@
-import React, { FocusEvent, use, useEffect, useRef, useState } from "react";
-import { Priority } from "@prisma/client";
-import { format } from "date-fns";
-import { TaskWithAssignee } from "@/types/types";
-import { useTableWidthStore } from "store/table-width";
-import { useOneTask, useUpdateTask } from "@/hooks/TaskHooks";
-import EditTaskModal from "./EditTaskModal";
+import { useUpdateTask } from "@/hooks/TaskHooks";
 import useMenu from "@/hooks/useMenu";
+import { TaskWithAssignee } from "@/types/types";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { Priority } from "@prisma/client";
+import { format } from "date-fns";
+import { FocusEvent, useEffect, useRef, useState } from "react";
+import { useTableWidthStore } from "store/table-width";
+import EditTaskModal from "./EditTaskModal";
 
 const formatDueDate = (taskDueDate: Date) => {
   return format(new Date(taskDueDate), "MMM dd");
@@ -70,7 +70,7 @@ const OneTaskRow = ({ task }: { task: TaskWithAssignee }) => {
   const handleInputBlur = (e: FocusEvent<HTMLInputElement, Element>) => {
     setIsInputFocused(false);
 
-    let trimmedName = e.currentTarget.value.trim();
+    const trimmedName = e.currentTarget.value.trim();
     if (trimmedName.length === 0) {
       // Delete task
       return;
