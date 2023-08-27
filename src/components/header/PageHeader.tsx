@@ -12,7 +12,7 @@ type HeaderProps = {
 
 const PageHeader: React.FC<HeaderProps> = ({
   title,
-  subTitle,
+  // subTitle,
   buttonHandler,
   buttonText,
   children,

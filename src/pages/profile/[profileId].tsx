@@ -1,28 +1,26 @@
-import MenuWithButton from "@/components/UI/MenuButton";
 import EditUserModal from "@/components/member/EditUserModal";
 import ProfileInfo from "@/components/profile/ProfileInfo";
-import { AssigneeButton } from "@/components/task/BoardTask";
 import { useUserInfo } from "@/hooks/MemberHooks";
 import { useColor } from "@/hooks/useColor";
-import { Project, Task } from "@prisma/client";
+import { Project } from "@prisma/client";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useModalStore } from "store/user";
 
 const ProfilePage = () => {
   const router = useRouter();
   const { user, status } = useUserInfo("al814zcy86074hloymogrg1mv");
   const [isEditUserOpen, setIsEditUserOpen] = useState(false);
-  const isAddTaskOpen = useModalStore((state) => state.isAddTaskOpen);
-  const setIsAddTaskOpen = useModalStore((state) => state.setIsAddTaskOpen);
-  const isAddProjectModalOpen = useModalStore(
-    (state) => state.isAddProjectModalOpen
-  );
+  // const isAddTaskOpen = useModalStore((state) => state.isAddTaskOpen);
+  // const setIsAddTaskOpen = useModalStore((state) => state.setIsAddTaskOpen);
+  // const isAddProjectModalOpen = useModalStore(
+  //   (state) => state.isAddProjectModalOpen
+  // );
   const setIsAddProjectModalOpen = useModalStore(
     (state) => state.setIsAddProjectModalOpen
   );
-  const [isSelf, setIsSelf] = useState(false);
+  const [, setIsSelf] = useState(false);
 
   useEffect(() => {
     if (router.query.profileId === user?.id) {
@@ -153,19 +151,20 @@ const UserProfileProject = ({ project }: { project: Project }) => {
   );
 };
 
-const UserProfileTask = ({ task }: { task: Task }) => {
-  return (
-    <div
-      onClick={() => {
-        // Todo: Open task detail modal
-      }}
-      className="one-task"
-      key={task.id}
-    >
-      <div>{task.name}</div>
-      <div>
-        <AssigneeButton task={task} />
-      </div>
-    </div>
-  );
-};
+// const UserProfileTask = ({ task }: { task: Task }) => {
+//   return (
+//     <div
+//       onClick={() => {
+//         // Todo: Open task detail modal
+//       }}
+//       className="one-task"
+//       key={task.id}
+//     >
+//       <div>{task.name}</div>
+//       <div>
+//         {/* @ts-ignore */}
+//         <AssigneeButton task={task} />
+//       </div>
+//     </div>
+//   );
+// };

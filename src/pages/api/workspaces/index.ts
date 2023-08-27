@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getSession } from "next-auth/react";
 import prisma from "../../../../prisma/client";
 
 //Endpoint: /api/workspaces

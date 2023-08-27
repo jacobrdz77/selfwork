@@ -1,14 +1,10 @@
-import { useEffect, useState } from "react";
+import LoadingSkeleton from "@/components/UI/LoadingSkeleton";
 import MyTaskNav from "@/components/header/MyTaskNav";
 import PageHeader from "@/components/header/PageHeader";
+import LoadingHeader from "@/components/loading/LoadingHeader";
 import Boards from "@/components/sections/Boards";
 import { useSectionsOfUser } from "@/hooks/SectionHooks";
-import React from "react";
 import useSortedSections from "@/hooks/useSortedSections";
-import { useSession } from "next-auth/react";
-import LoadingBoardViewPage from "@/components/loading/LoadingBoardViewPage";
-import LoadingHeader from "@/components/loading/LoadingHeader";
-import LoadingSkeleton from "@/components/UI/LoadingSkeleton";
 
 const MyTaskBoardPage = () => {
   const { userAssignedTasksSection, userSections, status } =

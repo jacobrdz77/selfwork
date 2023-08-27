@@ -94,6 +94,7 @@ export const useDeleteLink = () => {
       }
     },
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({ queryKey: ["links"] });
       console.log("Deleted Task");

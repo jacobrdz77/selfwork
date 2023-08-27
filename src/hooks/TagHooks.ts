@@ -1,6 +1,5 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useUserStore } from "../store/user";
 import { Priority, Tag, User } from "@prisma/client";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useTags = (tagId: string) => {
   const {
@@ -85,6 +84,7 @@ export const useUpdateTag = () => {
       }
     },
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onSuccess: (updatedtag) => {
       queryClient.invalidateQueries({ queryKey: ["tags"] });
     },

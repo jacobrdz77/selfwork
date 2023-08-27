@@ -1,19 +1,19 @@
-import { useState, useEffect } from "react";
-import { Priority, Section, User } from "@prisma/client";
+import { useCreateTask } from "@/hooks/TaskHooks";
 import useMenu from "@/hooks/useMenu";
-import { useUserStore } from "store/user";
+import { SectionWithTasks } from "@/types/types";
+import { Priority, Section, User } from "@prisma/client";
+import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import AssigneeMenu from "./AssigneeMenu";
 import NewTaskProjectMenu from "./NewTaskProjectMenu";
 import NewTaskSectionButton from "./NewTaskSectionButton";
-import { useCreateTask } from "@/hooks/TaskHooks";
-import { toast } from "react-hot-toast";
-import { SectionWithTasks } from "@/types/types";
 
 const AddTaskPopup: React.FC<{
   isOpen: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setIsOpen: (isOpen: boolean) => void;
 }> = ({ isOpen, setIsOpen }) => {
-  const closeHandler = () => setIsOpen(false);
+  // const closeHandler = () => setIsOpen(false);
   const { mutate } = useCreateTask();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -172,6 +172,7 @@ const AddTaskPopup: React.FC<{
 
                 {/* Section button inside Project button */}
                 <NewTaskSectionButton
+                // @ts-ignore
                   setSelectedSection={setSelectedSection}
                   selectedSection={selectedSection}
                   sections={project.sections}

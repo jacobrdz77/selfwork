@@ -1,5 +1,6 @@
-import { useUserStore, userStore } from "../store/user";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Project } from "@prisma/client";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { userStore } from "../store/user";
 import {
   NewProjectFormData,
   ProjectsWithSections,
@@ -8,10 +9,8 @@ import {
 import {
   createProject,
   getOneProject,
-  getProjects,
-  updateProject,
+  getProjects
 } from "../utils/projectFunctions";
-import { Project } from "@prisma/client";
 
 export const useProjects = () => {
   const workspaceId = userStore.getState().workspaceId;
@@ -87,6 +86,7 @@ export const useCreateProject = () => {
 
   return useMutation({
     mutationFn: (projectData: NewProjectFormData) =>
+    // @ts-ignore
       createProject({ ...projectData, ownerId, workspaceId }),
 
     onSuccess: async () => {

@@ -1,6 +1,3 @@
-import React from "react";
-import { getInitials } from "../UI/UserCard";
-import { User } from "@prisma/client";
 import useMenu from "@/hooks/useMenu";
 import { formatDistance } from "date-fns";
 import Link from "next/link";

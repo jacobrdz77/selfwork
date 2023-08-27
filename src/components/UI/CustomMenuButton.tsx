@@ -1,12 +1,11 @@
 import useMenu from "@/hooks/useMenu";
-import React from "react";
 
 const MenuButton = ({
   children,
   menuContent,
   className,
-  listItems,
-  setItem,
+  // listItems,
+  // setItem,
 }: {
   children: any;
   menuContent: any;

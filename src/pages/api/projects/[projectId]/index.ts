@@ -1,7 +1,6 @@
-import { Prisma } from "@prisma/client";
+import { transformColor } from "@/utils/TransformColor";
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../../prisma/client";
-import { transformColor } from "@/utils/TransformColor";
 
 export default async function handler(
   req: NextApiRequest,

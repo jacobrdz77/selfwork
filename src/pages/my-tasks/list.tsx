@@ -1,15 +1,15 @@
-import { NextPage } from "next";
-import PageHeader from "@/components/header/PageHeader";
-import { useSectionsOfUser } from "@/hooks/SectionHooks";
-import TaskTableHead from "@/components/task/TaskTableHead";
 import MyTaskNav from "@/components/header/MyTaskNav";
-import SectionsList from "@/components/sections/SectionsList";
-import useSortedSections from "@/hooks/useSortedSections";
-import LoadingListViewPage from "@/components/loading/LoadingListViewPage";
+import PageHeader from "@/components/header/PageHeader";
 import LoadingHeader from "@/components/loading/LoadingHeader";
+import LoadingListViewPage from "@/components/loading/LoadingListViewPage";
+import SectionsList from "@/components/sections/SectionsList";
+import TaskTableHead from "@/components/task/TaskTableHead";
+import { useSectionsOfUser } from "@/hooks/SectionHooks";
+import useSortedSections from "@/hooks/useSortedSections";
+import { NextPage } from "next";
 
 const MyTaskListPage: NextPage = () => {
-  const { userAssignedTasksSection, userSections, status } =
+  const { userSections, status } =
     useSectionsOfUser();
 
   const { sortedSections, setSortedSections } = useSortedSections(

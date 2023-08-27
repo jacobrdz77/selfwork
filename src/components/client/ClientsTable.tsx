@@ -1,10 +1,8 @@
-import { Client } from "@prisma/client";
-import React, { useEffect, useState } from "react";
-import ClientRow, { ClientRowLoading } from "./ClientRow";
-import LoadingSkeleton from "../UI/LoadingSkeleton";
-import ClientFilterBar from "./ClientFilterBar";
 import { ClientWithProjects } from "@/types/types";
+import { useEffect, useState } from "react";
 import { useModalStore } from "store/user";
+import ClientFilterBar from "./ClientFilterBar";
+import ClientRow from "./ClientRow";
 
 const ClientsTable = ({ clients }: { clients: ClientWithProjects[] }) => {
   const [sortedClients, setSortedClients] = useState(clients);

@@ -1,17 +1,17 @@
-import React, { FocusEvent, useState } from "react";
-import PageHeader from "@/components/header/PageHeader";
-import { useProjects } from "@/hooks/ProjectHooks";
-import Projects from "@/components/project/Projects";
-import { useOneWorkspace, useUpdateWorkspace } from "@/hooks/WorkspaceHooks";
 import LoadingSkeleton from "@/components/UI/LoadingSkeleton";
 import UserCard from "@/components/UI/UserCard";
-import { useModalStore } from "store/user";
+import PageHeader from "@/components/header/PageHeader";
+import Projects from "@/components/project/Projects";
+import { useProjects } from "@/hooks/ProjectHooks";
+import { useOneWorkspace, useUpdateWorkspace } from "@/hooks/WorkspaceHooks";
 import useMenu from "@/hooks/useMenu";
+import { FocusEvent, useState } from "react";
+import { useModalStore } from "store/user";
 
 const WorkspacePage = () => {
   const { workspace, status } = useOneWorkspace();
   const { projects } = useProjects();
-  const { isMenuOpen, btnRef, menuRef, setIsMenuOpen } = useMenu();
+  const { isMenuOpen, btnRef,} = useMenu();
   const setIsProjectModalOpen = useModalStore(
     (state) => state.setIsAddProjectModalOpen
   );
@@ -146,7 +146,7 @@ const WorkspaceDescription = ({
   const handleDescriptionBlur = (
     e: FocusEvent<HTMLTextAreaElement, Element>
   ) => {
-    let trimmedDescription = e.currentTarget.value.trim();
+    const trimmedDescription = e.currentTarget.value.trim();
     console.log("DESCrIPTION: ", trimmedDescription);
 
     if (oldDescription === trimmedDescription) {

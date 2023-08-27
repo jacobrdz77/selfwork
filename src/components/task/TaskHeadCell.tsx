@@ -58,7 +58,7 @@ const useTableHeadResizing = ({
       return;
     }
 
-    let headerRefWidth = parseInt(headerRef.current!.style.width, 10);
+    const headerRefWidth = parseInt(headerRef.current!.style.width, 10);
     // console.log("Initial Width: ", headerRefWidth);
 
     const handleMouseMove = (event: MouseEvent) => {
@@ -69,7 +69,7 @@ const useTableHeadResizing = ({
       const pos = position.current;
       const element = resizerRef.current;
 
-      let newWidth = headerRefWidth + position.current.x;
+      const newWidth = headerRefWidth + position.current.x;
       // console.log("new width: ", newWidth);
       // console.log("Position X: ", pos.x);
       // console.log("MovX: ", event.movementX);
@@ -88,7 +88,7 @@ const useTableHeadResizing = ({
     const handleMouseUp = () => {
       if (!headerRef.current || !resizerRef.current) return;
 
-      let headerWidth = parseInt(headerRef.current?.style.width, 10);
+      const headerWidth = parseInt(headerRef.current?.style.width, 10);
 
       // Set width state so that the cell's width update
       setHeaderWidth(position.current.x + headerWidth);

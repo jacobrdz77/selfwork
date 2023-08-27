@@ -1,14 +1,11 @@
-import { useState } from "react";
-import { useRouter } from "next/router";
+import LoadingListViewPage from "@/components/loading/LoadingListViewPage";
 import ProjectPageLayout from "@/components/project/ProjectPageLayout";
-import { NextPageWithLayout } from "../../_app";
+import SectionsList from "@/components/sections/SectionsList";
 import TaskTableHead from "@/components/task/TaskTableHead";
 import { useSectionsOfProject } from "@/hooks/SectionHooks";
-import SectionsList from "@/components/sections/SectionsList";
-import { useEffect } from "react";
 import useSortedSections from "@/hooks/useSortedSections";
-import LoadingSkeleton from "@/components/UI/LoadingSkeleton";
-import LoadingListViewPage from "@/components/loading/LoadingListViewPage";
+import { useRouter } from "next/router";
+import { NextPageWithLayout } from "../../_app";
 
 const List: NextPageWithLayout = () => {
   const { projectId } = useRouter().query;

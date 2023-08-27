@@ -1,14 +1,11 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode } from "react";
+import { Toaster } from "react-hot-toast";
 import { useModalStore, userStore } from "store/user";
+import AddClientModal from "../client/AddClientModal";
+import InviteMemberPopup from "../member/InviteMemberPopup";
 import AddProjectModal from "../project/AddProjectModal";
 import AddTaskPopup from "../task/AddTaskPopup";
 import NavBar from "./NavBar";
-import { Toaster } from "react-hot-toast";
-import EditTaskModal from "../task/EditTaskModal";
-import AddClientModal from "../client/AddClientModal";
-import { useSession } from "next-auth/react";
-import InviteMemberPopup from "../member/InviteMemberPopup";
-import { useOneWorkspace } from "@/hooks/WorkspaceHooks";
 
 const PageLayout: React.FC<{
   children: ReactNode | ReactNode[];
@@ -33,7 +30,7 @@ const PageLayout: React.FC<{
     (state) => state.setIsInviteMemberModalOpen
   );
 
-  const session = useSession();
+  // const session = useSession();
   const { workspaceId, workspaceName } = userStore.getState();
 
   return (

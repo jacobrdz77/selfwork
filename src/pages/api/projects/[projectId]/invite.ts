@@ -1,6 +1,5 @@
-import { Prisma } from "@prisma/client";
+// import { sendInvite } from "@/utils/nodemailer";
 import { NextApiRequest, NextApiResponse } from "next";
-import { sendInvite } from "@/utils/nodemailer";
 
 export default async function handler(
   req: NextApiRequest,
@@ -9,21 +8,21 @@ export default async function handler(
   // INVITE new member
   if (req.method === "POST") {
     try {
-      const body = JSON.parse(req.body);
-      const { message, newMemberEmail, senderEmail, projectName } = body;
-      const { projectId } = req.query;
+      // const body = JSON.parse(req.body);
+      // const { message, newMemberEmail, projectName } = body;
+      // const { projectId } = req.query;
       // console.log("Invite body: ", body);
 
       // Create projectLink
-      const projectLink = `http://localhost:3000/projects/${projectId}/invite`;
+      // const projectLink = `http://localhost:3000/projects/${projectId}/invite`;
 
-      const response = await sendInvite({
-        senderEmail: "jacob@gmail.com",
-        message,
-        newMemberEmail,
-        projectLink,
-        projectName,
-      });
+      // const response = await sendInvite({
+      //   senderEmail: "jacob@gmail.com",
+      //   message,
+      //   newMemberEmail,
+      //   projectLink,
+      //   projectName,
+      // });
 
       // console.log(response);
 

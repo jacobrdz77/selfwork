@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import useMenu from "@/hooks/useMenu";
 import { useDeleteProject, useUpdateProject } from "@/hooks/ProjectHooks";
-import LoadingSkeleton from "../UI/LoadingSkeleton";
-import { useModalStore } from "store/user";
+import useMenu from "@/hooks/useMenu";
 import { ProjectWithAll } from "@/types/types";
 import { Color, Project, ProjectStatus } from "@prisma/client";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { useModalStore } from "store/user";
 
 type HeaderProps = {
   name: string | undefined;
@@ -14,7 +13,7 @@ type HeaderProps = {
   project: ProjectWithAll;
 };
 
-const ProjectHeader: React.FC<HeaderProps> = ({ name, status, project }) => {
+const ProjectHeader: React.FC<HeaderProps> = ({ name, /*status*/ project }) => {
   const router = useRouter();
   const currentPath = router.pathname.split("/")[3];
   const { projectId } = router.query;
@@ -479,7 +478,7 @@ const StatusButton = ({
         <div
           className={`menu ${isMenuOpen ? "active" : ""}`}
           ref={menuRef}
-          onClick={(e) => {
+          onClick={() => {
             setIsMenuOpen(false);
           }}
         >

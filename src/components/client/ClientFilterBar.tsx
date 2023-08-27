@@ -1,8 +1,5 @@
-import { ClientStatus } from "@/types/types";
-import React, { useState } from "react";
-import LoadingSkeleton from "../UI/LoadingSkeleton";
 import { useModalStore } from "store/user";
-import { Status } from "@prisma/client";
+import LoadingSkeleton from "../UI/LoadingSkeleton";
 
 const ClientFilterBar = ({
   name,

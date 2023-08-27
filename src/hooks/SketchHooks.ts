@@ -20,7 +20,7 @@ const sketchKeys = {
 };
 
 export const useSketch = (sketchId: string) => {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
   const {
     data: sketch,
@@ -37,11 +37,11 @@ export const useSketch = (sketchId: string) => {
   return { sketch, isLoading, status };
 };
 export const useProjectSketches = (projectId: string) => {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
   const {
     data: sketches,
-    isLoading,
+    // isLoading,
     status,
   } = useQuery({
     queryKey: sketchKeys.all,

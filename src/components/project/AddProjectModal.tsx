@@ -1,14 +1,14 @@
-import { useState, useEffect, useRef, useCallback } from "react";
-import Modal from "../UI/Modal";
-import { useCreateProject } from "../../hooks/ProjectHooks";
-import { Client, Priority, User } from "@prisma/client";
-import { useRouter } from "next/router";
 import { useClients } from "@/hooks/ClientHooks";
 import useMenu from "@/hooks/useMenu";
-import usePlaceHolder from "@/hooks/usePlaceHolder";
+import { Client, Priority } from "@prisma/client";
+import { useRouter } from "next/router";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useCreateProject } from "../../hooks/ProjectHooks";
+import Modal from "../UI/Modal";
 
 const AddProjectModal: React.FC<{
   isOpen: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setIsModalOpen: (isOpen: boolean) => void;
 }> = ({ isOpen, setIsModalOpen }) => {
   const closeHandler = () => setIsModalOpen(false);
@@ -23,9 +23,9 @@ const AddProjectModal: React.FC<{
   const [isPriority, setIsPriority] = useState(false);
   const [priority, setPriority] = useState<Priority>("None");
   const [isFormValid, setIsFormValid] = useState(false);
-  const { clients, status } = useClients();
+  // const { clients, status } = useClients();
   const [clientSelected, setClientSelected] = useState<Client | null>(null);
-  const [clientName, setClientName] = useState("");
+  // const [clientName, setClientName] = useState("");
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -286,7 +286,7 @@ export const ClientsMenu = ({
   const [searchClient, setSearchClient] = useState(
     selectedClient ? selectedClient.name : ""
   );
-  const { clients, status } = useClients();
+  const { clients,  } = useClients();
   const [filteredClients, setFilteredClients] = useState(clients);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const inputRef = useRef(null);
@@ -296,7 +296,7 @@ export const ClientsMenu = ({
       inputRef.current!.focus();
     }
   }, []);
-  const handleInputBlur = (e: any) => {
+  const handleInputBlur = () => {
     // Switches to display button
     setIsInputFocused(false);
   };
@@ -412,7 +412,7 @@ export const ClientsMenu = ({
         <div
           className="menu"
           ref={menuRef}
-          onClick={(e) => {
+          onClick={() => {
             setIsMenuOpen(false);
           }}
         >

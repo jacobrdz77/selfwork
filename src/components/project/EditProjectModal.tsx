@@ -1,29 +1,27 @@
-import { useState, useEffect } from "react";
-import Modal from "../UI/Modal";
-import { Priority, Project } from "@prisma/client";
-import { updateProject } from "../../utils/projectFunctions";
-import { useModalStore, useUserStore } from "../../store/user";
-import Button from "../UI/Button";
-import { z } from "zod";
 import { useUpdateProject } from "@/hooks/ProjectHooks";
-import { useRouter } from "next/router";
 import useMenu from "@/hooks/useMenu";
+import { Priority, Project } from "@prisma/client";
+import { useEffect, useState } from "react";
 import ReactDatePicker from "react-datepicker";
+import { z } from "zod";
+import { useModalStore } from "../../store/user";
+import Button from "../UI/Button";
+import Modal from "../UI/Modal";
 import { formatDueDate } from "../task/BoardTask";
 
 const EditProjectModal: React.FC<{
   isOpen: boolean;
   projectData: Project;
 }> = ({ isOpen, projectData }) => {
-  const { projectId } = useRouter().query;
-  const userId = useUserStore((state) => state.userId as string);
+  // const { projectId } = useRouter().query;
+  // const userId = useUserStore((state) => state.userId as string);
   const setIsModalOpen = useModalStore(
     (state) => state.setIsEditProjectModalOpen
   );
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
 
   const [name, setName] = useState(projectData.name ? projectData.name : "");
-  const [description, setDescription] = useState(
+  const [description, ] = useState(
     projectData.description ? projectData.name : ""
   );
   const [lumpSum, setLumpSum] = useState(
@@ -34,13 +32,13 @@ const EditProjectModal: React.FC<{
       ? new Date(projectData.dueDate).toLocaleDateString()
       : ""
   );
-  const [startDate, setStartDate] = useState(
+  const [startDate, ] = useState(
     projectData.startDate + "" ? projectData.startDate + "" : ""
   );
   const [priority, setPriority] = useState<Priority>(
     projectData.priority ? projectData.priority : "None"
   );
-  const [isPriority, setIsPriority] = useState(false);
+  // const [isPriority, setIsPriority] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
 
   const { mutateAsync: updateProject, error } = useUpdateProject();
@@ -176,6 +174,7 @@ const EditProjectModal: React.FC<{
                   value={dueDate}
                   selected={new Date(dueDate)}
                   onChange={(dueDate) => {
+                    // @ts-ignore
                     setDueDate(new Date(dueDate));
                   }}
                 />

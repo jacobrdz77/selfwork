@@ -1,9 +1,6 @@
-import React from "react";
-import EditTaskDetails from "./EditTaskDetails";
-import Modal from "../UI/Modal";
 import { TaskWithAssignee } from "@/types/types";
-import { useModalStore } from "store/user";
-import { useOneTask } from "@/hooks/TaskHooks";
+import Modal from "../UI/Modal";
+import EditTaskDetails from "./EditTaskDetails";
 
 const EditTaskModal = ({
   task,

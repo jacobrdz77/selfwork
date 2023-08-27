@@ -1,12 +1,9 @@
-/* eslint-disable jsx-a11y/alt-text */
-/* eslint-disable @next/next/no-img-element */
-import useMenu from "@/hooks/useMenu";
-import { getInitials } from "../UI/UserCard";
 import { useUserInfo } from "@/hooks/MemberHooks";
-import { useUserStore } from "store/user";
-import { useRouter } from "next/router";
+import useMenu from "@/hooks/useMenu";
 import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import LoadingSkeleton from "../UI/LoadingSkeleton";
+import { getInitials } from "../UI/UserCard";
 
 const UserSidebarCard = () => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
@@ -29,6 +26,7 @@ const UserSidebarCard = () => {
               <img
                 className="sidebar__user-provider-image"
                 src={session.data?.user.image!}
+                alt="user provider image"
               />
             ) : (
               <div className={`sidebar__user-icon`}>

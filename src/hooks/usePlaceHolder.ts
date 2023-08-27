@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const usePlaceHolder = ({ blurHandler }: { blurHandler: () => void }) => {
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -6,10 +6,11 @@ const usePlaceHolder = ({ blurHandler }: { blurHandler: () => void }) => {
   const focusOnInput = useCallback(() => {
     // @ts-ignore
     if (inputRef.current) {
+      // @ts-ignore
       inputRef.current!.focus();
     }
   }, []);
-  const handleInputBlur = (e: any) => {
+  const handleInputBlur = () => {
     if (blurHandler) {
       blurHandler();
     }

@@ -1,8 +1,7 @@
-import useMenu from "@/hooks/useMenu";
-import React from "react";
-import { getFirstLetter, getInitials } from "../UI/UserCard";
 import { useOneWorkspace, useWorkspaces } from "@/hooks/WorkspaceHooks";
+import useMenu from "@/hooks/useMenu";
 import Link from "next/link";
+import { getFirstLetter } from "../UI/UserCard";
 
 const WorkspaceList = ({ isNavMinimized }: { isNavMinimized: boolean }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
@@ -37,7 +36,7 @@ const WorkspaceList = ({ isNavMinimized }: { isNavMinimized: boolean }) => {
       <div
         className={`menu workspace-list__menu ${isMenuOpen ? "active" : ""}`}
         ref={menuRef}
-        onClick={(e) => {
+        onClick={() => {
           setIsMenuOpen(false);
         }}
       >

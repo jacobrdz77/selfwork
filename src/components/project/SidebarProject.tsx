@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useColor } from "@/hooks/useColor";
 import { Color } from "@prisma/client";
 import Link from "next/link";
-import { useColor } from "@/hooks/useColor";
 
 const SidebarProject = ({
   name,

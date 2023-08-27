@@ -1,7 +1,6 @@
-import nodemailer from "nodemailer";
 import fs from "fs";
 import handlebars from "handlebars";
-import path from "path";
+import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
   host: "smtp.ethereal.email",

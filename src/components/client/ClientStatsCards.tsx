@@ -1,6 +1,5 @@
 import { ClientWithProjects } from "@/types/types";
-import { Client } from "@prisma/client";
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const getRevenue = (clients: ClientWithProjects[]) => {
   let sum = 0;

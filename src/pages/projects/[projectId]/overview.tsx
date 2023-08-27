@@ -1,28 +1,26 @@
-import { useRouter } from "next/router";
-import { useState } from "react";
+import LoadingSkeleton from "@/components/UI/LoadingSkeleton";
+import { getInitials } from "@/components/UI/UserCard";
+import AddLinkPopup from "@/components/project/AddLinkPopup";
+import ProjectDescription from "@/components/project/ProjectDescription";
+import ProjectLinks from "@/components/project/ProjectLinks";
 import ProjectPageLayout from "@/components/project/ProjectPageLayout";
 import { useOneProject } from "@/hooks/ProjectHooks";
-import { NextPageWithLayout } from "../../_app";
-import Image from "next/image";
-import { getInitials } from "@/components/UI/UserCard";
 import useMenu from "@/hooks/useMenu";
-import AddLinkPopup from "@/components/project/AddLinkPopup";
-import { useLinks } from "@/hooks/LinkHook";
-import ProjectLinks from "@/components/project/ProjectLinks";
-import ProjectDescription from "@/components/project/ProjectDescription";
+import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useModalStore } from "store/user";
-import LoadingSkeleton from "@/components/UI/LoadingSkeleton";
+import { NextPageWithLayout } from "../../_app";
 
 const ProjectOverviewPage: NextPageWithLayout = () => {
   const { projectId } = useRouter().query;
   const { project, status } = useOneProject(projectId as string);
   const { isMenuOpen, btnRef, menuRef, setIsMenuOpen } = useMenu();
   const {
-    isMenuOpen: isMembersMenuOpen,
     btnRef: memberBtnRef,
-    menuRef: memberMenuRef,
-    setIsMenuOpen: setMemberMenuOpen,
+    // isMenuOpen: isMembersMenuOpen,
+    // menuRef: memberMenuRef,
+    // setIsMenuOpen: setMemberMenuOpen,
   } = useMenu();
   const isInviteMemberModalOpen = useModalStore(
     (state) => state.isInviteMemberModalOpen

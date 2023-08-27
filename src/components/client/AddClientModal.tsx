@@ -1,16 +1,13 @@
-import Modal from "../UI/Modal";
-import Button from "../UI/Button";
-import { useEffect, useState } from "react";
 import validateEmail from "@/utils/validateEmail";
 import validatePhone from "@/utils/validatePhone";
-import { createClient } from "@/utils/clientFunctions";
-import { useCreateClient } from "@/hooks/ClientHooks";
-import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import Modal from "../UI/Modal";
 
 const AddClientModal: React.FC<{
   isOpen: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setIsModalOpen: (isOpen: boolean) => void;
-}> = ({ isOpen, setIsModalOpen }) => {
+}> = ({ setIsModalOpen }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -20,10 +17,10 @@ const AddClientModal: React.FC<{
   const [isEmailError, setIsEmailError] = useState(false);
   const [isPhoneError, setPhoneError] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
-  const router = useRouter();
-  const { mutateAsync: createClient } = useCreateClient();
+  // const router = useRouter();
+  // const { mutateAsync: createClient } = useCreateClient();
 
-  const phoneBlurHandler = (e: any) => {
+  const phoneBlurHandler = () => {
     if (phone.trim().length === 0) {
       return;
     }
@@ -34,7 +31,7 @@ const AddClientModal: React.FC<{
     }
   };
 
-  const emailBlurHandler = (e: any) => {
+  const emailBlurHandler = () => {
     if (validateEmail(email)) {
       setIsEmailError(false);
     } else {
@@ -44,13 +41,13 @@ const AddClientModal: React.FC<{
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
-    const client = await createClient({
-      name,
-      companyName,
-      businessAddress,
-      email,
-      phone,
-    });
+    // const client = await createClient({
+    //   name,
+    //   companyName,
+    //   businessAddress,
+    //   email,
+    //   phone,
+    // });
 
     setIsModalOpen(false);
     // router.push(`/projects/${client}/overview`);

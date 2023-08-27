@@ -1,15 +1,14 @@
-import ProjectPageLayout from "@/components/project/ProjectPageLayout";
-import { NextPageWithLayout } from "../../_app";
-import { useSectionsOfProject, useSectionsOfUser } from "@/hooks/SectionHooks";
-import Boards from "@/components/sections/Boards";
-import { useRouter } from "next/router";
-import useSortedSections from "@/hooks/useSortedSections";
-import LoadingSkeleton from "@/components/UI/LoadingSkeleton";
 import LoadingBoardViewPage from "@/components/loading/LoadingBoardViewPage";
+import ProjectPageLayout from "@/components/project/ProjectPageLayout";
+import Boards from "@/components/sections/Boards";
+import { useSectionsOfProject } from "@/hooks/SectionHooks";
+import useSortedSections from "@/hooks/useSortedSections";
+import { useRouter } from "next/router";
+import { NextPageWithLayout } from "../../_app";
 
 const BoardPage: NextPageWithLayout = () => {
   const router = useRouter();
-  const currentPath = router.pathname.split("/")[3];
+  // const currentPath = router.pathname.split("/")[3];
   const { projectId } = router.query;
   const { projectSections, status } = useSectionsOfProject(projectId as string);
   const { sortedSections, setSortedSections } = useSortedSections(
