@@ -54,5 +54,3 @@ npm run dev
 ![no-clients](https://github.com/jacobrdz77/selfwork/assets/70309225/ed1b58d9-c735-4111-98c2-e5062d89669d)
 ### New Project Form
 ![project-new](https://github.com/jacobrdz77/selfwork/assets/70309225/d2b19bcc-7b2b-40f1-b18b-5ed20b998fcc)
-### Design Photos
-![selfwork-figma-designs](https://github.com/jacobrdz77/selfwork/assets/70309225/0569895b-52fa-434a-a2dc-4ae690573ad6)
