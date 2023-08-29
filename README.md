@@ -41,10 +41,6 @@ npm run dev
 ## Creating project
 <img id="creating-project" src="https://github.com/jacobrdz77/selfwork/assets/70309225/05bd4b80-57ad-4553-9b3b-8990432c7c5f" />
 
-## Creating task
-<img id="creating-task" src="https://github.com/jacobrdz77/selfwork/assets/70309225/3dad93cc-1e7b-451c-9b0b-3d0861543a44" />
-
-
 # Photos
 ### Board view of tasks
 ![board-tasks](https://github.com/jacobrdz77/selfwork/assets/70309225/8d2ed5ac-37ca-4aad-b6a6-86856fa38c3a)
@@ -58,5 +54,3 @@ npm run dev
 ![no-clients](https://github.com/jacobrdz77/selfwork/assets/70309225/ed1b58d9-c735-4111-98c2-e5062d89669d)
 ### New Project Form
 ![project-new](https://github.com/jacobrdz77/selfwork/assets/70309225/d2b19bcc-7b2b-40f1-b18b-5ed20b998fcc)
-### Design Photos
-![selfwork-figma-designs](https://github.com/jacobrdz77/selfwork/assets/70309225/0569895b-52fa-434a-a2dc-4ae690573ad6)
