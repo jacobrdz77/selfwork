@@ -309,7 +309,7 @@
 .icon {
   width: 18px;
   height: 18px;
-  fill: var(--color-gray);
+  fill: var(--color-gray-500);
   display: inline-block;
 }
 
@@ -320,6 +320,42 @@
   }
   &__button {
     margin-top: 10px;
+  }
+}
+
+.avatar-card {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 8px;
+  border-radius: 8px;
+  &:hover {
+    background-color: var(--color-gray--hover);
+  }
+
+  &__image {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    margin-right: 6px;
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    padding: 10px;
+    margin-right: 6px;
+    background-color: var(--color-primary--light);
+    color: #fff;
+  }
+
+  &__name {
+    font-size: 14px;
+    @include showEllipsis;
   }
 }
 

@@ -1,8 +1,9 @@
 import React from "react";
-import { getFirstLetter } from "../UI/UserCard";
+
 import { useOneWorkspace } from "@/hooks/WorkspaceHooks";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { getFirstLetter } from "@/utils/user";
 
 const WorkspaceLink = () => {
   const { workspace, status } = useOneWorkspace();

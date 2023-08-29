@@ -1,8 +1,9 @@
 import useMenu from "@/hooks/useMenu";
 import React from "react";
-import { getFirstLetter, getInitials } from "../UI/UserCard";
+
 import { useOneWorkspace, useWorkspaces } from "@/hooks/WorkspaceHooks";
 import Link from "next/link";
+import { getFirstLetter, getInitials } from "@/utils/user";
 
 const WorkspaceList = ({ isNavMinimized }: { isNavMinimized: boolean }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();

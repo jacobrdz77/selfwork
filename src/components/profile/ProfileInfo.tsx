@@ -1,6 +1,6 @@
 import React from "react";
-import { getInitials } from "../UI/UserCard";
 import { useSession } from "next-auth/react";
+import { getInitials } from "@/utils/user";
 
 const ProfileInfo = ({
   email,

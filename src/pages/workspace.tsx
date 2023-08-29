@@ -4,9 +4,10 @@ import { useProjects } from "@/hooks/ProjectHooks";
 import Projects from "@/components/project/Projects";
 import { useOneWorkspace, useUpdateWorkspace } from "@/hooks/WorkspaceHooks";
 import LoadingSkeleton from "@/components/UI/LoadingSkeleton";
-import UserCard from "@/components/UI/UserCard";
+import UserCard from "@/components/user/UserSessionCard";
 import { useModalStore } from "store/user";
 import useMenu from "@/hooks/useMenu";
+import AvatarCard from "@/components/user/AvatarCard";
 
 const WorkspacePage = () => {
   const { workspace, status } = useOneWorkspace();
@@ -92,7 +93,7 @@ const WorkspacePage = () => {
                 </>
               )}
               {workspace?.members.map((member) => (
-                <UserCard key={member.id} name={member.name!} id={member.id} />
+                <AvatarCard key={member.id} user={member} />
               ))}
             </div>
           </div>

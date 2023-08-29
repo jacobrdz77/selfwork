@@ -136,3 +136,7 @@ export type UpdateClientData = {
   totalMonthly?: runtime.Decimal;
   totalLumpSum?: runtime.Decimal;
 };
+
+export type Partial<T> = {
+  [P in keyof T]?: T[P];
+};

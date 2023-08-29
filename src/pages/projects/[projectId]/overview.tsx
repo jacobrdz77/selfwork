@@ -4,7 +4,7 @@ import ProjectPageLayout from "@/components/project/ProjectPageLayout";
 import { useOneProject } from "@/hooks/ProjectHooks";
 import { NextPageWithLayout } from "../../_app";
 import Image from "next/image";
-import { getInitials } from "@/components/UI/UserCard";
+import { getInitials } from "@/components/user/UserSessionCard";
 import useMenu from "@/hooks/useMenu";
 import AddLinkPopup from "@/components/project/AddLinkPopup";
 import { useLinks } from "@/hooks/LinkHook";

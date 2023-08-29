@@ -1,12 +1,12 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 import useMenu from "@/hooks/useMenu";
-import { getInitials } from "../UI/UserCard";
 import { useUserInfo } from "@/hooks/MemberHooks";
 import { useUserStore } from "store/user";
 import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
 import LoadingSkeleton from "../UI/LoadingSkeleton";
+import { getInitials } from "@/utils/user";
 
 const UserSidebarCard = () => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();

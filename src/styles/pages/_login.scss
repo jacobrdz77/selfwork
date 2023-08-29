@@ -219,7 +219,6 @@
     }
     .sub-title {
       text-align: center;
-      color: #fff;
       color: #8c8c94;
     }
 
@@ -308,6 +307,21 @@
       }
     }
   }
+
+  .design-credit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8c8c94;
+    background-color: #141415;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 18px;
+
+    .my-name {
+      text-decoration: underline;
+    }
+  }
 }
 
 // Desktop
@@ -323,6 +337,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
   }
 
   .app-example {

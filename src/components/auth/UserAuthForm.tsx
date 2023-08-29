@@ -84,6 +84,19 @@ const UserAuthForm = () => {
             </button>
           </div>
         </div>
+
+        <div className="design-credit">
+          <div className="text">
+            <span>Coded by </span>
+            <a
+              className="my-name"
+              href="https://github.com/jacobrdz77"
+              target="_blank"
+            >
+              Jacob Rodriguez
+            </a>
+          </div>
+        </div>
       </div>
     </>
   );

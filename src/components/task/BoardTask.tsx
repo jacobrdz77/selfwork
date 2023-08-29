@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import useMenu from "@/hooks/useMenu";
 import { TaskWithAssignee } from "@/types/types";
-import { getInitials } from "../UI/UserCard";
+import { getInitials } from "@/utils/user";
 import { useDeleteTask, useOneTask, useUpdateTask } from "@/hooks/TaskHooks";
 import { taskPriorityClassName } from "./OneTaskRow";
 import { format } from "date-fns";
@@ -420,7 +420,7 @@ export const AssigneeButton = ({ task }: { task: TaskWithAssignee }) => {
                   task={task}
                 />
               </label>
-              <span>or</span>
+              {/* <span>or</span>
 
               <div
                 className="button"
@@ -437,7 +437,7 @@ export const AssigneeButton = ({ task }: { task: TaskWithAssignee }) => {
                 }}
               >
                 Assign to me
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -518,7 +518,7 @@ export const AssigneeFilledButton = ({ task }: { task: TaskWithAssignee }) => {
                   task={task}
                 />
               </label>
-              <span>or</span>
+              {/* <span>or</span>
 
               <div
                 className="button"
@@ -533,9 +533,9 @@ export const AssigneeFilledButton = ({ task }: { task: TaskWithAssignee }) => {
                     },
                   });
                 }}
-              >
+              > 
                 Assign to me
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -658,6 +658,7 @@ export const AssigneeMenu = ({
           />
         )}
       </div>
+      {/* The menu that displays the members from the project. */}
       {isMenuOpen && (
         <div
           className="menu"
