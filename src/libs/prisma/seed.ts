@@ -1,5 +1,5 @@
-import { projectIconColors } from "../src/utils/constants";
-import getRandomInt from "../src/utils/getRandomInt";
+import { projectIconColors } from "../../utils/constants";
+import getRandomInt from "../../utils/getRandomInt";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 

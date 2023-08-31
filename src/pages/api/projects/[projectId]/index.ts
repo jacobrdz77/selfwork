@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../../../prisma/client";
+import prisma from "../../../../libs/prisma/client";
 import { transformColor } from "@/utils/TransformColor";
 
 export default async function handler(
@@ -25,7 +25,6 @@ export default async function handler(
           },
           members: true,
           notes: true,
-          urlLinks: true,
         },
       });
 

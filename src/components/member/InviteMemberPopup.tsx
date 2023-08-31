@@ -32,31 +32,34 @@ const InviteMemberPopup = ({
     if (newMemberEmail.length > 0) {
       setIsDisabled(false);
     }
+    if (!validateEmail(newMemberEmail)) {
+      setIsDisabled(true);
+    }
   }, [newMemberEmail]);
 
-  // const submitHandler = async (e: any) => {
-  //   e.preventDefault();
-  //   try {
-  //     if (validateEmail(newMemberEmail)) {
-  //       setEmailError(false);
-  //       await inviteMember({
-  //         projectName,
-  //         projectId,
-  //         newMemberEmail,
-  //         message,
-  //         senderEmail: data?.user?.email ? data.user.email : "",
-  //       });
-  //       toast.success(`Invited new member: ${newMemberEmail}`);
-  //       setIsOpen(false);
-  //     } else {
-  //       setEmailError(true);
-  //       return;
-  //     }
-  //   } catch (error) {
-  //     console.log("ErRROR");
-  //     setEmailError(true);
-  //   }
-  // };
+  const submitHandler = async (e: any) => {
+    e.preventDefault();
+    try {
+      if (validateEmail(newMemberEmail)) {
+        setEmailError(false);
+        // await inviteMember({
+        //   projectName,
+        //   projectId,
+        //   newMemberEmail,
+        //   message,
+        //   senderEmail: data?.user?.email ? data.user.email : "",
+        // });
+        toast.success(`Invited new member: ${newMemberEmail}`);
+        setIsOpen(false);
+      } else {
+        setEmailError(true);
+        return;
+      }
+    } catch (error) {
+      console.log("ErRROR");
+      setEmailError(true);
+    }
+  };
 
   return (
     <Modal
@@ -69,10 +72,7 @@ const InviteMemberPopup = ({
     >
       <div className="project-members__invite">
         <h1 className="project-members__invite__title">Invite a Member</h1>
-        <form
-          // onSubmit={submitHandler}
-          className="project-resources__add-form"
-        >
+        <form onSubmit={submitHandler} className="project-resources__add-form">
           <label className="label" htmlFor="email">
             Invite with email
             <input

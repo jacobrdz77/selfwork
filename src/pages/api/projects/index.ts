@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../../prisma/client";
+import prisma from "../../../libs/prisma/client";
 import { transformProjectData } from "@/utils/projectFunctions";
 import getRandomInt from "@/utils/getRandomInt";
 import { projectIconColors } from "@/utils/constants";

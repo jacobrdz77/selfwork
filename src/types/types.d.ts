@@ -14,7 +14,7 @@ import type {
   User,
   Workspace,
 } from "@prisma/client";
-import client from "../../prisma/client";
+import client from "../libs/prisma/client";
 
 declare module "next-auth" {
   interface Session {
