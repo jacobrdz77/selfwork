@@ -1,12 +1,9 @@
 import Link from "next/link";
-import useMenu from "@/hooks/useMenu";
-import { Project, User } from "@prisma/client";
+import { User } from "@prisma/client";
 import { useDeleteProject } from "@/hooks/ProjectHooks";
-import { useModalStore } from "store/user";
 import { getInitials } from "@/utils/user";
 
 const AvatarCard = ({ user }: { user: Partial<User> }) => {
-  const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const { mutate } = useDeleteProject();
 
   return (

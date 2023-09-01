@@ -2,7 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 import useMenu from "@/hooks/useMenu";
 import { useUserInfo } from "@/hooks/MemberHooks";
-import { useUserStore } from "store/user";
+
 import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
 import LoadingSkeleton from "../UI/LoadingSkeleton";
