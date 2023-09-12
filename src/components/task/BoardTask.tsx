@@ -15,18 +15,12 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useUserInfo } from "@/hooks/MemberHooks";
 
-export const formatDueDate = (taskDueDate: Date) => {
-  return format(new Date(taskDueDate), "MMM dd");
-};
-
 const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const { mutate: deleteTask } = useDeleteTask(task.sectionId);
   const [isTaskDetailOpen, setIsTaskDetailOpen] = useState(false);
   const [dueDate, setDueDate] = useState(
-    task?.dueDate
-      ? new Date(task?.dueDate).toLocaleDateString()
-      : new Date().toLocaleDateString()
+    task?.dueDate ? new Date(task?.dueDate) : new Date()
   );
 
   // Makes it Draggable
@@ -149,7 +143,7 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
             ) : (
               <DateFilledButton
                 task={task!}
-                date={dueDate}
+                date={task.dueDate}
                 setDate={setDueDate}
               />
             )}
@@ -285,7 +279,7 @@ const DateFilledButton = ({
           className="menu-button"
         >
           <div className="board-task__date">
-            <span>{formatDueDate(date)}</span>
+            <span>{format(new Date(date), "MMM dd")}</span>
           </div>
         </button>
 

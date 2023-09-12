@@ -9,7 +9,7 @@ import { useUpdateProject } from "@/hooks/ProjectHooks";
 import { useRouter } from "next/router";
 import useMenu from "@/hooks/useMenu";
 import ReactDatePicker from "react-datepicker";
-import { formatDueDate } from "../task/BoardTask";
+import { format } from "date-fns";
 
 const EditProjectModal: React.FC<{
   isOpen: boolean;
@@ -30,10 +30,9 @@ const EditProjectModal: React.FC<{
     projectData.lumpSum ? projectData.lumpSum + "" : ""
   );
   const [dueDate, setDueDate] = useState(
-    projectData.dueDate
-      ? new Date(projectData.dueDate).toLocaleDateString()
-      : ""
+    projectData.dueDate ? new Date(projectData.dueDate) : new Date()
   );
+
   const [startDate, setStartDate] = useState(
     projectData.startDate + "" ? projectData.startDate + "" : ""
   );
@@ -158,7 +157,7 @@ const EditProjectModal: React.FC<{
                       <path d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
                     </svg>
                   </div>
-                  <span>{formatDueDate(new Date(dueDate))}</span>
+                  <span>{format(dueDate, "MMM dd")}</span>
                 </div>
               )}
             </button>
