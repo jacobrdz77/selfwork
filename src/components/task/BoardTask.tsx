@@ -6,7 +6,7 @@ import { useDeleteTask, useOneTask, useUpdateTask } from "@/hooks/TaskHooks";
 import { taskPriorityClassName } from "./OneTaskRow";
 import { format } from "date-fns";
 import EditTaskModal from "./EditTaskModal";
-import { useUserStore } from "store/user";
+import { useModalStore, useUserStore } from "store/user";
 import ReactDatePicker from "react-datepicker";
 import { Client, User } from "@prisma/client";
 import { useWorkspaceMembers } from "@/hooks/WorkspaceHooks";
@@ -18,14 +18,21 @@ import { useUserInfo } from "@/hooks/MemberHooks";
 const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const { mutate: deleteTask } = useDeleteTask(task.sectionId);
-  const [isTaskDetailOpen, setIsTaskDetailOpen] = useState(false);
+
   const [dueDate, setDueDate] = useState(
     task?.dueDate ? new Date(task?.dueDate) : new Date()
   );
 
+  const isEditTaskModalOpen = useModalStore(
+    (state) => state.isEditTaskModalOpen
+  );
+  const setIsEditTaskModalOpen = useModalStore(
+    (state) => state.setIsEditTaskModalOpen
+  );
+
   // Makes it Draggable
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: task.id });
+    useSortable({ id: task.id, disabled: isMenuOpen || isMenuOpen });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -34,18 +41,18 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
 
   return (
     <>
-      {isTaskDetailOpen && (
+      {isEditTaskModalOpen && (
         <EditTaskModal
           task={task}
-          isOpen={isTaskDetailOpen}
-          setIsOpen={setIsTaskDetailOpen}
+          isOpen={isEditTaskModalOpen}
+          setIsOpen={setIsEditTaskModalOpen}
         />
       )}
       <div
         className="board-task"
         key={task.id}
         onClick={() => {
-          setIsTaskDetailOpen(true);
+          setIsEditTaskModalOpen(true);
         }}
         ref={setNodeRef}
         style={style}
@@ -98,7 +105,7 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
                 <div
                   className="board-task__edit-menu-item"
                   onClick={() => {
-                    setIsTaskDetailOpen(true);
+                    setIsEditTaskModalOpen(true);
                     setIsMenuOpen(false);
                   }}
                 >

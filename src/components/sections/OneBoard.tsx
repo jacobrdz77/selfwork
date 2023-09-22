@@ -14,6 +14,7 @@ import { CSS } from "@dnd-kit/utilities";
 import useDndContextForSorting from "@/hooks/useDndContextForSorting";
 import useSortedTasks from "@/hooks/useSortedTasks";
 import { DndContext } from "@dnd-kit/core";
+import { useModalStore } from "store/user";
 
 interface Board {
   section: SectionWithTasks;
@@ -27,8 +28,9 @@ const OneBoard: React.FC<Board> = ({
   title,
   isUserAssignedSection = false,
 }) => {
-  const { tasks } = useTasksSection(section.id);
-  const { sortedtasks, setSortedtasks } = useSortedTasks(tasks ? tasks : []);
+  console.log("SEECCL: ", section.tasks);
+  // const { tasks } = useTasksSection(section.id);
+  const { sortedtasks, setSortedtasks } = useSortedTasks(section.tasks);
 
   const [newTaskName, setNewTaskName] = useState("");
   const [oldName, setOldName] = useState(title);
@@ -54,14 +56,17 @@ const OneBoard: React.FC<Board> = ({
         description: "",
         assignee: null,
         priority: null,
-        order: tasks?.length!,
+        order: section.tasks?.length!,
       });
     }
   });
 
+  const isEditTaskModalOpen = useModalStore(
+    (state) => state.isEditTaskModalOpen
+  );
   // Makes it Draggable
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: section.id });
+    useSortable({ id: section.id, disabled: isEditTaskModalOpen });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -227,7 +232,7 @@ const OneBoard: React.FC<Board> = ({
                   description: "",
                   assignee: null,
                   priority: null,
-                  order: tasks?.length!,
+                  order: section.tasks?.length!,
                 });
               }
               setNewTaskOpen((state) => !state);
