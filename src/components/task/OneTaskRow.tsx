@@ -1,9 +1,9 @@
-import React, { FocusEvent, use, useEffect, useRef, useState } from "react";
+import React, { FocusEvent, useEffect, useRef, useState } from "react";
 import { Priority } from "@prisma/client";
 import { format } from "date-fns";
 import { TaskWithAssignee } from "@/types/types";
 import { useTableWidthStore } from "store/table-width";
-import { useOneTask, useUpdateTask } from "@/hooks/TaskHooks";
+import { useUpdateTask } from "@/hooks/TaskHooks";
 import EditTaskModal from "./EditTaskModal";
 import useMenu from "@/hooks/useMenu";
 import { useSortable } from "@dnd-kit/sortable";

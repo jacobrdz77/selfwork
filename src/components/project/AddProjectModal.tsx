@@ -5,7 +5,6 @@ import { Client, Priority, User } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useClients } from "@/hooks/ClientHooks";
 import useMenu from "@/hooks/useMenu";
-import usePlaceHolder from "@/hooks/usePlaceHolder";
 
 const AddProjectModal: React.FC<{
   isOpen: boolean;

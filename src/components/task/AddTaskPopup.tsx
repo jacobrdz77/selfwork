@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Priority, Section, User } from "@prisma/client";
 import useMenu from "@/hooks/useMenu";
-import { useUserStore } from "store/user";
 import AssigneeMenu from "./AssigneeMenu";
 import NewTaskProjectMenu from "./NewTaskProjectMenu";
 import NewTaskSectionButton from "./NewTaskSectionButton";

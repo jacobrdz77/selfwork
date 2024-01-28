@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../../libs/prisma/client";
+import prisma from "../../../../../prisma/client";
 import { transformColor } from "@/utils/TransformColor";
 
 export default async function handler(
@@ -24,7 +24,6 @@ export default async function handler(
             },
           },
           members: true,
-          notes: true,
         },
       });
 
@@ -50,7 +49,7 @@ export default async function handler(
           id: projectId as string,
         },
       });
-      return res.status(200).json({ project, message: "DELETED project" });
+      return res.status(204);
     } catch (error: Error | any) {
       return res.status(400).json(error);
     }
@@ -66,7 +65,7 @@ export default async function handler(
       // console.log("PROJECT : ", projectData);
       // console.log("color: ", transformColor(projectData.iconColor));
 
-      const project = await prisma.project.update({
+      await prisma.project.update({
         where: {
           id: projectId as string,
         },
@@ -76,7 +75,7 @@ export default async function handler(
         },
       });
 
-      return res.status(200).json(project);
+      return res.status(204);
     } catch (error: Error | any) {
       console.log(error);
       return res.status(400).json({ error: error.message });

@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../../libs/prisma/client";
+import prisma from "../../../../../prisma/client";
 
 //Endpoint: /api/workspaces/:workspaceId
 export default async function handler(
@@ -47,12 +47,6 @@ export default async function handler(
         });
 
         return res.status(200).json(workspace);
-      }
-
-      if (!workspace) {
-        return res
-          .status(404)
-          .json({ error: `Workspace ${workspaceId} not found.` });
       }
 
       return res.status(200).json(workspace);

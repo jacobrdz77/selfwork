@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Task, Section } from "@prisma/client";
-import prisma from "../../../libs/prisma/client";
+import prisma from "../../../../prisma/client";
 
+//! BAD BAD BAAAAAD
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -100,13 +101,13 @@ export default async function handler(
     }
   }
 
-  // Todo: Update sectionData
   // Create a new section
   if (req.method === "POST") {
     try {
       // Get the section data from the request body
       const body = JSON.parse(req.body);
-      const { sectionData } = body;
+      console.log(body);
+      const sectionData = body;
       const { projectId, userId } = req.query;
       // console.log("Making User Section");
 

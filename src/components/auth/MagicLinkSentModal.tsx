@@ -1,6 +1,5 @@
 import React from "react";
 import Modal from "../UI/Modal";
-import { useRouter } from "next/router";
 
 const MagicLinkSentModal: React.FC<{
   email: string;

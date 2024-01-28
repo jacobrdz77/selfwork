@@ -6,11 +6,7 @@ import {
 } from "../utils/taskFunctions";
 import { useUserStore } from "../store/user";
 import { Priority, Section, Task, TaskStatus, User } from "@prisma/client";
-import {
-  ProjectSections,
-  SectionWithTasks,
-  TaskWithAssignee,
-} from "@/types/types";
+import { SectionWithTasks, TaskWithAssignee } from "@/types/types";
 
 export type TaskData = {
   name?: string;
@@ -85,23 +81,27 @@ export const useCreateTask = () => {
   return useMutation({
     mutationFn: async (taskData: {
       name: string;
+      sectionId: string;
       description: string;
       assignee: User | null;
       priority: Priority | null;
       order: number;
-      sectionId?: string;
     }) => {
       try {
-        const response = await fetch("/api/tasks", {
+        // For new backend
+        // const response = await fetch(
+        //   `/api/sections/${taskData.sectionId}/tasks`,
+        //   {
+        //     method: "POST",
+        //     body: JSON.stringify(taskData),
+        //   }
+        // );
+        const response = await fetch(`/api/tasks`, {
           method: "POST",
-          body: JSON.stringify({
-            task: { ...taskData },
-          }),
+          body: JSON.stringify(taskData),
         });
         if (!response.ok) {
-          throw new Error(
-            "Error happend!: " + response.status.toLocaleString()
-          );
+          throw new Error("Error happend! " + response.status.toLocaleString());
         }
         return (await response.json()) as Task;
       } catch (error) {
@@ -115,11 +115,16 @@ export const useCreateTask = () => {
       // console.log("New Task: ", newTask);
 
       // Snapshot the previous value
-      const previousTasks = await queryClient.getQueryData([
+      console.log("Creating Task: ", newTask);
+      let previousTasks = (await queryClient.getQueryData([
         "tasks",
         newTask.sectionId,
-      ]);
-      // console.log("Previous Tasks: ", previousTasks);
+      ])) as [];
+
+      if (!previousTasks) {
+        previousTasks = [];
+      }
+      console.log("Previous Tasks: ", previousTasks);
 
       // Optimistically update
       const newTasks = queryClient.setQueryData(
@@ -152,11 +157,7 @@ export const useUpdateTask = (sectionId: string) => {
       try {
         const response = await fetch(`/api/tasks/${taskId}`, {
           method: "PUT",
-          body: JSON.stringify({
-            taskData: {
-              ...taskData,
-            },
-          }),
+          body: JSON.stringify(taskData),
         });
         if (!response.ok) {
           throw new Error(

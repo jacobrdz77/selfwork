@@ -1,10 +1,10 @@
 import useMenu from "@/hooks/useMenu";
-import { Link as LinkType } from "@prisma/client";
 import Link from "next/link";
 import React from "react";
 import ProjectLink from "./ProjectLink";
+import { InviteLink } from "@prisma/client";
 
-const ProjectLinks = ({ links }: { links: LinkType[] }) => {
+const ProjectLinks = ({ links }: { links: InviteLink[] }) => {
   return (
     <div className="links">
       {links?.map((link) => (

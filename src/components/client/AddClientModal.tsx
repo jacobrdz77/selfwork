@@ -1,9 +1,7 @@
 import Modal from "../UI/Modal";
-import Button from "../UI/Button";
 import { useEffect, useState } from "react";
 import validateEmail from "@/utils/validateEmail";
 import validatePhone from "@/utils/validatePhone";
-import { createClient } from "@/utils/clientFunctions";
 import { useCreateClient } from "@/hooks/ClientHooks";
 import { useRouter } from "next/router";
 

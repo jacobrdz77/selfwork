@@ -1,6 +1,6 @@
 import { Task } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../libs/prisma/client";
+import prisma from "../../../../prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
@@ -35,8 +35,7 @@ export default async function handler(
   if (req.method === "POST") {
     try {
       const body = JSON.parse(req.body);
-      // console.log(body);
-      const { task } = body;
+      const task = body;
       if (!task) {
         return res.status(400).json({ error: "Provide project data." });
       }
@@ -52,6 +51,7 @@ export default async function handler(
 
       console.log("ORDER: ", task.order);
 
+      // Checks if it has userAssignedTasksSectionId
       if (!task.hasOwnProperty("sectionId")) {
         const newTask = await prisma.task.create({
           data: {

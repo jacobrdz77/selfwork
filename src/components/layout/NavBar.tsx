@@ -5,10 +5,7 @@ import { useModalStore } from "../../store/user";
 import SidebarProject from "../project/SidebarProject";
 import UserSidebarCard from "../user/UserSidebarCard";
 import useMenu from "@/hooks/useMenu";
-import {
-  useOneWorkspace,
-  useWorkspaceWithProjects,
-} from "@/hooks/WorkspaceHooks";
+import { useOneWorkspace } from "@/hooks/WorkspaceHooks";
 import LoadingSkeleton from "../UI/LoadingSkeleton";
 import { useProjects } from "@/hooks/ProjectHooks";
 import WorkspaceList from "../workspace/WorkspaceList";
@@ -183,7 +180,8 @@ const NavBar = () => {
                   className={`sidebar__link ${
                     isNavMinimized ? "sidebar__link--minimized" : ""
                   } ${
-                    router.pathname === "/my-tasks/list"
+                    router.pathname === "/my-tasks/list" ||
+                    router.pathname === "/my-tasks/board"
                       ? "sidebar__link--active"
                       : ""
                   }`}

@@ -1,4 +1,4 @@
-import { Priority, Section, Tag, Task, TaskStatus, User } from "@prisma/client";
+import { Priority, Section, Tag, TaskStatus, User } from "@prisma/client";
 import React, {
   useState,
   useRef,
@@ -11,7 +11,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
 import useMenu from "@/hooks/useMenu";
-import { useDeleteTask, useOneTask, useUpdateTask } from "@/hooks/TaskHooks";
+import { useDeleteTask, useUpdateTask } from "@/hooks/TaskHooks";
 import { taskPriorityClassName } from "./OneTaskRow";
 import { TaskWithAssignee } from "@/types/types";
 
@@ -81,7 +81,7 @@ const EditTaskDetails = ({
         priority,
         status: taskStatus,
         assigneeId: assignee ? assignee.id : "remove",
-        assigneeName: assignee ? assignee.name : "",
+        // assigneeName: assignee ? assignee.name : "",
         sectionId: task.sectionId,
       },
     });

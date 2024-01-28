@@ -1,22 +1,23 @@
 import { useUserStore } from "../store/user";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  NewClientData,
-  NewProjectFormData,
-  ProjectsWithSections,
-  UpdateClientData,
-  UpdateProjectData,
-} from "../types/types";
-import {
-  createProject,
-  getOneProject,
-  getProjects,
-  updateProject,
-} from "../utils/projectFunctions";
+import { NewClientData, UpdateClientData } from "../types/types";
 import { Client } from "@prisma/client";
 import { getClients } from "@/utils/clientFunctions";
 import { toast } from "react-hot-toast";
-import { useUserInfo } from "./MemberHooks";
+import { useSession } from "next-auth/react";
+
+async function getOneClient(clientId: string) {
+  try {
+    const response = await fetch(`/api/clients/${clientId}`);
+
+    if (!response.ok) {
+      throw Error("Error happend!: " + response.status.toLocaleString());
+    }
+    return (await response.json()) as Client;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 export const useClients = (onSuccess?: () => void) => {
   const userId = useUserStore((state) => state.userId);
@@ -31,19 +32,6 @@ export const useClients = (onSuccess?: () => void) => {
   });
   return { clients, isLoading, status };
 };
-
-async function getOneClient(clientId: string) {
-  try {
-    const response = await fetch(`/api/clients/${clientId}`);
-
-    if (!response.ok) {
-      throw Error("Error happend!: " + response.status.toLocaleString());
-    }
-    return (await response.json()) as Client;
-  } catch (error) {
-    console.log(error);
-  }
-}
 
 export const useOneClient = (clientId: string) => {
   const { data: client, status } = useQuery({
@@ -61,16 +49,17 @@ export const useCreateClient = () => {
   const queryClient = useQueryClient();
   const userId = useUserStore((state) => state.userId);
 
+  // Todo: Uncomment when auth is created
+  // const userId = useSession().data?.user?.id;
+
   return useMutation({
     mutationFn: async (clientData: NewClientData) => {
       try {
         const response = await fetch(`/api/clients`, {
           method: "POST",
           body: JSON.stringify({
-            client: {
-              ...clientData,
-              userId,
-            },
+            ...clientData,
+            userId,
           }),
         });
 
@@ -86,6 +75,8 @@ export const useCreateClient = () => {
       await queryClient.invalidateQueries({
         queryKey: ["clients"],
       });
+
+      console.log(JSON.stringify(data));
 
       toast.success("Created client: " + data?.name);
     },
@@ -131,11 +122,7 @@ export const useUpdateClient = (clientId: string) => {
       try {
         const response = await fetch(`/api/clients/${clientId}`, {
           method: "PUT",
-          body: JSON.stringify({
-            clientData: {
-              ...clientData,
-            },
-          }),
+          body: JSON.stringify(clientData),
         });
 
         if (!response.ok) {

@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../libs/prisma/client";
+import prisma from "../../../../prisma/client";
 import { transformProjectData } from "@/utils/projectFunctions";
 import getRandomInt from "@/utils/getRandomInt";
 import { projectIconColors } from "@/utils/constants";
@@ -19,7 +19,9 @@ export default async function handler(
     try {
       // PARSE
       const body = JSON.parse(req.body);
-      const { project } = body;
+      const project = body;
+      console.log("body:", req.body);
+      console.log("project", project);
       if (!project) {
         return res.status(400).json({ error: "Provide project data." });
       }
@@ -98,7 +100,7 @@ export default async function handler(
         },
       });
 
-      return res.status(200).json(newProject);
+      return res.status(201).json(newProject);
     } catch (error: any) {
       console.log(error);
       return res.status(400).json({ error: error.message });

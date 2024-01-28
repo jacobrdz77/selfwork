@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Color } from "@prisma/client";
 import Link from "next/link";
 import { useColor } from "@/hooks/useColor";

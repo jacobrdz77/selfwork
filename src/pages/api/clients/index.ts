@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../libs/prisma/client";
+import prisma from "../../../../prisma/client";
 import { Client } from "@prisma/client";
 
 export default async function handler(
@@ -27,7 +27,7 @@ export default async function handler(
   //Create a new client
   if (req.method === "POST") {
     try {
-      const { client }: { client: Client } = JSON.parse(req.body);
+      const client = JSON.parse(req.body) as Client;
       console.log("Client: ", client);
       const clientData = {
         name: client.name,

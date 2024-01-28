@@ -1,11 +1,8 @@
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
 import { useOneProject } from "../../hooks/ProjectHooks";
 import ProjectHeader from "../header/ProjectHeader";
-import LoadingSkeleton from "../UI/LoadingSkeleton";
 import EditProjectModal from "./EditProjectModal";
 import { useModalStore } from "store/user";
-import InviteMemberPopup from "../member/InviteMemberPopup";
 import LoadingProjectHeader from "../loading/LoadingProjectHeader";
 // import TaskDetailModal from "../task/TaskDetailModal";
 

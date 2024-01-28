@@ -1,11 +1,11 @@
 import { useDeleteLink } from "@/hooks/LinkHook";
 import useMenu from "@/hooks/useMenu";
-import { Link as LinkType } from "@prisma/client";
+import { InviteLink } from "@prisma/client";
 import Link from "next/link";
 import React from "react";
 import { toast } from "react-hot-toast";
 
-const ProjectLink = ({ link }: { link: LinkType }) => {
+const ProjectLink = ({ link }: { link: InviteLink }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const { mutate: deleteLink } = useDeleteLink();
 
@@ -37,7 +37,7 @@ const ProjectLink = ({ link }: { link: LinkType }) => {
       </svg>
 
       <div className="text">
-        <span className="link__name">{link.name}</span>
+        {/* <span className="link__name">{link.name}</span> */}
         <span className="link__url">{link.url}</span>
       </div>
 

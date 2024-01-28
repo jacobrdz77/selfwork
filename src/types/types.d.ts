@@ -14,7 +14,7 @@ import type {
   User,
   Workspace,
 } from "@prisma/client";
-import client from "../libs/prisma/client";
+import client from "../../prisma/client";
 
 declare module "next-auth" {
   interface Session {
@@ -44,7 +44,7 @@ export type NewProject = {
   priority: Priority;
   workspaceId: string;
   ownerId: string;
-  clientId: string;
+  clientId?: string;
 };
 
 export type UpdateProjectData = {

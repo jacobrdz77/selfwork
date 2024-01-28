@@ -1,10 +1,12 @@
-import { Priority, Project, Task } from "@prisma/client";
+import { Project } from "@prisma/client";
 import axios from "axios";
 import { NewProject, ProjectWithAll, UpdateProjectData } from "../types/types";
 
 // GET ALL
 export const getProjects = async (workspaceId: string) => {
   try {
+    // Todo: Replace when new backend is finished
+    // const response = await fetch(`/api/projects?workspaceId=${workspaceId}`);
     const response = await fetch(`/api/workspaces/${workspaceId}/projects`);
 
     if (!response.ok) {
@@ -37,9 +39,7 @@ export const createProject = async (project: NewProject) => {
   try {
     const response = await fetch("/api/projects", {
       method: "POST",
-      body: JSON.stringify({
-        project: { ...project },
-      }),
+      body: JSON.stringify(project),
     });
 
     if (!response.ok) {

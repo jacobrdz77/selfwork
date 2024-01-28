@@ -4,7 +4,6 @@ import { useProjects } from "@/hooks/ProjectHooks";
 import Projects from "@/components/project/Projects";
 import { useOneWorkspace, useUpdateWorkspace } from "@/hooks/WorkspaceHooks";
 import LoadingSkeleton from "@/components/UI/LoadingSkeleton";
-import UserCard from "@/components/user/UserSessionCard";
 import { useModalStore } from "store/user";
 import useMenu from "@/hooks/useMenu";
 import AvatarCard from "@/components/user/AvatarCard";
@@ -148,7 +147,6 @@ const WorkspaceDescription = ({
     e: FocusEvent<HTMLTextAreaElement, Element>
   ) => {
     let trimmedDescription = e.currentTarget.value.trim();
-    console.log("DESCrIPTION: ", trimmedDescription);
 
     if (oldDescription === trimmedDescription) {
       setDescription(trimmedDescription);
@@ -161,7 +159,6 @@ const WorkspaceDescription = ({
       setDescription(trimmedDescription);
       setOldDescription(trimmedDescription);
     }
-    console.log("BLUR");
   };
   return (
     <textarea

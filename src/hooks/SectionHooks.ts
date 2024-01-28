@@ -38,6 +38,8 @@ export const useSectionsOfUser = () => {
     queryKey: ["sections", userId],
     queryFn: async () => {
       try {
+        // Todo: Uncomment when new backend is complete
+        // const response = await fetch(`/api/users/${userId}/sections`);
         const response = await fetch(`/api/sections?userId=${userId}`);
         if (!response.ok) {
           throw new Error(
@@ -63,17 +65,14 @@ export const useSectionsOfUser = () => {
 
 export const useCreateProjectSection = (projectId: string) => {
   const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: async (sectionData: { name: string; order: number }) => {
       try {
+        // Todo: Uncomment when new backend is complete
+        // const response = await fetch(`/api/projects/${projectId}/sections`);
         const response = await fetch(`/api/sections?projectId=${projectId}`, {
           method: "POST",
-          body: JSON.stringify({
-            sectionData: {
-              ...sectionData,
-            },
-          }),
+          body: JSON.stringify(sectionData),
         });
         if (!response.ok) {
           throw new Error(
@@ -132,11 +131,11 @@ export const useCreateUserSection = () => {
   return useMutation({
     mutationFn: async (sectionData: { name: string; order: number }) => {
       try {
+        // Todo: Uncomment when new backend is complete
+        // const response = await fetch(`/api/users/${userId}/sections`, {
         const response = await fetch(`/api/sections?userId=${userId}`, {
           method: "POST",
-          body: JSON.stringify({
-            sectionData: { ...sectionData },
-          }),
+          body: JSON.stringify(sectionData),
         });
         if (!response.ok) {
           throw new Error(
@@ -256,11 +255,7 @@ export const useUpdateSection = () => {
       try {
         const response = await fetch(`/api/sections/${sectionId}`, {
           method: "PUT",
-          body: JSON.stringify({
-            sectionData: {
-              name: sectionData.name,
-            },
-          }),
+          body: JSON.stringify(sectionData),
         });
         if (!response.ok) {
           throw new Error(
@@ -280,10 +275,23 @@ export const useUpdateSection = () => {
   });
 };
 
+type UpdateSectionBody = {
+  firstSection: {
+    id: string;
+    order: number;
+  };
+  secondSection: {
+    id: string;
+    order: number;
+  };
+};
+
 export const useUpdateSectionOrder = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
+    // Todo: Uncomment when new backend is complete
+    // mutationFn: async (sectionData: UpdateSectionBody) => {
     mutationFn: async ({
       sectionData,
     }: {
@@ -293,7 +301,11 @@ export const useUpdateSectionOrder = () => {
       };
     }) => {
       try {
-        console.log("SECTION DATA: ", sectionData);
+        // Todo: Uncomment when new backend is complete
+        // const response = await fetch("/api/sections/", {
+        //   method: "PUT",
+        //   body: JSON.stringify(sectionData),
+        // });
         const response = await fetch(
           `/api/sections/${sectionData.one.id}?second=${sectionData.two.id}`,
           {

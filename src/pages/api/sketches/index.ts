@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Prisma, Task } from "@prisma/client";
-import prisma from "../../../libs/prisma/client";
+import prisma from "../../../../prisma/client";
 import { z } from "zod";
 
 export default async function handler(

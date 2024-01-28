@@ -1,8 +1,6 @@
-import { Client } from "@prisma/client";
 import React, { useState, useEffect } from "react";
 import LoadingSkeleton from "../UI/LoadingSkeleton";
 import { ClientWithProjects } from "@/types/types";
-import MenuWithButton from "../UI/MenuButton";
 import { useDeleteClient } from "@/hooks/ClientHooks";
 import EditClientModal from "./EditClientModal";
 

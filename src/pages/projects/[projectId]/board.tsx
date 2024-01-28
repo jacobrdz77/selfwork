@@ -4,7 +4,6 @@ import { useSectionsOfProject, useSectionsOfUser } from "@/hooks/SectionHooks";
 import Boards from "@/components/sections/Boards";
 import { useRouter } from "next/router";
 import useSortedSections from "@/hooks/useSortedSections";
-import LoadingSkeleton from "@/components/UI/LoadingSkeleton";
 import LoadingBoardViewPage from "@/components/loading/LoadingBoardViewPage";
 
 const BoardPage: NextPageWithLayout = () => {

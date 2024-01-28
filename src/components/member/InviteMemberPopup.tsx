@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import Modal from "../UI/Modal";
 import validateEmail from "@/utils/validateEmail";
-import { useSession } from "next-auth/react";
 
 interface InviteMemberPopupProps {
   isOpen: boolean;

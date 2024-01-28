@@ -1,5 +1,4 @@
 import { ClientWithProjects } from "@/types/types";
-import { Client } from "@prisma/client";
 import React, { useState, useEffect } from "react";
 
 const getRevenue = (clients: ClientWithProjects[]) => {

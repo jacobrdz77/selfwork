@@ -4,7 +4,7 @@ import useMenu from "@/hooks/useMenu";
 import { useDeleteSection, useUpdateSection } from "@/hooks/SectionHooks";
 import BoardNewTask from "../task/BoardNewTask";
 import BoardTask from "../task/BoardTask";
-import { useCreateTask, useTasksSection } from "@/hooks/TaskHooks";
+import { useCreateTask } from "@/hooks/TaskHooks";
 import {
   SortableContext,
   useSortable,
@@ -28,8 +28,6 @@ const OneBoard: React.FC<Board> = ({
   title,
   isUserAssignedSection = false,
 }) => {
-  console.log("SEECCL: ", section.tasks);
-  // const { tasks } = useTasksSection(section.id);
   const { sortedtasks, setSortedtasks } = useSortedTasks(section.tasks);
 
   const [newTaskName, setNewTaskName] = useState("");

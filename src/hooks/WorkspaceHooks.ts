@@ -57,33 +57,6 @@ export const useWorkspaces = (enabled: boolean = true) => {
   };
 };
 
-export const useWorkspaceWithProjects = () => {
-  const { data: workspace, status } = useQuery({
-    queryKey: ["workspace", workspaceId],
-    queryFn: async () => {
-      try {
-        const response = await fetch(
-          `/api/workspaces/${workspaceId}?with_projects=true`
-        );
-        if (!response.ok) {
-          throw new Error(
-            "Error happend!: " + response.status.toLocaleString()
-          );
-        }
-        return (await response.json()) as WorkspaceWithProjects;
-      } catch (error) {
-        throw error;
-      }
-    },
-  });
-
-  return {
-    workspace,
-    projects: workspace?.projects,
-    status,
-  };
-};
-
 export const useWorkspaceMembers = () => {
   const { data: members, status } = useQuery({
     queryKey: ["members", workspaceId],

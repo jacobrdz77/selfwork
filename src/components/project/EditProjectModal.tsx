@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import Modal from "../UI/Modal";
 import { Priority, Project } from "@prisma/client";
-import { updateProject } from "../../utils/projectFunctions";
 import { useModalStore, useUserStore } from "../../store/user";
 import Button from "../UI/Button";
 import { z } from "zod";

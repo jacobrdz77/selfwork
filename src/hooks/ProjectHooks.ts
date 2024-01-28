@@ -148,6 +148,10 @@ export const useUpdateProject = () => {
       try {
         const response = await fetch(`/api/projects/${projectId}`, {
           method: "PUT",
+
+          // body: JSON.stringify({
+          //   projectData: projectData,
+          // }),
           body: JSON.stringify({
             projectData: projectData,
           }),

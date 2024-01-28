@@ -45,16 +45,16 @@ model VerificationToken {
 
 model User {
   id                         String      @id @default(cuid())
-  name                       String?
+  name                       String
   email                      String?     @unique
   emailVerified              DateTime?
   mobilePhone                String?
   image                      String?
+  lastUsingWorkspaceId       String?
   accounts                   Account[]
   sessions                   Session[]
   clients                    Client[]
   assignedTasks              Task[]
-  lastUsingWorkspaceId       String?
   ownedWorkspaces            Workspace[] @relation("Owner")
   involvedWorkspaces         Workspace[]
   ownedProjects              Project[]   @relation("Owner")
@@ -70,11 +70,11 @@ model Workspace {
   id          String    @id @default(cuid())
   name        String
   description String?
+  inviteLinks InviteLink[]
   projects    Project[]
+  members     User[]
   owner       User      @relation("Owner", fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId     String
-  members     User[]
-  inviteLinks InviteLink[]
 }
 
 enum Priority {
@@ -101,15 +101,6 @@ enum ProjectStatus {
   Approved  
 }
 
-model Note {
-  id        String   @id @default(cuid())
-  title     String
-  content   String
-  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
 
 enum Color {
   Classic
@@ -126,7 +117,7 @@ enum Color {
   Oat
 }
 
-enum Status {
+enum ClientStatus {
   Active
   Pending
   Closed
@@ -135,10 +126,11 @@ enum Status {
 model InviteLink {
   id          String    @id @default(uuid()) 
   expirationDate DateTime 
-  workspace   Workspace?  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-  workspaceId String?
-  project   Project?  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId String?
+  workspace   Workspace  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaceId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String
+  url       String
   @@unique([workspaceId])
 }
 
@@ -152,23 +144,20 @@ model Project {
   status      ProjectStatus @default(Active)
   startDate   DateTime?
   dueDate     DateTime?
+  order       Int?      @default(autoincrement())
   iconColor   Color     @default(Classic)
-  sections    Section[]
-  notes       Note[]
-  sketches    Sketch[]
-  owner       User?     @relation("Owner", fields: [ownerId], references: [id], onDelete: Cascade)
-  ownerId     String?
-  members     User[]    @relation("Members")
+  owner       User     @relation("Owner", fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId     String
   workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   workspaceId String
-  client      Client?   @relation(fields: [clientId, clientName], references: [id, name])
+  client      Client?   @relation(fields: [clientId], references: [id])
   clientId    String?
-  clientName  String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
-  order Int? @default(autoincrement())
-   inviteLinks InviteLink[]
-
+  sections    Section[]
+  sketches    Sketch[]
+  members     User[]    @relation("Members")
+  inviteLinks InviteLink[]
   @@unique([id, name])
 }
 
@@ -179,27 +168,17 @@ model Client {
   phone           String?
   email           String?   @unique
   businessAddress String?
-  contacts        Contact[]
   projects        Project[]
   user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId          String
-  order Int? @default(autoincrement())
-  status          Status    @default(Pending)
+  order           Int?      @default(autoincrement())
+  status          ClientStatus    @default(Pending)
   totalMonthly    Decimal   @db.Money @default(0)
   totalLumpSum    Decimal   @db.Money @default(0)
 
   @@unique([id, name])
 }
 
-model Contact {
-  id          String  @id @default(cuid())
-  name        String
-  email       String
-  phoneNumber String?
-  jobTitle    String?
-  client      Client  @relation(fields: [clientId], references: [id])
-  clientId    String
-}
 
 model Task {
   id          String    @id @default(cuid())

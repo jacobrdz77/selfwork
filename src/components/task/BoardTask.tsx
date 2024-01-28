@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import useMenu from "@/hooks/useMenu";
 import { TaskWithAssignee } from "@/types/types";
 import { getInitials } from "@/utils/user";
-import { useDeleteTask, useOneTask, useUpdateTask } from "@/hooks/TaskHooks";
+import { useDeleteTask, useUpdateTask } from "@/hooks/TaskHooks";
 import { taskPriorityClassName } from "./OneTaskRow";
 import { format } from "date-fns";
 import EditTaskModal from "./EditTaskModal";

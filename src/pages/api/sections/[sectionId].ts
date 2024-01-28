@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../libs/prisma/client";
+import prisma from "../../../../prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
@@ -89,6 +89,7 @@ export default async function handler(
           name: sectionData.name,
         },
       });
+      console.log(JSON.stringify(section));
       return res.status(200).json(section);
     } catch (error: Error | any) {
       console.log(error);
