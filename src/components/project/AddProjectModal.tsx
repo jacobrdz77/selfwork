@@ -409,7 +409,7 @@ export const ClientsMenu = ({
       </button>
       {isMenuOpen && (
         <div
-          className="menu"
+          className="menu menu--active"
           ref={menuRef}
           onClick={(e) => {
             setIsMenuOpen(false);

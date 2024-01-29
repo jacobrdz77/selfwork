@@ -125,12 +125,12 @@ enum ClientStatus {
 
 model InviteLink {
   id          String    @id @default(uuid()) 
-  expirationDate DateTime 
+  token       String
+  email     String
   workspace   Workspace  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   workspaceId String
   project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId String
-  url       String
   @@unique([workspaceId])
 }
 

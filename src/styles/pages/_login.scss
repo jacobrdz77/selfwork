@@ -148,7 +148,7 @@
 // }
 
 // Mobile
-@media only screen and (min-width: 0em) {
+@media only screen and (min-width: 0rem) {
   .login-layout {
     display: flex;
     flex-direction: column;
@@ -211,6 +211,7 @@
     max-width: 372px;
     width: 100%;
     font-size: 16px;
+    margin: 0 auto;
     .title {
       text-align: center;
       color: #fff;
@@ -349,7 +350,6 @@
       img {
         width: 100%;
         border-radius: 24px;
-        height: 600px;
       }
     }
   }

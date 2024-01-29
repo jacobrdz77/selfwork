@@ -370,13 +370,19 @@
       transition: background 0.1s ease-out, background-color 0.1s ease-out;
       // margin-bottom: 8px;
       &:hover {
-        background: var(--color-primary--light);
+        background-color: var(--color-primary--light);
         color: #fff;
       }
 
       &.active {
-        background: var(--color-primary--light);
-        color: #fff;
+        background-color: var(--color-primary--light);
+        color: #fff !important;
+
+        &:hover {
+          background-color: #fefefe;
+          transition: background 0.1s ease-out, background-color 0.1s ease-out;
+          color: #495057 !important;
+        }
       }
     }
 

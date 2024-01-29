@@ -38,15 +38,15 @@ const Boards = ({
       <div className="boards">
         {/* This is only for My Tasks page */}
         {/* {userAssignedSection && (
-        <Board
-          isUserAssignedSection={true}
-          key={userAssignedSection.id}
-          tasks={userAssignedSection.tasks}
-          title={userAssignedSection.name}
-          section={userAssignedSection}
-          moveBoard={moveBoard}
-        />
-      )} */}
+          <OneBoard
+            isUserAssignedSection={true}
+            key={userAssignedSection.id}
+            tasks={userAssignedSection.tasks}
+            title={userAssignedSection.name}
+            section={userAssignedSection}
+            // moveBoard={moveBoard}
+          />
+        )} */}
         <SortableContext items={sections ? sections : []}>
           {sections?.map((section) => (
             <OneBoard

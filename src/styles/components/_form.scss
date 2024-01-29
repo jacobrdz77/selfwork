@@ -82,14 +82,16 @@
 
     .menu {
       min-height: 40px;
-      min-width: 200px;
+      min-width: 225px;
       box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     }
 
     .client-placeholder {
       position: relative;
       display: flex;
-      width: 201px;
+      // width: 201px;
+      width: 100%;
+
       font-size: 14px;
       padding: 6px 14px;
       border-radius: 5px;
@@ -205,21 +207,13 @@
 
     &:hover {
       cursor: pointer;
-      background: linear-gradient(
-        90deg,
-        hsla(267, 26%, 43%, 1) 0%,
-        hsla(268, 21%, 49%, 1) 60%
-      );
+      background-color: var(--color-primary--hover);
       border-color: var(--color-primary--light);
       color: #ffffff;
     }
 
     &--active {
-      background: linear-gradient(
-        90deg,
-        hsla(267, 26%, 43%, 1) 0%,
-        hsla(268, 21%, 49%, 1) 60%
-      );
+      background-color: var(--color-primary);
       border-color: var(--color-primary--light);
       color: #ffffff;
     }

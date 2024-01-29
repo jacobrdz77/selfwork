@@ -14,6 +14,7 @@ import useMenu from "@/hooks/useMenu";
 import { useDeleteTask, useUpdateTask } from "@/hooks/TaskHooks";
 import { taskPriorityClassName } from "./OneTaskRow";
 import { TaskWithAssignee } from "@/types/types";
+import { useRouter } from "next/router";
 
 const EditTaskDetails = ({
   task,
@@ -22,11 +23,13 @@ const EditTaskDetails = ({
   task: TaskWithAssignee;
   setIsModalOpen: (bool: boolean) => void;
 }) => {
+  const router = useRouter();
+  const { projectId } = router.query;
+
   const [description, setDescription] = useState(task?.description);
   // const [tags, setTags] = useState<Tag[] | []>(task?.tags!);
   const [selectedTag, setSelectedTag] = useState<Tag | null>(null);
   const [assignee, setAssignee] = useState<User | null>(task?.assignee!);
-  console.log("Assignee: ", assignee);
   const [selectedSection, setSelectedSection] = useState<Section | null>(null);
   const [dueDate, setDueDate] = useState(
     task?.dueDate ? new Date(task?.dueDate).toLocaleDateString() : null
@@ -45,7 +48,7 @@ const EditTaskDetails = ({
   const [isInputFocused, setIsInputFocused] = useState(false);
   const inputRef = useRef(null);
 
-  const { mutate: updateTask } = useUpdateTask(task.sectionId);
+  const { mutateAsync: updateTask } = useUpdateTask(task.sectionId);
   const { mutateAsync: deleteTask } = useDeleteTask(task?.sectionId!);
 
   const focusOnInput = () => {
@@ -72,7 +75,8 @@ const EditTaskDetails = ({
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    updateTask({
+
+    await updateTask({
       taskId: task?.id!,
       taskData: {
         name: inputName,
@@ -84,11 +88,8 @@ const EditTaskDetails = ({
         // assigneeName: assignee ? assignee.name : "",
         sectionId: task.sectionId,
       },
+      projectId: projectId as string,
     });
-
-    // if (!newTask) {
-    //   console.log("Error: ", newTask);
-    // }
 
     setIsModalOpen(false);
   };
@@ -106,6 +107,10 @@ const EditTaskDetails = ({
       setIsFormValid(false);
     }
   }, [inputName]);
+
+  useEffect(() => {
+    console.log(task);
+  }, []);
 
   return (
     <div className="task-detail">
@@ -372,7 +377,7 @@ const StatusButton = ({
 
       {isMenuOpen && (
         <div
-          className={`menu ${isMenuOpen ? "active" : ""}`}
+          className={`menu ${isMenuOpen ? "menu--active" : ""}`}
           ref={menuRef}
           onClick={(e) => {
             setIsMenuOpen(false);
@@ -499,7 +504,7 @@ const AssigneeButton = ({
 
       {isMenuOpen && (
         <div
-          className={`menu ${isMenuOpen ? "active" : ""}`}
+          className={`menu ${isMenuOpen ? "menu--active" : ""}`}
           ref={menuRef}
           onClick={(e) => {
             setIsMenuOpen(false);
@@ -565,7 +570,10 @@ const DueDateButton = ({
       )}
 
       {isMenuOpen && (
-        <div className={`menu ${isMenuOpen ? "active" : ""}`} ref={menuRef}>
+        <div
+          className={`menu ${isMenuOpen ? "menu--active" : ""}`}
+          ref={menuRef}
+        >
           <DatePicker
             className="data-selected--dueDate"
             // selected={new Date(dueDate)}
@@ -628,7 +636,10 @@ const TagsButton = ({
       ) : null}
 
       {isMenuOpen && (
-        <div className={`menu ${isMenuOpen ? "active" : ""}`} ref={menuRef}>
+        <div
+          className={`menu ${isMenuOpen ? "menu--active" : ""}`}
+          ref={menuRef}
+        >
           {tags &&
             tags?.map((tag) => (
               <div
@@ -692,7 +703,10 @@ const PriorityButton = ({
       )}
 
       {isMenuOpen && (
-        <div className={`menu ${isMenuOpen ? "active" : ""}`} ref={menuRef}>
+        <div
+          className={`menu ${isMenuOpen ? "menu--active" : ""}`}
+          ref={menuRef}
+        >
           <div>
             <div
               className="item"

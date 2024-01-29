@@ -30,7 +30,10 @@ const MenuButton = ({
       </button>
 
       {isMenuOpen && (
-        <div className={`menu ${isMenuOpen ? "active" : ""}`} ref={menuRef}>
+        <div
+          className={`menu ${isMenuOpen ? "menu--active" : ""}`}
+          ref={menuRef}
+        >
           {!menuContent &&
             listItems?.map((item) => (
               <div

@@ -12,7 +12,8 @@
   }
 
   &.active {
-    background-color: var(--color-primary) 1 !important;
+    // background-color: var(--color-primary) 1 !important;
+    background-color: var(--color-primary);
   }
 
   &,
@@ -266,7 +267,7 @@
   top: calc(100% + 2px);
   left: 0;
 
-  &.active {
+  &--active {
     display: block;
   }
 

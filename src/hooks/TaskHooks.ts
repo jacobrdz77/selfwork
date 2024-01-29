@@ -18,12 +18,12 @@ export type TaskData = {
   dueDate?: Date | null;
   projectId?: string | null;
   assigneeId?: string | null;
-  assignee?: { name: string };
+  assignee?: { name: string | null } | null;
   sectionId?: string | null;
 };
 
 function generateId() {
-  return Math.floor(Math.random() * 100);
+  return Math.floor(Math.random() * 100) + "";
 }
 
 // QUERY KEYS
@@ -127,7 +127,7 @@ export const useCreateTask = () => {
       console.log("Previous Tasks: ", previousTasks);
 
       // Optimistically update
-      const newTasks = queryClient.setQueryData(
+      queryClient.setQueryData(
         ["tasks", newTask.sectionId],
         [...previousTasks, { ...newTask, id: generateId() }]
       );
@@ -169,40 +169,65 @@ export const useUpdateTask = (sectionId: string) => {
         console.log(error);
       }
     },
-    onMutate: async (data: { taskId: string; taskData: TaskData }) => {
+    onMutate: async (data: {
+      taskId: string;
+      taskData: TaskData;
+      projectId: string;
+    }) => {
       const updatedTask = data.taskData;
       await queryClient.cancelQueries({ queryKey: ["tasks"] });
-      // console.log("UIPPP: ", data);
+      console.log("NEW task: ", updatedTask.name);
 
       // Snapshot the previous value
+      // This is gonna be hella messy LOL
       const previousTasks = queryClient
-        .getQueryData<SectionWithTasks[]>(["tasks", sectionId])
-        ?.filter((task) => task.id !== data.taskId);
-
+        .getQueryData<SectionWithTasks[]>(["sections", data.projectId])
+        ?.find((section) => section.id === sectionId)
+        ?.tasks.filter((task) => task.id !== data.taskId);
       console.log("prev: ", previousTasks);
+
       const oldTask = queryClient
-        .getQueryData<SectionWithTasks[]>(["tasks", sectionId])
-        ?.find((task) => task.id === data.taskId);
+        .getQueryData<SectionWithTasks[]>(["sections", data.projectId])
+        ?.find((section) => section.id === sectionId)
+        ?.tasks.find((task) => task.id === data.taskId);
+
+      console.log("OldTask: ", oldTask?.name);
+
+      // const previousTasks = await queryClient
+      //   .getQueryData<SectionWithTasks[]>(["tasks", sectionId])
+      //   ?.filter((task) => task.id !== data.taskId);
+
+      // console.log("prev: ", previousTasks);
+      // const oldTask = queryClient
+      //   .getQueryData<SectionWithTasks[]>(["tasks", sectionId])
+      //   ?.find((task) => task.id === data.taskId);
       // console.log("OldTask: ", oldTask);
 
       // Optimistically update to the new value
       if (previousTasks) {
-        const newTasks = queryClient.setQueryData(
-          ["tasks", sectionId],
-          [...previousTasks!, { id: generateId(), ...oldTask, ...updatedTask }]
+        queryClient.setQueryData(
+          ["sections", data.projectId],
+          (sections: SectionWithTasks[]) => {
+            const currSection = sections?.find(
+              (section) => section.id === sectionId
+            )!;
+
+            currSection.tasks = [
+              ...previousTasks,
+              { id: generateId(), ...updatedTask },
+            ];
+
+            return [...sections];
+          }
+          // [...previousTasks!, { id: generateId(), ...oldTask, ...updatedTask }]
         );
-        // console.log("new: ", newTasks);
       }
 
-      return { previousTasks, data };
+      return { previousTasks, oldTask };
     },
     onSuccess: (updatedTask: TaskWithAssignee) => {
-      // queryClient.invalidateQueries({
-      //   queryKey: ["sections", updatedTask?.sectionId],
-      // });
-      // queryClient.invalidateQueries({ queryKey: ["tasks"] });
       queryClient.invalidateQueries({
-        queryKey: ["tasks", updatedTask.sectionId],
+        queryKey: ["sections"],
       });
       console.log("SUCCESS");
     },

@@ -241,12 +241,12 @@ const NavBar = () => {
         </nav>
 
         {/* PROJECTS */}
-        <nav className="sidebar__nav-container sidebar__nav--workspace">
-          {status === "loading" && (
+        <nav className="sidebar__nav-container">
+          {/* {status === "loading" && (
             <div className="sidebar__workspace-loading">
               <LoadingSkeleton isDark={true} />
             </div>
-          )}
+          )} */}
           {status === "success" &&
             (isNavMinimized ? (
               <div
@@ -383,29 +383,31 @@ const NavBar = () => {
           )}
         </div> */}
 
-        <footer className="nav__footer">
-          <button
-            onClick={() => setIsNavMinimized(!isNavMinimized)}
-            className={`sidebar__toggle ${
-              isNavMinimized ? "sidebar__toggle--active" : ""
-            }`}
-          >
-            <svg className="sidebar__toggle-icon" viewBox="0 0 30 30">
-              <path d="M 3 7 A 1.0001 1.0001 0 1 0 3 9 L 27 9 A 1.0001 1.0001 0 1 0 27 7 L 3 7 z M 3 14 A 1.0001 1.0001 0 1 0 3 16 L 27 16 A 1.0001 1.0001 0 1 0 27 14 L 3 14 z M 3 21 A 1.0001 1.0001 0 1 0 3 23 L 27 23 A 1.0001 1.0001 0 1 0 27 21 L 3 21 z" />
-            </svg>
-          </button>
-          {/* User Profile */}
-          {status === "success" ? (
+        {status === "loading" && (
+          <div className="sidebar__add-container">
+            <LoadingSkeleton
+              className="sidebar__nav-link-loading sidebar__nav-link-loading--user"
+              isDark={true}
+            />
+          </div>
+        )}
+
+        {status === "success" && (
+          <footer className="nav__footer">
+            {/* User Profile */}
             <UserSidebarCard />
-          ) : (
-            <div className="sidebar__add-container">
-              <LoadingSkeleton
-                className="sidebar__nav-link-loading sidebar__nav-link-loading--user"
-                isDark={true}
-              />
-            </div>
-          )}
-        </footer>
+            <button
+              onClick={() => setIsNavMinimized(!isNavMinimized)}
+              className={`sidebar__toggle ${
+                isNavMinimized ? "sidebar__toggle--active" : ""
+              }`}
+            >
+              <svg className="sidebar__toggle-icon" viewBox="0 0 30 30">
+                <path d="M 3 7 A 1.0001 1.0001 0 1 0 3 9 L 27 9 A 1.0001 1.0001 0 1 0 27 7 L 3 7 z M 3 14 A 1.0001 1.0001 0 1 0 3 16 L 27 16 A 1.0001 1.0001 0 1 0 27 14 L 3 14 z M 3 21 A 1.0001 1.0001 0 1 0 3 23 L 27 23 A 1.0001 1.0001 0 1 0 27 21 L 3 21 z" />
+              </svg>
+            </button>
+          </footer>
+        )}
       </div>
     </>
   );

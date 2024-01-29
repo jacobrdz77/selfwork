@@ -368,7 +368,7 @@ const StatusButton = ({
 
       {isMenuOpen && (
         <div
-          className={`menu ${isMenuOpen ? "active" : ""}`}
+          className={`menu ${isMenuOpen ? "menu--active" : ""}`}
           ref={menuRef}
           onClick={(e) => {
             setIsMenuOpen(false);

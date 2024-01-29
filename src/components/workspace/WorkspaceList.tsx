@@ -36,7 +36,9 @@ const WorkspaceList = ({ isNavMinimized }: { isNavMinimized: boolean }) => {
         </div>
       </button>
       <div
-        className={`menu workspace-list__menu ${isMenuOpen ? "active" : ""}`}
+        className={`menu workspace-list__menu ${
+          isMenuOpen ? "menu--active" : ""
+        }`}
         ref={menuRef}
         onClick={(e) => {
           setIsMenuOpen(false);

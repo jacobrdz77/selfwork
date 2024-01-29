@@ -59,9 +59,8 @@ export default async function handler(
   else if (req.method === "PUT") {
     try {
       const { taskId } = req.query;
-      const body = JSON.parse(req.body);
-      const { taskData } = body;
-      // console.log(taskData);
+      const taskData = JSON.parse(req.body);
+      console.log("Taskdata: ", taskData);
 
       const newData = {
         name: taskData.name,

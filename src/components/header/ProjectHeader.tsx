@@ -386,7 +386,9 @@ const StatusButton = ({
       <button
         type="button"
         ref={btnRef}
-        className={`menu-button status-button ${isMenuOpen ? "active" : ""}`}
+        className={`menu-button status-button ${
+          isMenuOpen ? "menu--active" : ""
+        }`}
         onClick={() => setIsMenuOpen((state) => !state)}
       >
         {status === "Active" && (
@@ -477,7 +479,7 @@ const StatusButton = ({
 
       {isMenuOpen && (
         <div
-          className={`menu ${isMenuOpen ? "active" : ""}`}
+          className={`menu ${isMenuOpen ? "menu--active" : ""}`}
           ref={menuRef}
           onClick={(e) => {
             setIsMenuOpen(false);

@@ -45,7 +45,7 @@ const SketchFilterButton = ({
           </svg>
         </div>
         <div
-          className={`menu ${isMenuOpen ? "active" : ""}`}
+          className={`menu ${isMenuOpen ? "menu--active" : ""}`}
           ref={menuRef}
           onClick={(e) => {
             e.preventDefault();

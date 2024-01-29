@@ -14,6 +14,7 @@ import usePlaceHolder from "@/hooks/usePlaceHolder";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useUserInfo } from "@/hooks/MemberHooks";
+import { useRouter } from "next/router";
 
 const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
@@ -23,12 +24,7 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
     task?.dueDate ? new Date(task?.dueDate) : new Date()
   );
 
-  const isEditTaskModalOpen = useModalStore(
-    (state) => state.isEditTaskModalOpen
-  );
-  const setIsEditTaskModalOpen = useModalStore(
-    (state) => state.setIsEditTaskModalOpen
-  );
+  const [isEditTaskModalOpen, setIsEditTaskModalOpen] = useState(false);
 
   // Makes it Draggable
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -177,6 +173,8 @@ export const DateButton = ({
   date: any;
   setDate: (date: any) => void;
 }) => {
+  const router = useRouter();
+  const { projectId } = router.query;
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const { mutate: updateTask } = useUpdateTask(task.sectionId);
 
@@ -224,6 +222,7 @@ export const DateButton = ({
                     taskData: {
                       dueDate: dueDate,
                     },
+                    projectId: projectId as string,
                   });
                   setDate(new Date(dueDate!));
                 }}
@@ -237,6 +236,7 @@ export const DateButton = ({
                     taskData: {
                       dueDate: null,
                     },
+                    projectId: projectId as string,
                   });
                 }}
               >
@@ -270,6 +270,8 @@ const DateFilledButton = ({
   date: any;
   setDate: (date: any) => void;
 }) => {
+  const router = useRouter();
+  const { projectId } = router.query;
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const { mutate: updateTask } = useUpdateTask(task.sectionId);
 
@@ -286,7 +288,7 @@ const DateFilledButton = ({
           className="menu-button"
         >
           <div className="board-task__date">
-            <span>{format(new Date(date), "MMM dd")}</span>
+            <span>{date ? format(new Date(date), "MMM dd") : ""}</span>
           </div>
         </button>
 
@@ -301,7 +303,7 @@ const DateFilledButton = ({
           >
             <div className="react-date-input">
               <ReactDatePicker
-                value={date}
+                value={new Date(date).toLocaleDateString()}
                 selected={new Date(date)}
                 onChange={(dueDate) => {
                   setDate(new Date(dueDate!));
@@ -310,12 +312,13 @@ const DateFilledButton = ({
                     taskData: {
                       dueDate: dueDate,
                     },
+                    projectId: projectId as string,
                   });
                 }}
               />
               <div
                 className="remove-assignee-btn"
-                aria-label="Remove assignee"
+                aria-label="Remove date"
                 onClick={() => {
                   setDate(new Date(date));
                   updateTask({
@@ -323,6 +326,7 @@ const DateFilledButton = ({
                     taskData: {
                       dueDate: null,
                     },
+                    projectId: projectId as string,
                   });
                 }}
               >
@@ -347,6 +351,8 @@ const DateFilledButton = ({
 };
 
 export const AssigneeButton = ({ task }: { task: TaskWithAssignee }) => {
+  const router = useRouter();
+  const { projectId } = router.query;
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const [selectedAssignee, setSelectedAssignee] = useState<User | null>(
     task ? task.assignee : null
@@ -359,6 +365,7 @@ export const AssigneeButton = ({ task }: { task: TaskWithAssignee }) => {
       taskData: {
         assigneeId: selectedAssignee ? selectedAssignee.id : null,
       },
+      projectId: projectId as string,
     });
   };
   const userId = useUserStore((state) => state.userId);
@@ -447,6 +454,8 @@ export const AssigneeButton = ({ task }: { task: TaskWithAssignee }) => {
   );
 };
 export const AssigneeFilledButton = ({ task }: { task: TaskWithAssignee }) => {
+  const router = useRouter();
+  const { projectId } = router.query;
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const [selectedAssignee, setSelectedAssignee] = useState<User | null>(
     task.assignee
@@ -460,6 +469,7 @@ export const AssigneeFilledButton = ({ task }: { task: TaskWithAssignee }) => {
       taskData: {
         assigneeId: selectedAssignee ? selectedAssignee.id : null,
       },
+      projectId: projectId as string,
     });
   };
 
@@ -556,6 +566,8 @@ export const AssigneeMenu = ({
   taskId: string;
   task: TaskWithAssignee;
 }) => {
+  const router = useRouter();
+  const { projectId } = router.query;
   const { mutate: updateTask } = useUpdateTask(task.sectionId);
   const { members, status } = useWorkspaceMembers();
 
@@ -607,6 +619,7 @@ export const AssigneeMenu = ({
                     assigneeId: "remove",
                     assignee: null,
                   },
+                  projectId: projectId as string,
                 });
               }}
             >

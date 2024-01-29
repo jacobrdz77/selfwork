@@ -198,6 +198,7 @@ const OneBoard: React.FC<Board> = ({
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
       >
+        {/*! Figure out Why all task modals open for all tasks when I only click one! */}
         <div className="board-task-list">
           <SortableContext
             items={sortedtasks}
