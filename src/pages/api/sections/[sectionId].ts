@@ -34,11 +34,47 @@ export default async function handler(
   if (req.method === "DELETE") {
     try {
       const { sectionId } = req.query;
-      const deletedSection = await prisma.section.delete({
-        where: {
-          id: sectionId as string,
+
+      const sectionToDelete = await prisma.section.findUnique({
+        where: { id: sectionId as string },
+        select: {
+          order: true,
         },
       });
+
+      const sectionsWithHigherOrder = await prisma.section.findMany({
+        where: { order: { gt: sectionToDelete!.order! } },
+        orderBy: { order: "asc" },
+      });
+
+      const highestOrder = (await prisma.section.count()) - 1;
+
+      if (sectionToDelete!.order === highestOrder) {
+        const deletedSection = await prisma.section.delete({
+          where: { id: sectionId as string },
+        });
+
+        return res
+          .status(200)
+          .json({ deletedSection, message: "DELETED section" });
+      }
+
+      // Calculate new order for each section after deleting
+      const updatedSections = sectionsWithHigherOrder.map((section) => {
+        return { id: section.id, order: section!.order! - 1 };
+      });
+
+      const updates = () => {
+        // @ts-ignore
+        return bulkUpdate("Section", updatedSections);
+      };
+
+      await prisma.$transaction(updates);
+
+      const deletedSection = await prisma.section.delete({
+        where: { id: sectionId as string },
+      });
+
       return res
         .status(200)
         .json({ deletedSection, message: "DELETED section" });
@@ -67,13 +103,13 @@ export default async function handler(
 
         const [least, greatest] = findInterval(currentOrder, newOrder);
 
-        const allSections = await prisma.section.findMany({
+        const sectionsBetweenIntervals = await prisma.section.findMany({
           where: { order: { gte: least, lte: greatest } },
           orderBy: { order: "asc" },
         });
 
         // Find the section to move
-        const sectionToMove = allSections.find(
+        const sectionToMove = sectionsBetweenIntervals.find(
           (section) => section.id === sectionId
         );
 
@@ -82,7 +118,7 @@ export default async function handler(
         }
 
         // Calculate new order for each section
-        const updatedSections = allSections.map((section) => {
+        const updatedSections = sectionsBetweenIntervals.map((section) => {
           if (section.order != null)
             if (section.id === sectionId) {
               return { id: section.id, order: newOrder };

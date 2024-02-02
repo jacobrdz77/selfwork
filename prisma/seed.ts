@@ -78,9 +78,11 @@ async function main() {
         create: [
           {
             name: "Create blue button",
+            order: 0,
           },
           {
             name: "Create navigation",
+            order: 1,
           },
         ],
       },

@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../prisma/client";
-import { TaskData } from "@/hooks/TaskHooks";
 import findInterval from "@/utils/findInterval";
+import { bulkUpdate } from "@/utils/bulkUpdate";
 
 export default async function handler(
   req: NextApiRequest,
@@ -44,12 +44,46 @@ export default async function handler(
   else if (req.method === "DELETE") {
     try {
       const { taskId } = req.query;
-      const task = await prisma.task.delete({
+
+      const taskToDelete = await prisma.task.findUnique({
+        where: { id: taskId as string },
+        select: { order: true },
+      });
+
+      const tasksWithHigherOrder = await prisma.task.findMany({
         where: {
-          id: taskId as string,
+          order: {
+            gt: taskToDelete!.order!,
+          },
         },
       });
-      return res.status(200).json({ task, message: "DELETED task" });
+
+      const highestOrder = (await prisma.task.count()) - 1;
+
+      if (highestOrder === taskToDelete!.order) {
+        const deletedTask = await prisma.task.delete({
+          where: { id: taskId as string },
+        });
+
+        return res.status(200).json({ deletedTask, message: "DELETED task" });
+      }
+
+      const updatedTasks = tasksWithHigherOrder.map((task) => {
+        return { id: task.id, order: task.order! - 1 };
+      });
+
+      const updates = () => {
+        // @ts-ignore
+        return bulkUpdate("Task", updatedTasks);
+      };
+
+      await prisma.$transaction(updates);
+
+      const deletedTask = await prisma.task.delete({
+        where: { id: taskId as string },
+      });
+
+      return res.status(200).json({ deletedTask, message: "DELETED task" });
     } catch (error: Error | any) {
       return res.status(400).json(error);
     }

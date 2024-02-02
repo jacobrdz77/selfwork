@@ -23,7 +23,9 @@ export const useSectionsOfProject = (projectId: string) => {
       console.log("Error: ", error);
     },
     onSuccess: (sections) => {
-      console.log("Fetched sections of project: ", sections);
+      if (process.env.NODE_ENV === "development") {
+        console.log("Fetched sections of project: ", sections);
+      }
     },
     enabled: projectId == undefined ? false : true,
   });
@@ -118,7 +120,9 @@ export const useCreateProjectSection = (projectId: string) => {
     },
 
     onSettled: (newSection) => {
-      console.log("Created new section! \n", newSection);
+      if (process.env.NODE_ENV === "development") {
+        console.log("Created new section! \n", newSection);
+      }
       queryClient.invalidateQueries({ queryKey: ["sections", projectId] });
     },
   });
@@ -185,7 +189,10 @@ export const useCreateUserSection = () => {
     },
 
     onSettled: (newSection) => {
-      console.log("Created new section! \n", newSection);
+      if (process.env.NODE_ENV === "development") {
+        console.log("Created new section! \n", newSection);
+      }
+
       queryClient.invalidateQueries({ queryKey: ["sections", userId] });
     },
   });
