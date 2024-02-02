@@ -67,7 +67,8 @@ async function main() {
     update: {},
     create: {
       id: "cldcljamz0001gpsobc3inw3n",
-      name: "UI",
+      name: "Todos",
+      order: 0,
       project: {
         connect: {
           id: "cldclt74u9600gpecetnyigta",
@@ -82,6 +83,34 @@ async function main() {
             name: "Create navigation",
           },
         ],
+      },
+    },
+  });
+  await prisma.section.upsert({
+    where: { id: "clnqpjamz0001gpsobc3inw3n" },
+    update: {},
+    create: {
+      id: "clnqpjamz0001gpsobc3inw3n",
+      name: "Important",
+      order: 1,
+      project: {
+        connect: {
+          id: "cldclt74u9600gpecetnyigta",
+        },
+      },
+    },
+  });
+  await prisma.section.upsert({
+    where: { id: "clzltjamz0001gpsobc3inw3n" },
+    update: {},
+    create: {
+      id: "clzltjamz0001gpsobc3inw3n",
+      name: "Done",
+      order: 2,
+      project: {
+        connect: {
+          id: "cldclt74u9600gpecetnyigta",
+        },
       },
     },
   });

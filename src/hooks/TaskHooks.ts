@@ -112,10 +112,7 @@ export const useCreateTask = () => {
     onMutate: async (newTask) => {
       await queryClient.cancelQueries({ queryKey: ["tasks"] });
 
-      // console.log("New Task: ", newTask);
-
       // Snapshot the previous value
-      console.log("Creating Task: ", newTask);
       let previousTasks = (await queryClient.getQueryData([
         "tasks",
         newTask.sectionId,
@@ -124,14 +121,12 @@ export const useCreateTask = () => {
       if (!previousTasks) {
         previousTasks = [];
       }
-      console.log("Previous Tasks: ", previousTasks);
 
       // Optimistically update
       queryClient.setQueryData(
         ["tasks", newTask.sectionId],
         [...previousTasks, { ...newTask, id: generateId() }]
       );
-      // console.log("Updated Tasks: ", newTasks);
       return { previousTasks, newTask };
     },
 
@@ -176,7 +171,7 @@ export const useUpdateTask = (sectionId: string) => {
     }) => {
       const updatedTask = data.taskData;
       await queryClient.cancelQueries({ queryKey: ["tasks"] });
-      console.log("NEW task: ", updatedTask.name);
+      // console.log("NEW task: ", updatedTask.name);
 
       // Snapshot the previous value
       // This is gonna be hella messy LOL
@@ -184,14 +179,14 @@ export const useUpdateTask = (sectionId: string) => {
         .getQueryData<SectionWithTasks[]>(["sections", data.projectId])
         ?.find((section) => section.id === sectionId)
         ?.tasks.filter((task) => task.id !== data.taskId);
-      console.log("prev: ", previousTasks);
+      // console.log("prev: ", previousTasks);
 
       const oldTask = queryClient
         .getQueryData<SectionWithTasks[]>(["sections", data.projectId])
         ?.find((section) => section.id === sectionId)
         ?.tasks.find((task) => task.id === data.taskId);
 
-      console.log("OldTask: ", oldTask?.name);
+      // console.log("OldTask: ", oldTask?.name);
 
       // const previousTasks = await queryClient
       //   .getQueryData<SectionWithTasks[]>(["tasks", sectionId])
@@ -242,18 +237,19 @@ export const useUpdateTaskOrder = () => {
       taskData,
     }: {
       taskData: {
-        one: { id: string; order: number };
-        two: { id: string; order: number };
+        id: string;
+        currentOrder: number;
+        newOrder: number;
       };
     }) => {
       try {
-        // console.log("SECTION DATA: ", taskData);
         const response = await fetch(
-          `/api/tasks/${taskData.one.id}?second=${taskData.two.id}`,
+          `/api/tasks/${taskData.id}?order_change=true`,
           {
             method: "PUT",
             body: JSON.stringify({
-              taskData,
+              currentOrder: taskData.currentOrder,
+              newOrder: taskData.newOrder,
             }),
           }
         );

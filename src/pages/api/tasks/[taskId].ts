@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../prisma/client";
 import { TaskData } from "@/hooks/TaskHooks";
+import findInterval from "@/utils/findInterval";
 
 export default async function handler(
   req: NextApiRequest,
@@ -33,7 +34,7 @@ export default async function handler(
 
       return res.status(200).json(task);
     } catch (error: Error | any) {
-      console.log("ErrorFKLJFKLJ: ", error);
+      console.log("Error: ", error);
       return res.status(400).json({ error: error.message });
     }
   }
@@ -58,9 +59,8 @@ export default async function handler(
   // RETURN: the updated task
   else if (req.method === "PUT") {
     try {
-      const { taskId } = req.query;
+      const { taskId, order_change } = req.query;
       const taskData = JSON.parse(req.body);
-      console.log("Taskdata: ", taskData);
 
       const newData = {
         name: taskData.name,
@@ -87,31 +87,69 @@ export default async function handler(
         return res.status(200).json(task);
       }
 
-      // Switching two sections "order"
-      if (req.query.second) {
-        const updatedFirstTask = await prisma.task.update({
-          where: {
-            id: taskData.one.id,
-          },
-          data: {
-            //! Use the other task's ORDER
-            order: taskData.two.order,
-          },
+      //pathway "/api/task/{taskId}?orderChange=true"
+      if (order_change) {
+        const newOrder = Number(taskData.newOrder);
+        const currentOrder = taskData.currentOrder as number;
+
+        if (newOrder === currentOrder) {
+          return res.status(400).json({
+            error: "Can't change order to the same order",
+          });
+        }
+
+        const [least, greatest] = findInterval(currentOrder, newOrder);
+
+        const allTasks = await prisma.task.findMany({
+          where: { order: { gte: least, lte: greatest } },
+          orderBy: { order: "asc" },
         });
 
-        const updatedSecondTask = await prisma.task.update({
-          where: {
-            id: taskData.two.id,
-          },
-          data: {
-            //! Use the other task's ORDER
-            order: taskData.one.order,
-          },
+        // Find the task to move
+        const taskToMove = allTasks.find((task) => task.id === taskId);
+
+        if (!taskToMove) {
+          throw new Error(`Task with ID ${taskId} not found.`);
+        }
+
+        // Calculate new order for each task
+        const updatedTasks = allTasks.map((task) => {
+          if (task.order != null)
+            if (task.id === taskId) {
+              return { id: task.id, order: newOrder };
+            }
+
+            // Moves Tasks right 1
+            else if (
+              task.order >= newOrder &&
+              task.id !== taskId &&
+              currentOrder > newOrder
+            ) {
+              return { id: task.id, order: task.order + 1 };
+            }
+
+            // Moves Tasks left 1
+            else if (
+              task.order <= newOrder &&
+              task.id !== taskId &&
+              task.order > 0 &&
+              currentOrder < newOrder
+            ) {
+              // if(task.order === newOrder) {}
+
+              return { id: task.id, order: task.order - 1 };
+            }
         });
+
+        const updates = () => {
+          // @ts-ignore
+          return bulkUpdate("Task", updatedTasks);
+        };
+
+        await prisma.$transaction(updates);
 
         return res.status(200).json({
-          updatedFirstTask,
-          updatedSecondTask,
+          updatedTasks,
         });
       }
 

@@ -5,7 +5,7 @@ import Link from "next/link";
 import React from "react";
 import { toast } from "react-hot-toast";
 
-const ProjectLink = ({ link }: { link: InviteLink }) => {
+const ProjectLink = ({ link }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const { mutate: deleteLink } = useDeleteLink();
 
@@ -35,12 +35,11 @@ const ProjectLink = ({ link }: { link: InviteLink }) => {
           strokeLinejoin="round"
         />
       </svg>
-
       <div className="text">
         {/* <span className="link__name">{link.name}</span> */}
         <span className="link__url">{link.url}</span>
       </div>
-
+      {/* //! Need projectId or userId in req body */}
       <div className="link__button-container">
         <button
           onClick={(e) => {

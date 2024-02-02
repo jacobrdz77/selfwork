@@ -111,57 +111,6 @@ const ProjectOverviewPage: NextPageWithLayout = () => {
             ))}
           </div>
         </div>
-        <div className="project-resources">
-          <h2>Key resources</h2>
-          <div className="resources">
-            {/* ADD Button */}
-            <div className="project-resources__add-btn-container">
-              <div
-                ref={btnRef}
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsMenuOpen((state) => !state);
-                }}
-                className="project-resources__add-btn"
-                role="button"
-              >
-                <div className="project-resources__add-icon">
-                  <svg viewBox="0 0 24 24">
-                    <path d="m12 6a1 1 0 0 0 -1 1v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2h-4v-4a1 1 0 0 0 -1-1z"></path>
-                  </svg>
-                </div>
-                <div
-                  className={`project-resource__tooltip ${
-                    isMenuOpen ? "project-resource__tooltip--active" : ""
-                  }`}
-                >
-                  <span>Add a link</span>
-                </div>
-              </div>
-              {isMenuOpen && (
-                <AddLinkPopup
-                  menuRef={menuRef}
-                  setIsOpen={setIsMenuOpen}
-                  projectId={projectId as string}
-                />
-              )}
-            </div>
-
-            {/* Links */}
-
-            {/* {status === "success" && (
-            <div className="loading__links">
-              <div className="link"></div>
-              <div className="link"></div>
-              <div className="link"></div>
-            </div>
-          )} */}
-
-            {status === "success" && (
-              <ProjectLinks links={project?.urlLinks!} />
-            )}
-          </div>
-        </div>
       </div>
     </>
   );

@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../prisma/client";
+import findInterval from "@/utils/findInterval";
+import { bulkUpdate } from "@/utils/bulkUpdate";
 
 export default async function handler(
   req: NextApiRequest,
@@ -49,35 +51,74 @@ export default async function handler(
   // RETURN: the updated section
   if (req.method === "PUT") {
     try {
-      const { sectionId } = req.query;
-      const body = JSON.parse(req.body);
-      const { sectionData } = body;
+      const { sectionId, order_change } = req.query;
+      const sectionData = await JSON.parse(req.body);
 
-      // Switching two sections "order"
-      if (req.query.second) {
-        const updatedFirstSection = await prisma.section.update({
-          where: {
-            id: sectionData.one.id,
-          },
-          data: {
-            //! Use the other section's ORDER
-            order: sectionData.two.order,
-          },
+      //pathway "/api/section/{sectionId}?orderChange=true"
+      if (order_change) {
+        const newOrder = Number(sectionData.newOrder);
+        const currentOrder = sectionData.currentOrder as number;
+
+        if (newOrder === currentOrder) {
+          return res.status(400).json({
+            error: "Can't change order to the same order",
+          });
+        }
+
+        const [least, greatest] = findInterval(currentOrder, newOrder);
+
+        const allSections = await prisma.section.findMany({
+          where: { order: { gte: least, lte: greatest } },
+          orderBy: { order: "asc" },
         });
 
-        const updatedSecondSection = await prisma.section.update({
-          where: {
-            id: sectionData.two.id,
-          },
-          data: {
-            //! Use the other section's ORDER
-            order: sectionData.one.order,
-          },
+        // Find the section to move
+        const sectionToMove = allSections.find(
+          (section) => section.id === sectionId
+        );
+
+        if (!sectionToMove) {
+          throw new Error(`Task with ID ${sectionId} not found.`);
+        }
+
+        // Calculate new order for each section
+        const updatedSections = allSections.map((section) => {
+          if (section.order != null)
+            if (section.id === sectionId) {
+              return { id: section.id, order: newOrder };
+            }
+
+            // Moves sections right 1
+            else if (
+              section.order >= newOrder &&
+              section.id !== sectionId &&
+              currentOrder > newOrder
+            ) {
+              return { id: section.id, order: section.order + 1 };
+            }
+
+            // Moves sections left 1
+            else if (
+              section.order <= newOrder &&
+              section.id !== sectionId &&
+              section.order > 0 &&
+              currentOrder < newOrder
+            ) {
+              // if(section.order === newOrder) {}
+
+              return { id: section.id, order: section.order - 1 };
+            }
         });
+
+        const updates = () => {
+          // @ts-ignore
+          return bulkUpdate("Section", updatedSections);
+        };
+
+        await prisma.$transaction(updates);
 
         return res.status(200).json({
-          updatedFirstSection,
-          updatedSecondSection,
+          updatedSections,
         });
       }
 
@@ -89,7 +130,7 @@ export default async function handler(
           name: sectionData.name,
         },
       });
-      console.log(JSON.stringify(section));
+
       return res.status(200).json(section);
     } catch (error: Error | any) {
       console.log(error);

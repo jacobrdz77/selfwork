@@ -296,22 +296,24 @@ export const useUpdateSectionOrder = () => {
       sectionData,
     }: {
       sectionData: {
-        one: { id: string; order: number };
-        two: { id: string; order: number };
+        id: string;
+        currentOrder: number;
+        newOrder: number;
       };
     }) => {
       try {
         // Todo: Uncomment when new backend is complete
-        // const response = await fetch("/api/sections/", {
+        // const response = await fetch("/api/sections", {
         //   method: "PUT",
         //   body: JSON.stringify(sectionData),
         // });
         const response = await fetch(
-          `/api/sections/${sectionData.one.id}?second=${sectionData.two.id}`,
+          `/api/sections/${sectionData.id}?order_change=true`,
           {
             method: "PUT",
             body: JSON.stringify({
-              sectionData,
+              currentOrder: sectionData.currentOrder,
+              newOrder: sectionData.newOrder,
             }),
           }
         );

@@ -11,7 +11,7 @@ export default async function handler(
   // GET all projects
   if (req.method === "GET") {
     const projects = await prisma.project.findMany();
-    res.status(200).json({ projects: projects });
+    return res.status(200).json({ projects: projects });
   }
 
   // Create a new project

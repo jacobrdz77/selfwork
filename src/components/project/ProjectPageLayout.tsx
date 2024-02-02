@@ -4,7 +4,6 @@ import ProjectHeader from "../header/ProjectHeader";
 import EditProjectModal from "./EditProjectModal";
 import { useModalStore } from "store/user";
 import LoadingProjectHeader from "../loading/LoadingProjectHeader";
-// import TaskDetailModal from "../task/TaskDetailModal";
 
 const ProjectPageLayout = ({
   children,
@@ -14,17 +13,8 @@ const ProjectPageLayout = ({
   const { projectId } = useRouter().query;
   const { project, status } = useOneProject(projectId as string);
 
-  const isTaskDetailOpen = useModalStore((state) => state.isTaskDetailOpen);
-  const setIsTaskDetailOpen = useModalStore(
-    (state) => state.setIsTaskDetailOpen
-  );
-
   const isEditProjectModalOpen = useModalStore(
     (state) => state.isEditProjectModalOpen
-  );
-
-  const setIsEditProjectModalOpen = useModalStore(
-    (state) => state.setIsEditProjectModalOpen
   );
 
   return (
@@ -35,13 +25,6 @@ const ProjectPageLayout = ({
           isOpen={isEditProjectModalOpen}
         />
       )}
-
-      {/* {isTaskDetailOpen && (
-        <TaskDetailModal
-          isOpen={isTaskDetailOpen}
-          setIsModalOpen={setIsTaskDetailOpen}
-        />
-      )} */}
 
       {status === "loading" && <LoadingProjectHeader />}
 

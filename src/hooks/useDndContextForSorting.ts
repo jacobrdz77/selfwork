@@ -4,7 +4,6 @@ import { useUpdateSectionOrder } from "./SectionHooks";
 import { useUpdateTaskOrder } from "./TaskHooks";
 import {
   DragEndEvent,
-  KeyboardSensor,
   MouseSensor,
   TouchSensor,
   useSensor,
@@ -65,22 +64,26 @@ const useDndContextForSorting = (
         (item) => item.id === over.id
       )!;
 
-      console.log("curr: ", currentSectionOrder);
-      console.log("second: ", secondSectionOrder);
+      if (process.env.NODE_ENV === "development") {
+        console.log("current item: ", currentSectionOrder);
+        console.log("second item: ", secondSectionOrder);
+      }
+
       if (type === "sections") {
         updateSections({
           sectionData: {
-            one: { id: active.id as string, order: currentSectionOrder },
-            two: { id: over.id as string, order: secondSectionOrder },
+            id: active.id as string,
+            currentOrder: currentSectionOrder,
+            newOrder: secondSectionOrder,
           },
         });
       }
       if (type === "tasks") {
-        // Todo: Need to make backend endpoint to switch orders.
         updateTasks({
           taskData: {
-            one: { id: active.id as string, order: currentSectionOrder },
-            two: { id: over.id as string, order: secondSectionOrder },
+            id: active.id as string,
+            currentOrder: currentSectionOrder,
+            newOrder: secondSectionOrder,
           },
         });
       }

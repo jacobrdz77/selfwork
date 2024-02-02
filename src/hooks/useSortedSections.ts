@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import sortSections from "@/utils/sortSections";
 import { SectionWithTasks } from "@/types/types";
 
