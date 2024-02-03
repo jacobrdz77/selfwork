@@ -19,13 +19,12 @@ const NavBar = () => {
   const setIsAddProjectModalOpen = useModalStore(
     (state) => state.setIsAddProjectModalOpen
   );
-  const issClientModalOpen = useModalStore((state) => state.isClientModalOpen);
   const setIsClientModalOpen = useModalStore(
     (state) => state.setIsClientModalOpen
   );
 
   const { projects, status } = useProjects();
-  const { workspace } = useOneWorkspace();
+  // const { workspace } = useOneWorkspace();
 
   return (
     <>

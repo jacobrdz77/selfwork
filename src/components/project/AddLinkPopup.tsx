@@ -32,7 +32,7 @@ const AddLinkPopup = ({
     try {
       if (checkURL.parse(url)) {
         setUrlError(false);
-        await createLink({
+        const link = await createLink({
           name,
           url,
         });

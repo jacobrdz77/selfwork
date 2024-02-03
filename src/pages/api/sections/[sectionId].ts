@@ -140,8 +140,6 @@ export default async function handler(
               section.order > 0 &&
               currentOrder < newOrder
             ) {
-              // if(section.order === newOrder) {}
-
               return { id: section.id, order: section.order - 1 };
             }
         });

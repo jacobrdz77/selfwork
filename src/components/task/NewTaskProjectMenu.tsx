@@ -21,7 +21,6 @@ const NewTaskProjectMenu = ({
   >;
 }) => {
   const { projects, status } = useProjectWithSections();
-  // console.log("Projects: ", projects);
 
   return (
     <div

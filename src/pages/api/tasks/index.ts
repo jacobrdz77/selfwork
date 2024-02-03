@@ -49,8 +49,6 @@ export default async function handler(
           - connect the project and section to the task. 
       */
 
-      console.log("ORDER: ", task.order);
-
       // Checks if it has userAssignedTasksSectionId
       if (!task.hasOwnProperty("sectionId")) {
         const newTask = await prisma.task.create({

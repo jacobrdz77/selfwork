@@ -167,9 +167,9 @@ export const useUpdateProject = () => {
       }
     },
     onSuccess: async (data) => {
+      await queryClient.invalidateQueries({ queryKey: ["projects"] });
       await queryClient.invalidateQueries({ queryKey: ["project", data.id] });
       await queryClient.invalidateQueries({ queryKey: ["workspace"] });
-      await queryClient.invalidateQueries({ queryKey: ["projects"] });
     },
   });
 };

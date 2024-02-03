@@ -112,18 +112,6 @@ const ProjectHeader: React.FC<HeaderProps> = ({ name, status, project }) => {
             </li>
             <li>
               <Link
-                href={`/projects/${projectId}/list`}
-                className={`project-header__nav-link ${
-                  currentPath === "list"
-                    ? "project-header__nav-link--active"
-                    : ""
-                }`}
-              >
-                List
-              </Link>
-            </li>
-            <li>
-              <Link
                 href={`/projects/${projectId}/board`}
                 className={`project-header__nav-link ${
                   currentPath === "board"
@@ -134,6 +122,19 @@ const ProjectHeader: React.FC<HeaderProps> = ({ name, status, project }) => {
                 Board
               </Link>
             </li>
+            <li>
+              <Link
+                href={`/projects/${projectId}/list`}
+                className={`project-header__nav-link ${
+                  currentPath === "list"
+                    ? "project-header__nav-link--active"
+                    : ""
+                }`}
+              >
+                List
+              </Link>
+            </li>
+
             <li>
               <Link
                 href={`/projects/${projectId}/sketch`}

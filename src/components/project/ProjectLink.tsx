@@ -1,15 +1,13 @@
-import { useDeleteLink } from "@/hooks/LinkHook";
-import useMenu from "@/hooks/useMenu";
-import { InviteLink } from "@prisma/client";
-import Link from "next/link";
 import React from "react";
+import { useDeleteLink } from "@/hooks/LinkHook";
+import Link from "next/link";
+import useMenu from "@/hooks/useMenu";
+import { Link as LinkType } from "@prisma/client";
 import { toast } from "react-hot-toast";
 
-const ProjectLink = ({ link }) => {
+const ProjectLink = ({ link }: { link: LinkType }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const { mutate: deleteLink } = useDeleteLink();
-
-  //   const urlOfLink = new URL(link.url);
 
   return (
     <Link href={link.url} target="_blank" className="link">
@@ -36,10 +34,9 @@ const ProjectLink = ({ link }) => {
         />
       </svg>
       <div className="text">
-        {/* <span className="link__name">{link.name}</span> */}
+        <span className="link__name">{link.name}</span>
         <span className="link__url">{link.url}</span>
       </div>
-      {/* //! Need projectId or userId in req body */}
       <div className="link__button-container">
         <button
           onClick={(e) => {
@@ -62,7 +59,6 @@ const ProjectLink = ({ link }) => {
           <div
             onClick={(e) => {
               e.preventDefault();
-
               deleteLink({ linkId: link.id, projectId: link.projectId });
               toast.success(`Deleted ${link.name}`);
             }}

@@ -1,5 +1,3 @@
-import useMenu from "@/hooks/useMenu";
-import Link from "next/link";
 import React from "react";
 import ProjectLink from "./ProjectLink";
 import { InviteLink } from "@prisma/client";

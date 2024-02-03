@@ -85,10 +85,10 @@
 
         &__icon {
           flex-shrink: 0;
-          width: 20px;
-          height: 20px;
+          width: 18px;
+          height: 18px;
           fill: none;
-          margin-right: 8px;
+          margin-right: 4px;
         }
 
         .text {
@@ -149,6 +149,7 @@
           &-item {
             display: flex;
             padding: 6px 12px;
+            color: var(--color-red-text);
             &:hover {
               cursor: pointer;
               background-color: var(--color-gray--hover);

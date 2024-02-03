@@ -24,6 +24,7 @@ export default async function handler(
             },
           },
           members: true,
+          urlLinks: true,
         },
       });
 
