@@ -8,7 +8,7 @@ A project management system for small teams and freelancers. Organize your proje
 <img src="https://skillicons.dev/icons?i=react,ts,nextjs,scss" style="width:400px"/>
 
 ## Back-end
-<img src="https://skillicons.dev/icons?i=nodejs,ts,prisma,postgres" style="width:400px"/>
+<img src="https://skillicons.dev/icons?i=nodejs,ts,prisma" style="width:400px"/>
 
 # Features
 
