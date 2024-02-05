@@ -1,12 +1,11 @@
 .sketch-card {
-  padding: 0 8px;
+  padding: 0 12px;
   border-radius: 8px;
   border: 1px solid var(--color-border);
   height: 57px;
-  display: grid;
+  display: flex;
   align-items: center;
-  grid-template-columns: 625px 320px auto;
-  user-select: none;
+  // user-select: none;
 
   cursor: pointer;
 
@@ -21,16 +20,12 @@
   // .modified {
   // }
 
-  &__edit {
-    justify-self: end;
-    margin-right: 4px;
-  }
-  &__user {
+  &__author {
     display: flex;
     align-items: center;
     gap: 6px;
   }
-  &__user-icon {
+  &__author-icon {
     flex: 0 0 auto;
     display: flex;
     align-items: center;
@@ -43,23 +38,66 @@
     background-color: var(--color-primary--dark) !important;
     color: var(--color-navigation-text);
   }
-  &__user-name {
+
+  &__author-image {
+  }
+  &__author-name {
     min-width: 120px;
   }
 
   .name {
-    flex-basis: 625px;
+    flex-basis: 460px;
   }
-  .modified {
-    flex-basis: 320px;
+
+  .edited,
+  .created,
+  &__author {
+    flex-basis: 200px;
+  }
+
+  &__edit {
+    margin-left: auto;
+
+    .menu {
+      right: 0px;
+      left: unset;
+    }
+  }
+
+  &__more-btn {
+    &-container {
+      width: 32px;
+      height: 32px;
+      padding: 4px;
+      border-radius: 4px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .menu-button {
+        all: unset;
+      }
+
+      &:hover,
+      &.active {
+        background-color: var(--color-gray--hover-2);
+      }
+
+      .menu {
+        min-width: 150px;
+
+        .item--delete {
+          color: var(--color-red-text);
+        }
+      }
+    }
   }
 }
 
-.sketch-more-btn {
-  justify-self: flex-end;
-  .menu {
-    left: unset;
-    right: 0 !important;
+@media (max-width: 1100px) {
+  .sketch-card__author-name {
+    display: none;
   }
 }
 
@@ -71,15 +109,16 @@
   &__header {
     display: flex;
     align-items: center;
+    color: #707070;
 
     .name {
-      flex-basis: 633px;
+      flex-basis: 472px;
     }
-    .modified {
-      flex-basis: 320px;
-    }
-    .assignee {
-      flex-basis: 148px;
+
+    .edited,
+    .created,
+    .author {
+      flex-basis: 200px;
     }
   }
 }
@@ -134,35 +173,18 @@
   }
 }
 
-.sketch {
-  &__more-btn {
-    &-container {
-      width: 32px;
-      height: 32px;
-      padding: 4px;
-      border-radius: 4px;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+.no-sketches {
+  text-align: center;
+  margin-top: 32px;
 
-      .menu-button {
-        all: unset;
-      }
+  p {
+    font-size: 14px;
+    color: #a0a0a0;
+  }
 
-      &:hover,
-      &.active {
-        background-color: var(--color-gray--hover-2);
-      }
-
-      .menu {
-        min-width: 150px;
-
-        .item {
-          color: var(--color-red-text);
-        }
-      }
-    }
+  .button {
+    padding: 4px 16px;
+    margin-top: 8px;
   }
 }
 

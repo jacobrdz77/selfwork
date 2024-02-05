@@ -5,7 +5,6 @@ import { useModalStore } from "../../store/user";
 import SidebarProject from "../project/SidebarProject";
 import UserSidebarCard from "../user/UserSidebarCard";
 import useMenu from "@/hooks/useMenu";
-import { useOneWorkspace } from "@/hooks/WorkspaceHooks";
 import LoadingSkeleton from "../UI/LoadingSkeleton";
 import { useProjects } from "@/hooks/ProjectHooks";
 import WorkspaceList from "../workspace/WorkspaceList";

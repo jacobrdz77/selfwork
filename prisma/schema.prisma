@@ -62,6 +62,7 @@ model User {
   userSections               Section[]   @relation("UserSections")
   userAssignedTasksSection   Section?    @relation("UserNewTasksSection", fields: [userAssignedTasksSectionId], references: [id])
   userAssignedTasksSectionId String?
+  sketches                    Sketch[]
 
   @@unique([userAssignedTasksSectionId])
 }
@@ -235,8 +236,10 @@ model Sketch {
   id          String   @id @default(cuid())
   name        String
   elements    Json
-  project      Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId    String?
+  project     Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId   String?
+  author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId    String
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
 }

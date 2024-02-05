@@ -95,7 +95,7 @@ const AddClientModal: React.FC<{
               }
             }}
             placeholder="John Baker"
-            className={`input ${isNameError ? "input--error" : ""}`}
+            className={`form__input ${isNameError ? "form__input--error" : ""}`}
             id="name"
           />
           {isNameError && <p className="error-text">Please enter a name</p>}
@@ -109,7 +109,9 @@ const AddClientModal: React.FC<{
             onChange={(e) => setEmail(e.target.value)}
             onBlur={emailBlurHandler}
             placeholder="john@gmail.com"
-            className={`input ${isEmailError ? "input--error" : ""}`}
+            className={`form__input ${
+              isEmailError ? "form__input--error" : ""
+            }`}
           />
           {isEmailError && <p className="error-text">Enter a valid email</p>}
         </div>
@@ -122,7 +124,7 @@ const AddClientModal: React.FC<{
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             onBlur={phoneBlurHandler}
-            className={`input ${isPhoneError ? "email--error" : ""}`}
+            className={`form__input ${isPhoneError ? "email--error" : ""}`}
           />
           {isPhoneError && <p>Enter a valid US phone number</p>}
         </div>
@@ -131,7 +133,7 @@ const AddClientModal: React.FC<{
           <input
             id="address"
             type="text"
-            className="input"
+            className="form__input"
             value={companyName}
             placeholder="Google LLC"
             onChange={(e) => setCompanyName(e.target.value)}
@@ -141,7 +143,7 @@ const AddClientModal: React.FC<{
         <div className="input-block">
           <label>Business Address</label>
           <input
-            className="input address"
+            className="form__input address"
             placeholder="1234 Lakeview"
             value={businessAddress}
             onChange={(e) => setBusinessAddress(e.target.value)}

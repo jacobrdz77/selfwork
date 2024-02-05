@@ -1,35 +1,55 @@
 import React from "react";
 import useMenu from "@/hooks/useMenu";
-import { formatDistance } from "date-fns";
+import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
+import Image from "next/image";
+import { getInitials } from "@/utils/user";
 
 const SketchCard = ({
   id,
   name,
-  lastModified,
+  author,
+  createdAt,
+  updatedAt,
 }: {
   id: string;
   name: string;
-  lastModified: Date | null;
+  updatedAt: Date | string;
+  createdAt: Date | string;
+  author: {
+    name: string;
+    image?: string;
+  };
 }) => {
-  // Todo: Create function that counts the day since the lastModifiedDate
-
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   return (
     <Link href={`/sketch/${id}`}>
       <div className="sketch-card">
         <div className="name">{name}</div>
-        <div className="modified">
-          {formatDistance(new Date(lastModified!), new Date(), {
-            addSuffix: true,
-          })}
+        <div className="edited">{formatDistanceToNow(new Date(updatedAt))}</div>
+        <div className="created">
+          {formatDistanceToNow(new Date(createdAt), {})}
+        </div>
+        <div className="sketch-card__author">
+          {author.image ? (
+            <Image
+              className="sketch-card__author-image"
+              src={author.image}
+              alt="User image"
+            />
+          ) : (
+            <div className={`sketch-card__author-icon`}>
+              {getInitials(author.name)}
+            </div>
+          )}
+
+          <span className="sketch-card__author-name">{author.name}</span>
         </div>
 
         {/* Edit button */}
         <div className="sketch-card__edit">
-          {" "}
           <div
-            className={`sketch__more-btn-container  ${
+            className={`sketch-card__more-btn-container  ${
               isMenuOpen ? "active" : ""
             }`}
           >
@@ -56,7 +76,16 @@ const SketchCard = ({
               <button
                 className="item"
                 onClick={() => {
-                  console.log("DElete sketch");
+                  console.log("Rename sketch");
+                  setIsMenuOpen(false);
+                }}
+              >
+                Rename
+              </button>
+              <button
+                className="item item--delete"
+                onClick={() => {
+                  console.log("Delete sketch");
                   setIsMenuOpen(false);
                 }}
               >

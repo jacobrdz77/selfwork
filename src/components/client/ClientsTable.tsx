@@ -172,9 +172,7 @@ const NoClients = () => {
   );
   return (
     <div className="clients-table__no-clients">
-      <div>
-        <h3>No Clients Found</h3>
-      </div>
+      <p>No clients found</p>
       <button
         className="button no-data__button"
         onClick={() => {

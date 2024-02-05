@@ -1,12 +1,18 @@
 import useMenu from "@/hooks/useMenu";
+import {
+  sortSketchByEditedDate,
+  sortSketchByName,
+} from "@/utils/sortingSketch";
 import React from "react";
 
 const SketchFilterButton = ({
   filter,
   setFilter,
+  setSortedSketches,
 }: {
   filter: string;
   setFilter: any;
+  setSortedSketches: any;
 }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
 
@@ -26,8 +32,7 @@ const SketchFilterButton = ({
         role="button"
       >
         <span>
-          {filter === "lastViewed" && "Last Viewed"}{" "}
-          {filter === "dateCreated" && "Date created"}{" "}
+          {filter === "lastEdited" && "Last Edited"}{" "}
           {filter === "alphabetical" && "Alphabetical"}
         </span>
         <div>
@@ -56,28 +61,25 @@ const SketchFilterButton = ({
             className={`item ${filter === "alphabetical" ? "active" : ""}`}
             onClick={() => {
               setFilter("alphabetical");
+              setSortedSketches((state: any) => {
+                return sortSketchByName(state);
+              });
               setIsMenuOpen(false);
             }}
           >
             Alphabetical
           </div>
           <div
-            className={`item ${filter === "lastViewed" ? "active" : ""}`}
+            className={`item ${filter === "lastEdited" ? "active" : ""}`}
             onClick={() => {
-              setFilter("lastViewed");
+              setFilter("lastEdited");
+              setSortedSketches((state: any) => {
+                return sortSketchByEditedDate(state);
+              });
               setIsMenuOpen(false);
             }}
           >
-            Last viewed
-          </div>
-          <div
-            className={`item ${filter === "dateCreated" ? "active" : ""}`}
-            onClick={() => {
-              setFilter("dateCreated");
-              setIsMenuOpen(false);
-            }}
-          >
-            Date created
+            Last Edited
           </div>
         </div>
       </div>
