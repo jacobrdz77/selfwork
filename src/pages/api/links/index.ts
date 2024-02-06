@@ -1,78 +1,46 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { z } from "zod";
 import prisma from "../../../../prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // Creates InviteLink and sends it to email.
+  // GET all links
+  if (req.method === "GET") {
+    if (req.query.projectId) {
+      const links = await prisma.link.findMany({
+        where: { projectId: req.query.projectId as string },
+      });
+      return res.status(200).json(links);
+    }
+
+    const links = await prisma.link.findMany();
+    return res.status(200).json(links);
+  }
+
+  // Create a new link
   if (req.method === "POST") {
     try {
-      // PARSE
-      const body = JSON.parse(req.body);
-      const { inviteLink } = body;
+      const link = req.body;
+      if (!link) {
+        return res.status(400).json({ error: "Provide link data." });
+      }
 
-      console.log("LINK: ", inviteLink);
-
-      // Validate incoming body
-      const linkSchema = z.object({
-        email: z.string().email(),
-        workspaceId: z.string().optional(),
-        projectId: z.string().optional(),
+      const newLink = await prisma.link.create({
+        data: {
+          name: link.name,
+          url: link.url,
+          project: {
+            connect: {
+              id: link.projectId,
+            },
+          },
+        },
       });
 
-      const validInviteLink = linkSchema.parse(inviteLink);
-
-      const generatedExpirationDate = new Date();
-      generatedExpirationDate.setDate(generatedExpirationDate.getDate() + 1);
-
-      if (validInviteLink.projectId) {
-        // Create a invite to Project
-        const generatedLink = await prisma.inviteLink.create({
-          data: {
-            expirationDate: generatedExpirationDate,
-            project: {
-              connect: {
-                id: validInviteLink.projectId,
-              },
-            },
-          },
-        });
-
-        // Todo: Send email with InviteLink
-
-        return res.status(200).json({
-          message: `Link sent to ${validInviteLink.email} `,
-          generatedLink,
-        });
-      } else if (validInviteLink.workspaceId) {
-        // Create a invite to Workspace
-        const generatedLink = await prisma.inviteLink.create({
-          data: {
-            expirationDate: generatedExpirationDate,
-            workspace: {
-              connect: {
-                id: validInviteLink.workspaceId,
-              },
-            },
-          },
-        });
-
-        // Todo: Send email with InviteLink
-
-        return res.status(200).json({
-          message: `Link sent to ${validInviteLink.email} `,
-          generatedLink,
-        });
-      } else {
-        res.status(400).json({
-          error: "Please include projectId or workspaceId to create link.",
-        });
-      }
+      return res.status(200).json(newLink);
     } catch (error: any) {
-      console.log(error);
-      return res.status(400).json({ error: error });
+      return res.status(400).json({ error: error.message });
     }
   }
   return res.status(400).json({ error: "Request Not Allowed" });

@@ -18,7 +18,7 @@ const AddLinkPopup = ({
   const [url, setUrl] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
   const [urlError, setUrlError] = useState(false);
-  const { mutateAsync: createLink } = useCreateLink(projectId);
+  const { mutateAsync: createLink } = useCreateLink();
 
   useEffect(() => {
     // const currentURL = new URL(url);
@@ -35,6 +35,7 @@ const AddLinkPopup = ({
         const link = await createLink({
           name,
           url,
+          projectId,
         });
         toast.success(`Created new link: ${name}`);
         setIsOpen(false);

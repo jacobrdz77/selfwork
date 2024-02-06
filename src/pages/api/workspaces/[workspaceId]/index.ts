@@ -6,9 +6,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  //* WORKS
-  // GET one workspace
-  // RETURN: a workspace
   if (req.method === "GET") {
     try {
       const { workspaceId, with_projects } = req.query;
@@ -53,12 +50,7 @@ export default async function handler(
     } catch (error: Error | any) {
       return res.status(400).json({ error: error.message });
     }
-  }
-
-  //* WORKS
-  // DELETE a workspace
-  // RETURN: the deleted workspace
-  else if (req.method === "DELETE") {
+  } else if (req.method === "DELETE") {
     try {
       const { workspaceId, ownerId } = req.query;
       const workspaces = await prisma.workspace.findMany({
@@ -68,8 +60,7 @@ export default async function handler(
       });
       if (workspaces.length === 1) {
         return res.status(403).json({
-          error:
-            "Cannot delete your only workspace. Create another new one and try again.",
+          error: "Cannot delete your only workspace.",
         });
       }
       const workspace = await prisma.workspace.delete({
@@ -85,12 +76,9 @@ export default async function handler(
 
   // Future:
   //// Todo: Connect a member to a workspace
-  // UPDATE a workspace
-  // RETURN: the updated workspace
   else if (req.method === "PUT") {
     try {
-      const body = JSON.parse(req.body);
-      const { workspaceData } = body;
+      const workspaceData = req.body;
       const { workspaceId } = req.query;
 
       const workspace = await prisma.workspace.update({

@@ -76,6 +76,9 @@ const UserSidebarCard = () => {
               </div>
             </div>
           </div>
+          <div className="sidebar__tooltip">
+            <span>{user?.name}</span>
+          </div>
         </div>
       ) : (
         <div className="sidebar__add-container">

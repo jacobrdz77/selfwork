@@ -1,17 +1,14 @@
-import { useUserStore, userStore } from "../store/user";
+import { userStore } from "../store/user";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  NewProjectFormData,
-  ProjectsWithSections,
-  UpdateProjectData,
-} from "../types/types";
+import { NewProjectFormData, UpdateProjectData } from "../types/types";
 import {
   createProject,
+  deleteProject,
   getOneProject,
   getProjects,
+  getProjectsWithSections,
   updateProject,
 } from "../utils/projectFunctions";
-import { Project } from "@prisma/client";
 
 export const useProjects = () => {
   const workspaceId = userStore.getState().workspaceId;
@@ -26,25 +23,11 @@ export const useProjects = () => {
   };
 };
 
-export const useProjectWithSections = () => {
+export const useProjectsWithSections = () => {
   const workspaceId = userStore.getState().workspaceId;
   const { data: projects, status } = useQuery({
     queryKey: ["projects", "sections"],
-    queryFn: async () => {
-      try {
-        const response = await fetch(
-          `/api/workspaces/${workspaceId}/projects?sections=true`
-        );
-        if (!response.ok) {
-          throw new Error(
-            "Error happend!: " + response.status.toLocaleString()
-          );
-        }
-        return (await response.json()) as ProjectsWithSections;
-      } catch (error) {
-        throw error;
-      }
-    },
+    queryFn: async () => getProjectsWithSections(workspaceId),
     // select(data) {
     //   if (!data) return;
     //   const projects = data.map((project) => ({
@@ -104,32 +87,13 @@ export const useDeleteProject = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (projectId: string) => {
-      try {
-        const response = await fetch(`/api/projects/${projectId}`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        if (!response.ok) {
-          throw new Error(
-            "Error happend!: " + response.status.toLocaleString()
-          );
-        }
-        return await response.json();
-      } catch (error) {
-        console.log(error);
-        throw error;
-      }
-    },
-
+    mutationFn: async (projectId: string) => deleteProject(projectId),
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({ queryKey: ["projects"] });
       await queryClient.invalidateQueries({
         queryKey: ["workspace"],
       });
-      console.log("Deleted project: ", data);
+      console.log("Deleted project", data);
     },
   });
 };
@@ -144,31 +108,10 @@ export const useUpdateProject = () => {
     }: {
       projectId: string;
       projectData: UpdateProjectData;
-    }) => {
-      try {
-        const response = await fetch(`/api/projects/${projectId}`, {
-          method: "PUT",
-
-          // body: JSON.stringify({
-          //   projectData: projectData,
-          // }),
-          body: JSON.stringify({
-            projectData: projectData,
-          }),
-        });
-
-        if (!response.ok) {
-          throw Error("Error happend!: " + response.status.toLocaleString());
-        }
-        return (await response.json()) as Project;
-      } catch (error) {
-        console.log(error);
-        throw error;
-      }
-    },
+    }) => updateProject(projectId, projectData),
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({ queryKey: ["projects"] });
-      await queryClient.invalidateQueries({ queryKey: ["project", data.id] });
+      await queryClient.invalidateQueries({ queryKey: ["project", data?.id] });
       await queryClient.invalidateQueries({ queryKey: ["workspace"] });
     },
   });

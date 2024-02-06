@@ -1,39 +1,6 @@
 import { NewLink } from "@/types/types";
-import { Link } from "@prisma/client";
+import { createLink, deleteLink, getLinks } from "@/utils/linkFunctions";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-
-const createLink = async (link: NewLink, projectId: string) => {
-  try {
-    const response = await fetch(`/api/projects/${projectId}/links`, {
-      method: "POST",
-      body: JSON.stringify({
-        link: { ...link },
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error("Error happend!: " + response.status.toLocaleString());
-    }
-
-    return (await response.json()) as Link;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const getLinks = async (projectId: string) => {
-  try {
-    const response = await fetch(`/api/projects/${projectId}/links`);
-
-    if (!response.ok) {
-      throw new Error("Error happend!: " + response.status.toLocaleString());
-    }
-
-    return (await response.json()) as Link[];
-  } catch (error) {
-    throw error;
-  }
-};
 
 export const useLinks = (projectId: string) => {
   const { data: links, status } = useQuery({
@@ -47,11 +14,11 @@ export const useLinks = (projectId: string) => {
   };
 };
 
-export const useCreateLink = (projectId: string) => {
+export const useCreateLink = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (newLinkData: NewLink) => createLink(newLinkData, projectId),
+    mutationFn: (linkData: NewLink) => createLink(linkData),
 
     onSuccess: async () => {
       await queryClient.invalidateQueries({
@@ -65,34 +32,7 @@ export const useDeleteLink = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({
-      linkId,
-      projectId,
-    }: {
-      linkId: string;
-      projectId: string;
-    }) => {
-      try {
-        const response = await fetch(
-          `/api/projects/${projectId}/links/${linkId}`,
-          {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        if (!response.ok) {
-          throw new Error(
-            "Error happend!: " + response.status.toLocaleString()
-          );
-        }
-        return await response.json();
-      } catch (error) {
-        console.log(error);
-        throw error;
-      }
-    },
+    mutationFn: (linkId: string) => deleteLink(linkId),
 
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({ queryKey: ["links"] });

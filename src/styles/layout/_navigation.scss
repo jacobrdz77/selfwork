@@ -15,14 +15,19 @@
     width: 60px;
 
     .sidebar__user {
-      position: relative;
       justify-content: center;
       padding: 12px 10px;
-      &:hover .sidebar__tooltip {
-        top: 20%;
-        visibility: visible;
-        scale: 100%;
+
+      &-container {
+        position: relative;
+        &:hover .sidebar__tooltip {
+          top: 15%;
+          left: 117%;
+          visibility: visible;
+          scale: 100%;
+        }
       }
+
       &-icon {
         margin: unset;
       }
@@ -51,13 +56,6 @@
       &-container {
         position: relative;
       }
-
-      &:hover {
-        .sidebar__tooltip {
-          visibility: visible;
-          scale: 100%;
-        }
-      }
     }
 
     .sidebar__workspace-link {
@@ -67,11 +65,34 @@
       border-radius: 6px;
       gap: 10px;
       padding: 6px 0px;
-
       height: 57px;
+
+      position: relative;
+      &:hover {
+        .sidebar__tooltip {
+          top: 25%;
+          visibility: visible;
+          scale: 100%;
+        }
+      }
+
+      &-container {
+        // position: relative;
+      }
 
       &__name {
         display: none;
+      }
+    }
+
+    .workspace-list,
+    .sidebar__add-container {
+      &:hover {
+        .sidebar__tooltip {
+          left: 117%;
+          visibility: visible;
+          scale: 100%;
+        }
       }
     }
 
@@ -613,7 +634,6 @@
   }
 
   &__tooltip {
-    display: inline;
     visibility: hidden;
     max-width: 180px;
     display: flex;

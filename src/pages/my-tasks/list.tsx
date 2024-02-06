@@ -4,7 +4,7 @@ import { useSectionsOfUser } from "@/hooks/SectionHooks";
 import TaskTableHead from "@/components/task/TaskTableHead";
 import MyTaskNav from "@/components/header/MyTaskNav";
 import SectionsList from "@/components/sections/SectionsList";
-import useSortedSections from "@/hooks/useSortedSections";
+import { useSortedSections } from "@/hooks/SectionHooks";
 import LoadingListViewPage from "@/components/loading/LoadingListViewPage";
 import LoadingHeader from "@/components/loading/LoadingHeader";
 

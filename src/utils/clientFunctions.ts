@@ -1,58 +1,58 @@
-import { ClientWithProjects } from "@/types/types";
+import {
+  ClientWithProjects,
+  NewClientData,
+  UpdateClientData,
+} from "@/types/types";
 import { Client } from "@prisma/client";
-import axios from "axios";
-
-export type newClient = {
-  name: string;
-  description: string;
-  email: string;
-  phone: string;
-  businessAddress: string;
-  website: string;
-  user: {
-    connect: {
-      id: string;
-    };
-  };
-};
+import { axios } from "libs/axios";
 
 // create a new client
-export const createClient = async (client: newClient) => {
-  const newClient = await axios.post("/api/clients", { client });
-  return newClient.data as Client;
+export const createClient = async (client: NewClientData, userId: string) => {
+  try {
+    console.log("INPUT: ", client, userId);
+    const response = await axios.post("/clients", { ...client, userId });
+    return response.data as Client;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // Get all clients
 export const getClients = async (userId: string) => {
-  const allClients = await axios.get("/api/clients", {
+  const response = await axios.get("/clients", {
     data: {
       userId,
     },
   });
-  return allClients.data as ClientWithProjects[];
+
+  return response.data as ClientWithProjects[];
 };
 
 // Get one client
 export const getOneClient = async (clientId: string) => {
-  const client = await axios.get(`/api/clients/${clientId}`);
-  return client.data as Client;
+  const response = await axios.get(`/clients/${clientId}`);
+  return response.data as Client;
 };
 
 // Update a client
 export const updateClient = async (
   clientId: string,
-  newClientData: newClient
+  clientData: UpdateClientData
 ) => {
-  const updatedClient = await axios.put(`/api/clients/${clientId}`, {
-    data: {
-      newClientData,
-    },
-  });
-  return updatedClient.data as Client;
+  try {
+    const response = await axios.put(`/clients/${clientId}`, { clientData });
+    return response.data as Client;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // Delete Client
 export const deleteClient = async (clientId: string) => {
-  const deletedClient = await axios.delete(`/api/clients/${clientId}`);
-  return deletedClient.data as Client;
+  try {
+    const response = await axios.delete(`/clients/${clientId}`);
+    return response.data as Client;
+  } catch (error) {
+    console.log(error);
+  }
 };

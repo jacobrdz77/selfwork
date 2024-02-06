@@ -34,8 +34,7 @@ export default async function handler(
   // Create a new task
   if (req.method === "POST") {
     try {
-      const body = JSON.parse(req.body);
-      const task = body;
+      const task = req.body;
       if (!task) {
         return res.status(400).json({ error: "Provide project data." });
       }

@@ -3,7 +3,7 @@ import PageHeader from "@/components/header/PageHeader";
 import Boards from "@/components/sections/Boards";
 import { useSectionsOfUser } from "@/hooks/SectionHooks";
 import React from "react";
-import useSortedSections from "@/hooks/useSortedSections";
+import { useSortedSections } from "@/hooks/SectionHooks";
 import LoadingBoardViewPage from "@/components/loading/LoadingBoardViewPage";
 import LoadingHeader from "@/components/loading/LoadingHeader";
 import LoadingSkeleton from "@/components/UI/LoadingSkeleton";

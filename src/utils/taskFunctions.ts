@@ -1,41 +1,81 @@
-import { TaskWithAssignee } from "@/types/types";
-import { Task } from "@prisma/client";
-import axios from "axios";
-type newTask = {
-  name: string;
-  description: string;
-  userId: string;
-  isComplete: boolean;
-  catagory: string;
-  projectId: string;
-};
+import { NewTaskData, TaskData, TaskWithAssignee } from "@/types/types";
+import { Priority, Task, User } from "@prisma/client";
+import { axios } from "libs/axios";
 
-// Get all user tasks
 export const getUserTasks = async (userId: string) => {
-  const allTasks = await axios.get(`/api/tasks?userId=${userId}`);
-  return allTasks.data as TaskWithAssignee[];
+  try {
+    const response = await axios.get(`/tasks?userId=${userId}`);
+    return response.data as TaskWithAssignee[];
+  } catch (error) {
+    console.log(error);
+  }
 };
-// Get all section tasks
+
 export const getSectionTasks = async (sectionId: string) => {
-  const allTasks = await axios.get(`/api/tasks?sectionId=${sectionId}`);
-  return allTasks.data as TaskWithAssignee[];
+  try {
+    const response = await axios.get(`/tasks?sectionId=${sectionId}`);
+    return response.data as TaskWithAssignee[];
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-// Transform all fetches to axio calls
-// Create a new task
-export const createTask = async (task: newTask) => {
-  const newtask = await axios.post("/api/tasks", { task });
-  return newtask.data as Task;
+export const createTask = async (task: NewTaskData) => {
+  try {
+    // For new backend
+    // const response = await axios(
+    //   `/api/sections/${taskData.sectionId}/tasks`,
+    //   taskData
+    // );
+    const response = await axios.post("/tasks", task);
+    return response.data as Task;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-// Get one task
 export const getOneTask = async (taskId: string) => {
-  const task = await axios.get(`/api/tasks/${taskId}`);
-  return task.data as TaskWithAssignee;
+  try {
+    const response = await axios.get(`/tasks/${taskId}`);
+    return response.data as Task;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-// Update a task
-export const updateTask = async (taskId: string, task: newTask) => {
-  const updatedTask = await axios.put(`/api/tasks/${taskId}`, { task });
-  return updatedTask.data as Task;
+export const updateTask = async (taskId: string, taskData: TaskData) => {
+  try {
+    const response = await axios.put(`/tasks/${taskId}`, taskData);
+    return response.data as Task;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateTaskOrder = async (taskData: {
+  id: string;
+  currentOrder: number;
+  newOrder: number;
+}) => {
+  try {
+    const response = await axios.put(
+      `/tasks/${taskData.id}?order_change=true`,
+      {
+        currentOrder: taskData.currentOrder,
+        newOrder: taskData.newOrder,
+      }
+    );
+    return response.data as Task;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteTask = async (taskId: string) => {
+  try {
+    const response = await axios.delete(`/tasks/${taskId}`);
+    return response.data as Task;
+  } catch (error) {
+    console.log(error);
+  }
 };

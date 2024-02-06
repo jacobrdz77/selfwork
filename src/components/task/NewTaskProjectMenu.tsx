@@ -1,7 +1,7 @@
 import { Section } from "@prisma/client";
 import { Dispatch, MutableRefObject, SetStateAction } from "react";
 import LoadingSkeleton from "../UI/LoadingSkeleton";
-import { useProjectWithSections } from "@/hooks/ProjectHooks";
+import { useProjectsWithSections } from "@/hooks/ProjectHooks";
 
 const NewTaskProjectMenu = ({
   projectMenuRef,
@@ -20,7 +20,7 @@ const NewTaskProjectMenu = ({
     } | null>
   >;
 }) => {
-  const { projects, status } = useProjectWithSections();
+  const { projects, status } = useProjectsWithSections();
 
   return (
     <div

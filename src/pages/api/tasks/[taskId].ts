@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../prisma/client";
-import findInterval from "@/utils/findInterval";
+import findMinMax from "@/utils/findMinMax";
 import { bulkUpdate } from "@/utils/bulkUpdate";
 
 export default async function handler(
@@ -94,7 +94,7 @@ export default async function handler(
   else if (req.method === "PUT") {
     try {
       const { taskId, order_change } = req.query;
-      const taskData = JSON.parse(req.body);
+      const taskData = req.body;
 
       const newData = {
         name: taskData.name,
@@ -132,7 +132,7 @@ export default async function handler(
           });
         }
 
-        const [least, greatest] = findInterval(currentOrder, newOrder);
+        const [least, greatest] = findMinMax(currentOrder, newOrder);
 
         const allTasks = await prisma.task.findMany({
           where: { order: { gte: least, lte: greatest } },

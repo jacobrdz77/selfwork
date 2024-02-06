@@ -133,8 +133,8 @@ const EditProjectModal: React.FC<{
               className="menu-button"
             >
               {dueDate === null ? (
-                <div className="new-project__date--empty">
-                  <div className="new-project__date-icon">
+                <div className="edit-project__date--empty">
+                  <div className="edit-project__date-icon">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -146,8 +146,8 @@ const EditProjectModal: React.FC<{
                   <span>No due date</span>
                 </div>
               ) : (
-                <div className="new-project__date">
-                  <div className="new-project__date-icon">
+                <div className="edit-project__date">
+                  <div className="edit-project__date-icon">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -171,7 +171,7 @@ const EditProjectModal: React.FC<{
                 ref={menuRef}
               >
                 <ReactDatePicker
-                  value={dueDate}
+                  value={new Date(dueDate)}
                   selected={new Date(dueDate)}
                   onChange={(dueDate) => {
                     setDueDate(new Date(dueDate));

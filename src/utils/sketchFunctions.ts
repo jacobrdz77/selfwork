@@ -1,4 +1,5 @@
 import { Sketch } from "@prisma/client";
+import { axios } from "libs/axios";
 
 type SketchData = {
   name?: string;
@@ -6,21 +7,15 @@ type SketchData = {
 };
 
 export const createSketch = async (sketchData: {
-  name: string;
+  authorId: string;
   projectId: string;
 }) => {
   try {
-    const response = await fetch(`/api/sketches`, {
-      method: "POST",
-      body: JSON.stringify({
-        sketchData,
-      }),
+    const response = await axios.post(`/api/sketches`, {
+      sketchData,
     });
 
-    if (!response.ok) {
-      throw Error("Error happend!: " + response.status.toLocaleString());
-    }
-    return (await response.json()) as Sketch;
+    return response.data as Sketch;
   } catch (error) {
     console.log(error);
   }
@@ -28,29 +23,21 @@ export const createSketch = async (sketchData: {
 
 export const getProjectSketches = async (projectId: string) => {
   try {
-    const response = await fetch(`/api/projects/${projectId}/sketches`);
+    const response = await axios.get(`/api/projects/${projectId}/sketches`);
 
-    if (!response.ok) {
-      throw new Error("Error happend!: " + response.status.toLocaleString());
-    }
-
-    return (await response.json()) as Sketch[];
+    return response.data as Sketch[];
   } catch (error) {
-    throw error;
+    console.log(error);
   }
 };
 
 export const getOneSketch = async (sketchId: string) => {
   try {
-    const response = await fetch(`/api/sketches/${sketchId}`);
+    const response = await axios.get(`/sketches/${sketchId}`);
 
-    if (!response.ok) {
-      throw new Error("Error happend!: " + response.status.toLocaleString());
-    }
-
-    return (await response.json()) as Sketch;
+    return response.data as Sketch;
   } catch (error) {
-    throw error;
+    console.log(error);
   }
 };
 
@@ -59,41 +46,20 @@ export const updateSketch = async (
   sketchData: SketchData
 ) => {
   try {
-    const response = await fetch(`/api/sketches/${sketchId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        sketchData: { ...sketchData },
-      }),
+    const response = await axios.put(`/sketches/${sketchId}`, {
+      sketchData,
     });
-
-    if (!response.ok) {
-      throw new Error("Error happend!: " + response.status.toLocaleString());
-    }
-
-    return (await response.json()) as Sketch;
+    return response.data as Sketch;
   } catch (error) {
-    throw error;
+    console.log(error);
   }
 };
 
-// DELETE
 export const deleteSketch = async (sketchId: string) => {
   try {
-    const response = await fetch(`/api/sketches/${sketchId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (!response.ok) {
-      throw new Error("Error happend!: " + response.status.toLocaleString());
-    }
-    return (await response.json()) as Sketch;
+    const response = await axios.delete(`/sketches/${sketchId}`);
+    return response.data as Sketch;
   } catch (error) {
     console.log(error);
-    throw error;
   }
 };

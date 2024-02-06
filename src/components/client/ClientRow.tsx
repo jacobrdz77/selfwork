@@ -59,7 +59,7 @@ const ClientRow = ({ client }: { client: ClientWithProjects }) => {
               setIsOpen(true);
             }}
           >
-            View
+            Edit
           </button>
         </td>
       </tr>

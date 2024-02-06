@@ -35,6 +35,9 @@ const WorkspaceList = ({ isNavMinimized }: { isNavMinimized: boolean }) => {
           </svg>
         </div>
       </button>
+      <div className="sidebar__tooltip">
+        <span>Workspaces</span>
+      </div>
       <div
         className={`menu workspace-list__menu ${
           isMenuOpen ? "menu--active" : ""

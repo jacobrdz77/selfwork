@@ -104,11 +104,8 @@ export default async function handler(
   if (req.method === "POST") {
     try {
       // Get the section data from the request body
-      const body = JSON.parse(req.body);
-      console.log(body);
-      const sectionData = body;
+      const sectionData = req.body;
       const { projectId, userId } = req.query;
-      // console.log("Making User Section");
 
       if (!projectId && !userId) {
         return res

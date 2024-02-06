@@ -19,8 +19,8 @@ const EditUserModal = ({
   userId: string;
 }) => {
   const [name, setName] = useState(initialName);
-  const [email, setEmail] = useState(initialEmail);
-  const [phone, setPhone] = useState(initialPhone);
+  const [email, setEmail] = useState(initialEmail ? initialEmail : "");
+  const [phone, setPhone] = useState(initialPhone ? initialPhone : "");
   const [emailError, setEmailError] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const { mutateAsync: updateUser } = useUpdateUser();
@@ -36,7 +36,7 @@ const EditUserModal = ({
     try {
       if (true) {
         setEmailError(false);
-        const user = await updateUser({
+        await updateUser({
           userData: {
             name,
             email,
@@ -65,7 +65,7 @@ const EditUserModal = ({
       }}
     >
       <div className="profile__edit">
-        <h1 className="profile__edit-title">Edit</h1>
+        <h1 className="profile__edit-title">Edit profile</h1>
         <form onSubmit={submitHandler} className="profile__form">
           <label className="label" htmlFor="name">
             Name

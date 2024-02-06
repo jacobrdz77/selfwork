@@ -15,9 +15,6 @@ const ProfilePage = () => {
   const [isEditUserOpen, setIsEditUserOpen] = useState(false);
   const isAddTaskOpen = useModalStore((state) => state.isAddTaskOpen);
   const setIsAddTaskOpen = useModalStore((state) => state.setIsAddTaskOpen);
-  const isAddProjectModalOpen = useModalStore(
-    (state) => state.isAddProjectModalOpen
-  );
   const setIsAddProjectModalOpen = useModalStore(
     (state) => state.setIsAddProjectModalOpen
   );
@@ -116,8 +113,7 @@ const ProfilePage = () => {
                   </div>
                 </div>
               ) : (
-                user?.involvedProjects &&
-                user?.involvedProjects.map((project) => (
+                user?.involvedProjects?.map((project) => (
                   <UserProfileProject key={project.id} project={project} />
                 ))
               )}
@@ -152,19 +148,19 @@ const UserProfileProject = ({ project }: { project: Project }) => {
   );
 };
 
-const UserProfileTask = ({ task }: { task: Task }) => {
-  return (
-    <div
-      onClick={() => {
-        // Todo: Open task detail modal
-      }}
-      className="one-task"
-      key={task.id}
-    >
-      <div>{task.name}</div>
-      <div>
-        <AssigneeButton task={task} />
-      </div>
-    </div>
-  );
-};
+// const UserProfileTask = ({ task }: { task: Task }) => {
+//   return (
+//     <div
+//       onClick={() => {
+//         // Todo: Open task detail modal
+//       }}
+//       className="one-task"
+//       key={task.id}
+//     >
+//       <div>{task.name}</div>
+//       <div>
+//         <AssigneeButton task={task} />
+//       </div>
+//     </div>
+//   );
+// };

@@ -59,7 +59,7 @@ const ProjectLink = ({ link }: { link: LinkType }) => {
           <div
             onClick={(e) => {
               e.preventDefault();
-              deleteLink({ linkId: link.id, projectId: link.projectId });
+              deleteLink(link.id);
               toast.success(`Deleted ${link.name}`);
             }}
             className="link__menu-item"

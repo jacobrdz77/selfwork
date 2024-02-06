@@ -1,4 +1,4 @@
-const findInterval = (numberOne: number, numberTwo: number): number[] => {
+const findMinMax = (numberOne: number, numberTwo: number): number[] => {
   // returns [least, greatest]
   if (numberOne > numberTwo) {
     return [numberTwo, numberOne];
@@ -7,4 +7,4 @@ const findInterval = (numberOne: number, numberTwo: number): number[] => {
   }
 };
 
-export default findInterval;
+export default findMinMax;

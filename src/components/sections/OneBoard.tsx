@@ -12,7 +12,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import useDndContextForSorting from "@/hooks/useDndContextForSorting";
-import useSortedTasks from "@/hooks/useSortedTasks";
+import { useSortedTasks } from "@/hooks/TaskHooks";
 import { DndContext } from "@dnd-kit/core";
 import { useModalStore } from "store/user";
 

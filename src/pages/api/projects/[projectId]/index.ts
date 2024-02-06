@@ -45,12 +45,12 @@ export default async function handler(
   else if (req.method === "DELETE") {
     try {
       const { projectId } = req.query;
-      const project = await prisma.project.delete({
+      const deletedProject = await prisma.project.delete({
         where: {
           id: projectId as string,
         },
       });
-      return res.status(204);
+      return res.status(200).json(deletedProject);
     } catch (error: Error | any) {
       return res.status(400).json(error);
     }
@@ -60,13 +60,10 @@ export default async function handler(
   // RETURN: the updated project
   else if (req.method === "PUT") {
     try {
-      const body = await JSON.parse(req.body);
+      const { projectData } = req.body;
       const { projectId } = req.query;
-      const { projectData } = body;
-      // console.log("PROJECT : ", projectData);
-      // console.log("color: ", transformColor(projectData.iconColor));
 
-      await prisma.project.update({
+      const updatedProject = await prisma.project.update({
         where: {
           id: projectId as string,
         },
@@ -76,7 +73,7 @@ export default async function handler(
         },
       });
 
-      return res.status(204);
+      return res.status(200).json(updatedProject);
     } catch (error: Error | any) {
       console.log(error);
       return res.status(400).json({ error: error.message });

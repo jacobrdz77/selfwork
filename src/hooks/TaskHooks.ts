@@ -1,26 +1,22 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  createTask,
+  deleteTask,
   getOneTask,
   getSectionTasks,
   getUserTasks,
+  updateTask,
+  updateTaskOrder,
 } from "../utils/taskFunctions";
 import { useUserStore } from "../store/user";
-import { Priority, Section, Task, TaskStatus, User } from "@prisma/client";
-import { SectionWithTasks, TaskWithAssignee } from "@/types/types";
-
-export type TaskData = {
-  name?: string;
-  description?: string;
-  priority?: Priority;
-  status?: TaskStatus;
-  isComplete?: boolean;
-  startDate?: Date | null;
-  dueDate?: Date | null;
-  projectId?: string | null;
-  assigneeId?: string | null;
-  assignee?: { name: string | null } | null;
-  sectionId?: string | null;
-};
+import {
+  NewTaskData,
+  SectionWithTasks,
+  TaskData,
+  TaskWithAssignee,
+} from "@/types/types";
+import { useEffect, useState } from "react";
+import sortArray from "@/utils/sortSections";
 
 function generateId() {
   return Math.floor(Math.random() * 100) + "";
@@ -79,36 +75,7 @@ export const useCreateTask = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (taskData: {
-      name: string;
-      sectionId: string;
-      description: string;
-      assignee: User | null;
-      priority: Priority | null;
-      order: number;
-    }) => {
-      try {
-        // For new backend
-        // const response = await fetch(
-        //   `/api/sections/${taskData.sectionId}/tasks`,
-        //   {
-        //     method: "POST",
-        //     body: JSON.stringify(taskData),
-        //   }
-        // );
-        const response = await fetch(`/api/tasks`, {
-          method: "POST",
-          body: JSON.stringify(taskData),
-        });
-        if (!response.ok) {
-          throw new Error("Error happend! " + response.status.toLocaleString());
-        }
-        return (await response.json()) as Task;
-      } catch (error) {
-        console.log(error);
-      }
-    },
-
+    mutationFn: async (taskData: NewTaskData) => createTask(taskData),
     onMutate: async (newTask) => {
       await queryClient.cancelQueries({ queryKey: ["tasks"] });
 
@@ -142,28 +109,13 @@ export const useUpdateTask = (sectionId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({
+    mutationFn: ({
       taskId,
       taskData,
     }: {
       taskId: string;
       taskData: TaskData;
-    }) => {
-      try {
-        const response = await fetch(`/api/tasks/${taskId}`, {
-          method: "PUT",
-          body: JSON.stringify(taskData),
-        });
-        if (!response.ok) {
-          throw new Error(
-            "Error happend!: " + response.status.toLocaleString()
-          );
-        }
-        return (await response.json()) as TaskWithAssignee;
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    }) => updateTask(taskId, taskData),
     onMutate: async (data: {
       taskId: string;
       taskData: TaskData;
@@ -241,32 +193,11 @@ export const useUpdateTaskOrder = () => {
         currentOrder: number;
         newOrder: number;
       };
-    }) => {
-      try {
-        const response = await fetch(
-          `/api/tasks/${taskData.id}?order_change=true`,
-          {
-            method: "PUT",
-            body: JSON.stringify({
-              currentOrder: taskData.currentOrder,
-              newOrder: taskData.newOrder,
-            }),
-          }
-        );
-        if (!response.ok) {
-          throw new Error(
-            "Error happend!: " + response.status.toLocaleString()
-          );
-        }
-        return (await response.json()) as Section;
-      } catch (error) {
-        return error;
-      }
-    },
+    }) => updateTaskOrder(taskData),
 
-    onSuccess: (twoUpdatedSections) => {
+    onSuccess: (updatedTask) => {
       queryClient.invalidateQueries({ queryKey: ["sections"] });
-      console.log("Updated section: ", twoUpdatedSections);
+      console.log("Updated task order: ", updatedTask);
     },
   });
 };
@@ -275,21 +206,7 @@ export const useDeleteTask = (sectionId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (taskId: string) => {
-      try {
-        const response = await fetch(`/api/tasks/${taskId}`, {
-          method: "DELETE",
-        });
-        if (!response.ok) {
-          throw new Error(
-            "Error happend!: " + response.status.toLocaleString()
-          );
-        }
-        return (await response.json()) as Task;
-      } catch (error) {
-        return error;
-      }
-    },
+    mutationFn: async (taskId: string) => deleteTask(taskId),
 
     onMutate: async (deletedTaskId: string) => {
       await queryClient.cancelQueries({ queryKey: ["task"] });
@@ -318,4 +235,15 @@ export const useDeleteTask = (sectionId: string) => {
       console.log("Deleted task: ", deletedTask);
     },
   });
+};
+
+export const useSortedTasks = (tasks: TaskWithAssignee[]) => {
+  const [sortedtasks, setSortedtasks] = useState(sortArray(tasks));
+
+  // Need this but need to find better way
+  useEffect(() => {
+    setSortedtasks(sortArray(tasks));
+  }, [tasks]);
+
+  return { sortedtasks, setSortedtasks };
 };

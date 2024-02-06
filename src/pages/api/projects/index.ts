@@ -17,11 +17,8 @@ export default async function handler(
   // Create a new project
   if (req.method === "POST") {
     try {
-      // PARSE
-      const body = JSON.parse(req.body);
-      const project = body;
-      console.log("body:", req.body);
-      console.log("project", project);
+      const { project } = req.body;
+
       if (!project) {
         return res.status(400).json({ error: "Provide project data." });
       }

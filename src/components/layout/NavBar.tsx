@@ -89,6 +89,9 @@ const NavBar = () => {
                   <path d="m12 6a1 1 0 0 0 -1 1v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2h-4v-4a1 1 0 0 0 -1-1z" />
                 </svg>
               </button>
+              <div className="sidebar__tooltip">
+                <span>Create</span>
+              </div>
               <div
                 className={`sidebar__add-menu ${
                   isMenuOpen ? "project-card__edit-menu--active" : ""

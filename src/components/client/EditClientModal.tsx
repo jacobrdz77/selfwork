@@ -1,11 +1,4 @@
-import {
-  Priority,
-  Project,
-  Section,
-  Client,
-  User,
-  Status,
-} from "@prisma/client";
+import { Priority, Project, Section, Client, User } from "@prisma/client";
 import React, {
   useState,
   useRef,
@@ -20,6 +13,7 @@ import validatePhone from "@/utils/validatePhone";
 import validateEmail from "@/utils/validateEmail";
 import Button from "../UI/Button";
 import useMenu from "@/hooks/useMenu";
+import { ClientStatus } from "@/types/types";
 
 const EditClientModal = ({
   client,
@@ -304,8 +298,8 @@ const StatusButton = ({
   status,
   setStatus,
 }: {
-  status: Status;
-  setStatus: Dispatch<SetStateAction<Status>>;
+  status: ClientStatus;
+  setStatus: Dispatch<SetStateAction<ClientStatus>>;
 }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
 

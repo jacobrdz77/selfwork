@@ -1,9 +1,9 @@
 import ProjectPageLayout from "@/components/project/ProjectPageLayout";
 import { NextPageWithLayout } from "../../_app";
-import { useSectionsOfProject, useSectionsOfUser } from "@/hooks/SectionHooks";
+import { useSectionsOfProject } from "@/hooks/SectionHooks";
 import Boards from "@/components/sections/Boards";
 import { useRouter } from "next/router";
-import useSortedSections from "@/hooks/useSortedSections";
+import { useSortedSections } from "@/hooks/SectionHooks";
 import LoadingBoardViewPage from "@/components/loading/LoadingBoardViewPage";
 
 const BoardPage: NextPageWithLayout = () => {

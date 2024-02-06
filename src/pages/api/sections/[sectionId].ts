@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../prisma/client";
-import findInterval from "@/utils/findInterval";
+import findMinMax from "@/utils/findMinMax";
 import { bulkUpdate } from "@/utils/bulkUpdate";
 
 export default async function handler(
@@ -54,9 +54,7 @@ export default async function handler(
           where: { id: sectionId as string },
         });
 
-        return res
-          .status(200)
-          .json({ deletedSection, message: "DELETED section" });
+        return res.status(200).json(deletedSection);
       }
 
       // Calculate new order for each section after deleting
@@ -88,7 +86,7 @@ export default async function handler(
   if (req.method === "PUT") {
     try {
       const { sectionId, order_change } = req.query;
-      const sectionData = await JSON.parse(req.body);
+      const sectionData = req.body;
 
       //pathway "/api/section/{sectionId}?orderChange=true"
       if (order_change) {
@@ -101,7 +99,7 @@ export default async function handler(
           });
         }
 
-        const [least, greatest] = findInterval(currentOrder, newOrder);
+        const [least, greatest] = findMinMax(currentOrder, newOrder);
 
         const sectionsBetweenIntervals = await prisma.section.findMany({
           where: { order: { gte: least, lte: greatest } },

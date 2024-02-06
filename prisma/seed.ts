@@ -59,6 +59,11 @@ async function main() {
           id: "al814zcy86074hloymogrg1mv",
         },
       },
+      members: {
+        connect: {
+          id: "al814zcy86074hloymogrg1mv",
+        },
+      },
     },
   });
 

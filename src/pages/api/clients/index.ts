@@ -27,8 +27,7 @@ export default async function handler(
   //Create a new client
   if (req.method === "POST") {
     try {
-      const client = JSON.parse(req.body) as Client;
-      console.log("Client: ", client);
+      const client = req.body as Client;
       const clientData = {
         name: client.name,
         email: client.email,

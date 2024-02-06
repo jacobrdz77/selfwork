@@ -24,7 +24,20 @@ declare module "next-auth" {
   }
 }
 
-//Data Structure from Frontend
+export type Partial<T> = {
+  [P in keyof T]?: T[P];
+};
+
+export type WorkspaceWithMembers = Workspace & {
+  owner: User;
+  members: User[];
+};
+export type WorkspaceWithProjects = Workspace & {
+  owner: User;
+  members: User[];
+  projects: Project[];
+};
+
 export type NewProjectFormData = {
   name: string;
   description: string;
@@ -77,27 +90,15 @@ export type ProjectWithAll = Project & {
   urlLinks: Links[];
 };
 
-export type NewClientData = {
+export type NewLink = {
   name: string;
-  email: string;
-  companyName?: string;
-  businessAddress?: string;
-  phone?: string;
+  url: string;
+  projectId: string;
 };
 
 // Section types
-type SectionWithTasks = Section & {
+export type SectionWithTasks = Section & {
   tasks: TaskWithAssignee[];
-};
-
-export type WorkspaceWithMembers = Workspace & {
-  owner: User;
-  members: User[];
-};
-export type WorkspaceWithProjects = Workspace & {
-  owner: User;
-  members: User[];
-  projects: Project[];
 };
 
 export type UserSections = {
@@ -105,19 +106,43 @@ export type UserSections = {
   userAssignedTasksSection: SectionWithTasks;
 };
 
+export type TaskData = {
+  name?: string;
+  description?: string;
+  priority?: Priority;
+  status?: TaskStatus;
+  isComplete?: boolean;
+  startDate?: Date | null;
+  dueDate?: Date | null;
+  projectId?: string | null;
+  assigneeId?: string | null;
+  assignee?: { name: string | null } | null;
+  sectionId?: string | null;
+};
+
+export type NewTaskData = {
+  name: string;
+  sectionId: string;
+  description: string;
+  assignee: User | null;
+  priority: Priority | null;
+  order: number;
+};
+
 export type TaskWithAssignee = Task & {
   assignee: User;
   tags: Tag[];
 };
 
-// Link
-export type NewLink = {
-  name: string;
-  url: string;
-};
+export type ClientStatus = "Active" | "Pending" | "Closed";
 
-// Client
-export type ClientStatus = "active" | "pending" | "closed";
+export type NewClientData = {
+  name: string;
+  email: string;
+  companyName?: string;
+  businessAddress?: string;
+  phone?: string;
+};
 
 export type ClientWithProjects = Client & {
   projects: Project[];
@@ -137,6 +162,24 @@ export type UpdateClientData = {
   totalLumpSum?: runtime.Decimal;
 };
 
-export type Partial<T> = {
-  [P in keyof T]?: T[P];
+export type UpdateUserData = {
+  name: string | null;
+  email: string | null;
+  phone: string | null;
+};
+
+export type UserWithAll = User & {
+  assignedTasks: Task[];
+  involvedProjects: Project[];
+};
+
+export type NewTag = {
+  name: string;
+  taskId: string;
+  color?: Color;
+};
+export type UpdateTagData = {
+  name?: string;
+  taskId?: string;
+  color?: Color;
 };

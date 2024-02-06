@@ -12,7 +12,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import useSortedTasks from "@/hooks/useSortedTasks";
+import { useSortedTasks } from "@/hooks/TaskHooks";
 import useDndContextForSorting from "@/hooks/useDndContextForSorting";
 import { DndContext } from "@dnd-kit/core";
 

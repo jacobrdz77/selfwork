@@ -1,24 +1,23 @@
+import { useEffect, useState } from "react";
+import sortSections from "@/utils/sortSections";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Section, Task } from "@prisma/client";
+import { Section } from "@prisma/client";
 import { useUserStore } from "store/user";
 import { ProjectSections, SectionWithTasks, UserSections } from "@/types/types";
+import {
+  createProjectSection,
+  createUserSection,
+  deleteSection,
+  getSectionsofProject,
+  getSectionsofUser,
+  updateSection,
+  updateSectionOrder,
+} from "@/utils/sectionFunctions";
 
 export const useSectionsOfProject = (projectId: string) => {
   const { data: projectSections, status } = useQuery({
     queryKey: ["sections", projectId],
-    queryFn: async () => {
-      try {
-        const response = await fetch(`/api/sections?projectId=${projectId}`);
-        if (!response.ok) {
-          throw new Error(
-            "Error happend!: " + response.status.toLocaleString()
-          );
-        }
-        return (await response.json()) as SectionWithTasks[];
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    queryFn: () => getSectionsofProject(projectId),
     onError: (error) => {
       console.log("Error: ", error);
     },
@@ -38,21 +37,7 @@ export const useSectionsOfUser = () => {
 
   const { data, status } = useQuery({
     queryKey: ["sections", userId],
-    queryFn: async () => {
-      try {
-        // Todo: Uncomment when new backend is complete
-        // const response = await fetch(`/api/users/${userId}/sections`);
-        const response = await fetch(`/api/sections?userId=${userId}`);
-        if (!response.ok) {
-          throw new Error(
-            "Error happend!: " + response.status.toLocaleString()
-          );
-        }
-        return (await response.json()) as UserSections;
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    queryFn: () => getSectionsofUser(userId),
     onError: (error) => {
       console.log("Error: ", error);
     },
@@ -68,27 +53,9 @@ export const useSectionsOfUser = () => {
 export const useCreateProjectSection = (projectId: string) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (sectionData: { name: string; order: number }) => {
-      try {
-        // Todo: Uncomment when new backend is complete
-        // const response = await fetch(`/api/projects/${projectId}/sections`);
-        const response = await fetch(`/api/sections?projectId=${projectId}`, {
-          method: "POST",
-          body: JSON.stringify(sectionData),
-        });
-        if (!response.ok) {
-          throw new Error(
-            "Error happend!: " + response.status.toLocaleString()
-          );
-        }
+    mutationFn: (sectionData: { name: string; order: number }) =>
+      createProjectSection(projectId, sectionData),
 
-        return (await response.json()) as SectionWithTasks;
-      } catch (error) {
-        console.log(error);
-      }
-    },
-
-    // Optimistically updates userSections
     onMutate: async (newSection) => {
       await queryClient.cancelQueries(["sections", projectId]);
       console.log("NEEEE ", newSection);
@@ -111,11 +78,8 @@ export const useCreateProjectSection = (projectId: string) => {
             },
           ]
         );
-
-        // console.log("NEWW: ", newSections);
       }
 
-      // Adds to the context in onError function
       return { previousSections };
     },
 
@@ -133,24 +97,8 @@ export const useCreateUserSection = () => {
   const userId = useUserStore((state) => state.userId);
 
   return useMutation({
-    mutationFn: async (sectionData: { name: string; order: number }) => {
-      try {
-        // Todo: Uncomment when new backend is complete
-        // const response = await fetch(`/api/users/${userId}/sections`, {
-        const response = await fetch(`/api/sections?userId=${userId}`, {
-          method: "POST",
-          body: JSON.stringify(sectionData),
-        });
-        if (!response.ok) {
-          throw new Error(
-            "Error happend!: " + response.status.toLocaleString()
-          );
-        }
-        return (await response.json()) as SectionWithTasks;
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    mutationFn: async (sectionData: { name: string; order: number }) =>
+      createUserSection(userId, sectionData),
 
     // Optimistically updates userSections
     onMutate: async (newSection) => {
@@ -202,24 +150,7 @@ export const useDeleteSection = (projectId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (sectionId: string) => {
-      try {
-        const response = await fetch(`/api/sections/${sectionId}`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        if (!response.ok) {
-          throw new Error(
-            "Error happend!: " + response.status.toLocaleString()
-          );
-        }
-        return await response.json();
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    mutationFn: (sectionId: string) => deleteSection(sectionId),
 
     // Optimistically updates userSections
     onMutate: async (deletedSectionId: string) => {
@@ -242,9 +173,9 @@ export const useDeleteSection = (projectId: string) => {
       return { previousSections };
     },
 
-    onSuccess: (data: { deletedSection: Section }) => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["sections"] });
-      console.log("Deleted Section Name: ", data.deletedSection.name);
+      console.log("Deleted Section Name: ", data?.name);
     },
   });
 };
@@ -258,39 +189,13 @@ export const useUpdateSection = () => {
     }: {
       sectionId: string;
       sectionData: { name: string };
-    }) => {
-      try {
-        const response = await fetch(`/api/sections/${sectionId}`, {
-          method: "PUT",
-          body: JSON.stringify(sectionData),
-        });
-        if (!response.ok) {
-          throw new Error(
-            "Error happend!: " + response.status.toLocaleString()
-          );
-        }
-        return (await response.json()) as Section;
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    }) => updateSection(sectionId, sectionData),
 
     onSuccess: (updatedSection) => {
       queryClient.invalidateQueries({ queryKey: ["sections"] });
       console.log("Updated section: ", updatedSection?.name);
     },
   });
-};
-
-type UpdateSectionBody = {
-  firstSection: {
-    id: string;
-    order: number;
-  };
-  secondSection: {
-    id: string;
-    order: number;
-  };
 };
 
 export const useUpdateSectionOrder = () => {
@@ -307,37 +212,22 @@ export const useUpdateSectionOrder = () => {
         currentOrder: number;
         newOrder: number;
       };
-    }) => {
-      try {
-        // Todo: Uncomment when new backend is complete
-        // const response = await fetch("/api/sections", {
-        //   method: "PUT",
-        //   body: JSON.stringify(sectionData),
-        // });
-        const response = await fetch(
-          `/api/sections/${sectionData.id}?order_change=true`,
-          {
-            method: "PUT",
-            body: JSON.stringify({
-              currentOrder: sectionData.currentOrder,
-              newOrder: sectionData.newOrder,
-            }),
-          }
-        );
-        if (!response.ok) {
-          throw new Error(
-            "Error happend!: " + response.status.toLocaleString()
-          );
-        }
-        return (await response.json()) as Section;
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    }) => updateSectionOrder(sectionData),
 
     onSuccess: (twoUpdatedSections) => {
       queryClient.invalidateQueries({ queryKey: ["sections"] });
       console.log("Updated section: ", twoUpdatedSections);
     },
   });
+};
+
+export const useSortedSections = (sections: SectionWithTasks[]) => {
+  const [sortedSections, setSortedSections] = useState(sortSections(sections));
+
+  // Need this but need to find better way
+  useEffect(() => {
+    setSortedSections(sortSections(sections));
+  }, [sections]);
+
+  return { sortedSections, setSortedSections };
 };
