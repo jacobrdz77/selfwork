@@ -47,7 +47,7 @@ export default async function handler(
 
       const taskToDelete = await prisma.task.findUnique({
         where: { id: taskId as string },
-        select: { order: true },
+        select: { order: true, sectionId: true },
       });
 
       const tasksWithHigherOrder = await prisma.task.findMany({
@@ -55,6 +55,7 @@ export default async function handler(
           order: {
             gt: taskToDelete!.order!,
           },
+          sectionId: taskToDelete?.sectionId,
         },
       });
 

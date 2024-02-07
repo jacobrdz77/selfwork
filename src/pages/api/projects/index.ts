@@ -92,6 +92,7 @@ export default async function handler(
           sections: {
             create: {
               name: "Untitled Section",
+              order: 0,
             },
           },
         },

@@ -39,11 +39,15 @@ export default async function handler(
         where: { id: sectionId as string },
         select: {
           order: true,
+          projectId: true,
         },
       });
 
       const sectionsWithHigherOrder = await prisma.section.findMany({
-        where: { order: { gt: sectionToDelete!.order! } },
+        where: {
+          order: { gt: sectionToDelete!.order! },
+          projectId: sectionToDelete?.projectId,
+        },
         orderBy: { order: "asc" },
       });
 
@@ -72,6 +76,8 @@ export default async function handler(
       const deletedSection = await prisma.section.delete({
         where: { id: sectionId as string },
       });
+
+      console.log("Section deleted", deletedSection);
 
       return res
         .status(200)
