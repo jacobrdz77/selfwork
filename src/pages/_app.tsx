@@ -34,6 +34,19 @@ function MyApp({
   const getLayout = Component.getLayout ?? ((page) => page);
   const router = useRouter();
   const currentPath = router.pathname;
+  let child = null;
+
+  console.log(currentPath);
+
+  if (currentPath === "/login") {
+    child = (
+      <LoginLayout>{getLayout(<Component {...pageProps} />)}</LoginLayout>
+    );
+  } else if (currentPath.includes("/sketch")) {
+    child = getLayout(<Component {...pageProps} />);
+  } else {
+    child = <PageLayout>{getLayout(<Component {...pageProps} />)}</PageLayout>;
+  }
 
   return (
     <SessionProvider session={session} refetchOnWindowFocus={false}>
@@ -49,11 +62,12 @@ function MyApp({
           />
           <title>selfwork.</title>
         </Head>
-        {currentPath === "/login" ? (
+        {child}
+        {/* {currentPath === "/login" ? (
           <LoginLayout>{getLayout(<Component {...pageProps} />)}</LoginLayout>
         ) : (
           <PageLayout>{getLayout(<Component {...pageProps} />)}</PageLayout>
-        )}
+        )} */}
         <Analytics />
         <GoogleAnalytics />
       </QueryClientProvider>
