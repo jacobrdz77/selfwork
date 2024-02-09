@@ -38,13 +38,7 @@ const sketches = [
 const Sketch: NextPageWithLayout = () => {
   const router = useRouter();
   const { projectId } = router.query;
-  const { status } = useProjectSketches(projectId as string);
-  console.log(
-    "INITIAL",
-    sketches.map((sketch) => {
-      return { name: sketch.name };
-    })
-  );
+  // const { status } = useProjectSketches(projectId as string);
 
   const [sortedSketches, setSortedSketches] = useState(sketches);
 

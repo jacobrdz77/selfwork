@@ -235,7 +235,7 @@ model Section {
 model Sketch {
   id          String   @id @default(cuid())
   name        String
-  elements    Json
+  canvasState    Json
   project     Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId   String?
   author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)

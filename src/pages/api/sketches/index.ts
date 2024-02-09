@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Prisma, Task } from "@prisma/client";
 import prisma from "../../../../prisma/client";
 import { z } from "zod";
+import { createSketchDataSchema } from "@/utils/sketchFunctions";
 
 export default async function handler(
   req: NextApiRequest,
@@ -22,18 +23,10 @@ export default async function handler(
   if (req.method === "POST") {
     try {
       // Get the sketch data from the request body
-      const body = JSON.parse(req.body);
-      const { sketchData } = body;
+      const sketchData = req.body;
 
-      // Validate incoming body
-      const sketchDataSchema = z.object({
-        name: z.string(),
-        projectId: z.string(),
-      });
-
-      const { name, projectId } = sketchDataSchema.parse(sketchData);
-
-      const jsonElements = [] as Prisma.JsonArray;
+      const { name, projectId, authorId } =
+        createSketchDataSchema.parse(sketchData);
 
       const newSketch = await prisma.sketch.create({
         data: {
@@ -43,7 +36,12 @@ export default async function handler(
               id: projectId,
             },
           },
-          elements: jsonElements,
+          author: {
+            connect: {
+              id: authorId,
+            },
+          },
+          canvasState: {},
         },
       });
 

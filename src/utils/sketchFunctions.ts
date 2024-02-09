@@ -1,5 +1,6 @@
 import { Sketch } from "@prisma/client";
 import { axios } from "libs/axios";
+import { z } from "zod";
 
 type SketchData = {
   name?: string;
@@ -11,9 +12,7 @@ export const createSketch = async (sketchData: {
   projectId: string;
 }) => {
   try {
-    const response = await axios.post(`/api/sketches`, {
-      sketchData,
-    });
+    const response = await axios.post(`/api/sketches`, sketchData);
 
     return response.data as Sketch;
   } catch (error) {
@@ -63,3 +62,15 @@ export const deleteSketch = async (sketchId: string) => {
     console.log(error);
   }
 };
+
+// Backend schemas
+export const createSketchDataSchema = z.object({
+  name: z.string(),
+  projectId: z.string(),
+  authorId: z.string(),
+});
+
+export const updateSketchDataSchema = z.object({
+  name: z.string().optional(),
+  canvasState: z.any().optional(),
+});
