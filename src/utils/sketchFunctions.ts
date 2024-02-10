@@ -1,4 +1,8 @@
-import { NewSketchData, UpdateSketchData } from "@/types/types";
+import {
+  NewSketchData,
+  SketchWithAuthor,
+  UpdateSketchData,
+} from "@/types/types";
 import { Sketch } from "@prisma/client";
 import { axios } from "libs/axios";
 import { z } from "zod";
@@ -17,7 +21,7 @@ export const getProjectSketches = async (projectId: string) => {
   try {
     const response = await axios.get(`/projects/${projectId}/sketches`);
 
-    return response.data as Sketch[];
+    return response.data as SketchWithAuthor[];
   } catch (error) {
     console.log(error);
   }

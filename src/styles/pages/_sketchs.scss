@@ -62,7 +62,12 @@
       color: #fff;
       // min-width: 122px !important;
       width: 122px;
+      max-width: 500px;
       background-color: #63626436;
+
+      &:active {
+        width: auto;
+      }
     }
 
     .input-placeholder {

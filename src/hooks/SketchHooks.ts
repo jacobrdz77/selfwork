@@ -32,14 +32,14 @@ export const useCreateSketch = () => {
   });
 };
 
-export const useOneSketch = (sketchId: string) => {
+export const useOneSketch = (sketchId: string, isDeleting: boolean) => {
   const { data: sketch, status } = useQuery({
     queryKey: sketchKeys.one(sketchId),
     queryFn: () => getOneSketch(sketchId),
     onSuccess: async (data) => {
       console.log("Fetched sketch: ", data);
     },
-    enabled: sketchId ? true : false,
+    enabled: !isDeleting,
   });
   return { sketch, status };
 };

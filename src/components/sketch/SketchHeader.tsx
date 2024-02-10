@@ -6,9 +6,10 @@ import React, { useEffect, useRef, useState } from "react";
 type Props = {
   name: string;
   projectId: string;
+  setIsDeleting: (boolean: boolean) => any;
 };
 
-const SketchHeader = ({ name, projectId }: Props) => {
+const SketchHeader = ({ name, projectId, setIsDeleting }: Props) => {
   const router = useRouter();
   const { sketchId } = useRouter().query;
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
@@ -50,6 +51,7 @@ const SketchHeader = ({ name, projectId }: Props) => {
   const handleDeleteSketch = async () => {
     // Open alert popup to make sure to delete
     if (confirm("Are you sure you want to delete sketch file?")) {
+      setIsDeleting(true);
       deleteSketch();
       router.push(`/projects/${projectId}/sketch`);
     } else {
@@ -95,7 +97,7 @@ const SketchHeader = ({ name, projectId }: Props) => {
                 setSketchInputName(e.currentTarget.value);
               }}
               onBlur={handleInputBlur}
-              maxLength={100}
+              maxLength={75}
               style={{
                 width: widthOfInput,
                 // minWidth: 122,

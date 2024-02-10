@@ -4,10 +4,12 @@ import SketchHeader from "@/components/sketch/SketchHeader";
 import { useOneSketch } from "@/hooks/SketchHooks";
 import { useRouter } from "next/router";
 import { NextPageWithLayout } from "pages/_app";
+import { useState } from "react";
 
 const SketchPage: NextPageWithLayout = () => {
   const { sketchId } = useRouter().query;
-  const { sketch, status } = useOneSketch(sketchId as string);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const { sketch, status } = useOneSketch(sketchId as string, isDeleting);
 
   if (status === "loading") {
     return <LoadingOverViewPage />;
@@ -24,7 +26,11 @@ const SketchPage: NextPageWithLayout = () => {
 
   return (
     <>
-      <SketchHeader name={sketch?.name!} projectId={sketch?.projectId!} />
+      <SketchHeader
+        name={sketch?.name!}
+        projectId={sketch?.projectId!}
+        setIsDeleting={setIsDeleting}
+      />
       <div className="black-background"></div>
       {/* <Sketch sketchId={sketchId as string} /> */}
     </>

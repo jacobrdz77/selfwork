@@ -51,19 +51,16 @@ const SketchCard = ({
         {/* Edit button */}
         <div className="sketch-card__edit">
           <div
+            ref={btnRef}
+            onClick={(e) => {
+              e.preventDefault();
+              setIsMenuOpen(!isMenuOpen);
+            }}
             className={`sketch-card__more-btn-container  ${
               isMenuOpen ? "active" : ""
             }`}
           >
-            <div
-              ref={btnRef}
-              onClick={(e) => {
-                e.preventDefault();
-                setIsMenuOpen(!isMenuOpen);
-              }}
-              className="menu-button"
-              role="button"
-            >
+            <div className="menu-button" role="button">
               <svg className="more-icon" viewBox="0 0 16 16">
                 <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
               </svg>

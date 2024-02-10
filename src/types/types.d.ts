@@ -193,3 +193,10 @@ export type NewSketchData = {
   projectId: string;
   authorId: string;
 };
+
+export type SketchWithAuthor = Sketch & {
+  author: {
+    name: string;
+    image: string;
+  };
+};
