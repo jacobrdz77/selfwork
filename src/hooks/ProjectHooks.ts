@@ -65,6 +65,7 @@ export const useOneProject = (projectId: string) => {
 
 export const useCreateProject = () => {
   const queryClient = useQueryClient();
+  // Todo: Get ownerId from session
   const ownerId = userStore.getState().userId;
   const workspaceId = userStore.getState().workspaceId;
 

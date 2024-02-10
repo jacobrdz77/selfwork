@@ -1,11 +1,16 @@
+import { useDeleteSketch, useUpdateSketch } from "@/hooks/SketchHooks";
 import useMenu from "@/hooks/useMenu";
+import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 
 type Props = {
   name: string;
+  projectId: string;
 };
 
-const SketchHeader = ({ name }: Props) => {
+const SketchHeader = ({ name, projectId }: Props) => {
+  const router = useRouter();
+  const { sketchId } = useRouter().query;
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const [newTaskName, setNewTaskName] = useState("");
   const [oldName, setOldName] = useState(name);
@@ -13,6 +18,9 @@ const SketchHeader = ({ name }: Props) => {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const inputRef = useRef(null);
   const [widthOfInput, setWidthOfInput] = useState("");
+
+  const { mutate: updateSketch } = useUpdateSketch(sketchId as string);
+  const { mutate: deleteSketch } = useDeleteSketch(sketchId as string);
 
   const focusOnInput = () => {
     // @ts-ignore
@@ -29,15 +37,24 @@ const SketchHeader = ({ name }: Props) => {
       setIsInputFocused(false);
       return;
     } else {
-      // updateSketch({
-      //   sketchId: sketch.id,
-      //   sketchData: { name: trimmedName },
-      // });
+      updateSketch({
+        name: trimmedName,
+      });
       setSketchInputName(trimmedName);
       setOldName(trimmedName);
     }
     // Switches to display button
     setIsInputFocused(false);
+  };
+
+  const handleDeleteSketch = async () => {
+    // Open alert popup to make sure to delete
+    if (confirm("Are you sure you want to delete sketch file?")) {
+      deleteSketch();
+      router.push(`/projects/${projectId}/sketch`);
+    } else {
+      setIsMenuOpen(false);
+    }
   };
 
   useEffect(() => {
@@ -96,16 +113,15 @@ const SketchHeader = ({ name }: Props) => {
             </div>
           )}
         </div>
-        <div className={`more-btn-container ${isMenuOpen ? "active" : ""}`}>
-          <div
-            ref={btnRef}
-            onClick={(e) => {
-              e.preventDefault();
-              setIsMenuOpen(!isMenuOpen);
-            }}
-            className="more-btn"
-            role="button"
-          >
+        <div
+          className={`more-btn-container ${isMenuOpen ? "active" : ""}`}
+          ref={btnRef}
+          onClick={(e) => {
+            e.preventDefault();
+            setIsMenuOpen(!isMenuOpen);
+          }}
+        >
+          <div className="more-btn" role="button">
             <svg className="more-btn__icon" viewBox="0 0 16 16">
               <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
             </svg>
@@ -145,14 +161,7 @@ const SketchHeader = ({ name }: Props) => {
                 Reset sketch
               </div>
 
-              <div
-                className="item item--delete"
-                onClick={() => {
-                  // Deletes Sketch in database
-                  // deleteSketch(Sketch.id);
-                  setIsMenuOpen(false);
-                }}
-              >
+              <div className="item item--delete" onClick={handleDeleteSketch}>
                 Delete sketch file
               </div>
             </div>

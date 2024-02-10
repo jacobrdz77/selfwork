@@ -4,6 +4,7 @@ import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 import Image from "next/image";
 import { getInitials } from "@/utils/user";
+import { useDeleteSketch } from "@/hooks/SketchHooks";
 
 const SketchCard = ({
   id,
@@ -22,6 +23,7 @@ const SketchCard = ({
   };
 }) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
+  const { mutate: deleteSketch } = useDeleteSketch(id);
   return (
     <Link href={`/sketch/${id}`}>
       <div className="sketch-card">
@@ -85,7 +87,7 @@ const SketchCard = ({
               <button
                 className="item item--delete"
                 onClick={() => {
-                  console.log("Delete sketch");
+                  deleteSketch();
                   setIsMenuOpen(false);
                 }}
               >

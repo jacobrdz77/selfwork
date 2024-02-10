@@ -36,13 +36,11 @@ function MyApp({
   const currentPath = router.pathname;
   let child = null;
 
-  console.log(currentPath);
-
   if (currentPath === "/login") {
     child = (
       <LoginLayout>{getLayout(<Component {...pageProps} />)}</LoginLayout>
     );
-  } else if (currentPath.includes("/sketch")) {
+  } else if (currentPath.slice(0, 7) === "/sketch") {
     child = getLayout(<Component {...pageProps} />);
   } else {
     child = <PageLayout>{getLayout(<Component {...pageProps} />)}</PageLayout>;

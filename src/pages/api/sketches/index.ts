@@ -11,7 +11,18 @@ export default async function handler(
   // Get all sketches
   if (req.method === "GET") {
     try {
-      const projectSketches = await prisma.sketch.findMany();
+      const { projectId } = req.query;
+      const projectSketches = await prisma.sketch.findMany({
+        where: { projectId: projectId as string },
+        include: {
+          author: {
+            select: {
+              name: true,
+              image: true,
+            },
+          },
+        },
+      });
 
       return res.status(200).json(projectSketches);
     } catch (error: Error | any) {
@@ -25,12 +36,11 @@ export default async function handler(
       // Get the sketch data from the request body
       const sketchData = req.body;
 
-      const { name, projectId, authorId } =
-        createSketchDataSchema.parse(sketchData);
+      const { projectId, authorId } = createSketchDataSchema.parse(sketchData);
 
       const newSketch = await prisma.sketch.create({
         data: {
-          name: name,
+          name: "Untitled sketch",
           project: {
             connect: {
               id: projectId,

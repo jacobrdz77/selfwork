@@ -183,3 +183,13 @@ export type UpdateTagData = {
   taskId?: string;
   color?: Color;
 };
+
+export type UpdateSketchData = {
+  name?: string;
+  canvasState?: object;
+};
+
+export type NewSketchData = {
+  projectId: string;
+  authorId: string;
+};
