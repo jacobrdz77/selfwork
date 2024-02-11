@@ -14,6 +14,9 @@ export default async function handler(
         where: {
           projectId: projectId as string,
         },
+        orderBy: {
+          updatedAt: "desc",
+        },
         include: {
           author: {
             select: {

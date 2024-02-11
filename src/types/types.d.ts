@@ -8,6 +8,7 @@ import type {
   Project,
   ProjectStatus,
   Section,
+  Sketch,
   Status,
   Tag,
   Task,
@@ -186,7 +187,7 @@ export type UpdateTagData = {
 
 export type UpdateSketchData = {
   name?: string;
-  canvasState?: object;
+  canvasState?: any;
 };
 
 export type NewSketchData = {
@@ -199,4 +200,11 @@ export type SketchWithAuthor = Sketch & {
     name: string;
     image: string;
   };
+};
+
+type SketchCanvasState = {
+  elements: any[];
+  appState: object;
+  files?: object;
+  version: number;
 };

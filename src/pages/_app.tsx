@@ -66,7 +66,7 @@ function MyApp({
         ) : (
           <PageLayout>{getLayout(<Component {...pageProps} />)}</PageLayout>
         )} */}
-        <Analytics />
+        {process.env.NODE_ENV === "production" && <Analytics />}
         <GoogleAnalytics />
       </QueryClientProvider>
     </SessionProvider>

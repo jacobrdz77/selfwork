@@ -39,7 +39,7 @@ export const useOneSketch = (sketchId: string, isDeleting: boolean) => {
     onSuccess: async (data) => {
       console.log("Fetched sketch: ", data);
     },
-    enabled: !isDeleting,
+    enabled: !isDeleting && sketchId ? true : false,
   });
   return { sketch, status };
 };
@@ -79,7 +79,7 @@ export const useUpdateSketch = (sketchId: string) => {
       updateSketch(sketchId, sketchData),
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({ queryKey: sketchKeys.all });
-      console.log("Updated Sketch: ", data);
+      console.log("Updated Sketch");
     },
   });
 };

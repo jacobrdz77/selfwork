@@ -19,24 +19,9 @@ const Sketch: NextPageWithLayout = () => {
     sortSketchByName(sketches ? sketches : [])
   );
   const { mutateAsync: createSketch } = useCreateSketch();
-
   const [filter, setFilter] = useState<"alphabetical" | "lastEdited">(
     "alphabetical"
   );
-
-  // Todo: Find a better way to filter
-  // useEffect(() => {
-
-  //   if (filter === "alphabetical") {
-  //     setSortedSketches((state) => {
-  //       return sortSketchByName(state);
-  //     });
-  //   } else if (filter === "lastEdited") {
-  //     setSortedSketches((state) => {
-  //       return sortSketchByEditedDate(state);
-  //     });
-  //   }
-  // }, [filter, projectId]);
 
   if (status === "loading") {
     return <LoadingSketchPage />;
@@ -106,16 +91,28 @@ const Sketch: NextPageWithLayout = () => {
           <div className="author">Author</div>
         </div>
 
-        {sketches?.map((sketch) => (
-          <SketchCard
-            key={sketch.id}
-            id={sketch.id}
-            name={sketch.name}
-            author={sketch.author!}
-            createdAt={sketch.createdAt}
-            updatedAt={sketch.updatedAt!}
-          />
-        ))}
+        {filter === "lastEdited" &&
+          sortSketchByEditedDate(sketches!).map((sketch) => (
+            <SketchCard
+              key={sketch.id}
+              id={sketch.id}
+              name={sketch.name}
+              author={sketch.author!}
+              createdAt={sketch.createdAt}
+              updatedAt={sketch.updatedAt!}
+            />
+          ))}
+        {filter === "alphabetical" &&
+          sortSketchByName(sketches!).map((sketch) => (
+            <SketchCard
+              key={sketch.id}
+              id={sketch.id}
+              name={sketch.name}
+              author={sketch.author!}
+              createdAt={sketch.createdAt}
+              updatedAt={sketch.updatedAt!}
+            />
+          ))}
 
         {sketches && sketches.length === 0 && (
           <div className="no-sketches">
