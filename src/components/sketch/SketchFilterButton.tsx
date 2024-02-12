@@ -58,18 +58,6 @@ const SketchFilterButton = ({
           }}
         >
           <div
-            className={`item ${filter === "alphabetical" ? "active" : ""}`}
-            onClick={() => {
-              setFilter("alphabetical");
-              setSortedSketches((state: any) => {
-                return sortSketchByName(state);
-              });
-              setIsMenuOpen(false);
-            }}
-          >
-            Alphabetical
-          </div>
-          <div
             className={`item ${filter === "lastEdited" ? "active" : ""}`}
             onClick={() => {
               setFilter("lastEdited");
@@ -80,6 +68,18 @@ const SketchFilterButton = ({
             }}
           >
             Last Edited
+          </div>
+          <div
+            className={`item ${filter === "alphabetical" ? "active" : ""}`}
+            onClick={() => {
+              setFilter("alphabetical");
+              setSortedSketches((state: any) => {
+                return sortSketchByName(state);
+              });
+              setIsMenuOpen(false);
+            }}
+          >
+            Alphabetical
           </div>
         </div>
       </div>

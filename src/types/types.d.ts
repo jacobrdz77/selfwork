@@ -206,5 +206,4 @@ type SketchCanvasState = {
   elements: any[];
   appState: object;
   files?: object;
-  version: number;
 };

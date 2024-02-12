@@ -2,6 +2,7 @@ import { useDeleteSketch, useUpdateSketch } from "@/hooks/SketchHooks";
 import useMenu from "@/hooks/useMenu";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
+import ToDeleteSketchModal from "./ToDeleteSketchModal";
 
 type Props = {
   name: string;
@@ -13,7 +14,6 @@ const SketchHeader = ({ name, projectId, setIsDeleting }: Props) => {
   const router = useRouter();
   const { sketchId } = useRouter().query;
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
-  const [newTaskName, setNewTaskName] = useState("");
   const [oldName, setOldName] = useState(name);
   const [sketchInputName, setSketchInputName] = useState(name);
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -22,6 +22,14 @@ const SketchHeader = ({ name, projectId, setIsDeleting }: Props) => {
 
   const { mutate: updateSketch } = useUpdateSketch(sketchId as string);
   const { mutate: deleteSketch } = useDeleteSketch(sketchId as string);
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const handleDeleteSketch = async () => {
+    setIsDeleting(true);
+    deleteSketch();
+    router.push(`/projects/${projectId}/sketch`);
+  };
 
   const focusOnInput = () => {
     // @ts-ignore
@@ -46,17 +54,6 @@ const SketchHeader = ({ name, projectId, setIsDeleting }: Props) => {
     }
     // Switches to display button
     setIsInputFocused(false);
-  };
-
-  const handleDeleteSketch = async () => {
-    // Open alert popup to make sure to delete
-    if (confirm("Are you sure you want to delete sketch file?")) {
-      setIsDeleting(true);
-      deleteSketch();
-      router.push(`/projects/${projectId}/sketch`);
-    } else {
-      setIsMenuOpen(false);
-    }
   };
 
   useEffect(() => {
@@ -137,33 +134,11 @@ const SketchHeader = ({ name, projectId, setIsDeleting }: Props) => {
               }}
             >
               <div
-                className="item"
+                className="item item--delete"
                 onClick={() => {
-                  setIsMenuOpen(false);
+                  setIsDeleteModalOpen(true);
                 }}
               >
-                Save to disk
-              </div>
-              <div
-                className="item"
-                onClick={() => {
-                  setIsMenuOpen(false);
-                }}
-              >
-                Export as image
-              </div>
-              <div
-                className="item"
-                onClick={() => {
-                  // Only resets the canvas
-                  // resetSketch()
-                  setIsMenuOpen(false);
-                }}
-              >
-                Reset sketch
-              </div>
-
-              <div className="item item--delete" onClick={handleDeleteSketch}>
                 Delete sketch file
               </div>
             </div>
@@ -179,6 +154,13 @@ const SketchHeader = ({ name, projectId, setIsDeleting }: Props) => {
       >
         Share
       </div>
+
+      <ToDeleteSketchModal
+        isOpen={isDeleteModalOpen}
+        setIsOpen={setIsDeleteModalOpen}
+        deleteFunc={handleDeleteSketch}
+        isDark={true}
+      />
     </div>
   );
 };

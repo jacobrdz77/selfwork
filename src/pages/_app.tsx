@@ -40,8 +40,6 @@ function MyApp({
     child = (
       <LoginLayout>{getLayout(<Component {...pageProps} />)}</LoginLayout>
     );
-  } else if (currentPath.slice(0, 7) === "/sketch") {
-    child = getLayout(<Component {...pageProps} />);
   } else {
     child = <PageLayout>{getLayout(<Component {...pageProps} />)}</PageLayout>;
   }

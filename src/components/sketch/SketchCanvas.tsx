@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import {
   AppState,
   BinaryFiles,
@@ -6,7 +7,6 @@ import {
 } from "@excalidraw/excalidraw/types/types";
 import { useUpdateSketch } from "@/hooks/SketchHooks";
 import { getSceneVersion, serializeAsJSON } from "@excalidraw/excalidraw";
-import dynamic from "next/dynamic";
 import { ExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
 import { debounce } from "@/utils/debounce";
 import { SketchCanvasState } from "@/types/types";
@@ -25,18 +25,9 @@ type Props = {
 const SketchCanvas = ({ sketchId, canvasState }: Props) => {
   const [excalidrawAPI, setExcalidrawAPI] =
     useState<ExcalidrawImperativeAPI | null>(null);
-  const { mutate: updateSketch } = useUpdateSketch(sketchId);
-
-  useEffect(() => {
-    console.log("Excalidraw API initialized");
-    console.log({
-      Elements: excalidrawAPI?.getSceneElements()!,
-      State: excalidrawAPI?.getAppState()!,
-      Files: excalidrawAPI?.getFiles()!,
-    });
-  }, [excalidrawAPI]);
-
-  // const [isSaved, setIsSaved] = useState(false);
+  const { mutateAsync: updateSketch } = useUpdateSketch(sketchId);
+  const [canvasVersion, setCanvasVersion] = useState<number | null>(null);
+  // const [isSaving, setIsSaving] = useState(false);
   // const [localElements, setLocalElements] = useState(
   //   sketch ? sketch.elements : []
   // );
@@ -52,10 +43,19 @@ const SketchCanvas = ({ sketchId, canvasState }: Props) => {
   };
 
   const saveToDB = () => {
-    debounce(() => {
+    // setIsSaving(true);
+    const save = debounce(async () => {
       const data = combineCanvasData();
-      updateSketch({ canvasState: data });
-    }, 500);
+      await updateSketch({
+        canvasState: {
+          ...data,
+          canvasVersion: getSceneVersion(excalidrawAPI?.getSceneElements()!),
+        },
+      });
+      // setIsSaving(false);
+    }, 2000);
+
+    save();
   };
 
   const onChange = (
@@ -63,12 +63,30 @@ const SketchCanvas = ({ sketchId, canvasState }: Props) => {
     appState: AppState,
     files: BinaryFiles
   ) => {
-    // Todo: Save if version changes
-    // console.log(
-    //   "Verison: ",
-    //   getSceneVersion(excalidrawAPI?.getSceneElements()!)
-    // );
+    setCanvasVersion(getSceneVersion(elements));
   };
+
+  useEffect(() => {
+    if (excalidrawAPI) {
+      setCanvasVersion(getSceneVersion(excalidrawAPI?.getSceneElements()!));
+      console.log("Excalidraw API initialized");
+      console.log({
+        Elements: excalidrawAPI?.getSceneElements()!,
+        State: excalidrawAPI?.getAppState()!,
+        Files: excalidrawAPI?.getFiles()!,
+        Version: getSceneVersion(excalidrawAPI?.getSceneElements()!),
+      });
+    }
+  }, [excalidrawAPI]);
+
+  useEffect(() => {
+    if (excalidrawAPI) {
+      console.log("Version:", canvasVersion);
+
+      // Todo: To not make it update in first load.
+      // saveToDB();
+    }
+  }, [canvasVersion, excalidrawAPI]);
 
   useEffect(() => {
     if (process.env.NODE_ENV === "development") {
@@ -89,7 +107,6 @@ const SketchCanvas = ({ sketchId, canvasState }: Props) => {
           initialData={{
             elements: canvasState.elements,
             appState: canvasState.appState,
-            version: canvasState.version,
             scrollToContent: true,
           }}
           theme="dark"
@@ -112,7 +129,9 @@ const SketchCanvas = ({ sketchId, canvasState }: Props) => {
       <div
         className="save-button button"
         onClick={() => {
-          updateSketch({ canvasState: combineCanvasData() });
+          console.log("Saving");
+          saveToDB();
+          // updateSketch({ canvasState: combineCanvasData() });
         }}
       >
         Save to backend

@@ -20,7 +20,7 @@ const Sketch: NextPageWithLayout = () => {
   );
   const { mutateAsync: createSketch } = useCreateSketch();
   const [filter, setFilter] = useState<"alphabetical" | "lastEdited">(
-    "alphabetical"
+    "lastEdited"
   );
 
   if (status === "loading") {
