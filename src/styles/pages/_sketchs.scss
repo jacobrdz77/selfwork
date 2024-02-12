@@ -159,14 +159,24 @@
     font-weight: 500;
     letter-spacing: 0.2px;
 
+    span {
+      // This allows white space to increase the width of the span.
+      white-space: break-spaces;
+      border: 1px;
+      color: white;
+      position: absolute;
+      z-index: -1;
+      background-color: #63626436;
+    }
+
     .name-input {
       all: unset;
+      padding-left: 2px;
       border: 1px solid transparent;
       border-radius: 4px;
       color: #fff;
-      // min-width: 122px !important;
       width: 122px;
-      max-width: 500px;
+      max-width: 850px;
       background-color: #63626436;
 
       &:active {
@@ -175,6 +185,7 @@
     }
 
     .input-placeholder {
+      padding-left: 2px;
       border: 1px solid transparent;
       border-radius: 4px;
       &:hover {

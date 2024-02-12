@@ -18,12 +18,13 @@ const SketchHeader = ({ name, projectId, setIsDeleting }: Props) => {
   const [sketchInputName, setSketchInputName] = useState(name);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const inputRef = useRef(null);
-  const [widthOfInput, setWidthOfInput] = useState("");
+  const [widthOfInput, setWidthOfInput] = useState<number | null>(null);
 
   const { mutate: updateSketch } = useUpdateSketch(sketchId as string);
   const { mutate: deleteSketch } = useDeleteSketch(sketchId as string);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const spanRef = useRef<HTMLSpanElement>(null);
 
   const handleDeleteSketch = async () => {
     setIsDeleting(true);
@@ -57,14 +58,7 @@ const SketchHeader = ({ name, projectId, setIsDeleting }: Props) => {
   };
 
   useEffect(() => {
-    const adjustInputSize = () => {
-      if (sketchInputName.length < 1) {
-        setWidthOfInput(sketchInputName.length + 3 + "ch");
-      } else {
-        setWidthOfInput(sketchInputName.length + "ch");
-      }
-    };
-    adjustInputSize();
+    setWidthOfInput(spanRef.current?.offsetWidth!);
   }, [sketchInputName]);
 
   useEffect(() => {
@@ -81,6 +75,10 @@ const SketchHeader = ({ name, projectId, setIsDeleting }: Props) => {
           <span className="sketch-header__logo--dot">.</span>
         </div>
         <div className="name">
+          <div>
+            <span ref={spanRef}>{sketchInputName}</span>
+          </div>
+
           {isInputFocused ? (
             <input
               ref={inputRef}
@@ -94,10 +92,9 @@ const SketchHeader = ({ name, projectId, setIsDeleting }: Props) => {
                 setSketchInputName(e.currentTarget.value);
               }}
               onBlur={handleInputBlur}
-              maxLength={75}
+              maxLength={150}
               style={{
-                width: widthOfInput,
-                // minWidth: 122,
+                width: widthOfInput!,
               }}
             />
           ) : (

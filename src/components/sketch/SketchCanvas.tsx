@@ -3,7 +3,6 @@ import debounce from "@/utils/debounce";
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { useUpdateSketch } from "@/hooks/SketchHooks";
 import { SketchCanvasState } from "@/types/types";
-import toast from "react-hot-toast";
 import { getSceneVersion, serializeAsJSON } from "@excalidraw/excalidraw";
 import { ExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
 import {
