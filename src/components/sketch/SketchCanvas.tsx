@@ -1,15 +1,16 @@
-import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
+import debounce from "@/utils/debounce";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import { useUpdateSketch } from "@/hooks/SketchHooks";
+import { SketchCanvasState } from "@/types/types";
+import toast from "react-hot-toast";
+import { getSceneVersion, serializeAsJSON } from "@excalidraw/excalidraw";
+import { ExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
 import {
   AppState,
   BinaryFiles,
   ExcalidrawImperativeAPI,
 } from "@excalidraw/excalidraw/types/types";
-import { useUpdateSketch } from "@/hooks/SketchHooks";
-import { getSceneVersion, serializeAsJSON } from "@excalidraw/excalidraw";
-import { ExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
-import { debounce } from "@/utils/debounce";
-import { SketchCanvasState } from "@/types/types";
 const Excalidraw = dynamic(
   async () => (await import("@excalidraw/excalidraw")).Excalidraw,
   {
@@ -23,16 +24,22 @@ type Props = {
 };
 
 const SketchCanvas = ({ sketchId, canvasState }: Props) => {
+  const { mutate: updateSketch } = useUpdateSketch(sketchId);
   const [excalidrawAPI, setExcalidrawAPI] =
     useState<ExcalidrawImperativeAPI | null>(null);
-  const { mutateAsync: updateSketch } = useUpdateSketch(sketchId);
-  const [canvasVersion, setCanvasVersion] = useState<number | null>(null);
-  // const [isSaving, setIsSaving] = useState(false);
+  const initialCanvasVersionRef = useRef<number | null>(
+    canvasState.canvasVersion
+  );
+  const [canvasVersion, setCanvasVersion] = useState<number | null>(
+    canvasState.canvasVersion
+  );
+
+  const [isSaving, setIsSaving] = useState(false);
   // const [localElements, setLocalElements] = useState(
   //   sketch ? sketch.elements : []
   // );
 
-  const combineCanvasData = () => {
+  const combineCanvasData = useCallback(() => {
     const json = serializeAsJSON(
       excalidrawAPI?.getSceneElements()!,
       excalidrawAPI?.getAppState()!,
@@ -40,23 +47,20 @@ const SketchCanvas = ({ sketchId, canvasState }: Props) => {
       "database"
     );
     return JSON.parse(json);
-  };
+  }, [excalidrawAPI]);
 
-  const saveToDB = () => {
-    // setIsSaving(true);
-    const save = debounce(async () => {
+  const saveToDB = useMemo(() => {
+    setIsSaving(true);
+    return debounce(() => {
       const data = combineCanvasData();
-      await updateSketch({
+      updateSketch({
         canvasState: {
           ...data,
           canvasVersion: getSceneVersion(excalidrawAPI?.getSceneElements()!),
         },
       });
-      // setIsSaving(false);
     }, 2000);
-
-    save();
-  };
+  }, [combineCanvasData, updateSketch, excalidrawAPI]);
 
   const onChange = (
     elements: readonly ExcalidrawElement[],
@@ -67,8 +71,17 @@ const SketchCanvas = ({ sketchId, canvasState }: Props) => {
   };
 
   useEffect(() => {
+    if (process.env.NODE_ENV === "development") {
+      // @ts-ignore
+      window.EXCALIDRAW_ASSET_PATH = "/public/assets/excalidraw-assets-dev";
+    } else {
+      // @ts-ignore
+      window.EXCALIDRAW_ASSET_PATH = "/public/assets/excalidraw-assets";
+    }
+  }, []);
+
+  useEffect(() => {
     if (excalidrawAPI) {
-      setCanvasVersion(getSceneVersion(excalidrawAPI?.getSceneElements()!));
       console.log("Excalidraw API initialized");
       console.log({
         Elements: excalidrawAPI?.getSceneElements()!,
@@ -81,22 +94,13 @@ const SketchCanvas = ({ sketchId, canvasState }: Props) => {
 
   useEffect(() => {
     if (excalidrawAPI) {
-      console.log("Version:", canvasVersion);
-
-      // Todo: To not make it update in first load.
-      // saveToDB();
+      // console.log("Initial version:", initialCanvasVersionRef.current);
+      // console.log("Current version:", canvasVersion);
+      if (initialCanvasVersionRef.current !== canvasVersion) {
+        saveToDB();
+      }
     }
-  }, [canvasVersion, excalidrawAPI]);
-
-  useEffect(() => {
-    if (process.env.NODE_ENV === "development") {
-      // @ts-ignore
-      window.EXCALIDRAW_ASSET_PATH = "/public/assets/excalidraw-assets-dev";
-    } else {
-      // @ts-ignore
-      window.EXCALIDRAW_ASSET_PATH = "/public/assets/excalidraw-assets";
-    }
-  }, []);
+  }, [canvasVersion, excalidrawAPI, saveToDB]);
 
   return (
     <div className="sketch-canvas">
@@ -113,10 +117,9 @@ const SketchCanvas = ({ sketchId, canvasState }: Props) => {
         />
       )}
 
-      <div
+      {/* <div
         className="state-button button"
         onClick={() => {
-          // updateSketch({ elements: makeElementsJSON() });
           console.log(combineCanvasData());
           console.log(
             "Verison: ",
@@ -131,11 +134,10 @@ const SketchCanvas = ({ sketchId, canvasState }: Props) => {
         onClick={() => {
           console.log("Saving");
           saveToDB();
-          // updateSketch({ canvasState: combineCanvasData() });
         }}
       >
         Save to backend
-      </div>
+      </div> */}
     </div>
   );
 };

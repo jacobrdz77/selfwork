@@ -51,7 +51,11 @@ export default async function handler(
               id: authorId,
             },
           },
-          canvasState: {},
+          canvasState: {
+            canvasVersion: 0,
+            elements: [],
+            appState: {},
+          },
         },
       });
 

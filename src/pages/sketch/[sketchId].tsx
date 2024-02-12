@@ -1,4 +1,5 @@
-import LoadingSkeleton from "@/components/UI/LoadingSkeleton";
+import LoadingSketchCanvas from "@/components/loading/LoadingSketchCanvas";
+import LoadingSketchPage from "@/components/loading/LoadingSketchPage";
 import SketchHeader from "@/components/sketch/SketchHeader";
 import { useOneSketch } from "@/hooks/SketchHooks";
 import { SketchCanvasState } from "@/types/types";
@@ -45,26 +46,6 @@ const SketchPage: NextPageWithLayout = () => {
         sketchId={sketchId as string}
         canvasState={sketch?.canvasState as SketchCanvasState}
       />
-    </div>
-  );
-};
-
-const LoadingSketchCanvas = () => {
-  return (
-    <div className="sketch-canvas--loading">
-      <div className="loading-spinner loading-spinner--large " />
-    </div>
-  );
-};
-
-const LoadingSketchPage = () => {
-  return (
-    <div className="sketch-page--loading">
-      <div className="sketch-header">
-        <div className="name">
-          <LoadingSkeleton isDark={true} />
-        </div>
-      </div>
     </div>
   );
 };
