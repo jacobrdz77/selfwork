@@ -4,67 +4,24 @@ import { useEffect, useState } from "react";
 import SketchCard from "@/components/sketch/SketchCard";
 import SketchFilterButton from "@/components/sketch/SketchFilterButton";
 import { useRouter } from "next/router";
-import { useProjectSketches } from "@/hooks/SketchHooks";
+import { useCreateSketch, useProjectSketches } from "@/hooks/SketchHooks";
 import LoadingSkeleton from "@/components/UI/LoadingSkeleton";
 import {
   sortSketchByEditedDate,
   sortSketchByName,
 } from "@/utils/sortingSketch";
 
-const sketches = [
-  {
-    id: "1",
-    name: "Simple UI sketch",
-    author: { id: "123", name: "Jacob Rodriguez", email: "jacob@gmail.com" },
-    updatedAt: "2024-02-04T03:05:38.028Z",
-    createdAt: "2024-02-04T03:01:38.028Z",
-  },
-  {
-    id: "3",
-    name: "Creating architecture",
-    author: { id: "123", name: "Jacob Rodriguez", email: "jacob@gmail.com" },
-    updatedAt: "2024-02-02T03:01:05.028Z",
-    createdAt: "2024-01-29T03:01:38.028Z",
-  },
-  {
-    id: "2",
-    name: "Brainstorming ideas",
-    author: { id: "123", name: "Jacob Rodriguez", email: "jacob@gmail.com" },
-    updatedAt: "2024-02-01T03:08:34.028Z",
-    createdAt: "2024-02-01T03:01:38.028Z",
-  },
-];
-
 const Sketch: NextPageWithLayout = () => {
   const router = useRouter();
   const { projectId } = router.query;
-  const { status } = useProjectSketches(projectId as string);
-  console.log(
-    "INITIAL",
-    sketches.map((sketch) => {
-      return { name: sketch.name };
-    })
+  const { sketches, status } = useProjectSketches(projectId as string);
+  const [sortedSketches, setSortedSketches] = useState(
+    sortSketchByName(sketches ? sketches : [])
   );
-
-  const [sortedSketches, setSortedSketches] = useState(sketches);
-
+  const { mutateAsync: createSketch } = useCreateSketch();
   const [filter, setFilter] = useState<"alphabetical" | "lastEdited">(
-    "alphabetical"
+    "lastEdited"
   );
-
-  useEffect(() => {
-    console.log("FURE");
-    console.log(filter);
-    if (filter === "alphabetical") {
-      setSortedSketches((state) => {
-        return sortSketchByName(state);
-      });
-    } else if (filter === "lastEdited") {
-      setSortedSketches((state) => {
-        return sortSketchByEditedDate(state);
-      });
-    }
-  }, [filter]);
 
   if (status === "loading") {
     return <LoadingSketchPage />;
@@ -78,19 +35,21 @@ const Sketch: NextPageWithLayout = () => {
       </div>
     );
   }
+  const handleCreateSketch = async () => {
+    const newSketch = await createSketch({
+      projectId: projectId as string,
+    });
+    router.push(`/sketch/${newSketch?.id}`);
+  };
 
   return (
     <div className="project-page__sketch">
-      {/* Buttons */}
-      <div className="buttons">
+      <div>
         {/* Add sketch */}
         <button
           type="button"
           className="new-sketch-button"
-          onClick={() => {
-            // Todo: Need to create and wait for it to create, then redirect to /sketches/[sketchId]
-            // router.push("/sketch");
-          }}
+          onClick={handleCreateSketch}
         >
           <div className="text">
             <div className="text__title">New sketch file</div>
@@ -132,25 +91,35 @@ const Sketch: NextPageWithLayout = () => {
           <div className="author">Author</div>
         </div>
 
-        {sortedSketches?.map((sketch) => (
-          <SketchCard
-            key={sketch.id}
-            id={sketch.id}
-            name={sketch.name}
-            author={sketch.author}
-            createdAt={sketch.createdAt}
-            updatedAt={sketch.updatedAt}
-          />
-        ))}
+        {filter === "lastEdited" &&
+          sortSketchByEditedDate(sketches!).map((sketch) => (
+            <SketchCard
+              key={sketch.id}
+              id={sketch.id}
+              name={sketch.name}
+              author={sketch.author!}
+              createdAt={sketch.createdAt}
+              updatedAt={sketch.updatedAt!}
+            />
+          ))}
+        {filter === "alphabetical" &&
+          sortSketchByName(sketches!).map((sketch) => (
+            <SketchCard
+              key={sketch.id}
+              id={sketch.id}
+              name={sketch.name}
+              author={sketch.author!}
+              createdAt={sketch.createdAt}
+              updatedAt={sketch.updatedAt!}
+            />
+          ))}
 
         {sketches && sketches.length === 0 && (
           <div className="no-sketches">
             <p>No sketches</p>
             <button
               className="button no-data__button"
-              onClick={() => {
-                // setIsClientModalOpen(true
-              }}
+              onClick={handleCreateSketch}
             >
               Create sketch
             </button>

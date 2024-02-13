@@ -1,3 +1,4 @@
+import { NewSketchData, UpdateSketchData } from "@/types/types";
 import {
   createSketch,
   deleteSketch,
@@ -6,44 +7,44 @@ import {
   updateSketch,
 } from "@/utils/sketchFunctions";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-
-type SketchData = {
-  name?: string;
-  elements: string;
-};
-
-type NewSketchData = { name: string; projectId: string };
+import { userStore } from "store/user";
 
 const sketchKeys = {
   all: ["sketches"] as const,
   one: (id: string) => [...sketchKeys.all, id] as const,
 };
 
-export const useSketch = (sketchId: string) => {
+export const useCreateSketch = () => {
   const queryClient = useQueryClient();
+  const authorId = userStore.getState().userId;
 
-  const {
-    data: sketch,
-    isLoading,
-    status,
-  } = useQuery({
+  return useMutation({
+    mutationFn: (sketchData: { projectId: string }) =>
+      createSketch({ projectId: sketchData.projectId, authorId }),
+
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries({
+        queryKey: sketchKeys.all,
+      });
+
+      // console.log("Created Sketch: ", data);
+    },
+  });
+};
+
+export const useOneSketch = (sketchId: string, isDeleting: boolean) => {
+  const { data: sketch, status } = useQuery({
     queryKey: sketchKeys.one(sketchId),
     queryFn: () => getOneSketch(sketchId),
     onSuccess: async (data) => {
       console.log("Fetched sketch: ", data);
     },
-    enabled: sketchId == undefined ? false : true,
+    enabled: !isDeleting && sketchId ? true : false,
   });
-  return { sketch, isLoading, status };
+  return { sketch, status };
 };
 export const useProjectSketches = (projectId: string) => {
-  const queryClient = useQueryClient();
-
-  const {
-    data: sketches,
-    isLoading,
-    status,
-  } = useQuery({
+  const { data: sketches, status } = useQuery({
     queryKey: sketchKeys.all,
     queryFn: () => getProjectSketches(projectId),
     onSuccess: async (data) => {
@@ -54,33 +55,18 @@ export const useProjectSketches = (projectId: string) => {
   return { sketches, status };
 };
 
-export const useCreateSketch = () => {
+export const useDeleteSketch = (sketchId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (sketchData: NewSketchData) => createSketch(sketchData),
-    onSuccess: async (data) => {
-      await queryClient.invalidateQueries({
-        queryKey: sketchKeys.all,
-      });
-
-      console.log("Created Sketch: ", data);
-    },
-  });
-};
-
-export const useDeleteStuff = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: (sketchId: string) => deleteSketch(sketchId),
+    mutationFn: () => deleteSketch(sketchId),
 
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({
         queryKey: sketchKeys.all,
       });
 
-      console.log("Deleted Sketch: ", data);
+      // console.log("Deleted Sketch: ", data);
     },
   });
 };
@@ -89,10 +75,11 @@ export const useUpdateSketch = (sketchId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (sketchData: SketchData) => updateSketch(sketchId, sketchData),
+    mutationFn: (sketchData: UpdateSketchData) =>
+      updateSketch(sketchId, sketchData),
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({ queryKey: sketchKeys.all });
-      console.log("Updated Sketch: ", data);
+      console.log("Updated Sketch");
     },
   });
 };

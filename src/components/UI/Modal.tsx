@@ -16,11 +16,18 @@ const ModalOverlay: React.FC<{
   children?: JSX.Element[] | JSX.Element;
   onClose: () => void;
   isOpen: boolean;
+  isDark?: boolean;
   closeBtn: boolean;
   className?: string;
-}> = ({ children, onClose, isOpen, closeBtn, className }) => {
+}> = ({ children, onClose, isOpen, closeBtn, className, isDark }) => {
   return (
-    <div className={`${isOpen ? "" : "modal--hidden"} modal ` + className}>
+    <div
+      className={
+        `${isOpen ? "" : "modal--hidden"} modal ${
+          isDark ? "modal--dark" : ""
+        } ` + className
+      }
+    >
       {closeBtn && (
         <button onClick={onClose} className="modal__close">
           <svg viewBox="0 0 320.591 320.591">
@@ -41,19 +48,21 @@ const ModalOverlay: React.FC<{
 
 const Modal: React.FC<{
   children: any;
-  className?: string;
   isOpen: boolean;
   closeHandler: () => any;
   closeBtn: boolean;
-}> = ({ children, isOpen, closeHandler, closeBtn, className }) => {
+  className?: string;
+  isDark?: boolean;
+}> = ({ children, isOpen, closeHandler, closeBtn, className, isDark }) => {
   return (
-    <div className={`${isOpen ? "" : "modal--hidden"} modal-container `}>
+    <div className={`${isOpen ? "" : "modal--hidden"} modal-container  `}>
       <Backdrop onClose={closeHandler} isOpen={isOpen} />
       <ModalOverlay
         className={className}
         closeBtn={closeBtn}
         onClose={closeHandler}
         isOpen={isOpen}
+        isDark={isDark}
       >
         {children}
       </ModalOverlay>

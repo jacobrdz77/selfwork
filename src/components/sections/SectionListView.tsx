@@ -242,7 +242,6 @@ const SectionListView = ({
                 } `}
                 onClick={() => {
                   deleteSection(section.id);
-                  toast.success(`Deleted ${sectionInputName}`);
                   setIsMenuOpen(false);
                 }}
                 disabled={isUserAssignedSection}

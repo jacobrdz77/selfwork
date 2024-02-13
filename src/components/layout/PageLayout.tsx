@@ -6,12 +6,13 @@ import NavBar from "./NavBar";
 import { Toaster } from "react-hot-toast";
 import AddClientModal from "../client/AddClientModal";
 import { useSession } from "next-auth/react";
-import InviteMemberPopup from "../member/InviteMemberPopup";
+import { useRouter } from "next/router";
 
 const PageLayout: React.FC<{
   children: ReactNode | ReactNode[];
 }> = ({ children }) => {
-  // const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+  const currentPath = router.pathname;
   const isAddTaskOpen = useModalStore((state) => state.isAddTaskOpen);
   const setIsAddTaskOpen = useModalStore((state) => state.setIsAddTaskOpen);
   const isAddProjectModalOpen = useModalStore(
@@ -24,12 +25,6 @@ const PageLayout: React.FC<{
   const setIsClientModalOpen = useModalStore(
     (state) => state.setIsClientModalOpen
   );
-  const isInviteMemberModalOpen = useModalStore(
-    (state) => state.isInviteMemberModalOpen
-  );
-  const setIsInviteMemberModalOpen = useModalStore(
-    (state) => state.setIsInviteMemberModalOpen
-  );
 
   const session = useSession();
   const { workspaceId, workspaceName } = userStore.getState();
@@ -37,7 +32,13 @@ const PageLayout: React.FC<{
   return (
     <div className="layout">
       <NavBar />
-      <main className="main">{children}</main>
+      <main
+        className={`main ${
+          currentPath.slice(0, 7) === "/sketch" ? "main--dark" : ""
+        }`}
+      >
+        {children}
+      </main>
       {isAddTaskOpen && (
         <AddTaskPopup isOpen={isAddTaskOpen} setIsOpen={setIsAddTaskOpen} />
       )}
@@ -53,27 +54,6 @@ const PageLayout: React.FC<{
           setIsModalOpen={setIsClientModalOpen}
         />
       )}
-
-      {isInviteMemberModalOpen && (
-        <InviteMemberPopup
-          isOpen={isInviteMemberModalOpen}
-          setIsOpen={setIsInviteMemberModalOpen}
-          workspaceId={workspaceId}
-          workspaceName={workspaceName}
-        />
-      )}
-
-      {/* <AddClientModal
-        isOpen={isClientModalOpen}
-        setIsModalOpen={setIsClientModalOpen}
-      /> */}
-      {/* {isTaskDetailOpen && (
-        <EditTaskModal
-          taskId={taskId}
-          isOpen={isTaskDetailOpen!}
-          setIsModalOpen={setIsTaskDetailOpen}
-        />
-      )} */}
 
       <Toaster
         position="bottom-left"

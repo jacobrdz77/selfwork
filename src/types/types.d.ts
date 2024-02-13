@@ -8,6 +8,7 @@ import type {
   Project,
   ProjectStatus,
   Section,
+  Sketch,
   Status,
   Tag,
   Task,
@@ -88,6 +89,7 @@ export type ProjectWithAll = Project & {
   members: User[];
   notes: Note[];
   urlLinks: Links[];
+  owner: { id: string; name: string; image: string };
 };
 
 export type NewLink = {
@@ -183,3 +185,29 @@ export type UpdateTagData = {
   taskId?: string;
   color?: Color;
 };
+
+export type UpdateSketchData = {
+  name?: string;
+  canvasState?: any;
+};
+
+export type NewSketchData = {
+  projectId: string;
+  authorId: string;
+};
+
+export type SketchWithAuthor = Sketch & {
+  author: {
+    name: string;
+    image: string;
+  };
+};
+
+export type SketchCanvasState = {
+  elements: any[];
+  appState: object;
+  files?: object;
+  canvasVersion: number;
+};
+
+export type InviteesEmails = { id: string; email: string }[];

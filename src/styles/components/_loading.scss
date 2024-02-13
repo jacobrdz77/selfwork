@@ -41,6 +41,18 @@
   border-radius: 50%;
 }
 
+.loading-spinner--large,
+.loading-spinner--large::after {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+}
+
+.loading-spinner--large {
+  @include absCenter;
+  border-left: 3px solid var(--color-primary--dark) !important;
+}
+
 .loading-spinner {
   border-top: 3px solid #dbdbdb;
   border-right: 3px solid #dbdbdb;
@@ -50,7 +62,7 @@
   transform: translateZ(0);
   animation-name: loading-spinner-animation;
   animation-iteration-count: infinite;
-  animation-duration: 0.8s;
+  animation-duration: 0.5s;
   animation-timing-function: linear;
 }
 

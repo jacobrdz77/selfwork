@@ -5,7 +5,6 @@ import React from "react";
 const MyTaskNav = () => {
   const router = useRouter();
   const currentPath = router.pathname.split("/")[2];
-  console.log(currentPath);
 
   return (
     <nav>

@@ -7,6 +7,7 @@ import LoadingSkeleton from "@/components/UI/LoadingSkeleton";
 import { useModalStore } from "store/user";
 import useMenu from "@/hooks/useMenu";
 import AvatarCard from "@/components/user/AvatarCard";
+import { InviteMemberWorkspace } from "@/components/member/InviteMember";
 
 const WorkspacePage = () => {
   const { workspace, status } = useOneWorkspace();
@@ -16,12 +17,12 @@ const WorkspacePage = () => {
     (state) => state.setIsAddProjectModalOpen
   );
 
-  const isInviteMemberModalOpen = useModalStore(
-    (state) => state.isInviteMemberModalOpen
+  const isInviteMemberWorkspaceModalOpen = useModalStore(
+    (state) => state.isInviteMemberWorkspaceModalOpen
   );
 
-  const setIsInviteMemberModalOpen = useModalStore(
-    (state) => state.setIsInviteMemberModalOpen
+  const setIsInviteMemberWorkspaceModalOpen = useModalStore(
+    (state) => state.setIsInviteMemberWorkspaceModalOpen
   );
 
   // console.log("projects: ", projects);
@@ -52,7 +53,7 @@ const WorkspacePage = () => {
             <div className="workspace__section-header">
               {status === "loading" && <LoadingSkeleton />}
               {status === "success" && (
-                <h2>Members ({workspace?.members.length!})</h2>
+                <h2>Members ({workspace?.members.length! + 1})</h2>
               )}
             </div>
 
@@ -63,7 +64,7 @@ const WorkspacePage = () => {
                     ref={btnRef}
                     onClick={(e) => {
                       e.preventDefault();
-                      setIsInviteMemberModalOpen(!isInviteMemberModalOpen);
+                      setIsInviteMemberWorkspaceModalOpen(true);
                     }}
                     className="workspace-members__add workspace-members__add--members"
                     role="button"
@@ -91,6 +92,9 @@ const WorkspacePage = () => {
                   <LoadingSkeleton />
                 </>
               )}
+
+              {status === "success" && <AvatarCard user={workspace?.owner} />}
+
               {workspace?.members.map((member) => (
                 <AvatarCard key={member.id} user={member} />
               ))}
@@ -129,6 +133,21 @@ const WorkspacePage = () => {
           </div>
         </div>
       </div>
+
+      {isInviteMemberWorkspaceModalOpen && (
+        <InviteMemberWorkspace
+          isOpen={isInviteMemberWorkspaceModalOpen}
+          setIsOpen={setIsInviteMemberWorkspaceModalOpen}
+          members={workspace?.members!}
+          workspaceId={workspace?.id}
+          owner={{
+            id: workspace?.owner.id!,
+            name: workspace?.owner.name!,
+            image: workspace?.owner.image!,
+          }}
+          isDark={false}
+        />
+      )}
     </>
   );
 };
