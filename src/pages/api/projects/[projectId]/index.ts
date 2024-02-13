@@ -11,7 +11,35 @@ export default async function handler(
   // RETURN: a project
   if (req.method === "GET") {
     try {
-      const { projectId } = req.query;
+      const { projectId, select } = req.query;
+
+      if (select === "members") {
+        const projectMembers = await prisma.project.findUnique({
+          where: {
+            id: projectId as string,
+          },
+          select: {
+            members: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+                image: true,
+              },
+            },
+            owner: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+                image: true,
+              },
+            },
+          },
+        });
+
+        return res.status(200).json(projectMembers);
+      }
 
       const project = await prisma.project.findUnique({
         where: {
@@ -25,6 +53,12 @@ export default async function handler(
           },
           members: true,
           urlLinks: true,
+          owner: {
+            select: {
+              name: true,
+              image: true,
+            },
+          },
         },
       });
 

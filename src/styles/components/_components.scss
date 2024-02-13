@@ -655,7 +655,119 @@
 
 .invite-member {
   &.modal {
-    width: 575px;
+    width: 576px;
+  }
+
+  &.modal--dark {
+    color: #fff;
+
+    .loading-skeleton {
+      background-color: #3a3a3a;
+      background-image: linear-gradient(
+        90deg,
+        rgba(#82828b, 0),
+        rgba(#82828b, 0.5),
+        rgba(#82828b, 0)
+      );
+    }
+  }
+
+  &__title {
+    font-weight: 600;
+    font-size: 20px;
+    margin-bottom: 22px;
+    text-align: center;
+  }
+  &__input {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+    .email {
+      all: unset;
+      flex: 1;
+      font-size: 16px;
+      padding: 6px 14px;
+      border-radius: 5px;
+      border: 1px solid var(--color-border);
+    }
+    .invite-btn {
+      &:disabled {
+        background-color: #888888;
+        cursor: default;
+      }
+    }
+  }
+
+  &__current-members {
+    display: flex;
+    flex-direction: column;
+
+    .loading {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+  }
+
+  &__member {
+    display: flex;
+    padding: 10px;
+
+    &--loading {
+      width: 100%;
+      height: 40px;
+
+      // .loading-skeleton {
+      //   background-color: #3a3a3a;
+      //   background-image: linear-gradient(
+      //     90deg,
+      //     rgba(#82828b, 0),
+      //     rgba(#82828b, 0.5),
+      //     rgba(#82828b, 0)
+      //   );
+      // }
+    }
+  }
+  &__image {
+  }
+  &__initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    border-radius: 50%;
+    padding: 10px;
+    margin-right: 8px;
+    color: #fff;
+    background-color: var(
+      --color-customization-purple-background--dark
+    ) !important;
+  }
+
+  &__name {
+  }
+  &__type {
+    margin-left: auto;
+  }
+
+  &__invited {
+    &-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 8px;
+      border-radius: 50%;
+      border: 1px dashed #919191;
+      width: 24px;
+      height: 24px;
+    }
+
+    &-name {
+      color: #646464;
+    }
   }
 }
 

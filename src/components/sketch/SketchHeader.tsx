@@ -3,6 +3,7 @@ import useMenu from "@/hooks/useMenu";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import ToDeleteSketchModal from "./ToDeleteSketchModal";
+import { useModalStore } from "store/user";
 
 type Props = {
   name: string;
@@ -25,6 +26,14 @@ const SketchHeader = ({ name, projectId, setIsDeleting }: Props) => {
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const spanRef = useRef<HTMLSpanElement>(null);
+
+  const isInviteMemberSketchModalOpen = useModalStore(
+    (state) => state.isInviteMemberSketchModalOpen
+  );
+
+  const setIsInviteMemberSketchModalOpen = useModalStore(
+    (state) => state.setIsInviteMemberSketchModalOpen
+  );
 
   const handleDeleteSketch = async () => {
     setIsDeleting(true);
@@ -146,7 +155,9 @@ const SketchHeader = ({ name, projectId, setIsDeleting }: Props) => {
       <div
         className="share-btn button"
         onClick={() => {
-          console.log("Opens share popup");
+          console.log("click");
+          console.log(isInviteMemberSketchModalOpen);
+          setIsInviteMemberSketchModalOpen(true);
         }}
       >
         Share

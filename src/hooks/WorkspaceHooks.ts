@@ -1,5 +1,6 @@
 import {
   getOneWorkspace,
+  getWorkspaceInvitees,
   getWorkspaceMembers,
   getWorkspaces,
   updateworkspace,
@@ -64,4 +65,17 @@ export const useUpdateWorkspace = () => {
       console.log("Updated workspace!", updatedWorkspace);
     },
   });
+};
+
+export const useWorkspaceInvitees = (workspaceId: string) => {
+  const { data: invitees, status } = useQuery({
+    queryKey: ["inviteees"],
+    queryFn: () => getWorkspaceInvitees(workspaceId),
+    enabled: workspaceId ? true : false,
+  });
+
+  return {
+    invitees,
+    status,
+  };
 };

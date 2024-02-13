@@ -55,8 +55,12 @@ type ModalStore = {
   setIsEditProjectModalOpen: (boolean: boolean) => void;
   isClientModalOpen: boolean;
   setIsClientModalOpen: (boolean: boolean) => void;
-  isInviteMemberModalOpen: boolean;
-  setIsInviteMemberModalOpen: (boolean: boolean) => void;
+  isInviteMemberWorkspaceModalOpen: boolean;
+  setIsInviteMemberWorkspaceModalOpen: (boolean: boolean) => void;
+  isInviteMemberProjectModalOpen: boolean;
+  setIsInviteMemberProjectModalOpen: (boolean: boolean) => void;
+  isInviteMemberSketchModalOpen: boolean;
+  setIsInviteMemberSketchModalOpen: (boolean: boolean) => void;
   taskId: string;
 };
 
@@ -81,7 +85,13 @@ export const useModalStore = create<ModalStore>((set) => ({
   isClientModalOpen: false,
   setIsClientModalOpen: (boolean: boolean) =>
     set({ isClientModalOpen: boolean }),
-  isInviteMemberModalOpen: false,
-  setIsInviteMemberModalOpen: (boolean: boolean) =>
-    set({ isInviteMemberModalOpen: boolean }),
+  isInviteMemberProjectModalOpen: false,
+  setIsInviteMemberProjectModalOpen: (boolean: boolean) =>
+    set({ isInviteMemberProjectModalOpen: boolean }),
+  isInviteMemberWorkspaceModalOpen: false,
+  setIsInviteMemberWorkspaceModalOpen: (boolean: boolean) =>
+    set({ isInviteMemberWorkspaceModalOpen: boolean }),
+  isInviteMemberSketchModalOpen: false,
+  setIsInviteMemberSketchModalOpen: (boolean: boolean) =>
+    set({ isInviteMemberSketchModalOpen: boolean }),
 }));

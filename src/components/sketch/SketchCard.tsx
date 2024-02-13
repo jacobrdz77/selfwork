@@ -5,7 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { getInitials } from "@/utils/user";
 import { useDeleteSketch } from "@/hooks/SketchHooks";
-import toast from "react-hot-toast";
 import ToDeleteSketchModal from "./ToDeleteSketchModal";
 import { useRouter } from "next/router";
 
@@ -86,15 +85,6 @@ const SketchCard = ({
                   e.preventDefault();
                 }}
               >
-                <button
-                  className="item"
-                  onClick={() => {
-                    console.log("Rename sketch");
-                    setIsMenuOpen(false);
-                  }}
-                >
-                  Rename
-                </button>
                 <button
                   className="item item--delete"
                   onClick={() => {

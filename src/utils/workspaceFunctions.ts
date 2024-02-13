@@ -1,4 +1,4 @@
-import { WorkspaceWithMembers } from "@/types/types";
+import { InviteesEmails, WorkspaceWithMembers } from "@/types/types";
 import { User, Workspace } from "@prisma/client";
 import { axios } from "libs/axios";
 
@@ -61,3 +61,13 @@ export const getWorkspaceMembers = async (workspaceId: string) => {
 //   const response = await axios.delete(`/workspaces/${workspaceId}`);
 //   return response.data as workspace;
 // };
+
+export const getWorkspaceInvitees = async (workspaceId: string) => {
+  try {
+    const response = await axios.get(`/workspaces/${workspaceId}/invite_link`);
+
+    return response.data as InviteesEmails;
+  } catch (error) {
+    console.log(error);
+  }
+};

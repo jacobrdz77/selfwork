@@ -89,6 +89,7 @@ export type ProjectWithAll = Project & {
   members: User[];
   notes: Note[];
   urlLinks: Links[];
+  owner: { id: string; name: string; image: string };
 };
 
 export type NewLink = {
@@ -202,9 +203,11 @@ export type SketchWithAuthor = Sketch & {
   };
 };
 
-type SketchCanvasState = {
+export type SketchCanvasState = {
   elements: any[];
   appState: object;
   files?: object;
   canvasVersion: number;
 };
+
+export type InviteesEmails = { id: string; email: string }[];

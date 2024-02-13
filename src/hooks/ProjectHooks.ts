@@ -5,6 +5,8 @@ import {
   createProject,
   deleteProject,
   getOneProject,
+  getProjectInvitees,
+  getProjectMembers,
   getProjects,
   getProjectsWithSections,
   updateProject,
@@ -116,4 +118,33 @@ export const useUpdateProject = () => {
       await queryClient.invalidateQueries({ queryKey: ["workspace"] });
     },
   });
+};
+
+export const useProjectInvitees = (projectId: string) => {
+  const { data: invitees, status } = useQuery({
+    queryKey: ["inviteees"],
+    queryFn: () => getProjectInvitees(projectId),
+    enabled: projectId ? true : false,
+  });
+
+  console.log("Invitees:", invitees);
+
+  return {
+    invitees,
+    status,
+  };
+};
+export const useProjectMembers = (projectId: string) => {
+  const { data: members, status } = useQuery({
+    queryKey: ["members"],
+    queryFn: () => getProjectMembers(projectId),
+    enabled: projectId ? true : false,
+  });
+
+  console.log("Members: ", members);
+
+  return {
+    members,
+    status,
+  };
 };

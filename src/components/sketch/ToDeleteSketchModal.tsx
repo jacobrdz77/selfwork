@@ -24,7 +24,7 @@ const ToDeleteSketchModal = ({
       <div className="title">Delete sketch?</div>
       <div className="delete-body">
         <p className="delete-body__text">
-          This cannot be undone. All of your sketch will be deleted.
+          This cannot be undone. Your sketch will be deleted forever.
         </p>
         <div className="delete-body__buttons">
           <button
