@@ -13,6 +13,20 @@
   &--hidden {
     display: none;
   }
+  &--dark {
+    background-color: var(--color-board);
+    color: #fff;
+
+    .modal__close {
+      fill: #fff;
+      background-color: var(--color-board);
+      &:hover {
+        cursor: pointer;
+        background-color: var(--color-board-task--hover);
+        fill: #dbdbdb;
+      }
+    }
+  }
 
   &-container {
     position: fixed;
@@ -41,7 +55,12 @@
     height: 32px;
     border-radius: 8px;
 
+    border: none;
+    fill: #000;
+    background-color: white;
+
     &:hover {
+      fill: rgb(48, 48, 48);
       background-color: var(--color-gray--hover);
       cursor: pointer;
     }
@@ -49,14 +68,6 @@
     svg {
       width: 24px;
       height: 24px;
-    }
-
-    border: none;
-    fill: #000;
-    background-color: white;
-    &:hover {
-      cursor: pointer;
-      fill: rgb(48, 48, 48);
     }
   }
 }

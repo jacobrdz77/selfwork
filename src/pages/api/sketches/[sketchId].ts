@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../prisma/client";
-import { z } from "zod";
+import { updateSketchDataSchema } from "@/utils/sketchFunctions";
 
 export default async function handler(
   req: NextApiRequest,
@@ -47,15 +47,9 @@ export default async function handler(
   if (req.method === "PUT") {
     try {
       const { sketchId } = req.query;
-      const body = req.body;
-      const { sketchData } = body;
+      const sketchData = req.body;
 
-      const sketchDataSchema = z.object({
-        name: z.optional(z.string()),
-        elements: z.optional(z.any()),
-      });
-
-      const validSketchData = sketchDataSchema.parse(sketchData);
+      const validSketchData = updateSketchDataSchema.parse(sketchData);
 
       const sketch = await prisma.sketch.update({
         where: {

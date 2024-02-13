@@ -14,14 +14,16 @@ export default async function handler(
         where: {
           projectId: projectId as string,
         },
-        select: {
-          id: true,
-          projectId: true,
-          name: true,
-          createdAt: true,
-          updatedAt: true,
-          elements: false,
-          project: false,
+        orderBy: {
+          updatedAt: "desc",
+        },
+        include: {
+          author: {
+            select: {
+              name: true,
+              image: true,
+            },
+          },
         },
       });
 

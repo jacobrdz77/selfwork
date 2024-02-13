@@ -65,11 +65,6 @@ export default async function handler(
               id: workspaceData.ownerId,
             },
           },
-          members: {
-            connect: {
-              id: workspaceData.ownerId,
-            },
-          },
         },
       });
 

@@ -83,6 +83,10 @@ h6 {
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+
+  &--dark {
+    background-color: #121212;
+  }
 }
 
 .layout {

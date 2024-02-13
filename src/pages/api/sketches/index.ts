@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Prisma, Task } from "@prisma/client";
 import prisma from "../../../../prisma/client";
 import { z } from "zod";
+import { createSketchDataSchema } from "@/utils/sketchFunctions";
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,7 +11,18 @@ export default async function handler(
   // Get all sketches
   if (req.method === "GET") {
     try {
-      const projectSketches = await prisma.sketch.findMany();
+      const { projectId } = req.query;
+      const projectSketches = await prisma.sketch.findMany({
+        where: { projectId: projectId as string },
+        include: {
+          author: {
+            select: {
+              name: true,
+              image: true,
+            },
+          },
+        },
+      });
 
       return res.status(200).json(projectSketches);
     } catch (error: Error | any) {
@@ -22,28 +34,28 @@ export default async function handler(
   if (req.method === "POST") {
     try {
       // Get the sketch data from the request body
-      const body = JSON.parse(req.body);
-      const { sketchData } = body;
+      const sketchData = req.body;
 
-      // Validate incoming body
-      const sketchDataSchema = z.object({
-        name: z.string(),
-        projectId: z.string(),
-      });
-
-      const { name, projectId } = sketchDataSchema.parse(sketchData);
-
-      const jsonElements = [] as Prisma.JsonArray;
+      const { projectId, authorId } = createSketchDataSchema.parse(sketchData);
 
       const newSketch = await prisma.sketch.create({
         data: {
-          name: name,
+          name: "Untitled sketch",
           project: {
             connect: {
               id: projectId,
             },
           },
-          elements: jsonElements,
+          author: {
+            connect: {
+              id: authorId,
+            },
+          },
+          canvasState: {
+            canvasVersion: 0,
+            elements: [],
+            appState: {},
+          },
         },
       });
 

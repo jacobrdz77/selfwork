@@ -127,11 +127,11 @@ enum ClientStatus {
 model InviteLink {
   id          String    @id @default(uuid()) 
   token       String
-  email     String
-  workspace   Workspace  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-  workspaceId String
-  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId String
+  email       String
+  workspace   Workspace?  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaceId String?
+  project     Project?  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId   String?
   @@unique([workspaceId])
 }
 
@@ -235,7 +235,7 @@ model Section {
 model Sketch {
   id          String   @id @default(cuid())
   name        String
-  elements    Json
+  canvasState    Json
   project     Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId   String?
   author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)

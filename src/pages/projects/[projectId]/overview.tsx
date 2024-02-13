@@ -12,6 +12,7 @@ import { useModalStore } from "store/user";
 import LoadingSkeleton from "@/components/UI/LoadingSkeleton";
 import { getInitials } from "@/utils/user";
 import { useLinks } from "@/hooks/LinkHook";
+import { InviteMemberProject } from "@/components/member/InviteMember";
 
 const ProjectOverviewPage: NextPageWithLayout = () => {
   const { projectId } = useRouter().query;
@@ -23,12 +24,12 @@ const ProjectOverviewPage: NextPageWithLayout = () => {
     menuRef: memberMenuRef,
     setIsMenuOpen: setMemberMenuOpen,
   } = useMenu();
-  const isInviteMemberModalOpen = useModalStore(
-    (state) => state.isInviteMemberModalOpen
+  const isInviteMemberProjectModalOpen = useModalStore(
+    (state) => state.isInviteMemberProjectModalOpen
   );
 
-  const setIsInviteMemberModalOpen = useModalStore(
-    (state) => state.setIsInviteMemberModalOpen
+  const setIsInviteMemberProjectModalOpen = useModalStore(
+    (state) => state.setIsInviteMemberProjectModalOpen
   );
 
   const { links, status: linkStatus } = useLinks(projectId as string);
@@ -69,7 +70,9 @@ const ProjectOverviewPage: NextPageWithLayout = () => {
                 ref={memberBtnRef}
                 onClick={(e) => {
                   e.preventDefault();
-                  setIsInviteMemberModalOpen(!isInviteMemberModalOpen);
+                  setIsInviteMemberProjectModalOpen(
+                    !isInviteMemberProjectModalOpen
+                  );
                 }}
                 className="project-resources__add-btn project-resources__add-btn--members"
                 role="button"
@@ -88,6 +91,22 @@ const ProjectOverviewPage: NextPageWithLayout = () => {
                 </div>
               </div>
             </div>
+            {/* Owner */}
+            <Link href={`/profile/${project?.owner.id}`} className="one-member">
+              {project?.owner.image ? (
+                <Image
+                  className="one-member__image"
+                  src={project?.owner.image ? project?.owner.image : ""}
+                  alt="Profile picture"
+                />
+              ) : (
+                <div className="one-member__initials">
+                  {getInitials(project?.owner.name!)}
+                </div>
+              )}
+
+              <span className="one-member__name">{project?.owner.name}</span>
+            </Link>
 
             {project?.members.map((member) => (
               <Link
@@ -153,6 +172,17 @@ const ProjectOverviewPage: NextPageWithLayout = () => {
           </div>
         </div>
       </div>
+
+      {isInviteMemberProjectModalOpen && (
+        <InviteMemberProject
+          isOpen={isInviteMemberProjectModalOpen}
+          setIsOpen={setIsInviteMemberProjectModalOpen}
+          members={project?.members!}
+          projectId={project?.id}
+          owner={project?.owner!}
+          isDark={false}
+        />
+      )}
     </>
   );
 };
