@@ -54,7 +54,7 @@ const AddTaskPopup: React.FC<{
       description,
       priority,
       assignee,
-      sectionId: selectedSection?.id,
+      sectionId: selectedSection?.id!,
       order: selectedSection?.tasks.length!,
     });
     setIsOpen(false);

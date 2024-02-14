@@ -211,3 +211,8 @@ export type SketchCanvasState = {
 };
 
 export type InviteesEmails = { id: string; email: string }[];
+
+export type Members = {
+  members: { id: string; name: string; email: string; image: string }[];
+  owner: { id: string; name: string; email: string; image: string };
+};

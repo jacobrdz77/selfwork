@@ -1,4 +1,4 @@
-import { InviteesEmails, WorkspaceWithMembers } from "@/types/types";
+import { InviteesEmails, Members, WorkspaceWithMembers } from "@/types/types";
 import { User, Workspace } from "@prisma/client";
 import { axios } from "libs/axios";
 
@@ -52,7 +52,7 @@ export const updateworkspace = async (
 export const getWorkspaceMembers = async (workspaceId: string) => {
   try {
     const response = await axios.get(`/workspaces/${workspaceId}/members`);
-    return response.data as User[];
+    return response.data as Members;
   } catch (error) {
     console.log(error);
   }

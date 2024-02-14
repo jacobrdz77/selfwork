@@ -352,24 +352,10 @@ const DateFilledButton = ({
 
 export const AssigneeButton = ({ task }: { task: TaskWithAssignee }) => {
   const router = useRouter();
-  const { projectId } = router.query;
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const [selectedAssignee, setSelectedAssignee] = useState<User | null>(
     task ? task.assignee : null
   );
-  const { mutate: updateTask } = useUpdateTask(task.sectionId);
-
-  const updateAssignee = () => {
-    updateTask({
-      taskId: task.id,
-      taskData: {
-        assigneeId: selectedAssignee ? selectedAssignee.id : null,
-      },
-      projectId: projectId as string,
-    });
-  };
-  const userId = useUserStore((state) => state.userId);
-  const { user } = useUserInfo(userId);
 
   return (
     <div className="board-task__assignee-container">
@@ -422,7 +408,7 @@ export const AssigneeButton = ({ task }: { task: TaskWithAssignee }) => {
             <div className="assignee-form">
               <label className="label">
                 <AssigneeMenu
-                  selectedAssignee={selectedAssignee}
+                  selectedAssignee={selectedAssignee!}
                   setSelectedAssignee={setSelectedAssignee}
                   taskId={task.id}
                   task={task}
@@ -455,26 +441,10 @@ export const AssigneeButton = ({ task }: { task: TaskWithAssignee }) => {
 };
 export const AssigneeFilledButton = ({ task }: { task: TaskWithAssignee }) => {
   const router = useRouter();
-  const { projectId } = router.query;
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const [selectedAssignee, setSelectedAssignee] = useState<User | null>(
     task.assignee
   );
-
-  const { mutate: updateTask } = useUpdateTask(task.sectionId);
-
-  const updateAssignee = () => {
-    updateTask({
-      taskId: task.id,
-      taskData: {
-        assigneeId: selectedAssignee ? selectedAssignee.id : null,
-      },
-      projectId: projectId as string,
-    });
-  };
-
-  const userId = useUserStore((state) => state.userId);
-  const { user } = useUserInfo(userId);
 
   return (
     <div className="board-task__assignee-container">
@@ -523,7 +493,7 @@ export const AssigneeFilledButton = ({ task }: { task: TaskWithAssignee }) => {
             <div className="assignee-form">
               <label className="label">
                 <AssigneeMenu
-                  selectedAssignee={selectedAssignee}
+                  selectedAssignee={selectedAssignee!}
                   setSelectedAssignee={setSelectedAssignee}
                   taskId={task.id}
                   task={task}
@@ -577,30 +547,30 @@ export const AssigneeMenu = ({
   );
   const [filteredMembers, setFilteredMembers] = useState<User[] | null>(null);
   const { isInputFocused, setIsInputFocused, handleInputBlur, inputRef } =
-    usePlaceHolder({ blurHandler: () => {} });
+    usePlaceHolder({
+      funcOnFocus: () => {
+        setIsMenuOpen(true);
+      },
+    });
 
   useEffect(() => {
-    setFilteredMembers(() => {
-      if (members) {
-        const newFilteredMembers = members.filter((member) => {
-          return member
-            .name!.toLocaleLowerCase()
-            .includes(searchMember!.trim().toLocaleLowerCase());
-        });
-
-        return newFilteredMembers as User[];
-      }
-    });
+    if (members) {
+      setFilteredMembers(() => {
+        const newFilteredMembers = [...members.members, members.owner].filter(
+          (member) => {
+            return member
+              .name!.toLocaleLowerCase()
+              .includes(searchMember!.trim().toLocaleLowerCase());
+          }
+        );
+        return newFilteredMembers;
+      });
+    }
   }, [selectedAssignee, searchMember, members]);
 
   return (
     <div className="new-project__client menu-container data-selected">
-      <div
-        role="button"
-        ref={btnRef}
-        className="menu-button"
-        onClick={() => setIsMenuOpen((state) => !state)}
-      >
+      <div role="button" ref={btnRef} className="menu-button">
         {/* Placeholder */}
         {selectedAssignee && !isInputFocused && (
           <div
@@ -651,7 +621,7 @@ export const AssigneeMenu = ({
             className="form__input"
             id="name"
             type="text"
-            placeholder="John Smith"
+            placeholder="Name"
             autoComplete="off"
           />
         )}
@@ -667,12 +637,12 @@ export const AssigneeMenu = ({
             className="form__input"
             id="name"
             type="text"
-            placeholder="Rob Daniels"
+            placeholder="Name"
             autoComplete="off"
           />
         )}
       </div>
-      {/* The menu that displays the members from the project. */}
+      {/* The menu that displays the members of workspace */}
       {isMenuOpen && (
         <div
           className="menu"
@@ -689,6 +659,8 @@ export const AssigneeMenu = ({
                 className="item"
                 key={client.id}
                 onClick={() => {
+                  if (selectedAssignee && selectedAssignee.id === client.id)
+                    return;
                   setSelectedAssignee(client);
                   updateTask({
                     taskId: taskId,
@@ -706,7 +678,7 @@ export const AssigneeMenu = ({
 
           {filteredMembers?.length === 0 && (
             <div className="item">
-              <span className="item__name">No client found</span>
+              <span className="item__name">No members found</span>
             </div>
           )}
         </div>

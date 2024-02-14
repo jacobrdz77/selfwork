@@ -1,6 +1,7 @@
 import { Project, User } from "@prisma/client";
 import {
   InviteesEmails,
+  Members,
   NewProject,
   ProjectWithAll,
   ProjectsWithSections,
@@ -109,16 +110,11 @@ export const getProjectInvitees = async (projectId: string) => {
   }
 };
 
-type ProjectMembers = {
-  members: { id: string; name: string; email: string; image: string }[];
-  owner: { id: string; name: string; email: string; image: string };
-};
-
 export const getProjectMembers = async (projectId: string) => {
   try {
-    const response = await axios.get(`/projects/${projectId}?select=members`);
+    const response = await axios.get(`/projects/${projectId}/members`);
 
-    return response.data as ProjectMembers;
+    return response.data as Members;
   } catch (error) {
     console.log(error);
   }
