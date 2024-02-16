@@ -10,23 +10,37 @@ export default async function handler(
   if (req.method === "GET") {
     try {
       const { workspaceId } = req.query;
-
-      const workspace = await prisma.workspace.findUnique({
+      const workspaceMembers = await prisma.workspace.findUnique({
         where: {
           id: workspaceId as string,
         },
         select: {
-          members: true,
+          members: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              image: true,
+            },
+          },
+          owner: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              image: true,
+            },
+          },
         },
       });
 
-      if (!workspace) {
+      if (!workspaceMembers) {
         return res
           .status(404)
           .json({ error: `Workspace ${workspaceId} not found.` });
       }
 
-      return res.status(200).json(workspace?.members);
+      return res.status(200).json(workspaceMembers);
     } catch (error: Error | any) {
       return res.status(400).json({ error: error.message });
     }

@@ -29,7 +29,7 @@ const AssigneeMenu = ({
         </div>
       )}
       {status === "success" &&
-        members!.map((member) => (
+        [...members?.members!, members?.owner!].map((member) => (
           <div
             key={member.id}
             className="assignee-menu__item"

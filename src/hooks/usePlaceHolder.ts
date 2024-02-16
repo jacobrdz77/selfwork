@@ -1,6 +1,12 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
-const usePlaceHolder = ({ blurHandler }: { blurHandler: () => void }) => {
+const usePlaceHolder = ({
+  blurHandler,
+  funcOnFocus,
+}: {
+  blurHandler?: () => void;
+  funcOnFocus?: () => any;
+}) => {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const inputRef = useRef(null);
   const focusOnInput = useCallback(() => {
@@ -8,7 +14,11 @@ const usePlaceHolder = ({ blurHandler }: { blurHandler: () => void }) => {
     if (inputRef.current) {
       inputRef.current!.focus();
     }
-  }, []);
+    if (funcOnFocus) {
+      funcOnFocus();
+    }
+  }, [funcOnFocus]);
+
   const handleInputBlur = (e: any) => {
     if (blurHandler) {
       blurHandler();
