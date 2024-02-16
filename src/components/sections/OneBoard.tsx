@@ -28,7 +28,7 @@ const OneBoard: React.FC<Board> = ({
   title,
   isUserAssignedSection = false,
 }) => {
-  const { sortedtasks, setSortedtasks } = useSortedTasks(section.tasks);
+  const { sortedTasks, setSortedTasks } = useSortedTasks(section.tasks);
 
   const [newTaskName, setNewTaskName] = useState("");
   const [oldName, setOldName] = useState(title);
@@ -74,8 +74,8 @@ const OneBoard: React.FC<Board> = ({
   // Make Tasks inside Section Sortable
   const { sensors, handleDragEnd, handleDragStart } = useDndContextForSorting(
     "tasks",
-    sortedtasks,
-    setSortedtasks
+    sortedTasks,
+    setSortedTasks
   );
 
   // Name Input
@@ -197,11 +197,11 @@ const OneBoard: React.FC<Board> = ({
       >
         <div className="board-task-list">
           <SortableContext
-            items={sortedtasks}
+            items={sortedTasks}
             strategy={verticalListSortingStrategy}
           >
-            {sortedtasks &&
-              sortedtasks.map((task) => (
+            {sortedTasks &&
+              sortedTasks.map((task) => (
                 <BoardTask key={task.id} task={task} />
               ))}
           </SortableContext>
