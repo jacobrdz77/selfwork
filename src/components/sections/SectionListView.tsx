@@ -38,10 +38,10 @@ const SectionListView = ({
   const { mutate: updateSection } = useUpdateSection();
 
   const { tasks } = useTasksSection(section.id);
-  const { sortedtasks, setSortedtasks } = useSortedTasks(tasks ? tasks : []);
+  const { sortedTasks, setSortedTasks } = useSortedTasks(tasks ? tasks : []);
 
   const { sensors, handleDragEnd, handleDragStart, activeIndex } =
-    useDndContextForSorting("tasks", sortedtasks, setSortedtasks);
+    useDndContextForSorting("tasks", sortedTasks, setSortedTasks);
 
   // For NEW TASK
   const [newTaskName, setNewTaskName] = useState("");
@@ -277,10 +277,10 @@ const SectionListView = ({
             )}
 
             <SortableContext
-              items={sortedtasks ? sortedtasks : []}
+              items={sortedTasks ? sortedTasks : []}
               strategy={verticalListSortingStrategy}
             >
-              {sortedtasks.map((task) => (
+              {sortedTasks.map((task) => (
                 <OneTaskRow key={task.id} task={task} />
               ))}
             </SortableContext>

@@ -17,6 +17,7 @@ import {
 } from "@/types/types";
 import { useEffect, useState } from "react";
 import sortArray from "@/utils/sortSections";
+import sortArrayByOrder from "@/utils/sortSections";
 
 function generateId() {
   return Math.floor(Math.random() * 100) + "";
@@ -229,12 +230,12 @@ export const useDeleteTask = (sectionId: string) => {
 };
 
 export const useSortedTasks = (tasks: TaskWithAssignee[]) => {
-  const [sortedtasks, setSortedtasks] = useState(sortArray(tasks));
+  const [sortedTasks, setSortedTasks] = useState(sortArrayByOrder(tasks));
 
   // Need this but need to find better way
   useEffect(() => {
-    setSortedtasks(sortArray(tasks));
+    setSortedTasks(sortArray(tasks));
   }, [tasks]);
 
-  return { sortedtasks, setSortedtasks };
+  return { sortedTasks, setSortedTasks };
 };

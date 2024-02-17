@@ -428,9 +428,7 @@
   display: flex;
   gap: 12px;
   overflow-x: auto;
-  min-height: 75vh;
-
-  padding-bottom: 42px;
+  height: 100%;
 
   .new-section {
     margin: unset;
@@ -440,6 +438,7 @@
 .board {
   min-width: 300px;
   max-width: 300px;
+  height: fit-content;
   padding: 8px 12px;
   background-color: var(--color-board);
   color: var(--color-board-text);
