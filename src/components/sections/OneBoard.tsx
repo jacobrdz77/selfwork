@@ -13,26 +13,20 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import useDndContextForSorting from "@/hooks/useDndContextForSorting";
 import { useSortedTasks } from "@/hooks/TaskHooks";
-import { DndContext } from "@dnd-kit/core";
+import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
 import { useModalStore } from "store/user";
 
 interface Board {
   section: SectionWithTasks;
-  title: string;
-  tasks: TaskWithAssignee[];
   isUserAssignedSection?: boolean;
 }
 
-const OneBoard: React.FC<Board> = ({
-  section,
-  title,
-  isUserAssignedSection = false,
-}) => {
+const OneBoard = ({ section, isUserAssignedSection = false }: Board) => {
   const { sortedTasks, setSortedTasks } = useSortedTasks(section.tasks);
 
   const [newTaskName, setNewTaskName] = useState("");
-  const [oldName, setOldName] = useState(title);
-  const [sectionInputName, setSectionInputName] = useState(title);
+  const [oldName, setOldName] = useState(section.name);
+  const [sectionInputName, setSectionInputName] = useState(section.name);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const inputRef = useRef(null);
 
@@ -63,11 +57,27 @@ const OneBoard: React.FC<Board> = ({
     (state) => state.isEditTaskModalOpen
   );
   // Makes it Draggable
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: section.id, disabled: isEditTaskModalOpen });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    setDroppableNodeRef,
+    isDragging,
+  } = useSortable({
+    id: section.id,
+    disabled: isEditTaskModalOpen,
+    transition: null,
+  });
 
   const style = {
-    transform: CSS.Transform.toString(transform),
+    //@ts-ignore
+    transform: CSS.Transform.toString({
+      ...transform,
+      scaleX: 1,
+      scaleY: 1,
+    }),
     transition,
   };
 
@@ -79,7 +89,6 @@ const OneBoard: React.FC<Board> = ({
   );
 
   // Name Input
-
   useEffect(() => {
     if (isInputFocused === true) {
       focusOnInput();
@@ -113,137 +122,179 @@ const OneBoard: React.FC<Board> = ({
   };
 
   return (
-    <div
-      className="board"
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners}
-    >
-      <div className="board-title">
-        <div className="name">
-          {isInputFocused ? (
-            <input
-              ref={inputRef}
-              className="section__name-input"
-              autoComplete="off"
-              type="text"
-              name="name"
-              placeholder="New Section"
-              value={sectionInputName}
-              onChange={(e) => {
-                setSectionInputName(e.currentTarget.value);
-              }}
-              onBlur={handleInputBlur}
-              maxLength={50}
-            />
-          ) : (
+    <div ref={setDroppableNodeRef} className="board-container">
+      <div
+        className={`board ${isDragging ? "board--dragging" : ""}`}
+        ref={setNodeRef}
+        style={style}
+        {...attributes}
+        {...listeners}
+      >
+        <div className="board-title">
+          <div className="name">
+            {isInputFocused ? (
+              <input
+                ref={inputRef}
+                className="section__name-input"
+                autoComplete="off"
+                type="text"
+                name="name"
+                placeholder="New Section"
+                value={sectionInputName}
+                onChange={(e) => {
+                  setSectionInputName(e.currentTarget.value);
+                }}
+                onBlur={handleInputBlur}
+                maxLength={50}
+              />
+            ) : (
+              <div
+                className="section__input-placeholder"
+                role="button"
+                onClick={() => {
+                  setIsInputFocused(true);
+                }}
+              >
+                {sectionInputName}
+              </div>
+            )}
+          </div>
+          {/* MORE BUTTON */}
+          <div
+            className={`board__more-btn-container ${
+              isMenuOpen ? "active" : ""
+            }`}
+            ref={btnRef}
+            onClick={(e) => {
+              e.preventDefault();
+              setIsMenuOpen(!isMenuOpen);
+            }}
+          >
+            <div className="board__more-btn" role="button">
+              <svg className="board-card__more-icon" viewBox="0 0 16 16">
+                <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
+              </svg>
+            </div>
+            {isMenuOpen && (
+              <ul
+                className={`menu ${isMenuOpen ? "menu--active" : ""}`}
+                ref={menuRef}
+                onClick={(e) => {
+                  e.preventDefault();
+                }}
+              >
+                <li className="item">
+                  <button
+                    className={`item--delete ${
+                      isUserAssignedSection ? "item--disabled" : ""
+                    }`}
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      deleteSection(section.id);
+                    }}
+                    disabled={isUserAssignedSection}
+                  >
+                    Delete section
+                  </button>
+                </li>
+              </ul>
+            )}
+          </div>
+        </div>
+
+        <DndContext
+          sensors={sensors}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+        >
+          <div className="board-task-list">
+            <SortableContext
+              items={sortedTasks}
+              strategy={verticalListSortingStrategy}
+            >
+              {sortedTasks &&
+                sortedTasks.map((task) => (
+                  <BoardTask key={task.id} task={task} />
+                ))}
+            </SortableContext>
+
+            {isNewTaskOpen && (
+              <BoardNewTask
+                forwardRef={newTaskRef}
+                name={newTaskName}
+                setName={setNewTaskName}
+                setNewTaskOpen={setNewTaskOpen}
+              />
+            )}
+
             <div
-              className="section__input-placeholder"
+              ref={newTaskBtnRef}
               role="button"
+              className="board-add-task"
               onClick={() => {
-                setIsInputFocused(true);
+                if (newTaskName.trim().length > 0) {
+                  createTask({
+                    name: newTaskName,
+                    sectionId: section.id,
+                    description: "",
+                    assignee: null,
+                    priority: null,
+                    order: section.tasks?.length!,
+                  });
+                }
+                setNewTaskOpen((state) => !state);
               }}
             >
-              {sectionInputName}
+              <svg
+                fill="currentColor"
+                className="sidebar__add-icon"
+                viewBox="0 0 24 24"
+              >
+                <path d="m12 6a1 1 0 0 0 -1 1v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2h-4v-4a1 1 0 0 0 -1-1z" />
+              </svg>
+              <span>Add Task</span>
             </div>
-          )}
+          </div>
+        </DndContext>
+      </div>
+    </div>
+  );
+};
+
+export const OneBoardOverlay = ({ section }: Board) => {
+  const { sortedTasks } = useSortedTasks(section.tasks);
+  return (
+    <div className="board ">
+      <div className="board-title">
+        <div className="name">
+          <div className="section__input-placeholder" role="button">
+            {section.name}
+          </div>
         </div>
         {/* MORE BUTTON */}
-        <div
-          className={`board__more-btn-container ${isMenuOpen ? "active" : ""}`}
-          ref={btnRef}
-          onClick={(e) => {
-            e.preventDefault();
-            setIsMenuOpen(!isMenuOpen);
-          }}
-        >
+        <div className={`board__more-btn-container`}>
           <div className="board__more-btn" role="button">
             <svg className="board-card__more-icon" viewBox="0 0 16 16">
               <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
             </svg>
           </div>
-          {isMenuOpen && (
-            <ul
-              className={`menu ${isMenuOpen ? "menu--active" : ""}`}
-              ref={menuRef}
-              onClick={(e) => {
-                e.preventDefault();
-              }}
-            >
-              <li className="item">
-                <button
-                  className={`item--delete ${
-                    isUserAssignedSection ? "item--disabled" : ""
-                  }`}
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    deleteSection(section.id);
-                  }}
-                  disabled={isUserAssignedSection}
-                >
-                  Delete section
-                </button>
-              </li>
-            </ul>
-          )}
         </div>
       </div>
+      <div className="board-task-list">
+        {sortedTasks &&
+          sortedTasks.map((task) => <BoardTask key={task.id} task={task} />)}
+      </div>
 
-      <DndContext
-        sensors={sensors}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-      >
-        <div className="board-task-list">
-          <SortableContext
-            items={sortedTasks}
-            strategy={verticalListSortingStrategy}
-          >
-            {sortedTasks &&
-              sortedTasks.map((task) => (
-                <BoardTask key={task.id} task={task} />
-              ))}
-          </SortableContext>
-
-          {isNewTaskOpen && (
-            <BoardNewTask
-              forwardRef={newTaskRef}
-              name={newTaskName}
-              setName={setNewTaskName}
-              setNewTaskOpen={setNewTaskOpen}
-            />
-          )}
-
-          <div
-            ref={newTaskBtnRef}
-            role="button"
-            className="board-add-task"
-            onClick={() => {
-              if (newTaskName.trim().length > 0) {
-                createTask({
-                  name: newTaskName,
-                  sectionId: section.id,
-                  description: "",
-                  assignee: null,
-                  priority: null,
-                  order: section.tasks?.length!,
-                });
-              }
-              setNewTaskOpen((state) => !state);
-            }}
-          >
-            <svg
-              fill="currentColor"
-              className="sidebar__add-icon"
-              viewBox="0 0 24 24"
-            >
-              <path d="m12 6a1 1 0 0 0 -1 1v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2h-4v-4a1 1 0 0 0 -1-1z" />
-            </svg>
-            <span>Add Task</span>
-          </div>
-        </div>
-      </DndContext>
+      <div role="button" className="board-add-task">
+        <svg
+          fill="currentColor"
+          className="sidebar__add-icon"
+          viewBox="0 0 24 24"
+        >
+          <path d="m12 6a1 1 0 0 0 -1 1v4h-4a1 1 0 0 0 0 2h4v4a1 1 0 0 0 2 0v-4h4a1 1 0 0 0 0-2h-4v-4a1 1 0 0 0 -1-1z" />
+        </svg>
+        <span>Add Task</span>
+      </div>
     </div>
   );
 };

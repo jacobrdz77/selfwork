@@ -16,8 +16,7 @@ import {
   TaskWithAssignee,
 } from "@/types/types";
 import { useEffect, useState } from "react";
-import sortArray from "@/utils/sortSections";
-import sortArrayByOrder from "@/utils/sortSections";
+import sortArrayByOrder from "@/utils/sortArrayByOrder";
 
 function generateId() {
   return Math.floor(Math.random() * 100) + "";
@@ -234,7 +233,7 @@ export const useSortedTasks = (tasks: TaskWithAssignee[]) => {
 
   // Need this but need to find better way
   useEffect(() => {
-    setSortedTasks(sortArray(tasks));
+    setSortedTasks(sortArrayByOrder(tasks));
   }, [tasks]);
 
   return { sortedTasks, setSortedTasks };

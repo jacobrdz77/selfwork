@@ -445,6 +445,10 @@
   border-radius: 6px;
   user-select: none;
 
+  &--dragging {
+    opacity: 0.45;
+  }
+
   &:active {
     cursor: grabbing;
   }
@@ -486,28 +490,10 @@
     }
   }
 
-  &-add-task {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    // text-align: center;
-    padding: 6px;
-    border-radius: 6px;
-    &:hover {
-      cursor: pointer;
-      background-color: var(--color-board-task--hover);
-    }
-
-    svg {
-      // fill: var;
-    }
-  }
-
   &-task-list {
     display: flex;
     flex-direction: column;
-    min-height: 300px;
+    // min-height: 300px;
     gap: 6px;
 
     .board-task {
@@ -711,6 +697,20 @@
           }
         }
       }
+    }
+  }
+
+  &-add-task {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    // text-align: center;
+    padding: 6px;
+    border-radius: 6px;
+    &:hover {
+      cursor: pointer;
+      background-color: var(--color-board-task--hover);
     }
   }
 

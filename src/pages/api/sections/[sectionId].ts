@@ -118,7 +118,7 @@ export default async function handler(
         );
 
         if (!sectionToMove) {
-          throw new Error(`Task with ID ${sectionId} not found.`);
+          throw new Error(`Section with ID ${sectionId} not found.`);
         }
 
         // Calculate new order for each section

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import sortSections from "@/utils/sortSections";
+import sortSections from "@/utils/sortArrayByOrder";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Section } from "@prisma/client";
 import { useUserStore } from "store/user";
@@ -222,7 +222,9 @@ export const useUpdateSectionOrder = () => {
 };
 
 export const useSortedSections = (sections: SectionWithTasks[]) => {
-  const [sortedSections, setSortedSections] = useState(sortSections(sections));
+  const [sortedSections, setSortedSections] = useState<SectionWithTasks[]>(
+    sortSections(sections)
+  );
 
   // Need this but need to find better way
   useEffect(() => {

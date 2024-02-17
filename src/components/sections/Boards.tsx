@@ -3,8 +3,8 @@ import { SectionWithTasks } from "@/types/types";
 import AddProjectSectionButton from "./AddProjectSectionButton";
 import AddUserSectionButton from "./AddUserSectionButton";
 import { SortableContext } from "@dnd-kit/sortable";
-import OneBoard from "./OneBoard";
-import { DndContext } from "@dnd-kit/core";
+import OneBoard, { OneBoardOverlay } from "./OneBoard";
+import { DndContext, DragOverlay } from "@dnd-kit/core";
 import useDndContextForSorting from "@/hooks/useDndContextForSorting";
 
 interface Props {
@@ -22,12 +22,8 @@ const Boards = ({
   isProject,
   projectId,
 }: Props) => {
-  const [activeId, setActiveId] = useState<number | null>(null);
-  const { sensors, handleDragEnd, handleDragStart } = useDndContextForSorting(
-    "sections",
-    sections!,
-    setSections
-  );
+  const { sensors, handleDragEnd, handleDragStart, activeId } =
+    useDndContextForSorting("sections", sections!, setSections);
 
   return (
     <DndContext
@@ -36,40 +32,32 @@ const Boards = ({
       onDragEnd={handleDragEnd}
     >
       <div className="boards">
-        {/* This is only for My Tasks page */}
-        {/* {userAssignedSection && (
+        <SortableContext items={sections ? sections : []}>
+          {/* This is only for My Tasks page */}
+          {/* {userAssignedSection && (
           <OneBoard
             isUserAssignedSection={true}
             key={userAssignedSection.id}
             tasks={userAssignedSection.tasks}
             title={userAssignedSection.name}
             section={userAssignedSection}
-            // moveBoard={moveBoard}
+            // moveBoard={moveBoard}v
           />
         )} */}
-        <SortableContext items={sections ? sections : []}>
           {sections?.map((section) => (
-            <OneBoard
-              key={section.id}
-              tasks={section.tasks}
-              title={section.name}
-              section={section}
-            />
+            <OneBoard key={section.id} section={section} />
           ))}
+
+          {/* This makes it when you start dragging a Board, it creates a copy using the child */}
+          <DragOverlay dropAnimation={{ duration: 0 }}>
+            {activeId && sections ? (
+              <OneBoardOverlay
+                key={activeId}
+                section={sections.find((section) => section.id === activeId)!}
+              />
+            ) : null}
+          </DragOverlay>
         </SortableContext>
-
-        {/* This makes it when you start dragging a Board, it still stays at the same position but it creates a copy of it and you're able to move it around. */}
-        {/* <DragOverlay>
-          {activeId ? (
-            <OneBoard
-              key={activeId}
-              tasks={sections[activeId].tasks}
-              title={sections[activeId].name}
-              section={sections[activeId]}
-            />
-          ) : null}
-        </DragOverlay> */}
-
         <div className="add-btn">
           {isProject ? (
             <AddProjectSectionButton
