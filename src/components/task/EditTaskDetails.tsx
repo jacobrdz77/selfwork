@@ -108,10 +108,6 @@ const EditTaskDetails = ({
     }
   }, [inputName]);
 
-  useEffect(() => {
-    console.log(task);
-  }, []);
-
   return (
     <div className="task-detail">
       <div className="task-detail__header">
@@ -510,7 +506,7 @@ const AssigneeButton = ({
             setIsMenuOpen(false);
           }}
         >
-          {members?.map((assignee) => (
+          {[...members?.members!, members?.owner!]?.map((assignee) => (
             <div
               className="item"
               key={assignee.id}

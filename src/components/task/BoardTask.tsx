@@ -6,7 +6,6 @@ import { useDeleteTask, useUpdateTask } from "@/hooks/TaskHooks";
 import { taskPriorityClassName } from "./OneTaskRow";
 import { format } from "date-fns";
 import EditTaskModal from "./EditTaskModal";
-import { useModalStore, useUserStore } from "store/user";
 import ReactDatePicker from "react-datepicker";
 import { Client, User } from "@prisma/client";
 import { useWorkspaceMembers } from "@/hooks/WorkspaceHooks";

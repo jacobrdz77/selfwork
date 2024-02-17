@@ -22,15 +22,6 @@ function generateId() {
   return Math.floor(Math.random() * 100) + "";
 }
 
-// QUERY KEYS
-// ONE task
-// ["tasks", taskId]
-// ALL tasks
-// ["tasks", userId]
-
-// Problem
-// I need to fetch tasks based on sectionId
-
 export const useTasksUser = () => {
   const userId = useUserStore((state) => state.userId);
   const {
