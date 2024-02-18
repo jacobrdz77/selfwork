@@ -82,24 +82,26 @@ const DropDownButton = ({ children, className }: DropDownButtonProps) => {
 type DropDownItemProps = {
   children: any;
   className?: string;
-  onClickHandler?: () => any;
+  isList?: boolean;
+  onClick?: () => any;
 };
 
 const DropDownItem = ({
   children,
   className,
-  onClickHandler,
+  onClick,
+  isList = true,
 }: DropDownItemProps) => {
   const { setIsMenuOpen, isDark } = useDropDownContext();
   return (
     <li
-      className={`dropdown__item ${isDark ? "dark" : ""} ${
+      className={`${isList ? "dropdown__item" : ""} ${isDark ? "dark" : ""} ${
         className ? className : ""
       }`}
       onClick={() => {
         setIsMenuOpen(false);
-        if (onClickHandler) {
-          onClickHandler();
+        if (onClick) {
+          onClick();
         }
       }}
       aria-label="Dropdown menu item"

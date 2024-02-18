@@ -86,12 +86,14 @@
     cursor: pointer;
   }
 
-  .color-menu {
-    &--active {
-      display: block;
-    }
-    &__button-container {
-      position: relative;
+  &__color-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    .color-icon {
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
     }
 
     .row {
@@ -173,101 +175,37 @@
     }
   }
 
-  &__button {
-    background-color: #fff;
-    border: none;
+  &__edit-container {
     width: 25px;
     height: 25px;
-
-    &-container {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-
-    &-icon {
-      rotate: 90deg;
-      border-radius: 5px;
-      transition: all 0.1s ease-out;
-      &:hover {
-        background-color: rgb(236, 234, 234);
-        cursor: pointer;
-      }
-      &--active {
-        background-color: rgb(236, 234, 234);
-      }
-    }
+    margin-right: 8px;
   }
 
-  &__menu {
-    display: none;
-    padding: 4px 0;
-    font-size: 14px;
-    width: 184px;
+  &__edit-btn {
     border-radius: 6px;
-    background-color: #fff;
-    border: 1px solid var(--color-border);
-    position: absolute;
-    top: 110%;
-    left: 0;
-    z-index: 10;
-
-    &--active {
-      display: block;
-    }
-    &-item {
-      display: flex;
-      padding: 4px 8px;
-      &:hover {
-        cursor: pointer;
-        background-color: var(--color-gray--hover);
-      }
-      &--delete {
-        color: #f03e3e;
-      }
-    }
-
-    &--icon {
-      width: 20px;
-      height: 20px;
-      margin-right: 6px;
+    &__icon {
+      rotate: 90deg;
     }
   }
 
-  &__status {
-    .status-button {
-      font-size: 14px;
-      padding: 6px 12px !important;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      border: 1px solid transparent;
-      margin-left: 8px;
+  &__status-btn {
+    font-size: 14px;
+    padding: 6px 12px !important;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
 
-      transition: 0.1s color ease-in, 0.1s background-color ease-in,
-        0.1s border ease-in;
-
-      &:hover {
-        visibility: visible;
-        color: #000;
-        // border: 1px solid #a1a1a1;
-
-        .icon {
-          opacity: 100%;
-        }
-      }
-
+    &.active,
+    &:hover {
       .icon {
-        opacity: 0;
+        opacity: 100%;
       }
     }
 
-    .menu {
-      &-container {
-        z-index: 999;
-      }
-      left: 8px !important;
+    .icon {
+      opacity: 0;
+      rotate: 90deg;
     }
   }
 
