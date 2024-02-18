@@ -272,6 +272,116 @@
   }
 }
 
+.dropdown {
+  position: relative;
+
+  // &.dark {
+  //   background-color: var(--color-dark-background);
+  //   color: #fff;
+  // }
+
+  &__button {
+    width: 100%;
+    background-color: inherit;
+    color: #000;
+
+    &:hover {
+      cursor: pointer;
+      background-color: var(--color-gray--hover);
+    }
+
+    &.active {
+      background-color: var(--color-gray--hover);
+    }
+
+    &.dark {
+      background-color: var(--color-dark-background);
+      color: #fff;
+      &:hover {
+        cursor: pointer;
+        background-color: var(--color-dark-button-hover);
+      }
+      &.active {
+        background-color: var(--color-dark-button-hover);
+      }
+    }
+  }
+
+  &__menu {
+    position: absolute;
+    z-index: 10;
+    border-radius: 6px;
+    padding: 4px 0;
+    font-size: 14px;
+    width: 180px;
+    display: flex;
+    flex-direction: column;
+
+    background-color: #fff;
+    color: #000;
+    border: 1px solid var(--color-border);
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.2);
+
+    &.dark {
+      background-color: var(--color-dark-background);
+      color: #fff;
+      border: 1px solid var(--color-dark-border);
+    }
+
+    &.bottom {
+      top: calc(100% + 2px);
+    }
+    &.top {
+      bottom: calc(100% + 2px);
+    }
+    &.right {
+      left: calc(100% + 2px);
+      top: 0;
+    }
+    &.left {
+      right: calc(100% + 2px);
+      top: 0;
+    }
+
+    &.bottom-right {
+      right: 0;
+      top: calc(100% + 2px);
+    }
+    &.bottom-left {
+      top: calc(100% + 2px);
+      left: 0;
+    }
+    &.top-right {
+      bottom: calc(100% + 2px);
+      right: 0;
+    }
+    &.top-left {
+      bottom: calc(100% + 2px);
+      left: 0;
+    }
+  }
+
+  &__item {
+    padding: 6px 16px;
+    cursor: pointer;
+    &:hover {
+      background-color: var(--color-gray--hover);
+    }
+
+    &.dark {
+      &:hover {
+        background-color: var(--color-dark-button-hover);
+      }
+    }
+  }
+}
+
+.dd-button {
+  padding: 8px 16px;
+  border: 1px solid orchid;
+  border-radius: 8px;
+}
+
 .menu {
   display: none;
   min-width: 200px;
@@ -418,7 +528,7 @@
 
 .toast {
   font-size: 14px !important;
-  background-color: var(--color-navigation-background) !important;
+  background-color: var(--color-dark-background) !important;
   &__name {
     color: #5a8eef;
   }

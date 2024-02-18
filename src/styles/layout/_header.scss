@@ -86,12 +86,14 @@
     cursor: pointer;
   }
 
-  .color-menu__button-container {
-    height: 28px;
-  }
-
   .color-menu {
-    display: none;
+    &--active {
+      display: block;
+    }
+    &__button-container {
+      position: relative;
+    }
+
     .row {
       padding: 0 8px;
       display: flex;
@@ -115,9 +117,6 @@
       }
     }
 
-    &--active {
-      display: block;
-    }
     .color-menu__button {
       &-container {
         position: relative;

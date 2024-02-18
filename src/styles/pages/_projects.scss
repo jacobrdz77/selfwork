@@ -584,8 +584,8 @@
             min-width: 150px;
             max-width: 250px;
             border-radius: 6px;
-            background-color: var(--color-navigation-background);
-            border: 1px solid var(--color-navigation-border);
+            background-color: var(--color-dark-background);
+            border: 1px solid var(--color-dark-border);
             position: absolute;
             top: 105%;
             right: 0;
@@ -612,7 +612,7 @@
 
               &:hover {
                 cursor: pointer;
-                background-color: var(--color-navigation-button-hover);
+                background-color: var(--color-dark-button-hover);
                 .new-task__assignee-btn:hover {
                   all: unset;
                 }
@@ -753,8 +753,8 @@
       min-width: 150px;
       max-width: 250px;
       border-radius: 6px;
-      background-color: var(--color-navigation-background);
-      border: 1px solid var(--color-navigation-border);
+      background-color: var(--color-dark-background);
+      border: 1px solid var(--color-dark-border);
       position: absolute;
       top: 105%;
       right: 0;
@@ -783,7 +783,7 @@
 
         &:hover {
           cursor: pointer;
-          background-color: var(--color-navigation-button-hover);
+          background-color: var(--color-dark-button-hover);
           .new-task__assignee-btn:hover {
             all: unset;
           }

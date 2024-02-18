@@ -6,7 +6,7 @@
   flex: 0 0 auto;
   width: 242px;
   // height: 100%;
-  background-color: var(--color-navigation-background);
+  background-color: var(--color-dark-background);
   color: var(--color-navigation-text);
   font-size: 14px;
   z-index: 10;
@@ -118,15 +118,15 @@
 
     width: 100%;
     color: inherit;
-    background-color: var(--color-navigation-background);
-    border: 1px var(--color-navigation-button-hover) solid;
+    background-color: var(--color-dark-background);
+    border: 1px var(--color-dark-button-hover) solid;
     font-size: 14px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     &:hover,
     &:active {
-      background-color: var(--color-navigation-button-hover);
+      background-color: var(--color-dark-button-hover);
       cursor: pointer;
     }
 
@@ -149,7 +149,7 @@
       font-size: 14px;
       width: 184px;
       border-radius: 6px;
-      background-color: var(--color-navigation-background);
+      background-color: var(--color-dark-background);
       border: 1px solid #3e3f44;
       position: absolute;
       top: 10px;
@@ -171,7 +171,7 @@
         padding: 6px 16px;
         &:hover {
           cursor: pointer;
-          background-color: var(--color-navigation-button-hover);
+          background-color: var(--color-dark-button-hover);
           .sidebar__add-menu-icon {
             fill: #fff;
           }
@@ -191,15 +191,15 @@
 
     width: 100%;
     color: inherit;
-    background-color: var(--color-navigation-background);
-    border: 1px var(--color-navigation-button-hover) solid;
+    background-color: var(--color-dark-background);
+    border: 1px var(--color-dark-button-hover) solid;
     font-size: 14px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     &:hover,
     &:active {
-      background-color: var(--color-navigation-button-hover);
+      background-color: var(--color-dark-button-hover);
       cursor: pointer;
     }
 
@@ -235,7 +235,7 @@
       font-size: 14px;
       width: 184px;
       border-radius: 6px;
-      background-color: var(--color-navigation-background);
+      background-color: var(--color-dark-background);
       border: 1px solid #3e3f44;
       position: absolute;
       top: 10px;
@@ -256,7 +256,7 @@
         padding: 6px 16px;
         &:hover {
           cursor: pointer;
-          background-color: var(--color-navigation-button-hover);
+          background-color: var(--color-dark-button-hover);
           .sidebar__add-menu-icon {
             fill: #fff;
           }
@@ -276,7 +276,7 @@
     top: 90%;
     left: 14.5px;
     width: 30px;
-    background-color: var(--color-navigation-background);
+    background-color: var(--color-dark-background);
     border: none;
     border-radius: 6px;
     fill: var(--color-gray-500);
@@ -286,7 +286,7 @@
     &:hover {
       cursor: pointer;
       fill: var(--color-stroke);
-      background-color: var(--color-navigation-button-hover);
+      background-color: var(--color-dark-button-hover);
     }
 
     // &--active {
@@ -334,7 +334,7 @@
 
     &-container {
       padding: 8px 8px;
-      // border-bottom: 1px solid var(--color-navigation-border);
+      // border-bottom: 1px solid var(--color-dark-border);
     }
   }
 
@@ -351,7 +351,7 @@
 
     &:hover,
     &:active {
-      background-color: var(--color-navigation-button-hover);
+      background-color: var(--color-dark-button-hover);
       cursor: pointer;
     }
 
@@ -364,7 +364,7 @@
       border-radius: 6px;
       height: 28px;
       &:hover {
-        background-color: var(--color-navigation-button-hover);
+        background-color: var(--color-dark-button-hover);
         cursor: pointer;
         .sidebar__workspace-add-icon {
           fill: #f1f1f1;
@@ -413,12 +413,12 @@
 
     &:hover,
     &:active {
-      background-color: var(--color-navigation-button-hover);
+      background-color: var(--color-dark-button-hover);
       cursor: pointer;
     }
 
     &--active {
-      background-color: var(--color-navigation-button-hover);
+      background-color: var(--color-dark-button-hover);
     }
 
     &-icon {
@@ -483,7 +483,7 @@
     border-radius: 6px;
     position: relative;
     &:hover {
-      background-color: var(--color-navigation-button-hover);
+      background-color: var(--color-dark-button-hover);
       cursor: pointer;
       .sidebar__more-btn {
         visibility: visible;
@@ -495,7 +495,7 @@
     }
 
     &--active {
-      background-color: var(--color-navigation-button-hover);
+      background-color: var(--color-dark-button-hover);
       .sidebar__more-btn {
         visibility: visible;
       }
@@ -637,7 +637,7 @@
     visibility: hidden;
     max-width: 180px;
     display: flex;
-    background-color: var(--color-navigation-background);
+    background-color: var(--color-dark-background);
     padding: 4px 10px;
     border-radius: 6px;
     position: absolute;
@@ -659,7 +659,7 @@
       margin-top: -5px;
       border-width: 5px;
       border-style: solid;
-      border-color: transparent var(--color-navigation-background) transparent
+      border-color: transparent var(--color-dark-background) transparent
         transparent;
     }
   }
@@ -682,7 +682,7 @@
     user-select: none;
     &:hover {
       cursor: pointer;
-      background-color: var(--color-navigation-button-hover);
+      background-color: var(--color-dark-button-hover);
     }
 
     &-container {
@@ -730,7 +730,7 @@
     font-size: 14px;
     width: 180px;
     border-radius: 6px;
-    background-color: var(--color-navigation-background);
+    background-color: var(--color-dark-background);
     border: 1px solid #3e3f44;
     position: absolute;
     top: 0;
@@ -745,7 +745,7 @@
       padding: 6px 32px;
       &:hover {
         cursor: pointer;
-        background-color: var(--color-navigation-button-hover);
+        background-color: var(--color-dark-button-hover);
       }
     }
     &-icon {
@@ -773,7 +773,7 @@
     }
 
     &:hover {
-      background-color: var(--color-navigation-button-hover);
+      background-color: var(--color-dark-button-hover);
       cursor: pointer;
     }
     &--minimized {
@@ -811,7 +811,7 @@
         border-radius: 6px;
         height: 28px;
         &:hover {
-          background-color: var(--color-navigation-button-hover);
+          background-color: var(--color-dark-button-hover);
           cursor: pointer;
           .sidebar__workspace-add-icon {
             fill: #f1f1f1;
@@ -863,8 +863,8 @@
 
       width: 100%;
       color: inherit;
-      background-color: var(--color-navigation-background);
-      border: 1px var(--color-navigation-button-hover) solid;
+      background-color: var(--color-dark-background);
+      border: 1px var(--color-dark-button-hover) solid;
       font-size: 14px;
       display: flex;
       align-items: center;
@@ -872,7 +872,7 @@
 
       &:hover,
       &:active {
-        background-color: var(--color-navigation-button-hover);
+        background-color: var(--color-dark-button-hover);
         cursor: pointer;
       }
 
