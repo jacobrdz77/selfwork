@@ -505,13 +505,8 @@
       &:hover {
         cursor: pointer;
         .board-task__header {
-          .header__more-btn-container {
-            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-          }
-          .board-task__more-btn {
-            .board-task__more-icon {
-              visibility: visible;
-            }
+          .board-task__edit-icon {
+            visibility: visible;
           }
         }
       }
@@ -537,97 +532,41 @@
           margin-right: 4px;
         }
 
-        .header__more-btn-container {
+        .header__edit-btn-container {
+          border-radius: 4px;
+          background-color: inherit;
           width: 28px;
           height: 28px;
-          padding: 4px;
-          display: flex;
-          border-radius: 4px;
-          position: relative;
 
           &:hover {
             cursor: pointer;
             background-color: var(--color-board-task--hover);
           }
 
-          &.active {
-            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-            background-color: var(--color-board-task--hover);
+          .board-task__edit-btn {
+            width: 28px;
+            height: 28px;
+            padding: 4px;
+            border-radius: 4px;
+            background-color: inherit;
 
-            .board-task__more-icon {
-              visibility: visible;
-            }
-          }
+            &.active {
+              background-color: var(--color-board-task--hover);
 
-          .board-task__more-btn {
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
-
-          .board-task__more-icon {
-            fill: var(--color-board-text);
-            visibility: hidden;
-            width: 20px;
-            height: 20px;
-            flex: 0 0 auto;
-            transition: fill 0.1s ease-out;
-          }
-
-          // Popup menu
-          .board-task__edit-menu {
-            display: none;
-            padding: 4px 0;
-            font-size: 14px;
-            min-width: 150px;
-            max-width: 250px;
-            border-radius: 6px;
-            background-color: var(--color-dark-background);
-            border: 1px solid var(--color-dark-border);
-            position: absolute;
-            top: 105%;
-            right: 0;
-            z-index: 1000000;
-            // box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 15px;
-
-            &--active {
-              display: block;
-            }
-
-            &-item {
-              all: unset;
-              display: flex;
-              align-items: center;
-              padding: 6px 16px;
-
-              button {
-                cursor: pointer;
-              }
-
-              &--delete {
-                color: #ff6868;
-              }
-
-              &:hover {
-                cursor: pointer;
-                background-color: var(--color-dark-button-hover);
-                .new-task__assignee-btn:hover {
-                  all: unset;
-                }
-              }
-
-              &--disabled:disabled {
-                &:hover {
-                  background-color: inherit;
-                }
-                fill: gray;
-                color: gray;
-                cursor: not-allowed;
+              .board-task__edit-icon {
+                visibility: visible;
               }
             }
           }
+        }
+
+        .board-task__edit-icon {
+          fill: var(--color-board-text);
+          visibility: hidden;
+          width: 20px;
+          height: 20px;
+          flex: 0 0 auto;
+          transition: fill 0.1s ease-out;
         }
       }
       &__assignee {
@@ -714,90 +653,24 @@
     }
   }
 
-  &__more-btn-container {
-    position: relative;
-    // background-color: green;
-    padding: 4px;
-    display: flex;
-    border-radius: 4px;
-    &:hover {
-      cursor: pointer;
-      background-color: var(--color-board-task--hover);
-    }
-
-    &.active {
-      background-color: var(--color-board-task--hover);
-    }
-
-    .board__more-btn {
-      width: 24px;
-      height: 24px;
+  &__edit-container {
+    .board__edit-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 4px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    .board-card__more-icon {
+    .board__edit-icon {
       fill: var(--color-board-text);
       width: 20px;
       height: 20px;
-      flex: 0 0 auto;
-      transition: fill 0.1s ease-out;
     }
 
-    // Popup menu
-    .menu {
-      // display: none;
-      padding: 4px 0;
-      font-size: 14px;
-      min-width: 150px;
-      max-width: 250px;
-      border-radius: 6px;
-      background-color: var(--color-dark-background);
-      border: 1px solid var(--color-dark-border);
-      position: absolute;
-      top: 105%;
-      right: 0;
-      z-index: 1000000;
-      // box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 15px;
-
-      &--active {
-        display: block;
-      }
-
-      .item {
-        all: unset;
-        display: flex;
-        align-items: center;
-
-        button {
-          cursor: pointer;
-          width: fit-content;
-          padding: 6px 16px;
-          width: 100%;
-        }
-
-        &--delete {
-          color: #ff6868;
-        }
-
-        &:hover {
-          cursor: pointer;
-          background-color: var(--color-dark-button-hover);
-          .new-task__assignee-btn:hover {
-            all: unset;
-          }
-        }
-
-        &--disabled:disabled {
-          &:hover {
-            background-color: inherit;
-          }
-          fill: gray;
-          color: gray;
-          cursor: not-allowed;
-        }
-      }
+    .dropdown__menu {
+      width: 150px;
     }
   }
 
@@ -910,14 +783,90 @@
         display: flex;
         align-items: center;
         border-radius: 6px;
-        &:hover {
-          background-color: var(--color-board-task--hover);
-        }
+        color: var(--color-board-text);
       }
 
       .icon {
         width: 24px;
         fill: transparent;
+      }
+    }
+
+    .date-menu {
+      background-color: var(--color-board);
+      border: 1px solid var(--color-board-task);
+      width: unset !important;
+      height: 53px;
+      padding: 8px 10px !important;
+
+      .react-date-input {
+        width: 100%;
+        position: relative;
+        input {
+          border: 1px solid var(--color-board-task);
+          background-color: var(--color-board-task);
+          color: var(--color-board-text);
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          padding: 6px 10px 6px 12px;
+          border-radius: 8px;
+          width: 140px;
+        }
+
+        .react-datepicker {
+          font-family: "Poppins", helvetica, arial, sans-serif;
+          font-size: 14px;
+          background-color: var(--color-board-task);
+          color: var(--color-board-text) !important;
+          border: 1px solid var(--color-board-task);
+          border-radius: 0.3rem;
+          display: inline-block;
+          position: relative;
+          box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 15px;
+
+          &__header {
+            text-align: center;
+            background-color: var(--color-board);
+            border-bottom: 1px solid #aeaeae;
+            border-top-left-radius: 0.3rem;
+            padding: 8px 0;
+            position: relative;
+          }
+
+          // This Updates React date-picker
+          &__day,
+          &__day-name,
+          &__current-month {
+            color: var(--color-board-text) !important;
+          }
+
+          .react-datepicker__day--today {
+            font-weight: unset;
+          }
+
+          &__day--selected {
+            font-weight: bold;
+          }
+
+          &__day:hover {
+            background-color: var(--color-board-task--hover);
+          }
+        }
+
+        .remove-date-btn {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          right: 4px;
+          width: 20px;
+          height: 20px;
+          fill: var(--color-gray-500);
+
+          &:hover {
+            fill: hsl(0, 0%, 71%);
+          }
+        }
       }
     }
   }
@@ -1040,6 +989,7 @@
   height: 24px;
   padding: 4px;
   fill: var(--color-board-text);
+  stroke: var(--color-board-text);
   &:hover {
     background-color: var(--color-board-task--hover);
   }
@@ -1420,6 +1370,99 @@
 
     &:hover {
       // border: 2px solid var(--color-green--light);
+    }
+  }
+}
+
+.edit-project {
+  &__date-button {
+    border: 1px solid var(--color-border);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    padding: 16px 8px;
+    &:hover {
+      background-color: var(--color-gray--hover);
+      cursor: pointer;
+    }
+
+    &.active {
+      background-color: var(--color-gray--hover);
+    }
+
+    .dropdown__menu {
+      height: 53px;
+      padding: 8px 10px !important;
+      border: 1px solid var(--color-border);
+      background-color: #fff;
+      width: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      input {
+        border: 1px solid var(--color-border);
+        // background-color: var(--color-board-task);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        padding: 6px 10px 6px 12px;
+        border-radius: 8px;
+        width: 176px;
+      }
+
+      .react-datepicker {
+        font-family: "Poppins", helvetica, arial, sans-serif;
+        font-size: 14px;
+        background-color: #fff;
+        color: #000 !important;
+        border: 1px solid var(--color-border);
+        border-radius: 0.3rem;
+        display: inline-block;
+        position: relative;
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 15px;
+
+        &__header {
+          text-align: center;
+          background-color: #fefefe;
+          border-bottom: 1px solid #aeaeae;
+          border-top-left-radius: 0.3rem;
+          padding: 8px 0;
+          position: relative;
+        }
+
+        .react-datepicker__day--today {
+          font-weight: unset;
+        }
+
+        &__day--selected {
+          font-weight: bold;
+        }
+      }
+
+      .remove-date-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 4px;
+        width: 20px;
+        height: 20px;
+        fill: var(--color-gray-500);
+
+        &:hover {
+          fill: hsl(0, 0%, 71%);
+        }
+      }
+    }
+  }
+
+  &__date {
+    display: flex;
+    gap: 8px;
+    &-icon {
+      width: 24px;
+      height: 24px;
     }
   }
 }

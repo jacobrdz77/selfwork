@@ -15,6 +15,7 @@ import useDndContextForSorting from "@/hooks/useDndContextForSorting";
 import { useSortedTasks } from "@/hooks/TaskHooks";
 import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
 import { useModalStore } from "store/user";
+import DropDown from "../UI/DropDown";
 
 interface Board {
   section: SectionWithTasks;
@@ -159,47 +160,24 @@ const OneBoard = ({ section, isUserAssignedSection = false }: Board) => {
               </div>
             )}
           </div>
-          {/* MORE BUTTON */}
-          <div
-            className={`board__more-btn-container ${
-              isMenuOpen ? "active" : ""
-            }`}
-            ref={btnRef}
-            onClick={(e) => {
-              e.preventDefault();
-              setIsMenuOpen(!isMenuOpen);
-            }}
-          >
-            <div className="board__more-btn" role="button">
-              <svg className="board-card__more-icon" viewBox="0 0 16 16">
+          <DropDown className="board__edit-container" isDark={true}>
+            <DropDown.Button className="board__edit-btn">
+              <svg className="board__edit-icon" viewBox="0 0 16 16">
                 <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
               </svg>
-            </div>
-            {isMenuOpen && (
-              <ul
-                className={`menu ${isMenuOpen ? "menu--active" : ""}`}
-                ref={menuRef}
-                onClick={(e) => {
-                  e.preventDefault();
+            </DropDown.Button>
+            <DropDown.Menu position="bottom-right">
+              <DropDown.Item
+                className={`delete ${isUserAssignedSection ? "disabled" : ""}`}
+                onClick={() => {
+                  deleteSection(section.id);
                 }}
+                disabled={isUserAssignedSection}
               >
-                <li className="item">
-                  <button
-                    className={`item--delete ${
-                      isUserAssignedSection ? "item--disabled" : ""
-                    }`}
-                    onClick={() => {
-                      setIsMenuOpen(false);
-                      deleteSection(section.id);
-                    }}
-                    disabled={isUserAssignedSection}
-                  >
-                    Delete section
-                  </button>
-                </li>
-              </ul>
-            )}
-          </div>
+                Delete section
+              </DropDown.Item>
+            </DropDown.Menu>
+          </DropDown>
         </div>
 
         <DndContext

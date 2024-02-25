@@ -1,4 +1,5 @@
 import React from "react";
+import { createPortal } from "react-dom";
 
 const Backdrop: React.FC<{ onClose: () => void; isOpen: boolean }> = ({
   onClose,
@@ -54,7 +55,7 @@ const Modal: React.FC<{
   className?: string;
   isDark?: boolean;
 }> = ({ children, isOpen, closeHandler, closeBtn, className, isDark }) => {
-  return (
+  return createPortal(
     <div className={`${isOpen ? "" : "modal--hidden"} modal-container  `}>
       <Backdrop onClose={closeHandler} isOpen={isOpen} />
       <ModalOverlay
@@ -66,7 +67,8 @@ const Modal: React.FC<{
       >
         {children}
       </ModalOverlay>
-    </div>
+    </div>,
+    document.getElementById("modal")!
   );
 };
 

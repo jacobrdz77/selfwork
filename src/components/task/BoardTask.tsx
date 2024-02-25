@@ -12,11 +12,10 @@ import { useWorkspaceMembers } from "@/hooks/WorkspaceHooks";
 import usePlaceHolder from "@/hooks/usePlaceHolder";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useUserInfo } from "@/hooks/MemberHooks";
 import { useRouter } from "next/router";
+import DropDown from "../UI/DropDown";
 
 const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
-  const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   const { mutate: deleteTask } = useDeleteTask(task.sectionId);
 
   const [dueDate, setDueDate] = useState(
@@ -27,7 +26,7 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
 
   // Makes it Draggable
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: task.id, disabled: isMenuOpen || isMenuOpen });
+    useSortable({ id: task.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -69,57 +68,34 @@ const BoardTask = ({ task }: { task: TaskWithAssignee }) => {
             <span>{task.name}</span>
           </div>
           {/* More Button Container */}
-          <div
-            className={`header__more-btn-container ${
-              isMenuOpen ? "active" : ""
-            }`}
-          >
-            <div
-              ref={btnRef}
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setIsMenuOpen(!isMenuOpen);
-              }}
-              className="board-task__more-btn"
-              role="button"
-            >
-              <svg className="board-task__more-icon" viewBox="0 0 16 16">
+          <DropDown className="header__edit-btn-container" theme="dark">
+            <DropDown.Button className="board-task__edit-btn">
+              <svg className="board-task__edit-icon" viewBox="0 0 16 16">
                 <path d="M2,6C0.896,6,0,6.896,0,8s0.896,2,2,2s2-0.896,2-2S3.104,6,2,6z M8,6C6.896,6,6,6.896,6,8s0.896,2,2,2s2-0.896,2-2  S9.104,6,8,6z M14,6c-1.104,0-2,0.896-2,2s0.896,2,2,2s2-0.896,2-2S15.104,6,14,6z" />
               </svg>
-              <div
-                className={`board-task__edit-menu ${
-                  isMenuOpen ? "board-task__edit-menu--active" : ""
-                }`}
-                ref={menuRef}
+            </DropDown.Button>
+            <DropDown.Menu position="bottom-right" size="small">
+              <DropDown.Item
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
+                  setIsEditTaskModalOpen(true);
                 }}
               >
-                <div
-                  className="board-task__edit-menu-item"
-                  onClick={() => {
-                    setIsEditTaskModalOpen(true);
-                    setIsMenuOpen(false);
-                  }}
-                >
-                  Edit task
-                </div>
-                <div
-                  className="board-task__edit-menu-item board-task__edit-menu-item--delete"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setIsMenuOpen(false);
-                    deleteTask(task.id);
-                  }}
-                >
-                  Delete task
-                </div>
-              </div>
-            </div>
-          </div>
+                Edit task
+              </DropDown.Item>
+              <DropDown.Item
+                className={`delete`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  deleteTask(task.id);
+                }}
+              >
+                Delete task
+              </DropDown.Item>
+            </DropDown.Menu>
+          </DropDown>
         </div>
 
         <ul className="tag-list">
@@ -178,85 +154,64 @@ export const DateButton = ({
   const { mutate: updateTask } = useUpdateTask(task.sectionId);
 
   return (
-    <div className="date-button">
-      <div className="menu-button menu-button-container ">
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setIsMenuOpen((state) => !state);
-          }}
-          ref={btnRef}
-          className="menu-button"
-        >
-          <div className="board-task__date--empty">
+    <DropDown theme="dark">
+      <DropDown.Button className="date-button date-button--empty">
+        <div className="board-task__date--empty">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+          </svg>
+          <div className="board-task__add-date"></div>
+        </div>
+      </DropDown.Button>
+      <DropDown.Menu className="date-menu" position="bottom-right">
+        <div className="react-date-input">
+          <ReactDatePicker
+            value={date}
+            selected={new Date(date)}
+            onChange={(dueDate) => {
+              updateTask({
+                taskId: task.id,
+                taskData: {
+                  dueDate: dueDate,
+                },
+                projectId: projectId as string,
+              });
+              setDate(new Date(dueDate!));
+            }}
+          />
+          <button
+            aria-label="Remove assignee"
+            onClick={() => {
+              setDate(null);
+              updateTask({
+                taskId: task.id,
+                taskData: {
+                  dueDate: null,
+                },
+                projectId: projectId as string,
+              });
+            }}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              fill="none"
               viewBox="0 0 24 24"
-              stroke="currentColor"
+              fill="currentColor"
+              className="remove-icon"
             >
-              <path d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
-            </svg>
-            <div className="board-task__add-date"></div>
-          </div>
-        </button>
-
-        {isMenuOpen && (
-          <div
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-            }}
-            className="menu date-menu"
-            ref={menuRef}
-          >
-            <div className="react-date-input">
-              <ReactDatePicker
-                value={date}
-                selected={new Date(date)}
-                onChange={(dueDate) => {
-                  updateTask({
-                    taskId: task.id,
-                    taskData: {
-                      dueDate: dueDate,
-                    },
-                    projectId: projectId as string,
-                  });
-                  setDate(new Date(dueDate!));
-                }}
+              <path
+                fillRule="evenodd"
+                d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z"
+                clipRule="evenodd"
               />
-              <button
-                aria-label="Remove assignee"
-                onClick={() => {
-                  setDate(null);
-                  updateTask({
-                    taskId: task.id,
-                    taskData: {
-                      dueDate: null,
-                    },
-                    projectId: projectId as string,
-                  });
-                }}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="remove-icon"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
+            </svg>
+          </button>
+        </div>
+      </DropDown.Menu>
+    </DropDown>
   );
 };
 
@@ -275,77 +230,57 @@ const DateFilledButton = ({
   const { mutate: updateTask } = useUpdateTask(task.sectionId);
 
   return (
-    <div className="date-button">
-      <div className="menu-button menu-button-container ">
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setIsMenuOpen((state) => !state);
-          }}
-          ref={btnRef}
-          className="menu-button"
-        >
-          <div className="board-task__date">
-            <span>{date ? format(new Date(date), "MMM dd") : ""}</span>
-          </div>
-        </button>
-
-        {isMenuOpen && (
-          <div
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
+    <DropDown theme="dark">
+      <DropDown.Button className="date-button">
+        <div className="board-task__date">
+          <span>{date ? format(new Date(date), "MMM dd") : ""}</span>
+        </div>
+      </DropDown.Button>
+      <DropDown.Menu className="date-menu" position="bottom-right">
+        <div className="react-date-input">
+          <ReactDatePicker
+            value={new Date(date).toLocaleDateString()}
+            selected={new Date(date)}
+            onChange={(dueDate) => {
+              setDate(new Date(dueDate!));
+              updateTask({
+                taskId: task.id,
+                taskData: {
+                  dueDate: dueDate,
+                },
+                projectId: projectId as string,
+              });
             }}
-            className="menu date-menu"
-            ref={menuRef}
+          />
+          <div
+            className="remove-date-btn"
+            aria-label="Remove date"
+            onClick={() => {
+              setDate(new Date(date));
+              updateTask({
+                taskId: task.id,
+                taskData: {
+                  dueDate: null,
+                },
+                projectId: projectId as string,
+              });
+            }}
           >
-            <div className="react-date-input">
-              <ReactDatePicker
-                value={new Date(date).toLocaleDateString()}
-                selected={new Date(date)}
-                onChange={(dueDate) => {
-                  setDate(new Date(dueDate!));
-                  updateTask({
-                    taskId: task.id,
-                    taskData: {
-                      dueDate: dueDate,
-                    },
-                    projectId: projectId as string,
-                  });
-                }}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              className="w-6 h-6"
+            >
+              <path
+                fillRule="evenodd"
+                d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z"
+                clipRule="evenodd"
               />
-              <div
-                className="remove-assignee-btn"
-                aria-label="Remove date"
-                onClick={() => {
-                  setDate(new Date(date));
-                  updateTask({
-                    taskId: task.id,
-                    taskData: {
-                      dueDate: null,
-                    },
-                    projectId: projectId as string,
-                  });
-                }}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  className="w-6 h-6"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
-            </div>
+            </svg>
           </div>
-        )}
-      </div>
-    </div>
+        </div>
+      </DropDown.Menu>
+    </DropDown>
   );
 };
 

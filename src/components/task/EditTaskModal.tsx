@@ -13,18 +13,16 @@ const EditTaskModal = ({
   setIsOpen: (boolean: boolean) => any;
 }) => {
   return (
-    <>
-      <Modal
-        className="edit-task-modal"
-        closeBtn={false}
-        isOpen={isOpen}
-        closeHandler={() => {
-          setIsOpen(false);
-        }}
-      >
-        <EditTaskDetails task={task!} setIsModalOpen={setIsOpen} />
-      </Modal>
-    </>
+    <Modal
+      className="edit-task-modal"
+      closeBtn={false}
+      isOpen={isOpen}
+      closeHandler={() => {
+        setIsOpen(false);
+      }}
+    >
+      <EditTaskDetails task={task!} setIsModalOpen={setIsOpen} />
+    </Modal>
   );
 };
 

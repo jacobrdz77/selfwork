@@ -12,7 +12,7 @@ type DropDownContextType = {
   menuRef: MutableRefObject<HTMLUListElement | null>;
   isMenuOpen: boolean;
   setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
-  isDark: boolean;
+  theme?: "light" | "dark";
 };
 
 const DropDownContext = createContext<DropDownContextType | null>(null);
@@ -29,10 +29,10 @@ export const useDropDownContext = () => {
 type DropDownProps = {
   children: any;
   className?: string;
-  isDark?: boolean;
+  theme?: "light" | "dark";
 };
 
-const DropDown = ({ children, className, isDark = false }: DropDownProps) => {
+const DropDown = ({ children, className, theme }: DropDownProps) => {
   const { btnRef, isMenuOpen, menuRef, setIsMenuOpen } = useMenu();
   return (
     <DropDownContext.Provider
@@ -41,13 +41,13 @@ const DropDown = ({ children, className, isDark = false }: DropDownProps) => {
         menuRef,
         isMenuOpen,
         setIsMenuOpen,
-        isDark,
+        theme,
       }}
     >
       <div
-        className={`dropdown ${isDark ? "dark" : ""} ${
+        className={`dropdown ${theme ? theme : ""} ${
           className ? className : ""
-        }`}
+        } ${isMenuOpen ? "active" : ""}`}
       >
         {children}
       </div>
@@ -61,15 +61,16 @@ type DropDownButtonProps = {
 };
 
 const DropDownButton = ({ children, className }: DropDownButtonProps) => {
-  const { btnRef, isMenuOpen, setIsMenuOpen, isDark } = useDropDownContext();
+  const { btnRef, isMenuOpen, setIsMenuOpen, theme } = useDropDownContext();
   return (
     <button
       ref={btnRef}
       className={`dropdown__button ${isMenuOpen ? "active" : ""} ${
-        isDark ? "dark" : ""
+        theme ? theme : ""
       } ${className ? className : ""}`}
       onClick={(e) => {
         e.preventDefault();
+        e.stopPropagation();
         setIsMenuOpen((prev) => !prev);
       }}
       role="button"
@@ -83,7 +84,8 @@ type DropDownItemProps = {
   children: any;
   className?: string;
   isList?: boolean;
-  onClick?: () => any;
+  onClick?: (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => any;
+  disabled?: boolean;
 };
 
 const DropDownItem = ({
@@ -91,17 +93,19 @@ const DropDownItem = ({
   className,
   onClick,
   isList = true,
+  disabled,
 }: DropDownItemProps) => {
-  const { setIsMenuOpen, isDark } = useDropDownContext();
+  const { setIsMenuOpen, theme } = useDropDownContext();
   return (
     <li
-      className={`${isList ? "dropdown__item" : ""} ${isDark ? "dark" : ""} ${
+      className={`${isList ? "dropdown__item" : ""} ${theme ? theme : ""} ${
         className ? className : ""
       }`}
-      onClick={() => {
+      onClick={(e) => {
+        if (disabled) return;
         setIsMenuOpen(false);
         if (onClick) {
-          onClick();
+          onClick(e);
         }
       }}
       aria-label="Dropdown menu item"
@@ -114,6 +118,7 @@ const DropDownItem = ({
 type DropDownMenuProps = {
   children: JSX.Element | JSX.Element[];
   className?: string;
+  size?: "small";
   position:
     | "bottom-right"
     | "bottom-left"
@@ -125,16 +130,24 @@ type DropDownMenuProps = {
     | "left";
 };
 
-const DropDownMenu = ({ children, className, position }: DropDownMenuProps) => {
-  const { isMenuOpen, isDark, menuRef } = useDropDownContext();
+const DropDownMenu = ({
+  children,
+  className,
+  position,
+  size,
+}: DropDownMenuProps) => {
+  const { isMenuOpen, theme, menuRef } = useDropDownContext();
   return (
     <>
       {isMenuOpen && (
         <ul
           ref={menuRef}
-          className={`dropdown__menu ${isDark ? "dark" : ""} ${
-            className ? className : ""
-          } ${position}`}
+          className={`dropdown__menu ${size ? size : ""} ${
+            theme ? theme : ""
+          } ${position}  ${className ? className : ""}`}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
           aria-label="Dropdown menu"
         >
           {children}

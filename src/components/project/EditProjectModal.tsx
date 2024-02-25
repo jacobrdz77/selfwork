@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import useMenu from "@/hooks/useMenu";
 import ReactDatePicker from "react-datepicker";
 import { format } from "date-fns";
+import DropDown from "../UI/DropDown";
 
 const EditProjectModal: React.FC<{
   isOpen: boolean;
@@ -122,7 +123,48 @@ const EditProjectModal: React.FC<{
         <fieldset className="">
           <label>Due Date</label>
 
-          <div className="date-button menu-button menu-button-container ">
+          <DropDown className="edit-project__date-button">
+            <DropDown.Button>
+              {dueDate === null ? (
+                <div className="edit-project__date--empty">
+                  <div className="edit-project__date-icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      stroke="currentColor"
+                    >
+                      <path d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                    </svg>
+                  </div>
+                  <span>No due date</span>
+                </div>
+              ) : (
+                <div className="edit-project__date">
+                  <div className="edit-project__date-icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      stroke="currentColor"
+                    >
+                      <path d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                    </svg>
+                  </div>
+                  <span>{format(dueDate, "MMM dd")}</span>
+                </div>
+              )}
+            </DropDown.Button>
+            <DropDown.Menu position="bottom-left">
+              <ReactDatePicker
+                value={new Date(dueDate)}
+                selected={new Date(dueDate)}
+                onChange={(dueDate) => {
+                  setDueDate(new Date(dueDate));
+                }}
+              />
+            </DropDown.Menu>
+          </DropDown>
+
+          {/* <div className="date-button menu-button menu-button-container ">
             <button
               onClick={(e) => {
                 e.preventDefault();
@@ -179,7 +221,7 @@ const EditProjectModal: React.FC<{
                 />
               </div>
             )}
-          </div>
+          </div> */}
         </fieldset>
 
         {/* Priority */}

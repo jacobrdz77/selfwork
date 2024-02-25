@@ -20,6 +20,7 @@ const ToDeleteSketchModal = ({
       }}
       closeBtn={true}
       isDark={isDark}
+      className="sketch__modal"
     >
       <div className="title">Delete sketch?</div>
       <div className="delete-body">
