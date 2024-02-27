@@ -440,6 +440,7 @@
   max-width: 300px;
   height: fit-content;
   padding: 8px 12px;
+  padding-bottom: 12px;
   background-color: var(--color-board);
   color: var(--color-board-text);
   border-radius: 6px;
@@ -501,6 +502,10 @@
       color: var(--color-board-text);
       padding: 14px 12px;
       border-radius: 6px;
+
+      &--dragging {
+        opacity: 0.3;
+      }
 
       &:hover {
         cursor: pointer;
@@ -1056,6 +1061,51 @@
     fill: #212529;
     &:hover {
       background-color: #f8f9fa;
+    }
+  }
+
+  &__buttons {
+    margin-top: 12px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  &__add {
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    height: 32px;
+    transition: 0.1s ease-in-out;
+    transition-property: fill, background-color;
+    background-color: var(--color-customization-blue-background);
+    &:hover {
+      background-color: #3468ce;
+    }
+  }
+  &__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 4px;
+    border: none;
+    fill: #bdbdbd;
+    background-color: var(--color-board-task);
+    width: 32px;
+    height: 32px;
+    transition: 0.1s ease-in-out;
+    transition-property: fill, background-color;
+
+    &:hover {
+      fill: #ffffff;
+      background-color: var(--color-board);
+      cursor: pointer;
+    }
+
+    svg {
+      width: 12px;
+      height: 12px;
     }
   }
 }

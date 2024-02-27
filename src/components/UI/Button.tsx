@@ -2,7 +2,7 @@ import React from "react";
 
 const Button: React.FC<{
   buttonHandler?: any;
-  children?: string | React.ReactNode | React.ReactNode[];
+  children?: any;
   className?: string;
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
