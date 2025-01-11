@@ -1,6 +1,6 @@
 <img src="https://github.com/jacobrdz77/selfwork/assets/70309225/da0b6a11-3cab-4ca5-b2a4-f3b6fa69bdfe" style="width:475px; margin-bottom:36px;"/>
 
-A project management system for small teams and freelancers. Organize your projects and members in different workspaces you create. 
+A project management system for small web development teams and freelancers. Organize your projects and members in different workspaces you create.
 
 # Tech Stack
 
